@@ -1,0 +1,12 @@
+{
+  "bindings": [
+    {
+      "name": "myBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "caseimport/{name}",
+      "connection": "crispofr_STORAGE"
+    }
+  ],
+  "disabled": false
+}
