@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public enum FieldType
+/*public enum FieldType
 {
     Text,
     Date,
@@ -8,13 +8,13 @@ public enum FieldType
     Checkbox,
     Radio,
     Dropdown
-}
+}*/
 
 public class CaseField
 {
     public string Name { get; set; }
     public string Description { get; set; }
-    public FieldType Type { get; set; }
+    public string Type { get; set; }
     public bool Required { get; set; }
     public List<string> Options { get; set; }
 }
