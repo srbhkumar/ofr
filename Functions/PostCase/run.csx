@@ -16,17 +16,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string
 
     var client = new DocumentClient(new Uri(endpoint), primkey);
 
-    var c = client.CreateDocumentQuery<Case>(UriFactory.CreateDocumentCollectionUri("OFR", "Cases"))
-        .Where(d => d.id == caseId)
-        .AsEnumerable().FirstOrDefault();
-
-    // todo: validate against case template
-
-    // save results
-    c.Data = data;
-    c.UpdatedOn = DateTime.Now;
-
-    await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri("OFR", "Cases", c.id), c);
+    await client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "MergeCase"),
+        caseId,
+        data
+    );
 
     // response
     return req.CreateResponse(HttpStatusCode.OK, new { Result = "Success" });
