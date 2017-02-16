@@ -25,6 +25,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         UriFactory.CreateDocumentCollectionUri("OFR", "Cases"),
         new FeedOptions { MaxItemCount = -1}
     );
+    
+    // todo: filter to dashboard-fields only, to save transmit
 
     return req.CreateResponse(HttpStatusCode.OK, new {
         identity = "Test User",

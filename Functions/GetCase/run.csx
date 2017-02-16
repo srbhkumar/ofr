@@ -16,7 +16,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string
 
     var client = new DocumentClient(new Uri(endpoint), primkey);
 
-    // todo: how slow is this? another way of getting a typed result back?
     var c = client.CreateDocumentQuery<Case>(UriFactory.CreateDocumentCollectionUri("OFR", "Cases"))
         .Where(d => d.id == caseId)
         .AsEnumerable().FirstOrDefault();
