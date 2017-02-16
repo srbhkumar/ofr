@@ -1,6 +1,7 @@
 #load "../Case.csx"
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Dynamic;
 using Microsoft.Azure.Documents;
@@ -50,7 +51,11 @@ public static async void Run(Stream myBlob, string name, TraceWriter log)
 
         while((line = reader.ReadLine()) != null)
         {
-            Case c = new Case { Status = "New" };
+            Case c = new Case {
+                Status = "New",
+                UpdatedOn = DateTime.Now,
+            };
+
             var di = (c.Data = new ExpandoObject()) as IDictionary<String,Object>;
             var values = CsvSplit(line).ToArray();
             for(int i = 0; i < values.Length; ++i)
@@ -59,6 +64,9 @@ public static async void Run(Stream myBlob, string name, TraceWriter log)
                 {
                     case "Jurisdiction":
                         c.Jurisdiction = values[i];
+                        break;
+                    case "OCME":
+                        c.OCME = values[i];
                         break;
                     default:
                         di[Headers[i]] = values[i];

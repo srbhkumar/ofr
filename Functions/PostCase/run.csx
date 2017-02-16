@@ -24,6 +24,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string
 
     // save results
     c.Data = data;
+    c.UpdatedOn = DateTime.Now;
+
     await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri("OFR", "Cases", c.id), c);
 
     // response
