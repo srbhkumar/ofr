@@ -1,22 +1,26 @@
 <div class='form-group case-field' *ngIf='Field'>
-    <label for="case-field-{{Field.Name}}" class="col-10 col-form-label"><b>{{Field.Description}}</b></label>
-    <div *ngIf='ViewModel.IsDisplay' class="col-10">
+    <label for="case-field-{{Field.Name}}" class=" col-form-label">{{Field.Description}}</label>
+    
+    <div *ngIf='ViewModel.IsDisplay' class=" ">
         {{ViewModel.Data[Field.Name]}}
     </div>
     <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type">
-        <div *ngSwitchCase="'Text'" class="col-10"1>
+        <div *ngSwitchCase="'Text'" class=" "1>
             <input class="form-control" type="text" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)" />
         </div>
-        <div *ngSwitchCase="'Date'" class="col-10">
+        <div *ngSwitchCase="'Date'" class=" ">
             <input class="form-control" type="date" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)" >
         </div>
-        <div *ngSwitchCase="'Dropdown'" class="col-10">
+        <div *ngSwitchCase="'Dropdown'" class=" ">
             <select class="form-control" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)" >
                 <option *ngFor="let opt of Field.Options">{{opt}}</option>
             </select>
         </div>
-        <div *ngSwitchCase="'Radio'" class="col-10">
-            - radio button -
+        <div *ngSwitchCase="'Radio'" class=" ">
+              <input type="radio" class="form-control" *ngFor="let opt of Field.Options" name="case-field-{{Field.Name}}" id="case-field-{{Field.Name}}" value="ViewModel.Data[Field.Name]" (input)="setValue($event.target.value)">
+        </div>
+        <div *ngSwitchCase="'Checkbox'" class=" ">
+              <input type="checkbox" class="form-control"  name="case-field-{{Field.Name}}" id="case-field-{{Field.Name}}" value="ViewModel.Data[Field.Name]" (input)="setValue($event.target.value)">  
         </div>
     </div>
 </div>
