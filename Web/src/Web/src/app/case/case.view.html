@@ -1,29 +1,28 @@
-<span (click)="callData()">Click</span>
-safsaf
+ 
+ 
 <div class="col-9">
 <ngb-accordion  activeIds="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17">
     <ngb-panel id="1" title="Header">
         <template ngbPanelContent>
-            <form>
+           <!-- <form [formGroup]="myForm"   (ngSubmit)="Save(myForm.value)"   class="ui form"> -->
+               <form>
                 <div class="form-group">
-                    <label for="example-text-input" class="col-10 col-form-label">Unique Report Number</label>
-                    <div class="col-10">
-                        <input class="form-control" type="text" value="" id="example-text-input">
-                    </div>
+                    <label for="example-text-input" class="col-6  col-form-label">Unique Report Number</label>
+                     
+                        <label for="example-text-input" class="col-4  col-form-label"><b> Report Number </b></label>
+                     
                 </div>
                 <div class="form-group">
-                    <label for="example-search-input" class="col-10 col-form-label">Date and Time Stamp of Submission</label>
-                    <div class="col-10">
-                        <input class="form-control" type="datetime-local" value="How do I shoot web" id="example-search-input">
-                    </div>
+                    <label for="example-search-input" class="col-6  col-form-label">Date and Time Stamp of Submission</label>
+                    
+                        <label for="example-text-input" class="col-4  col-form-label"><b> Submission Date </b></label>
+                   
                 </div>
                 <div class="form-group">
-                    <label for="example-email-input" class="col-10 col-form-label">Jurisdicitional Team Submitting</label>
-                    <div class="col-10">
-                        <select class="form-control" id="exampleSelect1">
-                            <option>Select</option>
-                        </select>
-                    </div>
+                    <label for="example-email-input" class="col-6  col-form-label">Jurisdicitional Team Submitting</label>
+                    
+                       <label for="example-text-input" class="col-4  col-form-label"><b> Team 1 </b></label>
+                    
                 </div>
             </form>
         </template>
@@ -31,123 +30,87 @@ safsaf
     <ngb-panel id="2" title="Case Information">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-text-input" class="col-10 col-form-label">Date of Initial Case Review</label>
-                <div class="col-10">
+                <label for="example-text-input" class="col-8  col-form-label">Date of Initial Case Review</label>
+                <div class="col-8">
                     <input class="form-control" type="datetime-local" value="" id="example-search-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-search-input" class="col-10 col-form-label">Name of Reviewer</label>
-                <div class="col-10">
+                <label for="example-search-input" class="col-8  col-form-label">Name of Reviewer</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" id="example-date-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Date of Death</label>
-                <div class="col-10">
-                    <input class="form-control" type="date" value="" id="example-date-input">
+                 <div class="col-8" *ngIf="dataModel" >
+                      <case-field FieldName="DateofDeath" [ViewModel]="dataModel"></case-field> 
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Year of Death</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Year of Death</label>
+                <div class="col-8">
                     <input class="form-control" type="number" value="" id="example-date-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Jurisdiction of Death</label>
-                <div class="col-10">
-                    <select class="form-control" id="exampleSelect1">
-                        <option>Select</option>                        
-                    </select>
+                  <div class="col-8" *ngIf="dataModel" >
+                      <case-field FieldName="CountyofDeath" [ViewModel]="dataModel"></case-field> 
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Resident Jurisdiction</label>
-                <div class="col-10">
-                    <select class="form-control" id="exampleSelect1">
-                        <option>Select</option>
-                    </select>
+                  <div class="col-8" *ngIf="dataModel" >
+                      <case-field FieldName="ResidentCounty" [ViewModel]="dataModel"></case-field> 
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Manner of Death</label>
-                <div class="col-10">
-                    <select class="form-control" id="exampleSelect1">
-                        <option>Select</option>
-                    </select>
-                    <div *ngIf="vm">
-                    <case-field FieldName="CauseofDeath" [ViewModel]="vm"></case-field>TEST
-                     </div>
-                    <!-- <case-field [FieldName]="FieldName" [Temp]="template"></case-field>-->
-                </div>
+                 
+                <div class="col-8" *ngIf="dataModel" >
+                      <case-field FieldName="CauseofDeath" [ViewModel]="dataModel"></case-field> 
+                 </div>
             </div>
         </template>
     </ngb-panel>
     <ngb-panel id="3" title="Decedent Demographic Information">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Sex</label>
-                <div class="col-10">
-                    <select class="form-control" id="exampleSelect1">
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Unknown</option>                        
-                    </select>
-                </div>
+                  <div class="col-8" *ngIf="dataModel" >
+                      <case-field FieldName="Sex" [ViewModel]="dataModel"></case-field> 
+                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Transgender</label>
-                <div class="col-10">
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Is the decedent transgender?"> Is the decedent transgender?
-                        </label>
-                    </div>
-                </div>
+                   <div class="col-8" *ngIf="dataModel" >
+                        <case-field FieldName="Transgender" [ViewModel]="dataModel"></case-field> 
+                  </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Date of Birth</label>
-                <div class="col-10">
-                    <input class="form-control" type="date" value="" id="example-date-input">
-                </div>
+                   <div class="col-8" *ngIf="dataModel" >
+                        <case-field FieldName="DateofBirth" [ViewModel]="dataModel"></case-field> 
+                  </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Age</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Age</label>
+                <div class="col-8">
                     <input class="form-control" type="number" value="" id="example-date-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Race</label>
-                <div class="col-10">
-                    <select class="form-control" id="exampleSelect1">
-                        <option>White</option>
-                        <option>Black or African American: Asian</option>
-                        <option>Native Hawaiian or other Pacific Islander</option>
-                        <option>American Indian or Alaska Native </option>
-                        <option>Unspecified race</option>
-                    </select>
-                </div>
-            </div>
+                  <div class="col-8" *ngIf="dataModel" >
+                        <case-field FieldName="Race" [ViewModel]="dataModel"></case-field> 
+                  </div>
+             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Hispanic</label>
-                <div class="col-10">
-                    <select class="form-control" id="exampleSelect1">
-                        <option>Not Hispanic or Latino</option>
-                        <option>Hispanic or Latino</option>
-                        <option>Unknown</option>                        
-                    </select>
-                </div>
-            </div>
+                    <div class="col-8" *ngIf="dataModel" >
+                        <case-field FieldName="Hispanic" [ViewModel]="dataModel"></case-field> 
+                  </div>
+              </div>
         </template>
     </ngb-panel>
 
     <ngb-panel id="4" title="Records EMS">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">EMS Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">EMS Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -157,8 +120,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Prior EMS</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Prior EMS</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Yes">Yes
@@ -172,8 +135,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">EMS Day of Death</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">EMS Day of Death</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> (If "yes") On day of death only?
@@ -186,8 +149,8 @@ safsaf
     <ngb-panel id="5" title="Records Health Provider/Hospital">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Hospital Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Hospital Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -197,8 +160,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">CRISP Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">CRISP Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -208,8 +171,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">PDMP Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">PDMP Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -219,8 +182,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">ED Encounter</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">ED Encounter</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -234,8 +197,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">ED Day of Death</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">ED Day of Death</label>
+                <div class="col-8">
 
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
@@ -245,8 +208,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Pain Management</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Pain Management</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>                        
@@ -254,8 +217,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Chronic Somatic</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Chronic Somatic</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -269,8 +232,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Brain Injury</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Brain Injury</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -289,8 +252,8 @@ safsaf
     <ngb-panel id="6" title="Records Law Enforcement">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Law Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Law Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -300,8 +263,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Law Contact</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Law Contact</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -315,8 +278,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Law Suspect</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Law Suspect</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -335,8 +298,8 @@ safsaf
     <ngb-panel id="7" title="Records Judicial System">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Attorney Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Attorney Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -346,8 +309,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">DrugCourt Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">DrugCourt Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -357,8 +320,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Attorney Contact</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Attorney Contact</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -372,8 +335,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">DUI History</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">DUI History</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -387,8 +350,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Law Prosecuted</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Law Prosecuted</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>No</option>
                         <option>Yes</option>
@@ -400,8 +363,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Law Charge</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Law Charge</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" id="example-text-input">
                 </div>
             </div>
@@ -410,8 +373,8 @@ safsaf
     <ngb-panel id="8" title="Records Detention Center">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">DetentionCenter Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">DetentionCenter Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -421,8 +384,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">DetentionCenter Contact</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">DetentionCenter Contact</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -440,8 +403,8 @@ safsaf
     <ngb-panel id="9" title="Records Education">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Education K12</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Education K12</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -451,8 +414,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Education HigherEd</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Education HigherEd</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -462,8 +425,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Education Contact</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Education Contact</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -477,8 +440,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Education Degree</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Education Degree</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>8th grade or less</option>
                         <option>9th to 12th grade</option>
@@ -499,8 +462,8 @@ safsaf
     <ngb-panel id="10" title="Decedent Demographic Information">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH Hd records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH Hd records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -510,8 +473,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH Private records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH Private records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -521,8 +484,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH MentalHealth</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH MentalHealth</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -532,8 +495,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH Beacon</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH Beacon</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -543,8 +506,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH HD Contact</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH HD Contact</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -554,8 +517,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH Private Contactt</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH Private Contactt</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -565,8 +528,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH Treatmentt</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH Treatmentt</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -576,8 +539,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH Suicide</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH Suicide</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>                        
@@ -586,8 +549,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BH Suicide</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BH Suicide</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -605,8 +568,8 @@ safsaf
     <ngb-panel id="11" title="Records Community Supervision">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Community Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Community Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -616,8 +579,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Community Contact</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Community Contact</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -631,8 +594,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Community Enrollment</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Community Enrollment</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -650,8 +613,8 @@ safsaf
     <ngb-panel id="12" title="Records Social Services">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">SS records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">SS records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -661,8 +624,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">SS Contact</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">SS Contact</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -676,8 +639,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">SS Enrollment</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">SS Enrollment</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Yes
@@ -691,8 +654,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">SS Crisis Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">SS Crisis Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -706,8 +669,8 @@ safsaf
     <ngb-panel id="13" title="Records Family">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Family Interviews</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Family Interviews</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -717,8 +680,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Marital Status</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Marital Status</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Married /Civil Union/ Domestic Partnership</option>
                         <option>Never Married</option>
@@ -731,8 +694,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Inmate Partner</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Inmate Partner</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>                        
@@ -746,8 +709,8 @@ safsaf
     <ngb-panel id="14" title="Records Harm Reduction">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">HR MORP Records</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">HR MORP Records</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -757,8 +720,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">HR SterileSyringe</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">HR SterileSyringe</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -768,8 +731,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">HR PeerRecovery</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">HR PeerRecovery</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -783,8 +746,8 @@ safsaf
     <ngb-panel id="15" title="Records Decedent Information">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Sexual orientation</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Sexual orientation</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Heterosexual</option>
                         <option>Gay</option>
@@ -795,8 +758,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Pregnancy</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Pregnancy</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Not pregnant within last year</option>
                         <option>Pregnant at time of death Not pregnant but pregnant w/in 42 days of death</option>
@@ -809,14 +772,14 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Occupation</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Occupation</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" id="example-text-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Employment Status</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Employment Status</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -826,8 +789,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Homeless</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Homeless</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -836,8 +799,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Miltary</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Miltary</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Yes</option>
                         <option>No</option>
@@ -846,8 +809,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Institution</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Institution</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>No evidence of recent release</option>
                         <option>Jail, prison, or a detention facility</option>
@@ -863,14 +826,14 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Institution</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Institution</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" placeholder="(If Other) Please define" id="example-text-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Drug Exposure</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Drug Exposure</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Any injection</option>
                         <option>Snorting</option>
@@ -881,8 +844,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">LocationOfDeath Type</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">LocationOfDeath Type</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>House, apartment, rooming house, including driveway, porch, yard, garage</option>
                         <option>Apartment</option>
@@ -895,8 +858,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">LocationofDeath Other</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">LocationofDeath Other</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" placeholder="(If Other) Please define" id="example-text-input">
                 </div>
             </div>
@@ -905,38 +868,38 @@ safsaf
     <ngb-panel id="16" title="Case Analysis">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Summary</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Summary</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" id="example-text-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Gaps1</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Gaps1</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" id="example-text-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Gaps2</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Gaps2</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" id="example-text-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Gaps3</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Gaps3</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" id="example-text-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations1</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations1</label>
+                <div class="col-8">
                     <input class="form-control" type="text" value="" id="example-text-input">
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case_Recommendations1 Category</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case_Recommendations1 Category</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Select</option>
                         
@@ -944,8 +907,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations1 Target</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations1 Target</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>People who use drugs </option>
                         <option>Providers</option>
@@ -955,8 +918,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations1 Agency</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations1 Agency</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Law enforcement</option>
                         <option>Hospital</option>
@@ -972,8 +935,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations1 Party</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations1 Party</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> Local
@@ -987,24 +950,24 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations2</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <input class="form-control" type="text" value="" id="example-text-input">
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations2 Category</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2 Category</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Select</option>                        
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations2 Target</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2 Target</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>People who use drugs</option>
                         <option>Providers</option>
@@ -1014,8 +977,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations2 Agency</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2 Agency</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Law enforcement</option>
                         <option>Hospital</option>
@@ -1031,8 +994,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations2 Party</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2 Party</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> 1
@@ -1041,16 +1004,16 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations3</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <input class="form-control" type="text" value="" placeholder="Please provide any recommendations following the review of this case" id="example-text-input">
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations3 Category</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3 Category</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Law enforcement</option>
                         <option>Hospital</option>
@@ -1066,8 +1029,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations3 Target</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3 Target</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>People who use drugs </option>
                         <option>Providers</option>
@@ -1077,8 +1040,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations3 Agency</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3 Agency</label>
+                <div class="col-8">
                     <select class="form-control" id="exampleSelect1">
                         <option>Law enforcement</option>
                         <option>Hospital</option>
@@ -1094,8 +1057,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">Case Recommendations3 Party</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3 Party</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> Local
@@ -1115,8 +1078,8 @@ safsaf
     <ngb-panel id="17" title="Decedent Demographic Information">
         <template ngbPanelContent>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BHA Review</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BHA Review</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <label class="form-check-label">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"> No
@@ -1125,8 +1088,8 @@ safsaf
                 </div>
             </div>
             <div class="form-group">
-                <label for="example-email-input" class="col-10 col-form-label">BHA Followup</label>
-                <div class="col-10">
+                <label for="example-email-input" class="col-8  col-form-label">BHA Followup</label>
+                <div class="col-8">
                     <div class="form-check form-check-inline">
                         <input class="form-control" type="text" value="" id="example-text-input">
                     </div>
@@ -1135,9 +1098,9 @@ safsaf
 
             <div class="form-group">
                 
-                <div class="col-10">
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
+                <div class="col-8">
+                     <button type="submit" class="ui button">Submit</button>  
+                 </div>
             </div>
         </template>
     </ngb-panel>

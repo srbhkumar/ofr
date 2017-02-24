@@ -1,11 +1,3 @@
-export class Dashboard
-{
-    identity:string;
-    regions:string[];
-    roles:string[];
-    cases:Case[];
-}
-
 class Case
 {
   id: string;
@@ -16,3 +8,11 @@ class Case
   Template: string;
   Data: any;
 };
+export class Dashboard
+{
+    identity:string;
+    regions:string[];
+    roles:string[];
+    cases:Case[];
+}
+

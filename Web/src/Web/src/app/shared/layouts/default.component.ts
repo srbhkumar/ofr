@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../services/AuthService';
+import { AuthService } from '../services/authService';
 
 
 @Component({
@@ -8,13 +8,10 @@ import { AuthService } from '../services/AuthService';
     templateUrl: './default.component.html'
 })
 
-export class DefaultComponent implements OnInit {
-    constructor(public authService: AuthService,public route: ActivatedRoute,public router: Router) { }
-    ngOnInit() {
-    }
-
+export class DefaultComponent {
+    constructor(public authService: AuthService, public router: Router) { }
     logOut(){
         this.authService.logOut();
-          this.router.navigate(['login']);
+        this.router.navigate(['login']);
     }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Template, TemplateField, CaseViewModel } from './ofr';
+import { Template, TemplateField, CaseViewModel } from '../shared/models/ofr';
 
 @Component({
     selector: 'case-field',
@@ -7,28 +7,22 @@ import { Template, TemplateField, CaseViewModel } from './ofr';
 })
 
 export class CaseFieldComponent implements OnInit {
-     @Input() FieldName:string;
+    @Input() FieldName:string;
     @Input() ViewModel:CaseViewModel;
     Field:TemplateField;
-
-constructor()
-{
-   //this.template=new Template();
-}
-
+    
+    constructor(){}
     ngOnInit(): void {
-          for(var i = 0; i < this.ViewModel.Template.Fields.length; ++i)
-        {
-            if (this.ViewModel.Template.Fields[i].Name == this.FieldName)
-            {
-                this.Field = this.ViewModel.Template.Fields[i];
+        var fields = this.ViewModel.Template.Fields;
+        for(var i = 0; i < fields.length; ++i){
+            if (fields[i].Name == this.FieldName){
+                this.Field = fields[i];
                 break;
             }
         }
     }
 
-   setValue(val:any):void
-    {
+    setValue(val:number|string):void {
         this.ViewModel.Data[this.FieldName] = val;
         this.ViewModel.changeset[this.FieldName] = val;
         // todo: trigger saves

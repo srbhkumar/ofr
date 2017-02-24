@@ -1,6 +1,6 @@
 import{Component,OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../shared/services/AuthService';
+import { AuthService } from '../shared/services/authService';
 
 @Component(
     {        
@@ -26,16 +26,14 @@ export class LoginComponent implements OnInit{
     }
 
     login(userName: string, password: string): boolean {
-        
         this.message = '';
+        //This will never work as expected and needs to be corrected
         if (this.authService.login(userName, password)) {              
             this.router.navigate(['dashboard']);
         }
-
         this.message = 'Incorrect credentials';
         return false;
     }
-
     logOut():void{
         this.authService.logOut();
     }

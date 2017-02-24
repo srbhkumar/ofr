@@ -7,11 +7,10 @@ export class AuthService {
     }
 
     login(user: string, password: string): boolean {
-        if (user === 'arul@gmail.com' && password === 'das') {
+        if (user == 'test@leaporbit.com' && password == '1234') {
             localStorage.setItem(this.loginKey, user);
             return true;
         }
-
         return false;
     }
 
