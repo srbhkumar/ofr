@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Template, TemplateField, CaseViewModel } from '../shared/models/caseModel';
 import {FormGroup,Form, FormControl,Validator, FormBuilder   } from '@angular/forms';
-
 @Component({
     selector: 'case-field',
     templateUrl: './caseField.html'
@@ -11,7 +10,8 @@ export class CaseFieldComponent implements OnInit {
     @Input() FieldName:string;
     @Input() ViewModel:CaseViewModel;
     @Input() form: FormGroup;
-     
+   
+    
     Field:TemplateField;
   
     

@@ -6,7 +6,7 @@ import { AuthService } from '../shared/services/authService';
     {        
         selector:'login',
         templateUrl:'./login.component.html',
-        styleUrls: ['../../assets/signin.css']
+        styleUrls: ['./signin.css']
     }
 )
 
