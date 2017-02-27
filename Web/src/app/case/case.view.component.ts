@@ -15,11 +15,11 @@ export class CaseComponent implements OnInit {
     dataModel:CaseViewModel;
     caseId:string;
     case:Case;
-    MockData:any;
-    isDataAvailable :boolean;
    
     caseForm: FormGroup;
     
+    timeoutTag:any;
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -53,18 +53,44 @@ export class CaseComponent implements OnInit {
       this.service.getCaseInformation(this.caseId).then(
              resp =>  this.getTemplateInformation(resp));   
     }
-  
-  getTemplateInformation(respCase:Case) {
-      
+
+    getTemplateInformation(respCase:Case) {
         this.case = respCase;     
         this.service.getTemplate(respCase.Template).then(
-            t=> this.dataModel={Template:t, changeset:{},Data:this.case,IsDisplay:false} ); 
-       debugger; 
-  }
+            t => this.dataModel = {
+                Template: t,
+                changeset: {},
+                Data: this.case.Data,
+                IsDisplay: false,
+                OnChange: this.onChange.bind(this)
+            }
+        );
+    }
 
-    onSave() { 
-          this.service.saveCase(this.case.id , this.caseForm.value)
-         this.router.navigate(['dashboard']);
-         
+    onChange():void
+    {
+        if (this.timeoutTag)
+        {
+            clearTimeout(this.timeoutTag);
+        }
+        
+        this.timeoutTag = setTimeout(this.saveChanges.bind(this), 3 * 1000);
+    }
+
+    saveChanges():void
+    {
+        this.timeoutTag = null;
+        var oldChanges = this.dataModel.changeset;
+        this.dataModel.changeset = {};
+        this.service.saveCase(this.caseId, oldChanges)
+            .catch(r => {
+                for(var k in oldChanges)
+                {
+                    // pushing any changes back into the changeset
+                    // ignore anything that's already been re-added (from new input)
+                    if (this.dataModel.changeset[k]) continue;
+                    this.dataModel.changeset[k] = oldChanges[k];
+                }
+            });
     }
 }

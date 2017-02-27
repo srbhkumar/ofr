@@ -31,6 +31,7 @@ export class CaseFieldComponent implements OnInit {
     setValue(val:number|string):void {
         this.ViewModel.Data[this.FieldName] = val;
         this.ViewModel.changeset[this.FieldName] = val;
+        this.ViewModel.OnChange();
         // todo: trigger saves
     }
 }

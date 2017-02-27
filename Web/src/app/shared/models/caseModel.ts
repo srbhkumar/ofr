@@ -20,6 +20,7 @@ export class CaseViewModel
     Data:any;
     IsDisplay:boolean;
     changeset:any;
+    OnChange:()=>void;
 }
 
 export class Dashboard
