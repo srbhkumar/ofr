@@ -1,3 +1,5 @@
+#load "../Case.csx"
+
 #r "Newtonsoft.Json"
 using System.Net;
 using System.Linq;
@@ -5,14 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
-
-class Case
-{
-    public string id {get;set;}
-    public string Status {get;set;}
-    public string Jurisdiction {get;set;}
-    public dynamic Data {get;set;}
-}
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {

@@ -13,7 +13,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of dashboard.cases">
-        <td> <a  [routerLink]="['/case', item.id]" >{{item.id}}</a></td>
+        <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
         <td>{{item.Data.ResidentCounty}}</td>
         <td>{{item.Data.DateofDeath}}</td>
         <td>{{item.Data.CauseofDeath}}</td>
