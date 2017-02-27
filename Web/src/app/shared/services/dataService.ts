@@ -56,8 +56,7 @@ export class DataService {
         return this.httpget<Template>(`/template/${id}`);
     } 
 
-    
-
+     
     public getCaseInformation(id:string):Promise<Case>
     {
       
