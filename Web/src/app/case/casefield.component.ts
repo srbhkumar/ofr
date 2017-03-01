@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { Template, TemplateField, CaseViewModel } from '../shared/models/caseModel';
 import {FormGroup,Form, FormControl,Validator, FormBuilder   } from '@angular/forms';
 @Component({
@@ -6,7 +6,7 @@ import {FormGroup,Form, FormControl,Validator, FormBuilder   } from '@angular/fo
     templateUrl: './caseField.html'
 })
 
-export class CaseFieldComponent implements OnInit {
+export class CaseFieldComponent implements OnChanges {
     @Input() FieldName:string;
     @Input() ViewModel:CaseViewModel;
     @Input() form: FormGroup;
@@ -18,7 +18,8 @@ export class CaseFieldComponent implements OnInit {
     constructor(){
        
     }
-    ngOnInit(): void {
+    ngOnChanges(ch:SimpleChanges): void {
+        if (!this.ViewModel || !this.ViewModel.Template) return;
         var fields = this.ViewModel.Template.Fields;
         for(var i = 0; i < fields.length; ++i){
             if (fields[i].Name == this.FieldName){
