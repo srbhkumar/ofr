@@ -9,7 +9,6 @@ import {Constant} from '../utility/constants';
 
 @Injectable()
 export class DataService {
-    data: Object;
     constant: Constant;
     private headers: Headers;
     
@@ -22,16 +21,6 @@ export class DataService {
     public setAuthentication(token:string):void
     {
         this.headers.append("Authentication", token);
-    }
-
-    private generateHeaders() {
-        let headers: Headers = new Headers();
-        headers.append(this.constant.headerSubscriptionKey, this.constant.headerSubscriptionValue);
-
-        let opts: RequestOptions = new RequestOptions();
-        opts.headers = headers;
-
-        return opts;
     }
 
     private httpget<T>(action: string): Promise<T> {
