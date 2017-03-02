@@ -1,4 +1,5 @@
 #load "../Case.csx"
+#load "../DAL.csx"
 
 using System;
 using System.Collections.Generic;
@@ -78,10 +79,7 @@ public static async void Run(Stream myBlob, string name, TraceWriter log)
     }
     // todo: better parallelization
     
-    var endpoint = "https://crisp-ofr.documents.azure.com:443/";
-    var primkey = "EbhSXsV6wqaccGZUNkKACVxoE64Js3h2wfSavkfwBzpKMO0Lik9rNWzvrcgzgWQhyCX8qM25Qxct7SzUR6KIPw";
-
-    var client = new DocumentClient(new Uri(endpoint), primkey);
+    var client = DAL.CreateClient();
 
     foreach(var task in cases.Select(c => client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri("OFR", "Cases"), c)).ToList())
     {

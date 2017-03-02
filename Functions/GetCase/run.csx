@@ -1,5 +1,6 @@
 #r "Newtonsoft.Json"
 #load "../Case.csx"
+#load "../DAL.csx"
 
 using System.Net;
 using System.Linq;
@@ -11,10 +12,7 @@ using Newtonsoft.Json;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string caseId, TraceWriter log)
 {
-    var endpoint = "https://crisp-ofr.documents.azure.com:443/";
-    var primkey = "EbhSXsV6wqaccGZUNkKACVxoE64Js3h2wfSavkfwBzpKMO0Lik9rNWzvrcgzgWQhyCX8qM25Qxct7SzUR6KIPw";
-
-    var client = new DocumentClient(new Uri(endpoint), primkey);
+    var client = DAL.CreateClient();
 
     var c = client.CreateDocumentQuery<Case>(UriFactory.CreateDocumentCollectionUri("OFR", "Cases"))
         .Where(d => d.id == caseId)
