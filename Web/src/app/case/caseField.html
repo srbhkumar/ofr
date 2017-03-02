@@ -1,4 +1,3 @@
-
 <div  [formGroup]="form" class='form-group case-field' *ngIf='Field'>
     <label for="case-field-{{Field.Name}}" class=" col-form-label">{{Field.Description}}</label> 
     <span *ngIf='Field.Required' > * </span>
@@ -36,4 +35,7 @@
          </small>
 
     </div>
+</div>
+<div *ngIf='!Field'>
+    {{FieldName}}
 </div>

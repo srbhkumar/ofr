@@ -11,16 +11,20 @@ import {Constant} from '../utility/constants';
 export class DataService {
     data: Object;
     constant: Constant;
-  
     private headers: Headers;
-     case:Case;
+    
     constructor(private http: Http) {
         this.constant = new Constant();
         this.headers = new Headers();
-        this.headers.append(this.constant.headerSubscriptionKey, this.constant.headerSubscriptionValue);
-      
+        this.headers.append(this.constant.headerSubscriptionKey, this.constant.headerSubscriptionValue);  
     }
-  private generateHeaders() {
+
+    public setAuthentication(token:string):void
+    {
+        this.headers.append("Authentication", token);
+    }
+
+    private generateHeaders() {
         let headers: Headers = new Headers();
         headers.append(this.constant.headerSubscriptionKey, this.constant.headerSubscriptionValue);
 
@@ -38,7 +42,7 @@ export class DataService {
             .catch(this.handleError);
     }
 
-   private httppost<T>(action:string,body:any):Promise<T>
+    private httppost<T>(action:string,body:any):Promise<T>
     {
         return this.http
             .post(this.constant.rootUrl + action, body, { headers: this.headers })
@@ -46,7 +50,8 @@ export class DataService {
             .then(res => res.json() as T)
             .catch(this.handleError);
     }
-   public getDashboard():Promise<Dashboard>
+
+    public getDashboard():Promise<Dashboard>
     {
         return this.httpget<Dashboard>('/dashboard');
     } 
@@ -56,11 +61,8 @@ export class DataService {
         return this.httpget<Template>(`/template/${id}`);
     } 
 
-    
-
     public getCaseInformation(id:string):Promise<Case>
     {
-      
         return this.httpget<Case>(`/case/${id}`);
     }
 
@@ -68,9 +70,6 @@ export class DataService {
     {
         return this.httppost<OFRResponse>(`/case/${id}`, data);
     }
-      
-
-  
 
     private handleError(error: any) {
         // todo: display errors to the user (sometimes)
