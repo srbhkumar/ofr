@@ -1,3 +1,4 @@
+
 <div  [formGroup]="form" class='form-group case-field' *ngIf='Field'>
     <label for="case-field-{{Field.Name}}" class=" col-form-label">{{Field.Description}}</label> 
     <span *ngIf='Field.Required' > * </span>
@@ -12,7 +13,7 @@
         </div>
   
         <div *ngSwitchCase="'Date'"  >
-            <input class="form-control" type="date" formControlName="{{Field.Name}}"    [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"                                                       (input)="setVa($event.target.value)" >
+            <input class="form-control" type="date" formControlName="{{Field.Name}}"    [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"    (input)="setVa($event.target.value)" >
                 
         </div>
         <div *ngSwitchCase="'Dropdown'"  >
@@ -22,20 +23,23 @@
              
         </div>
         <div *ngSwitchCase="'Radio'"  >
-              <input type="radio"  formControlName="{{Field.Name}}"   class="form-control" *ngFor="let opt of Field.Options" name="case-field-{{Field.Name}}" id="case-field-{{Field.Name}}" value="ViewModel.Data[Field.Name]" (input)="setValue($event.target.value)">
-             
+            <span *ngFor="let opt of Field.Options">
+                  <input type="radio"  formControlName="{{Field.Name}}"  
+                  name="{{Field.Name}}" id="case-field-{{Field.Name}}" 
+                value={{opt}}  (input)="setValue($event.target.value)">
+                <span> {{opt}} </span>
+               
+             </span>
         </div>
         <div *ngSwitchCase="'Checkbox'" >
-              <input type="checkbox" formControlName="{{Field.Name}}"   class="form-control"  name="case-field-{{Field.Name}}" id="case-field-{{Field.Name}}" value="ViewModel.Data[Field.Name]" (input)="setValue($event.target.value)">  
+              <input type="checkbox" formControlName="{{Field.Name}}" name="case-field-{{Field.Name}}" id="case-field-{{Field.Name}}" value="ViewModel.Data[Field.Name]" (input)="setValue($event.target.value)">  {{Field.Name}}
            
         </div>
       
-        <small *ngIf="Field.Required == true &&  !form.controls[Field.Name].valid" class="text-danger">
+        <small *ngIf="Field.Required &&  !form.controls[Field.Name].valid" class="text-danger">
                     Please fill {{Field.Name}}  
          </small>
 
     </div>
 </div>
-<div *ngIf='!Field'>
-    {{FieldName}}
-</div>
+ 

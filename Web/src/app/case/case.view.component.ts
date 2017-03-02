@@ -15,6 +15,7 @@ export class CaseComponent implements OnInit {
     dataModel:CaseViewModel;
     caseId:string;
     case:Case;
+    field1 : Object;
    
     caseForm: FormGroup;
     
@@ -26,24 +27,12 @@ export class CaseComponent implements OnInit {
         private service: DataService,
         private formBuilder : FormBuilder
     ){
-        this.caseForm = formBuilder.group({
-          
-           
-            "NameofReviewer" : ["Reviewer 1", Validators.nullValidator]   ,
-            "YearofDeath" : ["2016", Validators.nullValidator],
-            "DateofDeath":["2017-04-05", Validators.nullValidator]   ,
-           "CountyofDeath" : ["test", Validators.nullValidator],
-            "ResidentCounty" : ["County 1", Validators.required],
-           "CauseofDeath" :["cause 1", Validators.nullValidator],
-           "Sex":["", Validators.nullValidator],
-           "Transgender":["", Validators.nullValidator],
-           "DateofBirth":["", Validators.nullValidator],
-           "Race":["", Validators.nullValidator],
-           "Hispanic":["", Validators.nullValidator],
-        });
 
-        
-    }
+           this.initializeFormControls();      
+     
+     }
+
+   
 
     ngOnInit():void
     {
@@ -51,21 +40,129 @@ export class CaseComponent implements OnInit {
       this.caseId = this.route.snapshot.params['id'];
    
       this.service.getCaseInformation(this.caseId).then(
-             resp =>  this.getTemplateInformation(resp));   
+            resp => { this.getTemplateInformation(resp);
+     
+             }); 
+ 
+            
+          
     }
+
+   
 
     getTemplateInformation(respCase:Case) {
         this.case = respCase;     
         this.service.getTemplate(respCase.Template).then(
-            t => this.dataModel = {
+            t => {this.dataModel = {
                 Template: t,
                 changeset: {},
                 Data: this.case.Data,
                 IsDisplay: false,
                 OnChange: this.onChange.bind(this)
-            }
-        );
+            
+          };
+         
+        } );
+
+        
     }
+    initializeFormControls():void
+    {
+             this.caseForm = this.formBuilder.group({
+                            "NameofReviewer" : ["Reviewer 1",  Validators.required]   ,
+                            "YearofDeath" : ["2016",  Validators.required],
+                            "DateofDeath":["2017-04-05",  Validators.required]   ,
+                            "CountyofDeath" : ["test",  Validators.required],
+                            "ResidentCounty" : ["County 1", Validators.nullValidator],
+                            "CauseofDeath" :["cause 1", Validators.nullValidator],
+                            "Sex":["", Validators.nullValidator],
+                            "Transgender":["", Validators.nullValidator],
+                            "DateofBirth":["", Validators.nullValidator],
+                            "Race":["", Validators.nullValidator],
+                            "Hispanic":["", Validators.nullValidator],
+                            "EMSRecords":["", Validators.nullValidator],
+                            "PriorEMS":["", Validators.nullValidator],
+                            "EMS_DayofDeath":["", Validators.nullValidator],
+                             "HospitalRecords":["", Validators.nullValidator],
+                            "CRISPRecords":["", Validators.nullValidator],
+                            "PDMPRecords":["", Validators.nullValidator],
+                             "EDEncounter":["", Validators.nullValidator],
+                            "ED_DayofDeath":["", Validators.nullValidator],
+                             "PainManagement":["", Validators.nullValidator],
+                            "ChronicSomatic":["", Validators.nullValidator],
+                            "BrainInjury":["", Validators.nullValidator],
+                            "LawRecords":["", Validators.nullValidator],
+                            "LawContact":["", Validators.nullValidator],
+                             "LawSuspect":["", Validators.nullValidator],
+                            "AttorneyRecords":["", Validators.nullValidator],
+                             "DrugCourtRecords":["", Validators.nullValidator],
+                             "AttorneyContact":["", Validators.nullValidator],
+                            "DUIHistory":["", Validators.nullValidator],
+                             "LawProsecuted":["", Validators.nullValidator],
+                            "LawCharge":["", Validators.nullValidator],
+                             "DetentionCenterRecords":["", Validators.nullValidator],
+                            "DetentionCenterContact":["", Validators.nullValidator],
+                             "EducationK12":["", Validators.nullValidator],
+                            "EducationHigherEd":["", Validators.nullValidator],
+                             "EducationContact":["", Validators.nullValidator],
+                            "EducationDegree":["", Validators.nullValidator],
+                               "BHHdRecords":["", Validators.nullValidator],
+                            "BHPrivateRecords":["", Validators.nullValidator],
+                             "BHMentalHealth":["", Validators.nullValidator],
+                            "BHBeacon":["", Validators.nullValidator],
+                             "BHHDContact":["", Validators.nullValidator],
+                            "BHPrivateContact":["", Validators.nullValidator],
+                             "BHTreatment":["", Validators.nullValidator],
+                            "BHSuicide":["", Validators.nullValidator],
+                            "CommunityRecords":["", Validators.nullValidator],
+                             "CommunityContact":["", Validators.nullValidator],
+                            "CommunityEnrollment":["", Validators.nullValidator],
+                             "SSRecords":["", Validators.nullValidator],
+                            "SSContact":["", Validators.nullValidator],
+                             "SSEnrollment":["", Validators.nullValidator],
+                            "SSCrisisRecords":["", Validators.nullValidator],
+                              "FamilyInterviews":["", Validators.nullValidator],
+                             "MaritalStatus":["", Validators.nullValidator],
+                            "InmatePartner":["", Validators.nullValidator],
+                             "HRMORPRecords":["", Validators.nullValidator],
+                             "HRSterileSyringe":["", Validators.nullValidator],
+                            "HRPeerRecovery":["", Validators.nullValidator],
+                             "SexualOrientation":["", Validators.nullValidator],
+                            "Pregnancy":["", Validators.nullValidator],
+                             "Occupation":["", Validators.nullValidator],
+                            "EmploymentStatus":["", Validators.nullValidator],
+                              "Homeless":["", Validators.nullValidator],
+                             "Military":["", Validators.nullValidator],
+                            "Institution":["", Validators.nullValidator],
+                             "DrugExposure":["", Validators.nullValidator],
+                             "LocationOfDeathType":["", Validators.nullValidator],
+                            "LocationofDeathOther":["", Validators.nullValidator],
+                             "CaseSummary":["", Validators.nullValidator],
+                             "CaseGaps1":["", Validators.nullValidator],
+                            "CaseGaps2":["", Validators.nullValidator],
+                             "CaseGaps3":["", Validators.nullValidator],
+                            "CaseRecommendations1":["", Validators.nullValidator],
+                              "CaseRecommendations1Category":["", Validators.nullValidator],
+                             "CaseRecommendations1Target":["", Validators.nullValidator],
+                            "CaseRecommendations1Agency":["", Validators.nullValidator],
+                             "CaseRecommendations1Party":["", Validators.nullValidator],
+                             "CaseRecommendations2":["", Validators.nullValidator],
+                            "CaseRecommendations2Category":["", Validators.nullValidator],
+                              "CaseRecommendations2Target":["", Validators.nullValidator],
+                             "CaseRecommendations2Agency":["", Validators.nullValidator],
+                            "CaseRecommendations2Party":["", Validators.nullValidator],
+                             "CaseRecommendations3":["", Validators.nullValidator],
+                             "CaseRecommendations3Category":["", Validators.nullValidator],
+                            "CaseRecommendations3Target":["", Validators.nullValidator],
+                             "CaseRecommendations3Agency":["", Validators.nullValidator],
+                             "CaseRecommendations3Party":["", Validators.nullValidator],
+                             "BHAReview":["", Validators.nullValidator],
+                            "BHAFollowup":["", Validators.nullValidator]
+                           
+                           
+                        });
+    }
+   
 
     onChange():void
     {
@@ -79,6 +176,7 @@ export class CaseComponent implements OnInit {
 
     saveChanges():void
     {
+        
         this.timeoutTag = null;
         var oldChanges = this.dataModel.changeset;
         this.dataModel.changeset = {};
