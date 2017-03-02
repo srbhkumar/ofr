@@ -18,7 +18,7 @@ function PingCase(caseId, username)
             __.replaceDocument(doc._self, doc, (err, rep) =>
                 {
                     if (err) throw err;
-                    getContext().getResponse().setBody(JSON.stringify(doc.PingData));
+                    getContext().getResponse().setBody(doc.PingData);
                 });
         });
 }
