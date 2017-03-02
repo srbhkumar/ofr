@@ -1,4 +1,4 @@
-<div class="col-9">
+ <div class="col-9" *ngIf="dataModel">
 <form  [formGroup]="caseForm" class="ui form"> 
 <ngb-accordion  activeIds="2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17">
     <!--<ngb-panel id="1" title="Header">
@@ -35,7 +35,7 @@
                 </div>
             </div>-->
             <div class="form-group">
-                 <div class="col-8" *ngIf="dataModel" >
+                 <div class="col-8"  >
                       <case-field   [form]="caseForm" FieldName="DateofDeath"    [ViewModel]="dataModel"></case-field> 
                  </div>
             </div>
@@ -46,17 +46,18 @@
                 </div>
             </div>-->
            <div class="form-group">
-                  <div class="col-8" *ngIf="dataModel" >
+                  <div class="col-8"  >
                       <case-field   [form]="caseForm"      FieldName="CountyofDeath" [ViewModel]="dataModel"></case-field> 
                 </div>
+               
             </div>
              <div class="form-group">
-                  <div class="col-8" *ngIf="dataModel" >
+                  <div class="col-8" >
                       <case-field  [form]="caseForm"    FieldName="ResidentCounty" [ViewModel]="dataModel"></case-field> 
                 </div>
             </div>
             <div class="form-group">
-              <div class="col-8" *ngIf="dataModel" >
+              <div class="col-8"  >
                       <case-field [form]="caseForm"   FieldName="CauseofDeath" [ViewModel]="dataModel"></case-field> 
                  </div>
             </div>
@@ -68,17 +69,17 @@
     <ngb-panel id="3" title="Decedent Demographic Information">
         <template ngbPanelContent>
             <div class="form-group">
-                  <div class="col-8" *ngIf="dataModel" >
+                  <div class="col-8"  >
                       <case-field [form]="caseForm"  FieldName="Sex" [ViewModel]="dataModel"></case-field> 
                  </div>
             </div>
             <div class="form-group">
-                   <div class="col-8" *ngIf="dataModel" >
+                   <div class="col-8" >
                         <case-field [form]="caseForm"  FieldName="Transgender"  [ViewModel]="dataModel"></case-field> 
                   </div>
             </div>
             <div class="form-group">
-                   <div class="col-8" *ngIf="dataModel" >
+                   <div class="col-8" >
                         <case-field [form]="caseForm"  FieldName="DateofBirth"   [ViewModel]="dataModel"></case-field> 
                   </div>
             </div>
@@ -89,12 +90,12 @@
                 </div>
             </div>
             <div class="form-group">
-                  <div class="col-8" *ngIf="dataModel" >
+                  <div class="col-8"  >
                         <case-field [form]="caseForm"  FieldName="Race" [ViewModel]="dataModel"></case-field> 
                   </div>
              </div>
             <div class="form-group">
-                    <div class="col-8" *ngIf="dataModel" >
+                    <div class="col-8" >
                         <case-field [form]="caseForm"  FieldName="Hispanic" [ViewModel]="dataModel"></case-field> 
                   </div>
               </div>
