@@ -1,4 +1,13 @@
 <h2>Dashboard</h2>
+
+ <span>
+ <button type="button" (click)="onToggle(show)" class="btn btn-primary">CaseReport </button>
+ </span>
+ <div id=caseReport *ngIf="show" >
+    <case-report [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
+</div>
+
+ 
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>

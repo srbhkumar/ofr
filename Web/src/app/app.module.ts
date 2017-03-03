@@ -21,19 +21,22 @@ import{DefaultComponent} from './shared/layouts/default.component';
 import{LayoutComponent} from './shared/layouts/layout.component';
 import{CaseComponent} from './case/case.view.component';
 import{CaseFieldComponent} from './case/casefield.component';
+import {CaseReportComponent} from './dashboard/caseReport/caseReport.component';
+import { SelectModule } from 'angular2-select'
  
 
 @NgModule({
   declarations: [
-   AppComponent,LoginComponent,ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseComponent,CaseFieldComponent
-  ],
+   AppComponent,LoginComponent,ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseComponent,
+   CaseFieldComponent,CaseReportComponent],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,    
     routing,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    SelectModule
   ],
   providers: [LoggedInGuard,AuthService,DataService],
   bootstrap: [AppComponent]
