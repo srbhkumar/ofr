@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import{Template, Case, OFRResponse,Dashboard} from '../models/caseModel';
 import {Constant} from '../utility/constants';
- 
+import{PingCase} from '../models/pingcase';
 
 @Injectable()
 export class DataService {
@@ -16,6 +16,7 @@ export class DataService {
         this.constant = new Constant();
         this.headers = new Headers();
         this.headers.append(this.constant.headerSubscriptionKey, this.constant.headerSubscriptionValue);  
+        this.headers.append('Username', 'Rock'); //Temporery code. Once SSO is implemented we'll make it dynamic.
     }
 
     public setAuthentication(token:string):void
@@ -58,6 +59,10 @@ export class DataService {
     public saveCase(id:string, data:any):Promise<OFRResponse>
     {
         return this.httppost<OFRResponse>(`/case/${id}`, data);
+    }
+
+    public PingCase(id: string): Promise<PingCase> {
+        return this.httppost<PingCase>(`/ping/${id}`, {});
     }
 
     private handleError(error: any) {

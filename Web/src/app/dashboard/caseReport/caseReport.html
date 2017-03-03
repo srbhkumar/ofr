@@ -1,0 +1,50 @@
+
+<div id="CaseReport" style="width: 55%; border:1px solid black; padding :2%;"> 
+<form [formGroup]="caseReportForm" (ngSubmit)="onSave(caseReportForm.value)" class="ui form">
+    <div>
+        <label> Start Date </label>
+        <input type="date" formControlName="startDate"  name="startDate" required/>
+        <span class="col-2"></span>
+        <label> End Date </label>
+        <input type="date"  formControlName="endDate" value="{{endDate}}" name="endDate" required/>
+    </div>
+
+    <div>
+        <label> Format </label>
+        <select class="form-control" id="format"  formControlName="format" item-width="col-2" required>
+                <option>csv</option>
+                <option>pdf</option>
+        </select>
+    </div>
+
+    <div>
+        <label> Report Type </label>
+        <select class="form-control"  formControlName="type" id="type" item-width="col-2" required>
+                <option>Report</option>
+                <option>Census</option>
+        </select>
+    </div>
+
+    <div>
+            <label>Jurisdiction </label>
+            <ng-select  [multiple]="true"
+                        [options]="items"
+                          
+                         (data)="refreshValue($event)"
+                        (selected)="selected($event)"
+                        (removed)="removed($event)"
+                        placeholder="No city selected"  formControlName="jurisdiction" required>
+                        
+            </ng-select>
+    </div>
+
+    <div>
+           <!-- <button type="button" class="btn btn-primary" btnCheckbox btnCheckboxTrue="1" btnCheckboxFalse="0">
+            {{disabled === '1' ? 'Enable' : 'Disable'}}
+            </button> -->
+
+               <button type="submit"  class="ui button">Submit </button>  
+    </div>
+
+</form>
+</div>
