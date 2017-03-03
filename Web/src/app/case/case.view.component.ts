@@ -4,6 +4,8 @@ import {  Template,CaseViewModel,TemplateField , Case} from '../shared/models/ca
 import { DataService } from '../shared/services/dataService';
 import {FormGroup, FormControl, Validators, FormBuilder  , ReactiveFormsModule } from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
+import{PingCase} from '../shared/models/pingcase';
+import{NotificationsService} from 'angular2-notifications';
 
 @Component({
     selector:'case',
@@ -18,16 +20,40 @@ export class CaseComponent implements OnInit {
     field1 : Object;
    
     caseForm: FormGroup;
+
+     interval:any;
+    pingCase:PingCase;
+    previousPingCase:PingCase;
+    activeUsersFormat:string;
+    userName:string;
+    isValid:boolean;
     
     timeoutTag:any;
+
+    public options = {
+        timeOut: -1,
+        lastOnBottom: true,
+        clickToClose: true,
+        maxLength: 0,
+        maxStack: 7,
+        showProgressBar: true,
+        pauseOnHover: true,
+        preventDuplicates: false,
+        preventLastDuplicates: 'visible',
+        rtl: false,
+        animate: 'scale',
+        position: ['right', 'bottom']
+    };
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private service: DataService,
-        private formBuilder : FormBuilder
-    ){
+        private formBuilder : FormBuilder,
+        private notificationsService:NotificationsService
 
+    ){
+            this.userName='Rock';//Temporery code. Once SSO is implemented we'll make it dynamic.
            this.initializeFormControls();      
      
      }
@@ -39,6 +65,8 @@ export class CaseComponent implements OnInit {
        
       this.caseId = this.route.snapshot.params['id'];
    
+     this.NotifyActiveUsers(this.caseId,this.userName);
+
       this.service.getCaseInformation(this.caseId).then(
             resp => { this.getTemplateInformation(resp);
      
@@ -48,7 +76,61 @@ export class CaseComponent implements OnInit {
           
     }
 
-   
+    ngOnDestroy(): void {
+        clearInterval(this.interval);
+    } 
+
+    NotifyActiveUsers(caseId: string, user: string): void {
+        this.interval = setInterval(() => { this.GetPingResponse(caseId, user) }, 900);
+    }
+
+    GetPingResponse(caseId: string, user: string): void {
+        this.service.PingCase(caseId).then(resp => { this.NotifyUserWorkingFormat(resp, caseId, user); });
+    }
+
+    NotifyUserWorkingFormat(resp: PingCase, caseId: string, user: string): void {
+        this.pingCase = resp;
+        if (this.previousPingCase == null) {
+            this.previousPingCase = resp;
+        }
+        else if (this.ActiveUserCompare(this.previousPingCase.Data, resp.Data) == false) {
+            this.previousPingCase = resp;
+            this.notificationsService.remove();
+        }
+
+        this.activeUsersFormat = "<h4>Users working on this case.</h4>";
+        this.activeUsersFormat += `<ul>`;
+
+        for (let data in this.pingCase.Data) {
+            if (data != user) {
+                this.activeUsersFormat += '<li>' + data + '</li>';
+            }
+        }
+        this.activeUsersFormat += "</ul>";
+
+        this.notificationsService.html(this.activeUsersFormat, "info");
+
+    }
+
+    ActiveUserCompare(prevActiveUser, curActiveUsers): boolean {
+        var previousActiveUsers = Object.getOwnPropertyNames(prevActiveUser);
+        var currentActiveUsers = Object.getOwnPropertyNames(curActiveUsers);
+
+        if (previousActiveUsers.length != currentActiveUsers.length) {
+            return false;
+        }
+
+        for (var i = 0; i < previousActiveUsers.length; i++) {
+            var prevName = previousActiveUsers[i];
+            var curName = currentActiveUsers[i];
+
+            if (prevName !== curName) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     getTemplateInformation(respCase:Case) {
         this.case = respCase;     
