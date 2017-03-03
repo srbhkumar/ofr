@@ -12,7 +12,20 @@ function PingCase(caseId, username)
             {
                 doc.PingData = {};
             }
+            else
+            {
+                /* auto prune */
+                var pruneThreshold = new Date(new Date() - 3 * 60 * 1000);
 
+                for(var user in doc.PingData)
+                {
+                    if (Date.parse(doc.PingData[user]) < pruneThreshold)
+                    {
+                        delete doc.PingData[user];
+                    }
+                }
+            }
+            
             doc.PingData[username] = new Date();
             
             __.replaceDocument(doc._self, doc, (err, rep) =>
