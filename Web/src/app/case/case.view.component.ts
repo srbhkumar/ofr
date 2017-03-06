@@ -90,7 +90,9 @@ export class CaseComponent implements OnInit {
     }
 
     NotifyFormat(resp: PingCase, caseId: string, user: string): void {
+        this.isNotifyEnabled=false;
         this.pingCase = resp;
+        
         if (this.previousPingCase == null) {
             this.previousPingCase = resp;
         }
