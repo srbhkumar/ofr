@@ -20,7 +20,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string
 {
     if (!validStatii.Contains(newStatus))
     {
-        return req.CreateResponse(HttpStatusCode.Error, new { Result = "Error", Message = $"Invalid status code '{newStatus}'" });
+        return req.CreateResponse(HttpStatusCode.BadRequest, new { Result = "Error", Message = $"Invalid status code '{newStatus}'" });
     }
 
     var client = DAL.CreateClient();
