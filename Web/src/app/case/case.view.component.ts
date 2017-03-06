@@ -27,6 +27,7 @@ export class CaseComponent implements OnInit {
     activeUsersFormat:string;
     userName:string;
     isValid:boolean;
+    isNotifyEnabled:boolean;
     
     timeoutTag:any;
 
@@ -85,11 +86,13 @@ export class CaseComponent implements OnInit {
     }
 
     GetPingResponse(caseId: string, user: string): void {
-        this.service.PingCase(caseId).then(resp => { this.NotifyUserWorkingFormat(resp, caseId, user); });
+        this.service.PingCase(caseId).then(resp => { this.NotifyFormat(resp, caseId, user); });
     }
 
-    NotifyUserWorkingFormat(resp: PingCase, caseId: string, user: string): void {
+    NotifyFormat(resp: PingCase, caseId: string, user: string): void {
+        this.isNotifyEnabled=false;
         this.pingCase = resp;
+        
         if (this.previousPingCase == null) {
             this.previousPingCase = resp;
         }
@@ -103,12 +106,16 @@ export class CaseComponent implements OnInit {
 
         for (let data in this.pingCase.Data) {
             if (data != user) {
+                this.isNotifyEnabled=true;
                 this.activeUsersFormat += '<li>' + data + '</li>';
             }
         }
         this.activeUsersFormat += "</ul>";
 
-        this.notificationsService.html(this.activeUsersFormat, "info");
+        if (this.isNotifyEnabled) 
+        {
+            this.notificationsService.html(this.activeUsersFormat, "info");
+        }
 
     }
 
