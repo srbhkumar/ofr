@@ -24,6 +24,7 @@ import{CaseFieldComponent} from './case/casefield.component';
 import {CaseReportComponent} from './dashboard/caseReport/caseReport.component';
 import { SelectModule } from 'angular2-select'
 import{SimpleNotificationsModule} from 'angular2-notifications';
+import {DataTableModule} from "angular2-datatable";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import{SimpleNotificationsModule} from 'angular2-notifications';
     routing,
     NgbModule.forRoot(),
     SelectModule,
-    SimpleNotificationsModule.forRoot()
+    SimpleNotificationsModule.forRoot(),
+    DataTableModule
   ],
   providers: [LoggedInGuard,AuthService,DataService],
   bootstrap: [AppComponent]

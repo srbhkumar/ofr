@@ -7,28 +7,40 @@
     <case-report [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
 </div>
 
- 
 <div class="table-responsive">
-  <table class="table table-striped">
+<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
     <thead>
-      <tr>
-        <th>OCME #</th>
-        <th>Resident County</th>
-        <th>Date Of Death</th>
-        <th>Cause of Death</th>
-        <th>County of Death</th>
-        <th>Status</th>
-      </tr>
+    <tr>
+        <th>
+            <mfDefaultSorter>OCME #</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter>Resident County</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter>Date Of Death</mfDefaultSorter>
+        </th>
+        <th>
+            <mfDefaultSorter>Cause of Death</mfDefaultSorter>
+        </th>
+         <th>
+            <mfDefaultSorter>County of Death</mfDefaultSorter>
+        </th>
+         <th>
+            <mfDefaultSorter by="Status">Status</mfDefaultSorter>
+        </th>
+    </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of dashboard.cases">
+      <tr *ngFor="let item of mf.data">
         <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
-        <td>{{item.Data.ResidentCounty}}</td>
-        <td>{{item.Data.DateofDeath}}</td>
-        <td>{{item.Data.CauseofDeath}}</td>
-        <td>{{item.Data.CountyofDeath}}</td>
+        <td>{{item.ResidentCounty}}</td>
+        <td>{{item.DateofDeath}}</td>
+        <td>{{item.CauseofDeath}}</td>
+        <td>{{item.CountyofDeath}}</td>
         <td>{{item.Status}}</td>
       </tr>
     </tbody>
-  </table>
+</table>
+ 
 </div>
