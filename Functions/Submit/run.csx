@@ -17,8 +17,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string
         // todo: validation
     
         await DAL.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "SubmitCase"),
-            caseId,
-            newStatus
+            caseId
         );
 
         // todo: emails
