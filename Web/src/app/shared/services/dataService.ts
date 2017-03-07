@@ -11,6 +11,7 @@ import{PingCase} from '../models/pingcase';
 export class DataService {
     constant: Constant;
     private headers: Headers;
+   
     
     constructor(private http: Http) {
         this.constant = new Constant();
@@ -61,9 +62,16 @@ export class DataService {
         return this.httppost<OFRResponse>(`/case/${id}`, data);
     }
 
+    public updateCaseStatus(id:string, newStatus:any):Promise<OFRResponse>
+    {
+        return this.httppost<OFRResponse>(`/status/${id}/${newStatus}`, {});
+    }
+
     public PingCase(id: string): Promise<PingCase> {
         return this.httppost<PingCase>(`/ping/${id}`, {});
     }
+
+  
 
     private handleError(error: any) {
         // todo: display errors to the user (sometimes)

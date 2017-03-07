@@ -25,11 +25,12 @@ import {CaseReportComponent} from './dashboard/caseReport/caseReport.component';
 import { SelectModule } from 'angular2-select'
 import{SimpleNotificationsModule} from 'angular2-notifications';
 import {DataTableModule} from "angular2-datatable";
+import {FilterPipe} from './shared/directives/searchPipe';
 
 @NgModule({
   declarations: [
    AppComponent,LoginComponent,ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseComponent,
-   CaseFieldComponent,CaseReportComponent],
+   CaseFieldComponent,CaseReportComponent,FilterPipe],
   imports: [
     BrowserModule,
     FormsModule,

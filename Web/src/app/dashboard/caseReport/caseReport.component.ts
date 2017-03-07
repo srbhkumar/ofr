@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectModule } from 'angular2-select';
-import {FormGroup, FormControl, Validators, FormBuilder  , ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Observable } from "rxjs/Observable";
+import { ResponseContentType, RequestOptions, Http } from "@angular/http";
+ 
+ 
 
 @Component({
     selector: 'case-report',
@@ -38,15 +42,7 @@ export class CaseReportComponent {
      console.log(this.caseReportForm);
      }
  
-  private get disabledV():string {
-    return this._disabledV;
-  }
- 
-  private set disabledV(value:string) {
-    this._disabledV = value;
-    this.disabled = this._disabledV === '1';
-  }
- 
+  
   public selected(value:any):void {
     console.log('Selected value is: ', value);
   }
@@ -66,8 +62,29 @@ export class CaseReportComponent {
       }).join(',');
   }
 
-  onSave(caseReportForm  :any) : void{
+  onSave(caseReportForm  :any) {
     console.log(caseReportForm);
     debugger;
-  }
+  this.downloadCSV();
+
+ 
+ 
 }
+
+downloadCSV(){
+     var blob = new Blob(['CSV'], { type: 'text/csv' });
+     var csvUrl = window.URL.createObjectURL(blob);
+
+    var arc = document.createElement('a');
+    arc.id = "lnkDwnldLnk";
+    arc.setAttribute('download', "test.csv");
+    arc.setAttribute('href', csvUrl);
+    arc.click();
+    document.body.appendChild(arc);
+
+}
+
+ 
+}
+ 
+ 

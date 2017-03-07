@@ -10,5 +10,12 @@ export class Constant
 }
 
 
-
+enum CaseStatus{
+  Available,
+  Assigned,
+  Dismissed,
+  Submitted,
+  Flagged,
+  Unflagged
+}
  

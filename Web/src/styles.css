@@ -69,3 +69,21 @@ h1 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
+
+.img-unflag {
+    background-image:url('~/assets/images/flag-colorless.png');
+    
+}
+.img-flagged {
+    background-image:url('~/assets/images/flag-colored.png');
+    
+}
+.actionButton{
+  height:20px;
+  width:20px;
+}
+
+.btn-Case-Report{
+  text-align: right!important;
+  padding-bottom: 10px;
+  padding-left:10px;}

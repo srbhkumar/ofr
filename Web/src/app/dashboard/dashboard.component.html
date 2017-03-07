@@ -1,44 +1,121 @@
-<h2>Dashboard</h2>
 
- <span>
- <button type="button" (click)="onToggle(show)" class="btn btn-primary">CaseReport </button>
- </span>
+<h2>Dashboard</h2>
+<div class="clear"></div>
+ <div class=" btn-Case-Report"> <button type="button" (click)="onToggle(show)" class="btn btn-primary">Case Report </button></div>
  <div id=caseReport *ngIf="show" >
     <case-report [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
 </div>
-
+<div class="clear"></div>
+<h4> My Cases </h4>
 <div class="table-responsive">
-<table class="table table-striped" [mfData]="data" #mf="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+<table class="table table-striped" [mfData]="data" #mfAssigned="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
     <thead>
     <tr>
+        <th>  OCME #   </th>
+        <th> Resident County  </th>
+        <th> Date Of Death </th>
+        <th> Cause of Death  </th>
+        <th> County of Death  </th>
         <th>
-            <mfDefaultSorter>OCME #</mfDefaultSorter>
-        </th>
-        <th>
-            <mfDefaultSorter>Resident County</mfDefaultSorter>
-        </th>
-        <th>
-            <mfDefaultSorter>Date Of Death</mfDefaultSorter>
-        </th>
-        <th>
-            <mfDefaultSorter>Cause of Death</mfDefaultSorter>
-        </th>
-         <th>
-            <mfDefaultSorter>County of Death</mfDefaultSorter>
-        </th>
-         <th>
             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
         </th>
+        <th> Case Action </th>
+        <th> Flag  </th>
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of mf.data">
+      <tr *ngFor="let item of mfAssigned.data | filter : 'Assigned'">
         <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
         <td>{{item.ResidentCounty}}</td>
         <td>{{item.DateofDeath}}</td>
         <td>{{item.CauseofDeath}}</td>
         <td>{{item.CountyofDeath}}</td>
         <td>{{item.Status}}</td>
+         <td>
+            <button (click)="updateStatus(item.id ,'Assigned')" ><img src="../assets/images/accept.jpg" class="actionButton"/> </button>
+             &nbsp;
+          <button (click)="updateStatus(item.id ,'Dismissed')"><img src="../assets/images/trash.jpg" class="actionButton"/> </button>
+       </td>
+        <td style="text-align: center;"> 
+          <button ><img  src="../assets/images/flag-colored.png"  class="actionButton"/></button>
+       </td>
+      </tr>
+    </tbody>
+</table>
+</div>
+
+<h4> Archived </h4>
+<div class="table-responsive">
+<table class="table table-striped" [mfData]="data" #mfNew="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+   <thead>
+    <tr>
+        <th>  OCME #   </th>
+        <th> Resident County  </th>
+        <th> Date Of Death </th>
+        <th> Cause of Death  </th>
+        <th> County of Death  </th>
+        <th>
+            <mfDefaultSorter by="Status">Status</mfDefaultSorter>
+        </th>
+        <th> Case Action </th>
+        <th> Flag  </th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of mfNew.data | filter : 'New'">
+        <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
+        <td>{{item.ResidentCounty}}</td>
+        <td>{{item.DateofDeath}}</td>
+        <td>{{item.CauseofDeath}}</td>
+        <td>{{item.CountyofDeath}}</td>
+        <td>{{item.Status}}</td>
+         <td>
+            <button (click)="updateStatus(item.id ,'Assigned')" ><img src="../assets/images/accept.jpg" class="actionButton"/> </button>
+             &nbsp;
+          <button (click)="updateStatus(item.id ,'Dismissed')"><img src="../assets/images/trash.jpg" class="actionButton"/> </button>
+       </td>
+        <td style="text-align: center;"> 
+          <button >      <img  src="../assets/images/flag-colored.png"  class="actionButton"/></button>
+       </td>
+      </tr>
+    </tbody>
+</table>
+ 
+</div>
+
+<h4> Dismissed </h4>
+<div class="table-responsive">
+<table class="table table-striped" [mfData]="data" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+    <thead>
+    <tr>
+        <th>  OCME #   </th>
+        <th> Resident County  </th>
+        <th> Date Of Death </th>
+        <th> Cause of Death  </th>
+        <th> County of Death  </th>
+        <th>
+            <mfDefaultSorter by="Status">Status</mfDefaultSorter>
+        </th>
+        <th> Case Action </th>
+        <th> Flag  </th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of mfDismissed.data | filter : 'Dismissed'">
+        <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
+        <td>{{item.ResidentCounty}}</td>
+        <td>{{item.DateofDeath}}</td>
+        <td>{{item.CauseofDeath}}</td>
+        <td>{{item.CountyofDeath}}</td>
+        <td>{{item.Status}}</td>
+         <td>
+            <button (click)="updateStatus(item.id ,'Assigned')" ><img src="../assets/images/accept.jpg" class="actionButton"/> </button>
+             &nbsp;
+          <button (click)="updateStatus(item.id ,'Dismissed')"><img src="../assets/images/trash.jpg" class="actionButton"/> </button>
+       </td>
+        <td style="text-align: center;"> 
+          <button >      <img  src="../assets/images/flag-colored.png"  class="actionButton"/></button>
+       </td>
       </tr>
     </tbody>
 </table>

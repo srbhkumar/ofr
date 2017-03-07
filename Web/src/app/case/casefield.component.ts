@@ -18,7 +18,7 @@ export class CaseFieldComponent implements OnChanges {
     constructor(){
        
     }
-    ngOnChanges(ch:SimpleChanges): void {
+    ngOnChanges(ch:SimpleChanges): void {   
         if (!this.ViewModel || !this.ViewModel.Template) return;
         var fields = this.ViewModel.Template.Fields;
         for(var i = 0; i < fields.length; ++i){
@@ -29,7 +29,7 @@ export class CaseFieldComponent implements OnChanges {
         }
     }
 
-    setValue(val:number|string):void {
+    setValue(val:number|string):void {  debugger;
         this.ViewModel.Data[this.FieldName] = val;
         this.ViewModel.changeset[this.FieldName] = val;
         this.ViewModel.OnChange();
