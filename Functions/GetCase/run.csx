@@ -12,11 +12,15 @@ using Newtonsoft.Json;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string caseId, TraceWriter log)
 {
-    var client = DAL.CreateClient();
+    using(var op = DAL.TC.StartOperation<RequestTelemetry>("GetCase"))
+    {
+        op.Telemetry.ResponseCode = "200";
+        op.Telemetry.Url = req.RequestUri;
+    
+        var c = DAL.Client.CreateDocumentQuery<Case>(UriFactory.CreateDocumentCollectionUri("OFR", "Cases"))
+            .Where(d => d.id == caseId)
+            .AsEnumerable().FirstOrDefault();
 
-    var c = client.CreateDocumentQuery<Case>(UriFactory.CreateDocumentCollectionUri("OFR", "Cases"))
-        .Where(d => d.id == caseId)
-        .AsEnumerable().FirstOrDefault();
-
-    return req.CreateResponse(HttpStatusCode.OK, c);
+        return req.CreateResponse(HttpStatusCode.OK, c);
+    }
 }

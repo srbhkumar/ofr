@@ -17,18 +17,22 @@ static string[] validStatii = new [] {
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string caseId, string newStatus, TraceWriter log)
 {
-    if (!validStatii.Contains(newStatus))
+    using(var op = DAL.TC.StartOperation<RequestTelemetry>("Status"))
     {
-        return req.CreateResponse(HttpStatusCode.BadRequest, new { Result = "Error", Message = $"Invalid status code '{newStatus}'" });
+        op.Telemetry.ResponseCode = "200";
+        op.Telemetry.Url = req.RequestUri;
+    
+        if (!validStatii.Contains(newStatus))
+        {
+            return req.CreateResponse(HttpStatusCode.BadRequest, new { Result = "Error", Message = $"Invalid status code '{newStatus}'" });
+        }
+
+        await DAL.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "SetCaseStatus"),
+            caseId,
+            newStatus
+        );
+
+        // response
+        return req.CreateResponse(HttpStatusCode.OK, new { Result = "Success" });
     }
-
-    var client = DAL.CreateClient();
-
-    await client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "SetCaseStatus"),
-        caseId,
-        newStatus
-    );
-
-    // response
-    return req.CreateResponse(HttpStatusCode.OK, new { Result = "Success" });
 }

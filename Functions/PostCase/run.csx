@@ -9,16 +9,20 @@ using Microsoft.Azure.Documents.Client;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string caseId, TraceWriter log)
 {
-    // Get request body
-    dynamic data = await req.Content.ReadAsAsync<object>();
+    using(var op = DAL.TC.StartOperation<RequestTelemetry>("PostCase"))
+    {
+        op.Telemetry.ResponseCode = "200";
+        op.Telemetry.Url = req.RequestUri;
+    
+        // Get request body
+        dynamic data = await req.Content.ReadAsAsync<object>();
 
-    var client = DAL.CreateClient();
+        await DAL.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "MergeCase"),
+            caseId,
+            data
+        );
 
-    await client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "MergeCase"),
-        caseId,
-        data
-    );
-
-    // response
-    return req.CreateResponse(HttpStatusCode.OK, new { Result = "Success" });
+        // response
+        return req.CreateResponse(HttpStatusCode.OK, new { Result = "Success" });
+    }
 }

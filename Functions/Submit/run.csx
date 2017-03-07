@@ -9,17 +9,21 @@ using System.Linq;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string caseId, TraceWriter log)
 {
-    var client = DAL.CreateClient();
+    using(var op = DAL.TC.StartOperation<RequestTelemetry>("Submit"))
+    {
+        op.Telemetry.ResponseCode = "200";
+        op.Telemetry.Url = req.RequestUri;
 
-    // todo: validation
+        // todo: validation
     
-    await client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "SubmitCase"),
-        caseId,
-        newStatus
-    );
+        await DAL.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "SubmitCase"),
+            caseId,
+            newStatus
+        );
 
-    // todo: emails
+        // todo: emails
 
-    // response
-    return req.CreateResponse(HttpStatusCode.OK, new { Result = "Success" });
+        // response
+        return req.CreateResponse(HttpStatusCode.OK, new { Result = "Success" });
+    }
 }

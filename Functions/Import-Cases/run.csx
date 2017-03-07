@@ -44,45 +44,49 @@ static IEnumerable<string> CsvSplit(string input)
 
 public static async void Run(Stream myBlob, string name, TraceWriter log)
 {
-    List<Case> cases = new List<Case>();
-    using(var reader = new StreamReader(myBlob))
+    using(var op = DAL.TC.StartOperation<RequestTelemetry>("Import-Cases"))
     {
-        var line = reader.ReadLine();
-        string[] Headers = CsvSplit(line).ToArray();
-
-        while((line = reader.ReadLine()) != null)
+        op.Telemetry.ResponseCode = "200";
+        op.Telemetry.Url = req.RequestUri;
+        
+        List<Case> cases = new List<Case>();
+        using(var reader = new StreamReader(myBlob))
         {
-            Case c = new Case {
-                Status = "New",
-                UpdatedOn = DateTime.Now,
-            };
+            var line = reader.ReadLine();
+            string[] Headers = CsvSplit(line).ToArray();
 
-            var di = (c.Data = new ExpandoObject()) as IDictionary<String,Object>;
-            var values = CsvSplit(line).ToArray();
-            for(int i = 0; i < values.Length; ++i)
+            while((line = reader.ReadLine()) != null)
             {
-                switch(Headers[i])
-                {
-                    case "Jurisdiction":
-                        c.Jurisdiction = values[i];
-                        break;
-                    case "OCME":
-                        c.OCME = values[i];
-                        break;
-                    default:
-                        di[Headers[i]] = values[i];
-                        break;
-                }
-            }
-            cases.Add(c);
-        }
-    }
-    // todo: better parallelization
-    
-    var client = DAL.CreateClient();
+                Case c = new Case {
+                    Status = "New",
+                    UpdatedOn = DateTime.Now,
+                };
 
-    foreach(var task in cases.Select(c => client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri("OFR", "Cases"), c)).ToList())
-    {
-        await task;
+                var di = (c.Data = new ExpandoObject()) as IDictionary<String,Object>;
+                var values = CsvSplit(line).ToArray();
+                for(int i = 0; i < values.Length; ++i)
+                {
+                    switch(Headers[i])
+                    {
+                        case "Jurisdiction":
+                            c.Jurisdiction = values[i];
+                            break;
+                        case "OCME":
+                            c.OCME = values[i];
+                            break;
+                        default:
+                            di[Headers[i]] = values[i];
+                            break;
+                    }
+                }
+                cases.Add(c);
+            }
+        }
+        // todo: better parallelization
+        
+        foreach(var task in cases.Select(c => DAL.Client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri("OFR", "Cases"), c)).ToList())
+        {
+            await task;
+        }
     }
 }
