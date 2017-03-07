@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
-
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft​.ApplicationInsights​.DataContracts;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string templateId, TraceWriter log)
 {

@@ -5,7 +5,9 @@ using System.Dynamic;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using System.Linq;
-
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft​.ApplicationInsights​.DataContracts;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, string caseId, TraceWriter log)
 {

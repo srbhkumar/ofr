@@ -7,7 +7,9 @@ using System.IO;
 using System.Dynamic;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
-
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft​.ApplicationInsights​.DataContracts;
 // todo: support line breaks in quoted values
 #region CSV Stuff
 static IEnumerable<string> CsvSplit(string input)

@@ -5,7 +5,9 @@ using System.Dynamic;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using System.Linq;
-
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft​.ApplicationInsights​.DataContracts;
 
 static string[] validStatii = new [] {
     "Available",
