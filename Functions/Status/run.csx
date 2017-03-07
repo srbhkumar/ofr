@@ -11,7 +11,6 @@ static string[] validStatii = new [] {
     "Available",
     "Assigned",
     "Dismissed",
-    "Submitted",
     "Flagged",
     "Unflagged"
 };
