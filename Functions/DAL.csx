@@ -1,7 +1,11 @@
 using System.Configuration;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft​.ApplicationInsights​.DataContracts;
+
 // Not really a data access layer, don't have a better name.
 public class DAL
 {
