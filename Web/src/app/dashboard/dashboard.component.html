@@ -24,7 +24,7 @@
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of mfAssigned.data | filter : 'Assigned'">
+      <tr *ngFor="let item of mfAssigned.data | filter : ['Assigned']">
         <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
         <td>{{item.ResidentCounty}}</td>
         <td>{{item.DateofDeath}}</td>
@@ -60,7 +60,7 @@
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of mfNew.data | filter : 'Submitted'">
+      <tr *ngFor="let item of mfNew.data | filter : ['New'] ">
         <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
         <td>{{item.ResidentCounty}}</td>
         <td>{{item.DateofDeath}}</td>
@@ -97,7 +97,7 @@
     </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of mfDismissed.data | filter : 'Dismissed'">
+      <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed', 'Submitted']">
         <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
         <td>{{item.ResidentCounty}}</td>
         <td>{{item.DateofDeath}}</td>

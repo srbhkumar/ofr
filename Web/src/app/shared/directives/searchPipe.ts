@@ -6,10 +6,27 @@ import { Pipe , PipeTransform, Injectable} from '@angular/core'
 
 @Injectable()
 export class FilterPipe implements PipeTransform {
-    transform(items: any, value : string): any[] {  
+    transform(items: any, value : string[]): any[] { 
+    debugger; 
+       let values : string[];
+        values = value;
         if (!items) return [];        
         return items.filter(function(item){
-            return item.Status.toLowerCase().includes(value.toLowerCase());
+
+        if(values.length == 2)
+         {
+               debugger; 
+            return (item.Status.toLowerCase().includes(values[0].toLowerCase()) ||
+                     item.Status.toLowerCase().includes(values[1].toLowerCase()));
+         }
+        else
+         {
+               
+              return (item.Status.toLowerCase().includes(values[0].toLowerCase()));
+         }
+          
+         
+        
         });
     }
 }
