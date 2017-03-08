@@ -62,9 +62,8 @@ export class DashboardComponent  implements OnInit{
     
      fillDashboard():void{
           this.dataService.getDashboard().then(d=>{
-              debugger;
-              this.dashBoardResponse(d);
-            });
+          this.dashBoardResponse(d);
+         });
         
      }
 

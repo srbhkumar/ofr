@@ -82,14 +82,17 @@ export class CaseComponent implements OnInit {
     } 
 
     NotifyActiveUsers(caseId: string, user: string): void {
+         
         this.interval = setInterval(() => { this.GetPingResponse(caseId, user) }, 900);
     }
 
     GetPingResponse(caseId: string, user: string): void {
+         
         this.service.PingCase(caseId).then(resp => { this.NotifyFormat(resp, caseId, user); });
     }
 
     NotifyFormat(resp: PingCase, caseId: string, user: string): void {
+      
         this.isNotifyEnabled=false;
         this.pingCase = resp;
         
@@ -104,12 +107,13 @@ export class CaseComponent implements OnInit {
         this.activeUsersFormat = "<h4>Users working on this case.</h4>";
         this.activeUsersFormat += `<ul>`;
 
-        for (let data in this.pingCase.Data) {
-            if (data != user) {
+         for (let data in this.pingCase.Data["Response"]) {
+            if (data != undefined) {
                 this.isNotifyEnabled=true;
                 this.activeUsersFormat += '<li>' + data + '</li>';
             }
-        }
+        } 
+      
         this.activeUsersFormat += "</ul>";
 
         if (this.isNotifyEnabled) 
@@ -282,7 +286,7 @@ export class CaseComponent implements OnInit {
     }
 
      submit():void{
-       
+       //this.caseForm.dirty &&
           if (this.caseForm.dirty && this.caseForm.valid) {
            this.service.submitCase(this.caseId, null).then(
              resp => console.log(resp.Result));

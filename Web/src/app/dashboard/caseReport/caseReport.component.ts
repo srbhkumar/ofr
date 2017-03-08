@@ -3,6 +3,7 @@ import { SelectModule } from 'angular2-select';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from "rxjs/Observable";
 import { ResponseContentType, RequestOptions, Http } from "@angular/http";
+let jsPDF = require('jspdf');
  
  
 
@@ -65,8 +66,14 @@ export class CaseReportComponent {
   onSave(caseReportForm  :any) {
     console.log(caseReportForm);
     debugger;
-  this.downloadCSV();
-
+    if(caseReportForm.format.toLowerCase() == "csv")
+    {
+        this.downloadCSV();
+    }
+     if(caseReportForm.format.toLowerCase() == "pdf")
+    {
+       this.downloadPDF();
+    }
  
  
 }
@@ -83,6 +90,13 @@ downloadCSV(){
     document.body.appendChild(arc);
 
 }
+
+downloadPDF(){
+
+    var doc = new jsPDF();
+     doc.text("Hello", 20, 20);
+     doc.save('Test.pdf');
+    }
 
  
 }
