@@ -47,6 +47,7 @@ export class Case
   Jurisdiction: string;
   UpdatedOn: string;
   Template: string;
+  Flagged:boolean;
   Data: any;
 };
 

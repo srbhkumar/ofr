@@ -45,6 +45,7 @@ export class DataService {
     public getDashboard():Promise<Dashboard>
     {
         return this.httpget<Dashboard>('/dashboard');
+       
     } 
 
     public getTemplate(id:string):Promise<Template>
@@ -59,20 +60,24 @@ export class DataService {
 
     public saveCase(id:string, data:any):Promise<OFRResponse>
     {
+     
         return this.httppost<OFRResponse>(`/case/${id}`, data);
+    } 
+    
+    public submitCase(id:string, data:any):Promise<OFRResponse>
+    {
+        return this.httppost<OFRResponse>(`/submit/${id}`, data);
     }
 
     public updateCaseStatus(id:string, newStatus:any):Promise<OFRResponse>
     {
         return this.httppost<OFRResponse>(`/status/${id}/${newStatus}`, {});
     }
-
+ 
     public PingCase(id: string): Promise<PingCase> {
         return this.httppost<PingCase>(`/ping/${id}`, {});
     }
-
-  
-
+ 
     private handleError(error: any) {
         // todo: display errors to the user (sometimes)
         console.error('An error occurred', error);

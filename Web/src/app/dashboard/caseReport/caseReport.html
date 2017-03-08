@@ -1,33 +1,36 @@
 
-<div id="CaseReport" style="width: 55%; border:1px solid black; padding :2%;"> 
+<div id="CaseReport" class="col-md-6 fright" style="border:1px solid black; padding :15px;"> 
 <form [formGroup]="caseReportForm" (ngSubmit)="onSave(caseReportForm.value)" class="ui form">
-    <div>
-        <label> Start Date </label>
-        <input type="date" formControlName="startDate"  name="startDate" required/>
-        <span class="col-2"></span>
-        <label> End Date </label>
-        <input type="date"  formControlName="endDate" value="{{endDate}}" name="endDate" required/>
-    </div>
-
-    <div>
-        <label> Format </label>
-        <select class="form-control" id="format"  formControlName="format" item-width="col-2" required>
+    <div class="row">
+        <label class="col-md-3"> Start Date </label>
+        <input class="col-md-4 form-control input-sm" type="date" formControlName="startDate"  name="startDate" required/>
+     </div>
+   <p class="clearfix"></p>
+   <div class="row">
+     <label class="col-md-3"> End Date </label>
+        <input class="col-md-4 form-control input-sm" type="date"  formControlName="endDate" value="{{endDate}}" name="endDate" required/>
+     </div>
+<p class="clearfix"></p>
+     <div class="row">
+        <label  class="col-md-3"> Format </label>
+        <select class="form-control input-sm col-md-4" id="format"  formControlName="format" item-width="col-2" required>
                 <option>csv</option>
                 <option>pdf</option>
         </select>
-    </div>
-
-    <div>
-        <label> Report Type </label>
-        <select class="form-control"  formControlName="type" id="type" item-width="col-2" required>
+     </div>
+ <p class="clearfix"></p>
+    <div  class="row">
+        <label  class="col-md-3"> Report Type </label>
+        <select class="form-control input-sm col-md-4"  formControlName="type" id="type" item-width="col-2" required>
                 <option>Report</option>
                 <option>Census</option>
         </select>
     </div>
-
-    <div>
-            <label>Jurisdiction </label>
-            <ng-select  [multiple]="true"
+<p class="clearfix"></p>
+    <div  class="row">
+            <label class="col-md-3">Jurisdiction </label>
+            <div class="col-md-6">
+            <ng-select [multiple]="true"
                         [options]="items"
                           
                          (data)="refreshValue($event)"
@@ -36,13 +39,17 @@
                         placeholder="No city selected"  formControlName="jurisdiction" required>
                         
             </ng-select>
+            </div>
+           
     </div>
 
-    <div>
-         
-
-               <button type="submit"  class="ui button">Submit </button>  
+<p class="clearfix"></p>
+    <div  class="row">
+         <div class="col-md-5">
+                  <button type="submit"  class="btn btn-sm btn-primary ui button fright">Submit </button>  
+            </div>
     </div>
+   
 
 </form>
 </div>

@@ -70,20 +70,56 @@ h1 {
   padding-bottom: 1.5rem;
 }
 
-.img-unflag {
-    background-image:url('~/assets/images/flag-colorless.png');
-    
-}
-.img-flagged {
-    background-image:url('~/assets/images/flag-colored.png');
-    
-}
 .actionButton{
   height:20px;
   width:20px;
-}
+} 
 
 .btn-Case-Report{
   text-align: right!important;
   padding-bottom: 10px;
   padding-left:10px;}
+  
+.mycasetable thead th {font-size: 0.8em;font-weight: 700;padding: 5px;}
+.mycasetable tbody td {font-size: 0.8em;font-weight: normal;padding: 5px;}
+.heading{color:#0275d8;}
+.mainheading{color:#292b2c;font-size:1em;}
+
+.icon-accept {
+    background:url('~/assets/images/accept.jpg') no-repeat right top;
+    height:20px;
+    width:20px;
+    display: block;
+    cursor:pointer;
+   
+}
+.icon-trash {
+    background:url('~/assets/images/trash.jpg') no-repeat right top;
+    height:20px;
+    width:20px;
+    display: block;
+    cursor:pointer;
+   
+}
+
+.icon-unflagged {
+   background:url('~/assets/images/flag-colorless.png') no-repeat right top;
+   height:20px;
+   width:20px;
+   display: block;
+   cursor:pointer;
+}
+.icon-flagged {
+   background:url('~/assets/images/flag-colored.png') no-repeat right top;
+   height:20px;
+   width:20px;
+   display: block;
+   cursor:pointer;
+    
+}
+.fleft{float: left;}
+.fright{float: right;}
+.margin_l5{margin-left:15px;}
+.margin_r5{margin-right:15px;}
+.btn {cursor: pointer;}
+.width12{ width:12.5%;}

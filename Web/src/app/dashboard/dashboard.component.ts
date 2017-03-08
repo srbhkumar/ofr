@@ -40,14 +40,15 @@ export class DashboardComponent  implements OnInit{
                 'ResidentCounty':caseItem.Data['ResidentCounty'],
                 'DateofDeath':caseItem.Data['DateofDeath'],
                 'CauseofDeath':caseItem.Data['CauseofDeath'],
-                'CountyofDeath':caseItem.Data['CountyofDeath'],                
+                'CountyofDeath':caseItem.Data['CountyofDeath'],  
+                'Flagged':  caseItem.Flagged,            
                 'Status':caseItem.Status});
         }
-      
+      console.log(this.data);
     }
 
     updateStatus(caseId: string, newStatus: string): void {
-
+      
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
             this.clearDashboard();
             this.fillDashboard();
@@ -58,8 +59,12 @@ export class DashboardComponent  implements OnInit{
         });
     }
 
+    
      fillDashboard():void{
-          this.dataService.getDashboard().then(d=>{this.dashBoardResponse(d);});
+          this.dataService.getDashboard().then(d=>{
+              debugger;
+              this.dashBoardResponse(d);
+            });
         
      }
 

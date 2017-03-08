@@ -280,4 +280,15 @@ export class CaseComponent implements OnInit {
                 }
             });
     }
+
+     submit():void{
+       
+          if (this.caseForm.dirty && this.caseForm.valid) {
+           this.service.submitCase(this.caseId, null).then(
+             resp => console.log(resp.Result));
+          }
+          else{
+              alert("Form is not valid");
+          }
+    }
 }

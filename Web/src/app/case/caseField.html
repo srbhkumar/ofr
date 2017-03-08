@@ -3,10 +3,10 @@
     <label for="case-field-{{Field.Name}}" class=" col-form-label">{{Field.Description}}</label> 
     <span *ngIf='Field.Required' > * </span>
     
-    <div *ngIf='ViewModel.IsDisplay' class=" "> 
+    <div *ngIf='ViewModel.IsDisplay' > 
         {{ViewModel.Data[Field.Name]}}   
     </div>
-    <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type">
+    <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type" class="col-md-9 ">
         <div *ngSwitchCase="'Text'" >
             <input class="form-control" type="text" formControlName="{{Field.Name}}"  [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)" />
         
