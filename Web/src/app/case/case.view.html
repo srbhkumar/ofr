@@ -1,8 +1,9 @@
-  <div class="col-9" *ngIf="dataModel">
+<div class="row">
+<div class=" col-xs-12 col-sm-12 col-lg-9 col-md-9" *ngIf="dataModel">
 
-<simple-notifications id="notification" [options]="options">{{this.userList}}</simple-notifications>
+    <simple-notifications id="notification" [options]="options">{{this.userList}}</simple-notifications>
 
-    <form [formGroup]="caseForm"   class="ui form">
+    <form [formGroup]="caseForm" class="ui form">
         <ngb-accordion activeIds="2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17">
             <!--<ngb-panel id="1" title="Header">
                 <template ngbPanelContent>
@@ -38,9 +39,7 @@
                         </div>
                     </div>-->
                     <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="DateofDeath" [ViewModel]="dataModel"></case-field>
-                        </div>
+                        <case-field [form]="caseForm" FieldName="DateofDeath" [ViewModel]="dataModel"></case-field>
                     </div>
                     <!--<div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Year of Death</label>
@@ -49,20 +48,13 @@
                         </div>
                     </div>-->
                     <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm"  FieldName="CountyofDeath" [ViewModel]="dataModel"></case-field>
-                        </div>
-
+                        <case-field [form]="caseForm" FieldName="CountyofDeath" [ViewModel]="dataModel"></case-field>
                     </div>
                     <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="ResidentCounty" [ViewModel]="dataModel"></case-field>
-                        </div>
+                        <case-field [form]="caseForm" FieldName="ResidentCounty" [ViewModel]="dataModel"></case-field>
                     </div>
                     <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="CauseofDeath" [ViewModel]="dataModel"></case-field>
-                        </div>
+                        <case-field [form]="caseForm" FieldName="CauseofDeath" [ViewModel]="dataModel"></case-field>
                     </div>
 
                 </template>
@@ -71,36 +63,20 @@
             <ngb-panel id="3" title="Decedent Demographic Information">
                 <template ngbPanelContent>
                     <div class="form-group">
+                        <case-field [form]="caseForm" FieldName="Sex" [ViewModel]="dataModel"></case-field>
+                    </div>
+                    <div class="form-group">
+                       <case-field [form]="caseForm" FieldName="Transgender" [ViewModel]="dataModel"></case-field>
+                    </div>
+                    <div class="form-group">
+                        <case-field [form]="caseForm" FieldName="DateofBirth" [ViewModel]="dataModel"></case-field>
+                    </div>
 
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="Sex" [ViewModel]="dataModel"></case-field>
-                        </div>
+                    <div class="form-group">
+                       <case-field [form]="caseForm" FieldName="Race" [ViewModel]="dataModel"></case-field>
                     </div>
                     <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="Transgender" [ViewModel]="dataModel"></case-field>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="DateofBirth" [ViewModel]="dataModel"></case-field>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">Age</label>
-                        <div class="col-8">
-                            <input class="form-control" type="number" value="" id="example-date-input">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="Race" [ViewModel]="dataModel"></case-field>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="Hispanic" [ViewModel]="dataModel"></case-field>
-                        </div>
+                        <case-field [form]="caseForm" FieldName="Hispanic" [ViewModel]="dataModel"></case-field>
                     </div>
                 </template>
             </ngb-panel>
@@ -108,78 +84,42 @@
             <ngb-panel id="4" title="Records EMS">
                 <template ngbPanelContent>
                     <div class="form-group">
-                        <div class="col-8">
-                            <case-field [form]="caseForm" FieldName="EMSRecords" [ViewModel]="dataModel"></case-field>
-                        </div>
+                        <case-field [form]="caseForm" FieldName="EMSRecords" [ViewModel]="dataModel"></case-field>
                     </div>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">Prior EMS</label>
-                        <div class="form-group">
-                            <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="PriorEMS" [ViewModel]="dataModel"></case-field>
-                            </div>
-                        </div>
-                        <div *ngIf="dataModel.Data['PriorEMS'] == 'Yes'">
-                            <div class="form-group" >
-    .                         <label for="example-email-input" class="col-8  col-form-label">EMS Day of Death</label>
-                                <div class="col-8">
-                                    <case-field [form]="caseForm" FieldName="EMS_DayofDeath" [ViewModel]="dataModel"></case-field>
-                                </div>
-                            </div>
-                        </div>
-                       </div>
+                        <case-field [form]="caseForm" FieldName="PriorEMS" [ViewModel]="dataModel"></case-field>
+                    </div>
+                    <div class="form-group">
+                        <case-field [form]="caseForm" FieldName="EMS_DayofDeath" [ViewModel]="dataModel"></case-field>
+                    </div>
                 </template>
             </ngb-panel>
 
             <ngb-panel id="5" title="Records Health Provider/Hospital">
                 <template ngbPanelContent>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">Hospital Records</label>
-                        <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="HospitalRecords" [ViewModel]="dataModel"></case-field>
-                        </div>
+                        <case-field [form]="caseForm" FieldName="HospitalRecords" [ViewModel]="dataModel"></case-field>
                     </div>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">CRISP Records</label>
-                        <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CRISPRecords" [ViewModel]="dataModel"></case-field>
-                        </div>
+                         <case-field [form]="caseForm" FieldName="CRISPRecords" [ViewModel]="dataModel"></case-field>
                     </div>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">PDMP Records</label>
-                        <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="PDMPRecords" [ViewModel]="dataModel"></case-field>
-                        </div>
+                        <case-field [form]="caseForm" FieldName="PDMPRecords" [ViewModel]="dataModel"></case-field>
                     </div>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">ED Encounter</label>
-                        <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="EDEncounter" [ViewModel]="dataModel"></case-field>
-                        </div>
-                    </div>
+                        <case-field [form]="caseForm" FieldName="EDEncounter" [ViewModel]="dataModel"></case-field>
+                   </div>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">ED Day of Death</label>
-                        <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="ED_DayofDeath" [ViewModel]="dataModel"></case-field>
-                        </div>
-                    </div>
+                       <case-field [form]="caseForm" FieldName="ED_DayofDeath" [ViewModel]="dataModel"></case-field>
+                   </div>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">Pain Management</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="PainManagement" [ViewModel]="dataModel"></case-field>
-                        </div>
-                    </div>
+                      <case-field [form]="caseForm" FieldName="PainManagement" [ViewModel]="dataModel"></case-field>
+                   </div>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">Chronic Somatic</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="ChronicSomatic" [ViewModel]="dataModel"></case-field>
-                        </div>
-                    </div>
+                       <case-field [form]="caseForm" FieldName="ChronicSomatic" [ViewModel]="dataModel"></case-field>
+                   </div>
                     <div class="form-group">
-                        <label for="example-email-input" class="col-8  col-form-label">Brain Injury</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BrainInjury" [ViewModel]="dataModel"></case-field>
-                        </div>
+                       <case-field [form]="caseForm" FieldName="BrainInjury" [ViewModel]="dataModel"></case-field>
                     </div>
                 </template>
             </ngb-panel>
@@ -188,20 +128,20 @@
                 <template ngbPanelContent>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Law Records</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="LawRecords" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="LawRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Law Contact</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="LawContact" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="LawContact" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Law Suspect</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="LawSuspect" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="LawSuspect" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -211,38 +151,38 @@
                 <template ngbPanelContent>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Attorney Records</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="AttorneyRecords" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="AttorneyRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">DrugCourt Records</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="DrugCourtRecords" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="DrugCourtRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Attorney Contact</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="AttorneyContact" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="AttorneyContact" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">DUI History</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="DUIHistory" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="DUIHistory" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Law Prosecuted</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="LawProsecuted" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="LawProsecuted" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Law Charge</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="LawCharge" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="LawCharge" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -252,14 +192,14 @@
                 <template ngbPanelContent>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">DetentionCenter Records</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="DetentionCenterRecords" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="DetentionCenterRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">DetentionCenter Contact</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="DetentionCenterContact" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="DetentionCenterContact" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -270,25 +210,25 @@
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Education K12</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="EducationK12" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="EducationK12" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Education HigherEd</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="EducationHigherEd" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="EducationHigherEd" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Education Contact</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="EducationContact" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="EducationContact" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Education Degree</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="EducationDegree" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="EducationDegree" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -298,53 +238,53 @@
                 <template ngbPanelContent>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BH Hd records</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHHdRecords" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="BHHdRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BH Private records</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHPrivateRecords" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="BHPrivateRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BH MentalHealth</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHMentalHealth" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="BHMentalHealth" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BH Beacon</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHBeacon" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="BHBeacon" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BH HD Contact</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHHDContact" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="BHHDContact" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BH Private Contact</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHPrivateContact" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="BHPrivateContact" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BH Treatment</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHTreatment" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="BHTreatment" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BH Suicide</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHSuicide" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="BHSuicide" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
-                   
+
                 </template>
             </ngb-panel>
 
@@ -352,20 +292,20 @@
                 <template ngbPanelContent>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Community Records</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CommunityRecords" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CommunityRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Community Contact</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CommunityContact" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CommunityContact" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Community Enrollment</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CommunityEnrollment" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CommunityEnrollment" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -376,25 +316,25 @@
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">SS records</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="SSRecords" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="SSRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">SS Contact</label>
-                      <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="SSContact" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="SSContact" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">SS Enrollment</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="SSEnrollment" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="SSEnrollment" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">SS Crisis Records</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="SSCrisisRecords" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="SSCrisisRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -405,19 +345,19 @@
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Family Interviews</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="FamilyInterviews" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="FamilyInterviews" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Marital Status</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="MaritalStatus" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="MaritalStatus" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Inmate Partner</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="InmatePartner" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="InmatePartner" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -427,20 +367,20 @@
                 <template ngbPanelContent>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">HR MORP Records</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="HRMORPRecords" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="HRMORPRecords" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">HR SterileSyringe</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="HRSterileSyringe" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="HRSterileSyringe" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">HR PeerRecovery</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="HRPeerRecovery" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="HRPeerRecovery" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -451,62 +391,62 @@
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Sexual orientation</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="SexualOrientation" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="SexualOrientation" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Pregnancy</label>
-                      <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="Pregnancy" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="Pregnancy" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Occupation</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="Occupation" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="Occupation" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Employment Status</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="EmploymentStatus" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="EmploymentStatus" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Homeless</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="Homeless" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="Homeless" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Military</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="Military" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="Military" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Institution</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="Institution" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="Institution" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
-     
+
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Drug Exposure</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="DrugExposure" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="DrugExposure" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">LocationOfDeath Type</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="LocationOfDeathType" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="LocationOfDeathType" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">LocationofDeath Other</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="LocationofDeathOther" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="LocationofDeathOther" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -516,116 +456,116 @@
                 <template ngbPanelContent>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Summary</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseSummary" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseSummary" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Gaps1</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseGaps1" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseGaps1" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Gaps2</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseGaps2" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseGaps2" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Gaps3</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseGaps3" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseGaps3" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations1</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations1" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations1" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case_Recommendations1 Category</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations1Category" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations1Category" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations1 Target</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations1Target" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations1Target" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations1 Agency</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations1Agency" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations1Agency" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations1 Party</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations1Party" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations1Party" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations2" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations2" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2 Category</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations2Category" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations2Category" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2 Target</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations2Target" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations2Target" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2 Agency</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations2Agency" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations2Agency" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations2 Party</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations2Party" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations2Party" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations3" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations3" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3 Category</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations3Category" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations3Category" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3 Target</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations3Target" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations3Target" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3 Agency</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations3Agency" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations3Agency" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">Case Recommendations3 Party</label>
                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="CaseRecommendations3Party" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="CaseRecommendations3Party" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                 </template>
@@ -635,22 +575,23 @@
                 <template ngbPanelContent>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BHA Review</label>
-                       <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHAReview" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="BHAReview" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="example-email-input" class="col-8  col-form-label">BHA Followup</label>
-                         <div class="col-8">
-                                <case-field [form]="caseForm" FieldName="BHAFollowup" [ViewModel]="dataModel"></case-field>
+                        <div class="col-8">
+                            <case-field [form]="caseForm" FieldName="BHAFollowup" [ViewModel]="dataModel"></case-field>
                         </div>
                     </div>
-                 
+
                 </template>
             </ngb-panel>
         </ngb-accordion>
-         <div>
-               <button type="submit" (click)="submit()"   class="btn btn-sm btn-primary">Submit </button>  
+        <div>
+            <button type="submit" (click)="submit()" class="btn btn-md btn-primary fright">Submit </button>
         </div>
     </form>
+</div>
 </div>

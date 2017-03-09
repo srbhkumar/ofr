@@ -5,7 +5,7 @@
         </div>
 <!--<a (click)="logOut()">logOut</a>-->
         <form class="form-signin" *ngIf="!authService.getUser()">
-            <h2 class="form-signin-heading">Sign in</h2>
+            <h5 class="form-signin-heading">Enter username & password</h5>
             <label for="userName" class="sr-only">User Name</label>
         <input type="email" id="userName" #userName class="form-control" placeholder="Email address" required autofocus>
         <label for="password" class="sr-only">Password</label>
@@ -15,7 +15,7 @@
             <input type="checkbox" value="remember-me"> Remember me
           </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit"><a (click)="login(userName.value,password.value)">Sign in</a></button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"><a (click)="login(userName.value,password.value)">Log In</a></button>
         </form>
 
     </div>

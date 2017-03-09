@@ -1,8 +1,8 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+<nav class="navbar navbar-toggleable-md navbar-default fixed-top bg-default">
       <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">OFR</a>
+      <a class="navbar-brand" href="#"> </a>
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
@@ -20,8 +20,8 @@
           </li>
         </ul>
         <form class="form-inline mt-2 mt-md-0">
-         
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" [routerLink]="['/login']">Logout</button>
+         <a class="icon-logout" [routerLink]="['/login']"></a>
+    <!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Logout</button>  -->
         </form>
       </div>
     </nav>
@@ -29,7 +29,7 @@
     <div class="container-fluid">
       <div class="row">
         
-        <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pt-3">
+        <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <router-outlet></router-outlet>
         </main>
       </div>

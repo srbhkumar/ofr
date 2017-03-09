@@ -1,35 +1,31 @@
 
-<div id="CaseReport" class="col-md-6 fright" style="border:1px solid black; padding :15px;"> 
+<div id="CaseReport" class="col-md-12 fright" style="border:1px solid black; padding :15px;margin-bottom:5px;"> 
 <form [formGroup]="caseReportForm" (ngSubmit)="onSave(caseReportForm.value)" class="ui form">
     <div class="row">
-        <label class="col-md-3"> Start Date </label>
-        <input class="col-md-4 form-control input-sm" type="date" formControlName="startDate"  name="startDate" required/>
-     </div>
-   <p class="clearfix"></p>
-   <div class="row">
-     <label class="col-md-3"> End Date </label>
-        <input class="col-md-4 form-control input-sm" type="date"  formControlName="endDate" value="{{endDate}}" name="endDate" required/>
-     </div>
-<p class="clearfix"></p>
-     <div class="row">
-        <label  class="col-md-3"> Format </label>
-        <select class="form-control input-sm col-md-4" id="format"  formControlName="format" item-width="col-2" required>
+        <label class="col-md-1"> Start Date <span class="text-danger"> * </span> </label>
+        <input class="col-md-2 form-control input-sm" type="date" formControlName="startDate"  name="startDate" required/>
+        
+   
+     <label class="col-md-1"> End Date <span class="text-danger"> * </span> </label>
+        <input class="col-md-2 form-control input-sm" type="date"  formControlName="endDate" value="{{endDate}}" name="endDate" required/>
+          <label  class="col-md-1"> Format   </label>
+        <select class="form-control input-sm col-md-2" id="format"  formControlName="format" item-width="col-2" required>
                 <option>csv</option>
                 <option>pdf</option>
         </select>
      </div>
- <p class="clearfix"></p>
-    <div  class="row">
-        <label  class="col-md-3"> Report Type </label>
-        <select class="form-control input-sm col-md-4"  formControlName="type" id="type" item-width="col-2" required>
+<p class="clearfix"></p>
+     <div class="row">
+      
+    
+        <label  class="col-md-1"> Report Type   </label>
+        <select class="form-control input-sm col-md-2"  formControlName="type" id="type" item-width="col-2" required>
                 <option>Report</option>
                 <option>Census</option>
         </select>
-    </div>
-<p class="clearfix"></p>
-    <div  class="row">
-            <label class="col-md-3">Jurisdiction </label>
-            <div class="col-md-6">
+   
+            <label class="col-md-1">Jurisdiction </label>
+            <div class="col-md-3">
             <ng-select [multiple]="true"
                         [options]="items"
                           
@@ -40,14 +36,14 @@
                         
             </ng-select>
             </div>
-           
+            <div class="col-md-2">
+                  <button type="submit"  class="btn btn-sm btn-primary ui button fleft">Submit </button>  
+            </div>
     </div>
 
 <p class="clearfix"></p>
     <div  class="row">
-         <div class="col-md-5">
-                  <button type="submit"  class="btn btn-sm btn-primary ui button fright">Submit </button>  
-            </div>
+        
     </div>
    
 

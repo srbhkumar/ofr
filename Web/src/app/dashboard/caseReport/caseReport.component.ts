@@ -14,8 +14,9 @@ let jsPDF = require('jspdf');
 
 export class CaseReportComponent {  
   caseReportForm: FormGroup;
-
+  
   public items:any;
+ 
  
   private value:any = ['Athens'];
   private _disabledV:string = '0';
@@ -39,6 +40,7 @@ export class CaseReportComponent {
             {value: 'b', label: 'Beta'},
             {value: 'c', label: 'Gamma'},
         ];
+        
 
      console.log(this.caseReportForm);
      }
@@ -65,7 +67,7 @@ export class CaseReportComponent {
 
   onSave(caseReportForm  :any) {
     console.log(caseReportForm);
-    debugger;
+  
     if(caseReportForm.format.toLowerCase() == "csv")
     {
         this.downloadCSV();
@@ -79,7 +81,7 @@ export class CaseReportComponent {
 }
 
 downloadCSV(){
-     var blob = new Blob(['CSV'], { type: 'text/csv' });
+     var blob = new Blob([this.items], { type: 'text/csv' });
      var csvUrl = window.URL.createObjectURL(blob);
 
     var arc = document.createElement('a');
@@ -90,12 +92,16 @@ downloadCSV(){
     document.body.appendChild(arc);
 
 }
-
+//<table style=width:100%><tr><th>Firstname</th><th>Lastname</th> <th>Age</th></tr><tr><td>Jill</td><td>Smith</td> <td>50</td></tr><tr><td>Eve</td><td>Jackson</td> <td>94</td> </tr></table>
 downloadPDF(){
-
-    var doc = new jsPDF();
-     doc.text("Hello", 20, 20);
-     doc.save('Test.pdf');
+        
+var doc = new jsPDF();
+    var i=0;
+      for(var key in this.items){
+           doc.text(20, 10 + i, "test: " + key);
+              i+=10;
+      } 
+        doc.save('Test.pdf');
     }
 
  

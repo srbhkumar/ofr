@@ -287,7 +287,7 @@ export class CaseComponent implements OnInit {
 
      submit():void{
        //this.caseForm.dirty &&
-          if (this.caseForm.dirty && this.caseForm.valid) {
+          if ( this.caseForm.valid) {
            this.service.submitCase(this.caseId, null).then(
              resp => console.log(resp.Result));
           }

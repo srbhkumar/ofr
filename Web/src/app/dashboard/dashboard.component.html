@@ -1,120 +1,164 @@
 <div class="row">
-<div class="col-md-6 col-sm-6 pull-left mainheading"></div>
-<div class="col-md-6 col-sm-6 ">
-<div class="pull-right btn-Case-Report"> <button type="button" (click)="onToggle(show)" class="btn btn-sm btn-primary">Case Report </button></div>
-</div></div>
- <div id=caseReport *ngIf="show" >
+    <div class="col-md-6 col-sm-6 pull-left mainheading"></div>
+    <div class="col-md-6 col-sm-6 ">
+        <div class="pull-right btn-Case-Report"> <button type="button" (click)="onToggle(show)" class="btn btn-sm btn-primary">Case Report </button></div>
+    </div>
+</div>
+<div id=caseReport *ngIf="show">
     <case-report [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
 </div>
 <div class="clear"></div>
 
-<div class="table-responsive">
-<h5 class="heading">My Cases </h5>
-<table class="table table-striped table-sm mycasetable" [mfData]="data" #mfAssigned="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
-    <thead>
-    <tr>
-        <th class="width12">  <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>   </th>
-        <th  class="width12"> <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>  </th>
-        <th  class="width12"> <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter> </th>
-        <th  class="width12"> <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>  </th>
-        <th  class="width12"> <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>  </th>
-        <th  class="width12">  <mfDefaultSorter by="Status">Status</mfDefaultSorter> </th >
-        <th  class="width12"> Case Action </th>
-        <th  class="width12"> Flag  </th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of mfAssigned.data | filter : ['Assigned']">
-        <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
-        <td>{{item.ResidentCounty}}</td>
-        <td>{{item.DateofDeath}}</td>
-        <td>{{item.CauseofDeath}}</td>
-        <td>{{item.CountyofDeath}}</td>
-        <td>{{item.Status}}</td>
-         <td>
-          <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5" > </a> 
-          <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft">  </a>
-       </td>
-        <td style="text-align: center;"> 
-          <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged">  </a>
-          <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged">  </a>
-       </td>
-      </tr>
-    </tbody>
-</table>
-</div>
+<div [ngSwitch]='status'>
+        <div *ngSwitchCase="'loading'" class="load-spinner" >
+                  Loading....
+        </div>
+    <div *ngSwitchCase="'active'">
 
-<h5 class="heading"> Archived </h5>
-<div class="table-responsive">
-<table class="table table-striped table-sm mycasetable" [mfData]="data" #mfNew="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
-   <thead>
-    <tr>
-        <th class="width12">  <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>   </th>
-        <th  class="width12"> <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>  </th>
-        <th  class="width12"> <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter> </th>
-        <th  class="width12"> <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>  </th>
-        <th  class="width12"> <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>  </th>
-        <th  class="width12">  <mfDefaultSorter by="Status">Status</mfDefaultSorter> </th >
-        <th  class="width12"> Case Action </th>
-        <th  class="width12"> Flag  </th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of mfNew.data | filter : ['New'] ">
-        <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
-        <td>{{item.ResidentCounty}}</td>
-        <td>{{item.DateofDeath}}</td>
-        <td>{{item.CauseofDeath}}</td>
-        <td>{{item.CountyofDeath}}</td>
-        <td>{{item.Status}}</td>
-         <td>
-          <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5" > </a> 
-          <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft">  </a>
-       </td>
-         <td style="text-align: center;"> 
-           <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged">  </a>
-          <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged">  </a>
-       </td>
-      </tr>
-    </tbody>
-</table>
- 
-</div>
+        <div class="table-responsive">
+            <h5 class="heading">My Cases </h5>
+            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfAssigned="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                    <tr>
+                        <th class="width12">
+                            <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="Status">Status</mfDefaultSorter>
+                        </th>
+                        <th class="width12"> Case Action </th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mfAssigned.data | filter : ['Assigned']">
+                        <td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>
+                        <td>{{item.ResidentCounty}}</td>
+                        <td>{{item.DateofDeath}}</td>
+                        <td>{{item.CauseofDeath}}</td>
+                        <td>{{item.CountyofDeath}}</td>
+                        <td>{{item.Status}}</td>
+                          <td>
+                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5 margin_l5"> </a>
+                            <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft margin_r5 margin_l5"> </a>
+                       
 
-<h5 class="heading"> Dismissed </h5>
-<div class="table-responsive">
-<table class="table table-striped mycasetable" [mfData]="data" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
-    <thead>
-    <tr>
-        <th class="width12">  <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>   </th>
-        <th  class="width12"> <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>  </th>
-        <th  class="width12"> <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter> </th>
-        <th  class="width12"> <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>  </th>
-        <th  class="width12"> <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>  </th>
-        <th  class="width12">  <mfDefaultSorter by="Status">Status</mfDefaultSorter> </th >
-        <th  class="width12"> Case Action </th>
-        <th  class="width12"> Flag  </th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed', 'Submitted']">
-        <td> <a  [routerLink]="['/case', item.id]" >{{item.OCME}}</a></td>
-        <td>{{item.ResidentCounty}}</td>
-        <td>{{item.DateofDeath}}</td>
-        <td>{{item.CauseofDeath}}</td>
-        <td>{{item.CountyofDeath}}</td>
-        <td>{{item.Status}}  </td>
-        <td>
-          <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5" > </a> 
-          <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft">  </a>
-       </td>
-       <td style="text-align: center;"> 
-          
-          <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged">  </a>
-          <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged">  </a>
-       </td>
-      </tr>
-    </tbody>
-</table>
- 
+                            <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft margin_r5 margin_l5"> </a>
+                            <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft margin_r5 margin_l5"> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h5 class="heading"> Available to Review </h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfNew="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                    <tr>
+                        <th class="width12">
+                            <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="Status">Status</mfDefaultSorter>
+                        </th>
+                        <th class="width12"> Case Action </th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mfNew.data | filter : ['New'] ">
+                        <td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>
+                        <td>{{item.ResidentCounty}}</td>
+                        <td>{{item.DateofDeath}}</td>
+                        <td>{{item.CauseofDeath}}</td>
+                        <td>{{item.CountyofDeath}}</td>
+                        <td>{{item.Status}}</td>
+                          <td>
+                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5 margin_l5"> </a>
+                            <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft margin_r5 margin_l5"> </a>
+                       
+
+                            <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft margin_r5 margin_l5"> </a>
+                            <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft margin_r5 margin_l5"> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <h5 class="heading"> Archived </h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                    <tr>
+                        <th class="width12">
+                            <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>
+                        </th>
+                        <th class="width12">
+                            <mfDefaultSorter by="Status">Status</mfDefaultSorter>
+                        </th>
+                        <th class="width12"> Case Action </th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed', 'Submitted']">
+                        <td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>
+                        <td>{{item.ResidentCounty}}</td>
+                        <td>{{item.DateofDeath}}</td>
+                        <td>{{item.CauseofDeath}}</td>
+                        <td>{{item.CountyofDeath}}</td>
+                        <td>{{item.Status}} </td>
+                        <td>
+                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5 margin_l5"> </a>
+                            <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft margin_r5 margin_l5"> </a>
+                       
+
+                            <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft margin_r5 margin_l5"> </a>
+                            <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft margin_r5 margin_l5"> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 </div>

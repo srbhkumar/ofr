@@ -1,12 +1,10 @@
 
-<div  [formGroup]="form" class='form-group case-field' *ngIf='Field'>
-    <label for="case-field-{{Field.Name}}" class=" col-form-label">{{Field.Description}}</label> 
-    <span *ngIf='Field.Required' > * </span>
+<div  [formGroup]="form" class='form-group row case-field' *ngIf='Field'>
+    <label for="case-field-{{Field.Name}}" class="col-md-4 col-form-label">{{Field.Description}}<span *ngIf='Field.Required' class="text-danger"> * </span></label> 
     
-    <div *ngIf='ViewModel.IsDisplay' > 
-        {{ViewModel.Data[Field.Name]}}   
-    </div>
-    <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type" class="col-md-9 ">
+    
+   
+    <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type" class="col-md-5 ">
         <div *ngSwitchCase="'Text'" >
             <input class="form-control" type="text" formControlName="{{Field.Name}}"  [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)" />
         
@@ -32,7 +30,7 @@
              </span>
         </div>
         <div *ngSwitchCase="'Checkbox'" >
-              <input type="checkbox" formControlName="{{Field.Name}}" name="case-field-{{Field.Name}}" id="case-field-{{Field.Name}}" value="ViewModel.Data[Field.Name]" (input)="setValue($event.target.value)">  {{Field.Name}}
+              <input type="checkbox" formControlName="{{Field.Name}}" name="case-field-{{Field.Name}}" id="case-field-{{Field.Name}}" value="ViewModel.Data[Field.Name]" (input)="setValue($event.target.value)">  {{Field.Description}}
            
         </div>
       
