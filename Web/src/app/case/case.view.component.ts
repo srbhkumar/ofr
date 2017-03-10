@@ -290,6 +290,7 @@ export class CaseComponent implements OnInit {
           if ( this.caseForm.valid) {
            this.service.submitCase(this.caseId, null).then(
              resp => console.log(resp.Result));
+             this.router.navigate(['dashboard']);
           }
           else{
               alert("Form is not valid");
