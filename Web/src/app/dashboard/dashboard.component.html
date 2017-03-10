@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfAssigned.data | filter : ['Assigned']">
+                    <tr *ngFor="let item of mfAssigned.data | filter : ['Accepted']">
                         <td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>
                         <td>{{item.ResidentCounty}}</td>
                         <td>{{item.DateofDeath}}</td>
@@ -51,10 +51,8 @@
                         <td>{{item.CountyofDeath}}</td>
                         <td>{{item.Status}}</td>
                           <td>
-                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5 margin_l5"> </a>
+                           
                             <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft margin_r5 margin_l5"> </a>
-                       
-
                             <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft margin_r5 margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft margin_r5 margin_l5"> </a>
                         </td>
@@ -91,7 +89,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfNew.data | filter : ['New'] ">
+                    <tr *ngFor="let item of mfNew.data | filter : ['New','Assigned'] ">
                         <td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>
                         <td>{{item.ResidentCounty}}</td>
                         <td>{{item.DateofDeath}}</td>
@@ -99,7 +97,7 @@
                         <td>{{item.CountyofDeath}}</td>
                         <td>{{item.Status}}</td>
                           <td>
-                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5 margin_l5"> </a>
+                            <a (click)="updateStatus(item.id ,'Accepted')" class="icon-accept fleft margin_r5 margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft margin_r5 margin_l5"> </a>
                        
 
@@ -148,10 +146,7 @@
                         <td>{{item.CountyofDeath}}</td>
                         <td>{{item.Status}} </td>
                         <td>
-                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft margin_r5 margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash fleft margin_r5 margin_l5"> </a>
-                       
-
+                            <a (click)="updateStatus(item.id ,'Accepted')" class="icon-accept fleft margin_r5 margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft margin_r5 margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft margin_r5 margin_l5"> </a>
                         </td>
