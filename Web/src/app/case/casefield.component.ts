@@ -29,7 +29,7 @@ export class CaseFieldComponent implements OnChanges {
         }
     }
 
-    setValue(val:number|string):void {  debugger;
+    setValue(val:number|string):void {
         this.ViewModel.Data[this.FieldName] = val;
         this.ViewModel.changeset[this.FieldName] = val;
         this.ViewModel.OnChange();

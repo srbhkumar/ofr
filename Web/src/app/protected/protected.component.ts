@@ -3,8 +3,9 @@ import {NgbPanelChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector:'protected',
-    template:'<div> Protected </div>'
+    template:'<div> Protected  debugger;  </div>'
 })
 
-export class ProtectedComponent{    
+export class ProtectedComponent{
+      
 }

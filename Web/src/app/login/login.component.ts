@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit{
     }
 
     login(userName: string, password: string): boolean {
-        
         this.message = '';
         //This will never work as expected and needs to be corrected
         

@@ -16,7 +16,7 @@ export class DataService {
     constructor(private http: Http) {
         this.constant = new Constant();
         this.headers = new Headers();
-        this.headers.append(this.constant.headerSubscriptionKey, this.constant.headerSubscriptionValue);  
+        //this.headers.append(this.constant.headerSubscriptionKey, this.constant.headerSubscriptionValue);  
         this.headers.append('Username', 'Rock'); //Temporery code. Once SSO is implemented we'll make it dynamic.
     }
 
@@ -44,18 +44,37 @@ export class DataService {
 
     public getDashboard():Promise<Dashboard>
     {
+        //return this.httpget<Dashboard>('/dashboard?code=wcRKuW6TpHd47/98eOlnx38wVixZBJJ5T9cDzn6U4F7NcAkqeYj6TQ==');
         return this.httpget<Dashboard>('/dashboard');
+    } 
+
+    public getOpenCases(page:Number):Promise<Dashboard>
+    {
+        return this.httpget<Dashboard>(`/opencases/${page}`);
        
     } 
 
+    public getAvailableCases(page:Number):Promise<Dashboard>
+    {
+        return this.httpget<Dashboard>(`/availablecases/${page}`);
+       
+    } 
+
+     public getDismissedCases(page:Number):Promise<Dashboard>
+    {
+        return this.httpget<Dashboard>(`/dismissedcases/${page}`);
+       
+    } 
+    
+
     public getTemplate(id:string):Promise<Template>
     {
-        return this.httpget<Template>(`/template/${id}`);
+        return this.httpget<Template>(`/template/${id}?code=NoDHzZb8vajzRtZSfRJm40VDALjVZQ60IfLje0J7qn16sOmsvXHvAg==`);
     } 
 
     public getCaseInformation(id:string):Promise<Case>
     {
-        return this.httpget<Case>(`/case/${id}`);
+        return this.httpget<Case>(`/case/${id}?code=d4T3BVwlduK9fFDcdtWjB4klXYS84B5ptNj3coZTQ5ulNsAdykjp1w==`);
     }
 
     public saveCase(id:string, data:any):Promise<OFRResponse>
@@ -71,11 +90,11 @@ export class DataService {
 
     public updateCaseStatus(id:string, newStatus:any):Promise<OFRResponse>
     {
-        return this.httppost<OFRResponse>(`/status/${id}/${newStatus}`, {});
+        return this.httppost<OFRResponse>(`/status/${id}/${newStatus}?code=DdDhm1YEHMkJn13a7AuFYaFbrU5kaBhPcVn1Cu/POq0yDYUs3rBNiQ==`, {});
     }
  
     public PingCase(id: string): Promise<PingCase> {
-        return this.httppost<PingCase>(`/ping/${id}`, {});
+        return this.httppost<PingCase>(`/ping/${id}?code=aBAAa3pLY8TGSmnivFajbn4A7a0j6hTJ/yYw5fwVOUqG/XRJ4b9W9w==`, {});
     }
  
     private handleError(error: any) {

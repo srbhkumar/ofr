@@ -65,9 +65,11 @@ export class CaseComponent implements OnInit {
     {
        
       this.caseId = this.route.snapshot.params['id'];
+      //this.caseId = "2691e182-04d3-4499-9a89-14bb531bc772"; //SK_This has to be removed, eventually replaced by line above
+      console.log(this.caseId);
    
      this.NotifyActiveUsers(this.caseId,this.userName);
-
+     //console.log(this.service.getCaseInformation(this.caseId));
       this.service.getCaseInformation(this.caseId).then(
             resp => { this.getTemplateInformation(resp);
      
@@ -83,7 +85,7 @@ export class CaseComponent implements OnInit {
 
     NotifyActiveUsers(caseId: string, user: string): void {
          
-        this.interval = setInterval(() => { this.GetPingResponse(caseId, user) }, 900);
+        this.interval = setInterval(() => { this.GetPingResponse(caseId, user) }, 60*1000);
     }
 
     GetPingResponse(caseId: string, user: string): void {

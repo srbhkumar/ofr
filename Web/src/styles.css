@@ -107,13 +107,37 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     width: 25px;
    
 }
+
+
+.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: RoyalBlue;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
 .icon-trash {
     background:url('~/assets/images/cross.png') no-repeat right top;
      display: block;
     cursor: pointer;
     height: 25px;
-    width: 25px;
+    width: 50px;
    
+}
+
+.icon-edit {
+   background:url('~/assets/images/edit.png') no-repeat right top;
+   display: block;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
 }
 
 .icon-unflagged {
@@ -121,17 +145,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
    display: block;
     cursor: pointer;
     height: 25px;
-    width: 25px;
+    width: 50px;
 }
 .icon-flagged {
    background:url('~/assets/images/flag-colored.png') no-repeat right top;
     display: block;
     cursor: pointer;
     height: 25px;
-    width: 25px;
+    width: 50px;
     
 }
 .icon-logout {
+  
     background:url('~/assets/images/Logout.png') no-repeat right top;
     display: block;
     cursor: pointer;
@@ -143,6 +168,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
    background:url('~/assets/images/giphy.gif');
    
 }
+
+.fa-pencil-square-o {
+  color: #156397;
+  font-size: 25px;
+  width: 35px;
+}
 .nav-link {
     display: block;
     padding: 2px;
@@ -153,6 +184,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .margin_l5{margin-left:15px;}
 .margin_r5{margin-right:8px;}
 .margin_l25{margin-left:25px;}
+.margin_r25{margin-right:25px;}
+.align-centre{display:flex;align-items:center;}
+.first-r { left: 0%; position: relative; }
+.second-r{ left: 50%; position: relative; }
+.third-r{ display: inline-block; position: absolute;
+    right: 35px;
+    top: 50%;
+    width: 100%;}
 .btn {cursor: pointer;}
 .width12{ width:14.28%;}
 form{font-size:0.85em}
@@ -167,3 +206,9 @@ form{font-size:0.85em}
 }
 .card-header a,.card-header a:hover{color:white;}
 .card{border: 1px solid rgb(156, 157, 158);}
+
+.label-ocme
+{
+  cursor:pointer;
+  text-decoration:underline !important;
+}
