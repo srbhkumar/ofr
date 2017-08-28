@@ -48,19 +48,19 @@ export class DataService {
         return this.httpget<Dashboard>('/dashboard');
     } 
 
-    public getOpenCases(page:Number):Promise<Dashboard>
+    public getOpenCases(page:number):Promise<Dashboard>
     {
         return this.httpget<Dashboard>(`/opencases/${page}`);
        
     } 
 
-    public getAvailableCases(page:Number):Promise<Dashboard>
+    public getAvailableCases(page:number):Promise<Dashboard>
     {
         return this.httpget<Dashboard>(`/availablecases/${page}`);
        
     } 
 
-     public getDismissedCases(page:Number):Promise<Dashboard>
+     public getDismissedCases(page:number):Promise<Dashboard>
     {
         return this.httpget<Dashboard>(`/dismissedcases/${page}`);
        
@@ -80,7 +80,7 @@ export class DataService {
     public saveCase(id:string, data:any):Promise<OFRResponse>
     {
      
-        return this.httppost<OFRResponse>(`/case/${id}`, data);
+        return this.httppost<OFRResponse>(`/case/${id}?code=7Oa0NJFoifqddtJLQeyBjv7nOXRq/3EnDvVqmpsun9KkehaYCbgxAA==`, data);
     } 
     
     public submitCase(id:string, data:any):Promise<OFRResponse>

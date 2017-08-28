@@ -1,0 +1,10 @@
+{
+    "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=crispofr;AccountKey=MyNvmkAM44yIAzLqV7rXzqx/VYKM+Ve8lzZUn6FXXPbtm3AmrRjdoLBooPfPK0N2rmU78XWu52qEmqI19yM4nQ==",
+    "AzureWebJobsDashboard": "DefaultEndpointsProtocol=https;AccountName=crispofr;AccountKey=MyNvmkAM44yIAzLqV7rXzqx/VYKM+Ve8lzZUn6FXXPbtm3AmrRjdoLBooPfPK0N2rmU78XWu52qEmqI19yM4nQ==",
+    "StorageEndpoint": "https://ofr-dev-db.documents.azure.com:443/",
+    "StoragePrimKey": "Ut4wCBZ6CvzXFPOqwC0VIpIaxQTvSfc1m7AWEQYEvBfHQpfvLYajHE8CAzmknnTeTz3GHhxsuVrVEvQCKgrgSw==",
+    "InstrumentationKey": "Ut4wCBZ6CvzXFPOqwC0VIpIaxQTvSfc1m7AWEQYEvBfHQpfvLYajHE8CAzmknnTeTz3GHhxsuVrVEvQCKgrgSw=="
+  }
+}

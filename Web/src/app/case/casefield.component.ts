@@ -24,6 +24,8 @@ export class CaseFieldComponent implements OnChanges {
         for(var i = 0; i < fields.length; ++i){
             if (fields[i].Name == this.FieldName){
                 this.Field = fields[i];
+                debugger;
+                console.log("it hit here" + i);
                 break;
             }
         }

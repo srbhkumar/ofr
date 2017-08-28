@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
     public status: string;
     public caseId: string;
     public caseDetails: Case;
-    public page : number =1; //SK remove it, just for testing
+    public page : number = 1; //SK remove it, just for testing
 
     //  public rows:Array<any> = [];  
 
@@ -37,9 +37,12 @@ export class DashboardComponent implements OnInit {
         this.status = "loading";
         
     }
+    
 
     ngOnInit() { 
-        this.fillDashboard();
+        this.paginationOpenCasesData(1);
+        this.paginationAvailableCasesData(1);
+        this.paginationDismissedData(1);
         this.status = "active";
     }
     //openDialog = function(){
@@ -134,13 +137,40 @@ export class DashboardComponent implements OnInit {
         });
     }
 
-    paginationData(event): void {
+    // paginationData(event): void {
+    //     this.clearDashboard();
+    //     this.dataService.getOpenCases(event).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });
+    //     this.dataService.getAvailableCases(event).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });  
+    //     this.dataService.getDismissedCases(event).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });     
+
+    // }
+
+    paginationOpenCasesData(event): void {
         this.clearDashboard();
         this.dataService.getOpenCases(event).then(d => {
             this.dashBoardResponse(d);
         });    
-
     }
+    
+    paginationAvailableCasesData(event): void {
+        this.clearDashboard();
+        this.dataService.getAvailableCases(event).then(d => {
+            this.dashBoardResponse(d);
+        });    
+    }
+    
+    paginationDismissedData(event): void {
+        this.clearDashboard();
+        this.dataService.getDismissedCases(event).then(d => {
+            this.dashBoardResponse(d);
+        });    
+        }
 
     clearDashboard(status?:any): void {
         this.data = [];

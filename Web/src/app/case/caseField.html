@@ -11,7 +11,7 @@
         </div>
   
         <div *ngSwitchCase="'Date'"  >
-            <input class="form-control" type="date" formControlName="{{Field.Name}}"    [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"    (input)="setVa($event.target.value)" >
+            <input class="form-control" type="date" formControlName="{{Field.Name}}"    [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)" >
                 
         </div>
         <div *ngSwitchCase="'Dropdown'"  >

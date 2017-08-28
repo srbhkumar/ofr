@@ -7,6 +7,7 @@ import 'rxjs/add/operator/switchMap';
 import{PingCase} from '../shared/models/pingcase';
 import{NotificationsService} from 'angular2-notifications';
 
+
 @Component({
     selector:'case',
     templateUrl: './case.view.html'
@@ -32,7 +33,8 @@ export class CaseComponent implements OnInit {
     timeoutTag:any;
 
     public options = {
-        timeOut: -1,
+        id: 2,
+        timeOut: 4*1000,      
         lastOnBottom: true,
         clickToClose: true,
         maxLength: 0,
@@ -51,7 +53,9 @@ export class CaseComponent implements OnInit {
         private router: Router,
         private service: DataService,
         private formBuilder : FormBuilder,
-        private notificationsService:NotificationsService
+        private notificationsService:NotificationsService,
+        private saveNotificationService:NotificationsService,
+
 
     ){
             this.userName='Rock';//Temporery code. Once SSO is implemented we'll make it dynamic.
@@ -65,7 +69,6 @@ export class CaseComponent implements OnInit {
     {
        
       this.caseId = this.route.snapshot.params['id'];
-      //this.caseId = "2691e182-04d3-4499-9a89-14bb531bc772"; //SK_This has to be removed, eventually replaced by line above
       console.log(this.caseId);
    
      this.NotifyActiveUsers(this.caseId,this.userName);
@@ -86,6 +89,7 @@ export class CaseComponent implements OnInit {
     NotifyActiveUsers(caseId: string, user: string): void {
          
         this.interval = setInterval(() => { this.GetPingResponse(caseId, user) }, 60*1000);
+        //SK setInterval
     }
 
     GetPingResponse(caseId: string, user: string): void {
@@ -165,8 +169,9 @@ export class CaseComponent implements OnInit {
     {
              this.caseForm = this.formBuilder.group({
                             "NameofReviewer" : ["Reviewer 1",  Validators.required]   ,
-                            "YearofDeath" : ["2016",  Validators.required],
+                           
                             "DateofDeath":["2017-04-05",  Validators.required]   ,
+                            "YearofDeath" : ["2016",  Validators.required],
                             "CountyofDeath" : ["test",  Validators.required],
                             "ResidentCounty" : ["County 1", Validators.nullValidator],
                             "CauseofDeath" :["cause 1", Validators.nullValidator],
@@ -259,7 +264,7 @@ export class CaseComponent implements OnInit {
     }
    
 
-    onChange():void
+    onChange():void //SK_clears the timeout and saves the chanes
     {
         if (this.timeoutTag)
         {
@@ -271,11 +276,13 @@ export class CaseComponent implements OnInit {
 
     saveChanges():void
     {
-        
+        console.log("Saving");
         this.timeoutTag = null;
         var oldChanges = this.dataModel.changeset;
         this.dataModel.changeset = {};
         this.service.saveCase(this.caseId, oldChanges)
+        .then(r => this.saveNotify())
+        .catch(r => this.saveErrorNotify())//SK Check the code below and make sure the two catch bloacks are working fine.
             .catch(r => {
                 for(var k in oldChanges)
                 {
@@ -286,6 +293,43 @@ export class CaseComponent implements OnInit {
                 }
             });
     }
+
+    saveNotify() : any {
+            this.saveNotificationService.success(
+            "Saved", 
+            "Changes Successfully Saved",
+           {
+                //SK_These options override the options set for ping notification
+                id: 2,
+                position: ["top", "right"],
+                timeOut: 3*1000,
+                maxStack:3,
+                showProgressBar: true,
+                pauseOnHover: true,
+                clickToClose: true,
+            }
+        );   
+    }
+
+
+    saveErrorNotify() : any {
+        this.saveNotificationService.error(
+        "Error!", 
+        "Changes could not be saved.",
+       {
+            //SK_These options override the options set for ping notification
+            id: 2,
+            position: ["top", "right"],
+            timeOut: 3*1000,
+            maxStack:3,
+            showProgressBar: true,
+            pauseOnHover: true,
+            clickToClose: true,
+        }
+    );   
+}
+        
+    
 
      submit():void{
        //this.caseForm.dirty &&

@@ -47,14 +47,14 @@
 
 <!--<code for Pop up ends>-->
 
-<pagination-controls 
-			(pageChange) = "page = paginationData($event); p = $event;" 
+<!--<pagination-controls 
+			(pageChange) = "page = paginationOpenCasesData($event); p = $event;" 
 			id="1"
 			maxSize = "8"
 			directionLinks = "true"
 			autohide = "true"
             >
-</pagination-controls>
+</pagination-controls>-->
 
 
 
@@ -77,7 +77,14 @@
     <div *ngSwitchCase="'active'">
 
         <div class="table-responsive">
-            <h5 class="heading">Open Cases </h5>
+            <h5 class="heading"><span>Open Cases</span><span style="float:right; padding-bottom:20px"><pagination-controls 
+			(pageChange) = "page = paginationOpenCasesData($event); p = $event;" 
+			id="1"
+			maxSize = "8"
+			directionLinks = "true"
+			autohide = "true"
+            >
+</pagination-controls></span></h5>
             <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfAssigned="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
@@ -125,7 +132,16 @@
             </table>
         </div>
 
-        <h5 class="heading"> Available to Review </h5>
+        <h5 class="heading"><span>Available to Review </span><span style="float:right; padding-bottom:20px">
+            <pagination-controls 
+			(pageChange) = "page = paginationAvailableCasesData($event); pAvailable = $event;" 
+			id="2"
+			maxSize = "8"
+			directionLinks = "true"
+			autohide = "true">
+            </pagination-controls>
+            </span>
+        </h5>
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfNew="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
                 <thead>
@@ -153,7 +169,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfNew.data | filter : ['New','Available'] ">
+                    <tr *ngFor="let item of mfNew.data | filter : ['New','Available'] | paginate : { itemsPerPage:5, currentPage:pAvailable, id : 2, totalItems:5 } ">
                         <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                         <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <td>{{item.ResidentCounty}}</td>
@@ -179,7 +195,16 @@
 
         
 
-        <h5 class="heading"> Dismissed Cases </h5>
+        <h5 class="heading"><span>Dismissed Cases</span>
+        <span style="float:right; padding-bottom:20px"><pagination-controls 
+			(pageChange) = "pageDismissed = paginationDismissedData($event); pDismissed = $event;" 
+			id="3"
+			maxSize = "8"
+			directionLinks = "true"
+			autohide = "true">
+            </pagination-controls>
+        </span>
+        </h5>
         <div class="table-responsive">
             <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
                 <thead>
@@ -207,7 +232,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed']">
+                    <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed'] | paginate : { itemsPerPage:5, currentPage:pDismissed, id : 3, totalItems:15} ">
                         <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                         <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <td>{{item.ResidentCounty}}</td>
