@@ -1,2 +1,6 @@
-project.lock.json
-/WebApplication1
+bin
+obj
+*.nupkg
+/.vs
+/Web/.vs
+/OFR/.vs
