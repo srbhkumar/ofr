@@ -64,6 +64,12 @@ export class DataService {
     {
         return this.httpget<Dashboard>(`/dismissedcases/${page}`);
        
+    }
+
+    public getSubmittedCases(page:number):Promise<Dashboard>
+    {
+        return this.httpget<Dashboard>(`/submittedcases/${page}`);
+       
     } 
     
 
@@ -85,7 +91,7 @@ export class DataService {
     
     public submitCase(id:string, data:any):Promise<OFRResponse>
     {
-        return this.httppost<OFRResponse>(`/submit/${id}`, data);
+        return this.httppost<OFRResponse>(`/submit/${id}?code=5wQEYgfrJAhRaehea2vsRTuuhesDnjsFdKDBgaw0se3PnHzl0X5HEA==`, data);
     }
 
     public updateCaseStatus(id:string, newStatus:any):Promise<OFRResponse>

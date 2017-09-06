@@ -251,7 +251,16 @@
 
         </div>
 
-        <h5 class="heading"> Submitted Cases </h5>
+        <h5 class="heading"><span>Submitted Cases</span>
+        <span style="float:right; padding-bottom:20px"><pagination-controls 
+			(pageChange) = "pageSubmitted = paginationSubmittedData($event); pSubmitted = $event;" 
+			id="4"
+			maxSize = "8"
+			directionLinks = "true"
+			autohide = "true">
+            </pagination-controls>
+        </span>
+    </h5>
         <div class="table-responsive">
             <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfSubmitted="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
                 <thead>
@@ -279,14 +288,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfSubmitted.data | filter : ['Submitted']">
-                        <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>
+                    <tr *ngFor="let item of mfSubmitted.data | filter : ['Submitted'] | paginate : { itemsPerPage:5, currentPage:pSubmitted, id : 4, totalItems:15} ">
+                        <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
+                        <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <td>{{item.ResidentCounty}}</td>
                         <td>{{item.DateofDeath}}</td>
                         <td>{{item.CauseofDeath}}</td>
                         <td>{{item.CountyofDeath}}</td>
                         <!--<td>{{item.Status}} </td>-->
                         <td>
+                            <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
                             <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
                             <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>

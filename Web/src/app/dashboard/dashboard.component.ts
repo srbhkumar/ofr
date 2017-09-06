@@ -43,6 +43,8 @@ export class DashboardComponent implements OnInit {
         this.paginationOpenCasesData(1);
         this.paginationAvailableCasesData(1);
         this.paginationDismissedData(1);
+        this.paginationSubmittedData(1);
+        
         this.status = "active";
     }
     //openDialog = function(){
@@ -171,6 +173,16 @@ export class DashboardComponent implements OnInit {
             this.dashBoardResponse(d);
         });    
         }
+
+    paginationSubmittedData(event): void {
+            this.clearDashboard();
+            this.dataService.getSubmittedCases(event).then(d => {
+                this.dashBoardResponse(d);
+            });    
+            }
+    
+
+
 
     clearDashboard(status?:any): void {
         this.data = [];

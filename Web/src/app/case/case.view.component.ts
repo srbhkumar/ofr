@@ -1,40 +1,42 @@
-import { Component,OnInit } from '@angular/core';
-import {Router, ActivatedRoute , Params} from '@angular/router';
-import {  Template,CaseViewModel,TemplateField , Case} from '../shared/models/caseModel';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Template, CaseViewModel, TemplateField, Case } from '../shared/models/caseModel';
 import { DataService } from '../shared/services/dataService';
-import {FormGroup, FormControl, Validators, FormBuilder  , ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
-import{PingCase} from '../shared/models/pingcase';
-import{NotificationsService} from 'angular2-notifications';
+import { PingCase } from '../shared/models/pingcase';
+import { NotificationsService } from 'angular2-notifications';
 
 
 @Component({
-    selector:'case',
-    templateUrl: './case.view.html'
+    selector: 'case',
+    templateUrl: './case.view.html',
+    styles: [`
+    select.ng-invalid {border-left: 5px solid red;}`]
 })
 
 export class CaseComponent implements OnInit {
-    template:Template;
-    dataModel:CaseViewModel;
-    caseId:string;
-    case:Case;
-    field1 : Object;
-   
+    template: Template;
+    dataModel: CaseViewModel;
+    caseId: string;
+    case: Case;
+    field1: Object;
+
     caseForm: FormGroup;
 
-     interval:any;
-    pingCase:PingCase;
-    previousPingCase:PingCase;
-    activeUsersFormat:string;
-    userName:string;
-    isValid:boolean;
-    isNotifyEnabled:boolean;
-    
-    timeoutTag:any;
+    interval: any;
+    pingCase: PingCase;
+    previousPingCase: PingCase;
+    activeUsersFormat: string;
+    userName: string;
+    isValid: boolean;
+    isNotifyEnabled: boolean;
+
+    timeoutTag: any;
 
     public options = {
         id: 2,
-        timeOut: 4*1000,      
+        timeOut: 4 * 1000,
         lastOnBottom: true,
         clickToClose: true,
         maxLength: 0,
@@ -52,56 +54,56 @@ export class CaseComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private service: DataService,
-        private formBuilder : FormBuilder,
-        private notificationsService:NotificationsService,
-        private saveNotificationService:NotificationsService,
+        private formBuilder: FormBuilder,
+        private notificationsService: NotificationsService,
+        private saveNotificationService: NotificationsService,
 
 
-    ){
-            this.userName='Rock';//Temporery code. Once SSO is implemented we'll make it dynamic.
-           this.initializeFormControls();      
-     
-     }
+    ) {
+        this.userName = 'Rock';//Temporery code. Once SSO is implemented we'll make it dynamic.
+        this.initializeFormControls();
 
-   
+    }
 
-    ngOnInit():void
-    {
-       
-      this.caseId = this.route.snapshot.params['id'];
-      console.log(this.caseId);
-   
-     this.NotifyActiveUsers(this.caseId,this.userName);
-     //console.log(this.service.getCaseInformation(this.caseId));
-      this.service.getCaseInformation(this.caseId).then(
-            resp => { this.getTemplateInformation(resp);
-     
-             }); 
- 
-            
-          
+
+
+    ngOnInit(): void {
+
+        this.caseId = this.route.snapshot.params['id'];
+        console.log(this.caseId);
+
+        this.NotifyActiveUsers(this.caseId, this.userName);
+        //console.log(this.service.getCaseInformation(this.caseId));
+        this.service.getCaseInformation(this.caseId).then(
+            resp => {
+                this.getTemplateInformation(resp);
+
+            });
+
+
+
     }
 
     ngOnDestroy(): void {
         clearInterval(this.interval);
-    } 
+    }
 
     NotifyActiveUsers(caseId: string, user: string): void {
-         
-        this.interval = setInterval(() => { this.GetPingResponse(caseId, user) }, 60*1000);
+
+        this.interval = setInterval(() => { this.GetPingResponse(caseId, user) }, 60 * 1000);
         //SK setInterval
     }
 
     GetPingResponse(caseId: string, user: string): void {
-         
+
         this.service.PingCase(caseId).then(resp => { this.NotifyFormat(resp, caseId, user); });
     }
 
     NotifyFormat(resp: PingCase, caseId: string, user: string): void {
-      
-        this.isNotifyEnabled=false;
+
+        this.isNotifyEnabled = false;
         this.pingCase = resp;
-        
+
         if (this.previousPingCase == null) {
             this.previousPingCase = resp;
         }
@@ -113,17 +115,16 @@ export class CaseComponent implements OnInit {
         this.activeUsersFormat = "<h4>Users working on this case.</h4>";
         this.activeUsersFormat += `<ul>`;
 
-         for (let data in this.pingCase.Data["Response"]) {
+        for (let data in this.pingCase.Data["Response"]) {
             if (data != undefined) {
-                this.isNotifyEnabled=true;
+                this.isNotifyEnabled = true;
                 this.activeUsersFormat += '<li>' + data + '</li>';
             }
-        } 
-      
+        }
+
         this.activeUsersFormat += "</ul>";
 
-        if (this.isNotifyEnabled) 
-        {
+        if (this.isNotifyEnabled) {
             this.notificationsService.html(this.activeUsersFormat, "info");
         }
 
@@ -149,143 +150,158 @@ export class CaseComponent implements OnInit {
     }
 
 
-    getTemplateInformation(respCase:Case) {
-        this.case = respCase;     
+    getTemplateInformation(respCase: Case) {
+        this.case = respCase;
         this.service.getTemplate(respCase.Template).then(
-            t => {this.dataModel = {
+            t => {
+            this.dataModel = {
                 Template: t,
                 changeset: {},
                 Data: this.case.Data,
                 IsDisplay: false,
                 OnChange: this.onChange.bind(this)
-            
-          };
-         
-        } );
 
-        
-    }
-    initializeFormControls():void
-    {
-             this.caseForm = this.formBuilder.group({
-                            "NameofReviewer" : ["Reviewer 1",  Validators.required]   ,
-                           
-                            "DateofDeath":["2017-04-05",  Validators.required]   ,
-                            "YearofDeath" : ["2016",  Validators.required],
-                            "CountyofDeath" : ["test",  Validators.required],
-                            "ResidentCounty" : ["County 1", Validators.nullValidator],
-                            "CauseofDeath" :["cause 1", Validators.nullValidator],
-                            "Sex":["", Validators.nullValidator],
-                            "Transgender":["", Validators.nullValidator],
-                            "DateofBirth":["", Validators.nullValidator],
-                            "Race":["", Validators.nullValidator],
-                            "Hispanic":["", Validators.nullValidator],
-                            "EMSRecords":["", Validators.nullValidator],
-                            "PriorEMS":["", Validators.nullValidator],
-                            "EMS_DayofDeath":["", Validators.nullValidator],
-                             "HospitalRecords":["", Validators.nullValidator],
-                            "CRISPRecords":["", Validators.nullValidator],
-                            "PDMPRecords":["", Validators.nullValidator],
-                             "EDEncounter":["", Validators.nullValidator],
-                            "ED_DayofDeath":["", Validators.nullValidator],
-                             "PainManagement":["", Validators.nullValidator],
-                            "ChronicSomatic":["", Validators.nullValidator],
-                            "BrainInjury":["", Validators.nullValidator],
-                            "LawRecords":["", Validators.nullValidator],
-                            "LawContact":["", Validators.nullValidator],
-                             "LawSuspect":["", Validators.nullValidator],
-                            "AttorneyRecords":["", Validators.nullValidator],
-                             "DrugCourtRecords":["", Validators.nullValidator],
-                             "AttorneyContact":["", Validators.nullValidator],
-                            "DUIHistory":["", Validators.nullValidator],
-                             "LawProsecuted":["", Validators.nullValidator],
-                            "LawCharge":["", Validators.nullValidator],
-                             "DetentionCenterRecords":["", Validators.nullValidator],
-                            "DetentionCenterContact":["", Validators.nullValidator],
-                             "EducationK12":["", Validators.nullValidator],
-                            "EducationHigherEd":["", Validators.nullValidator],
-                             "EducationContact":["", Validators.nullValidator],
-                            "EducationDegree":["", Validators.nullValidator],
-                               "BHHdRecords":["", Validators.nullValidator],
-                            "BHPrivateRecords":["", Validators.nullValidator],
-                             "BHMentalHealth":["", Validators.nullValidator],
-                            "BHBeacon":["", Validators.nullValidator],
-                             "BHHDContact":["", Validators.nullValidator],
-                            "BHPrivateContact":["", Validators.nullValidator],
-                             "BHTreatment":["", Validators.nullValidator],
-                            "BHSuicide":["", Validators.nullValidator],
-                            "CommunityRecords":["", Validators.nullValidator],
-                             "CommunityContact":["", Validators.nullValidator],
-                            "CommunityEnrollment":["", Validators.nullValidator],
-                             "SSRecords":["", Validators.nullValidator],
-                            "SSContact":["", Validators.nullValidator],
-                             "SSEnrollment":["", Validators.nullValidator],
-                            "SSCrisisRecords":["", Validators.nullValidator],
-                              "FamilyInterviews":["", Validators.nullValidator],
-                             "MaritalStatus":["", Validators.nullValidator],
-                            "InmatePartner":["", Validators.nullValidator],
-                             "HRMORPRecords":["", Validators.nullValidator],
-                             "HRSterileSyringe":["", Validators.nullValidator],
-                            "HRPeerRecovery":["", Validators.nullValidator],
-                             "SexualOrientation":["", Validators.nullValidator],
-                            "Pregnancy":["", Validators.nullValidator],
-                             "Occupation":["", Validators.nullValidator],
-                            "EmploymentStatus":["", Validators.nullValidator],
-                              "Homeless":["", Validators.nullValidator],
-                             "Military":["", Validators.nullValidator],
-                            "Institution":["", Validators.nullValidator],
-                             "DrugExposure":["", Validators.nullValidator],
-                             "LocationOfDeathType":["", Validators.nullValidator],
-                            "LocationofDeathOther":["", Validators.nullValidator],
-                             "CaseSummary":["", Validators.nullValidator],
-                             "CaseGaps1":["", Validators.nullValidator],
-                            "CaseGaps2":["", Validators.nullValidator],
-                             "CaseGaps3":["", Validators.nullValidator],
-                            "CaseRecommendations1":["", Validators.nullValidator],
-                              "CaseRecommendations1Category":["", Validators.nullValidator],
-                             "CaseRecommendations1Target":["", Validators.nullValidator],
-                            "CaseRecommendations1Agency":["", Validators.nullValidator],
-                             "CaseRecommendations1Party":["", Validators.nullValidator],
-                             "CaseRecommendations2":["", Validators.nullValidator],
-                            "CaseRecommendations2Category":["", Validators.nullValidator],
-                              "CaseRecommendations2Target":["", Validators.nullValidator],
-                             "CaseRecommendations2Agency":["", Validators.nullValidator],
-                            "CaseRecommendations2Party":["", Validators.nullValidator],
-                             "CaseRecommendations3":["", Validators.nullValidator],
-                             "CaseRecommendations3Category":["", Validators.nullValidator],
-                            "CaseRecommendations3Target":["", Validators.nullValidator],
-                             "CaseRecommendations3Agency":["", Validators.nullValidator],
-                             "CaseRecommendations3Party":["", Validators.nullValidator],
-                             "BHAReview":["", Validators.nullValidator],
-                            "BHAFollowup":["", Validators.nullValidator]
-                           
-                           
-                        });
-    }
-   
+            };
 
-    onChange():void //SK_clears the timeout and saves the chanes
+            });
+
+
+    }
+    initializeFormControls(): void {
+        this.caseForm = this.formBuilder.group({
+            "NameofReviewer": ["Reviewer 1", Validators.required],
+            "DateofDeath": ["", Validators.required],
+            "YearofDeath": ["", Validators.required],
+            "JurisdictionofDeath": ["", Validators.required],
+            "CountyofDeath": ["", Validators.required],
+            "ResidentCounty": ["", Validators.required],
+            "CauseofDeath": ["", Validators.required],
+            "MannerofDeath": ["", Validators.required],
+            "Sex": ["", Validators.nullValidator],
+            "Transgender": ["", Validators.nullValidator],
+            "DateofBirth": ["", Validators.nullValidator],
+            "AgeatDeath": ["", Validators.nullValidator],
+            "Race": ["", Validators.nullValidator],
+            "Hispanic": ["", Validators.nullValidator],
+            "EMSRecords": ["", Validators.nullValidator],
+            "PriorEMS": ["", Validators.nullValidator],
+            "EMS_DayofDeath": ["", Validators.nullValidator],
+            "HospitalRecords": ["", Validators.nullValidator],
+            "CRISPRecords": ["", Validators.nullValidator],
+            "PDMPRecords": ["", Validators.nullValidator],
+            "PharmacyRecords": ["", Validators.nullValidator],
+            "EDEncounter": ["", Validators.nullValidator],
+            "ED_DayofDeath": ["", Validators.nullValidator],
+            "PainManagement": ["", Validators.nullValidator],
+            "ChronicSomatic": ["", Validators.nullValidator],
+            "BrainInjury": ["", Validators.nullValidator],
+            "LawRecords": ["", Validators.nullValidator],
+            "LawContact": ["", Validators.nullValidator],
+            "LawSuspect": ["", Validators.nullValidator],
+            "LawLEAD": ["", Validators.nullValidator],
+            "AttorneyRecords": ["", Validators.nullValidator],
+            "DrugCourtRecords": ["", Validators.nullValidator],
+            "AttorneyContact": ["", Validators.nullValidator],
+            "DUIHistory": ["", Validators.nullValidator],
+            "DrugCourtContact": ["", Validators.nullValidator],
+            "LawProsecuted": ["", Validators.nullValidator],
+            "LawCharge": ["", Validators.nullValidator],
+            "DetentionCenterRecords": ["", Validators.nullValidator],
+            "DetentionCenterContact": ["", Validators.nullValidator],
+            "DetentionCenterDrugTreatment": ["", Validators.nullValidator],
+            "DetentionCenterMHTreatment": ["", Validators.nullValidator],
+            "EducationK12": ["", Validators.nullValidator],
+            "EducationHigherEd": ["", Validators.nullValidator],
+            "EducationContact": ["", Validators.nullValidator],
+            "EducationDegree": ["", Validators.nullValidator],
+            "BHHdRecords": ["", Validators.nullValidator],
+            "BHPrivateRecords": ["", Validators.nullValidator],
+            "BHTreatmentatDeath": ["", Validators.nullValidator],
+            "BHMentalHealth": ["", Validators.nullValidator],
+            "BHBeacon": ["", Validators.nullValidator],
+            "BHHDContact": ["", Validators.nullValidator],
+            "BHPrivateContact": ["", Validators.nullValidator],
+            "BHTreatment": ["", Validators.nullValidator],
+            "BHSuicide": ["", Validators.nullValidator],
+            "CommunityRecords": ["", Validators.nullValidator],
+            "CommunityContact": ["", Validators.nullValidator],
+            "CommunityEnrollment": ["", Validators.nullValidator],
+            "SSrecords": ["", Validators.nullValidator],
+            "SSContact": ["", Validators.nullValidator],
+            "SSEnrollment": ["", Validators.nullValidator],
+            "SSCrisisRecords": ["", Validators.nullValidator],
+            "FamilyInterviews": ["", Validators.nullValidator],
+            "MaritalStatus": ["", Validators.nullValidator],
+            "IntimatePartnerViolence": ["", Validators.nullValidator],
+            "DecedentChildren": ["", Validators.nullValidator],
+            "HRMORPRecords": ["", Validators.nullValidator],
+            "HRSterileSyringe": ["", Validators.nullValidator],
+            "HRPeerRecovery": ["", Validators.nullValidator],
+            "SexualOrientation": ["", Validators.nullValidator],
+            "Pregnancy": ["", Validators.nullValidator],
+            "Occupation": ["", Validators.nullValidator],
+            "EmploymentStatus": ["", Validators.nullValidator],
+            "Homeless": ["", Validators.nullValidator],
+            "Military": ["", Validators.nullValidator],
+            "Institution": ["", Validators.nullValidator],
+            "DrugExposure": ["", Validators.nullValidator],
+            "LocationOfDeathType": ["", Validators.nullValidator],
+            "LocationofDeathOther": ["", Validators.compose([Validators.nullValidator, Validators.maxLength(100)])],
+            "NaloxoneAdministered": ["", Validators.nullValidator],
+            "NaloxoneAdministratorBystander": ["", Validators.nullValidator],
+            "NaloxoneAdministratorProfessionalFirstResponder": ["", Validators.nullValidator],
+            "NaloxoneAdministratorOther": ["", Validators.nullValidator],
+            "NaloxoneAdministratorOtherUnknown": ["", Validators.nullValidator],
+            "Delay911": ["", Validators.nullValidator],
+            "IVuseIndicatedScene": ["", Validators.nullValidator],
+            "PrescriptionPillsonScene": ["", Validators.nullValidator],
+
+            "CaseSummary": ["", Validators.nullValidator],
+            "CaseGaps1": ["", Validators.nullValidator],
+            "CaseGaps2": ["", Validators.nullValidator],
+            "CaseGaps3": ["", Validators.nullValidator],
+            "CaseRecommendations1": ["", Validators.nullValidator],
+            "CaseRecommendations1Category": ["", Validators.nullValidator],
+            "CaseRecommendations1Target": ["", Validators.nullValidator],
+            "CaseRecommendations1Agency": ["", Validators.nullValidator],
+            "CaseRecommendations1Party": ["", Validators.nullValidator],
+            "CaseRecommendations2": ["", Validators.nullValidator],
+            "CaseRecommendations2Category": ["", Validators.nullValidator],
+            "CaseRecommendations2Target": ["", Validators.nullValidator],
+            "CaseRecommendations2Agency": ["", Validators.nullValidator],
+            "CaseRecommendations2Party": ["", Validators.nullValidator],
+            "CaseRecommendations3": ["", Validators.nullValidator],
+            "CaseRecommendations3Category": ["", Validators.nullValidator],
+            "CaseRecommendations3Target": ["", Validators.nullValidator],
+            "CaseRecommendations3Agency": ["", Validators.nullValidator],
+            "CaseRecommendations3Party": ["", Validators.nullValidator],
+            "BHAReview": ["", Validators.nullValidator],
+            "BHAFollowup": ["", Validators.nullValidator]
+
+
+        });
+    }
+
+
+    onChange(): void //SK_clears the timeout and saves the chanes
     {
-        if (this.timeoutTag)
-        {
+        if (this.timeoutTag) {
             clearTimeout(this.timeoutTag);
         }
-        
+
         this.timeoutTag = setTimeout(this.saveChanges.bind(this), 3 * 1000);
     }
 
-    saveChanges():void
-    {
+    saveChanges(): void {
         console.log("Saving");
         this.timeoutTag = null;
         var oldChanges = this.dataModel.changeset;
         this.dataModel.changeset = {};
         this.service.saveCase(this.caseId, oldChanges)
-        .then(r => this.saveNotify())
-        .catch(r => this.saveErrorNotify())//SK Check the code below and make sure the two catch bloacks are working fine.
+            .then(r => this.saveNotify())
+            .catch(r => this.saveErrorNotify())//SK Check the code below and make sure the two catch bloacks are working fine.
             .catch(r => {
-                for(var k in oldChanges)
-                {
+                for (var k in oldChanges) {
                     // pushing any changes back into the changeset
                     // ignore anything that's already been re-added (from new input)
                     if (this.dataModel.changeset[k]) continue;
@@ -294,52 +310,65 @@ export class CaseComponent implements OnInit {
             });
     }
 
-    saveNotify() : any {
-            this.saveNotificationService.success(
-            "Saved", 
+    saveNotify(): any {
+        this.saveNotificationService.success(
+            "Saved",
             "Changes Successfully Saved",
-           {
+            {
                 //SK_These options override the options set for ping notification
                 id: 2,
                 position: ["top", "right"],
-                timeOut: 3*1000,
-                maxStack:3,
+                timeOut: 3 * 1000,
+                maxStack: 3,
                 showProgressBar: true,
                 pauseOnHover: true,
                 clickToClose: true,
             }
-        );   
+        );
     }
 
 
-    saveErrorNotify() : any {
+    saveErrorNotify(): any {
         this.saveNotificationService.error(
-        "Error!", 
-        "Changes could not be saved.",
-       {
-            //SK_These options override the options set for ping notification
-            id: 2,
-            position: ["top", "right"],
-            timeOut: 3*1000,
-            maxStack:3,
-            showProgressBar: true,
-            pauseOnHover: true,
-            clickToClose: true,
-        }
-    );   
-}
-        
-    
-
-     submit():void{
-       //this.caseForm.dirty &&
-          if ( this.caseForm.valid) {
-           this.service.submitCase(this.caseId, null).then(
-             resp => console.log(resp.Result));
-             this.router.navigate(['dashboard']);
-          }
-          else{
-              alert("Form is not valid");
-          }
+            "Error!",
+            "Changes could not be saved.",
+            {
+                //SK_These options override the options set for ping notification
+                id: 2,
+                position: ["top", "right"],
+                timeOut: 3 * 1000,
+                maxStack: 3,
+                showProgressBar: true,
+                pauseOnHover: true,
+                clickToClose: true,
+            }
+        );
     }
+
+
+
+    submit(): void {
+
+        //SK_ Had to set the value of all the controls to make the Status of individual control and the FormGroup 'Valid'. Dont know why the angular resets the value of each control to empty, making the control and from status 'Invalid'
+        //Once above line's function is achieved, just check to see if the form is valid and save the result.
+        var key;
+        for (key in this.case.Data) {
+            if (this.case.Data.hasOwnProperty(key)) {
+                this.caseForm.controls[key].setValue(this.case.Data[key]);
+            }
+        }
+
+        //Actual form submission/
+        console.log(this.caseForm);
+        if (this.caseForm.valid) {
+            this.service.submitCase(this.caseId, null).then(
+                resp => console.log(resp.Result));
+            this.router.navigate(['dashboard']);
+        }
+        else {
+            alert("Form is not valid. Please make sure all required fields(*) are filled");
+            console.log(this.caseForm.controls);
+        }
+    }
+
 }
