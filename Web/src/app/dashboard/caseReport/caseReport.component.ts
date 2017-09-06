@@ -33,7 +33,6 @@ export class CaseReportComponent {
                             "jurisdiction" : ["County 1", Validators.nullValidator] 
                            
               });
-              debugger;
 
      this.items = [{Value: 'Alabama',label:'Alabama'},
                   {Value:	'Alaska',label:'Alaska'},

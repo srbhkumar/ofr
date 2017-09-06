@@ -1,43 +1,86 @@
+<div [formGroup]="form" class='form-group row case-field' *ngIf='Field'>
+    <label for="case-field-{{Field.Name}}" class="col-md-4 col-form-label">{{Field.Description}}<span *ngIf='Field.Required' class="text-danger"> * </span></label>
 
-<div  [formGroup]="form" class='form-group row case-field' *ngIf='Field'>
-    <label for="case-field-{{Field.Name}}" class="col-md-4 col-form-label">{{Field.Description}}<span *ngIf='Field.Required' class="text-danger"> * </span></label> 
-    
-    
-   
+
+
     <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type" class="col-md-5 ">
-        <div *ngSwitchCase="'Text'" >
-            <input class="form-control" type="text" formControlName="{{Field.Name}}"  [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)" />
-        
+        <div *ngSwitchCase="'Text'">
+            <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                (input)="setValue($event.target.value)" />
+
         </div>
-  
-        <div *ngSwitchCase="'Date'"  >
-            <input class="form-control" type="date" formControlName="{{Field.Name}}"    [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"    (input)="setVa($event.target.value)" >
-                
+
+        <div *ngSwitchCase="'Date'">
+            <input class="form-control" type="date" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                (input)="setValue($event.target.value)">
+
         </div>
-        <div *ngSwitchCase="'Dropdown'"  >
-            <select class="form-control" formControlName="{{Field.Name}}"       [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)" >
-                <option *ngFor="let opt of Field.Options">{{opt}}</option>
-            </select>
-             
-        </div>
-        <div *ngSwitchCase="'Radio'"  >
-            <span *ngFor="let opt of Field.Options">
+
+        <div *ngSwitchCase="'Label'">
+                <input class="form-control" type="label" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="c"
+                    (input)="setValue($event.target.value)">
+    
+            </div>
+
+        <div *ngSwitchCase="'Radio'">
+            <span *ngFor="let opt of Field.Options; let idx = index">
                   <input type="radio"  formControlName="{{Field.Name}}"  
                   name="{{Field.Name}}" id="case-field-{{Field.Name}}" 
-                value={{opt}}  (input)="setValue($event.target.value)">
+                value={{opt}}  (change)="setRadioVal($event.target.value)" [checked]="opt==ViewModel.Data[Field.Name]">
                 <span> {{opt}} </span>
-               
-             </span>
+
+            </span>
         </div>
-        <div *ngSwitchCase="'Checkbox'" >
-              <input type="checkbox" formControlName="{{Field.Name}}" name="case-field-{{Field.Name}}" id="case-field-{{Field.Name}}" value="ViewModel.Data[Field.Name]" (input)="setValue($event.target.value)">  {{Field.Description}}
-           
+
+        <div *ngSwitchCase="'Dropdown'">
+            <select class="form-control" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                (input)="setValue($event.target.value)">
+                <option *ngFor="let opt of Field.Options">{{opt}}</option>
+            </select>
+            
+
         </div>
+
+        <div *ngSwitchCase="'Checkbox'">
+            <input type="checkbox" name="{{Field.Name}}" formControlName="{{Field.Name}}" id="case-field-{{Field.Name}}" [checked]="ViewModel.Data[Field.Name]"
+                [value]="ViewModel.Data[Field.Name]" (change)="setCheckVal($event.target.value)">
+            <span> {{Field.Name}} </span>
+
+        </div>
+
+
+    <!--PW <small *ngIf="Field.Required && form.touched" class="text-danger">
+                <div [hidden]="form.controls[Field.Name].pristine || form.controls[Field.Name].touched ">Please fill {{Field.Name}}  </div>
+                
+      </small> -->
+
+
+      <!-- Check here for form.touched, probably make another case for form.untouched too, when the user comes back and submits the form without making any changes -->
+
+      <!-- FW<small *ngIf="Field.Required && form.touched" class="text-danger">
+            <div *ngIf="form.controls[Field.Name].pristine">
+                <div [hidden]="!form.controls[Field.Name].valid"> Please fill {{Field.Name}}  </div>
+            </div>
+            <div *ngIf="!form.controls[Field.Name].pristine">
+                    <div [hidden]="form.controls[Field.Name].valid"> Please fill {{Field.Name}}  </div>
+            </div>
+    </small> -->
+
+    <small *ngIf="Field.Required && form.touched" class="text-danger">
+            <div *ngIf="form.controls[Field.Name].pristine">
+                <div [hidden]="form.controls[Field.Name].valid"> Please fill {{Field.Name}}  </div>
+            </div>
+            <div *ngIf="!form.controls[Field.Name].pristine">
+                    <div [hidden]="form.controls[Field.Name].valid"> Please fill {{Field.Name}}  </div>
+            </div>
+    </small>
+
+
       
-        <small *ngIf="Field.Required &&  !form.controls[Field.Name].valid" class="text-danger">
-                    Please fill {{Field.Name}}  
-         </small>
+
+        <!-- <small *ngIf="Field.maxLength(100) &&  !form.controls[Field.Name].valid" class="text-danger">
+                Maximum allowed length for {{Field.Name}} is 100 characters. 
+        </small> -->
 
     </div>
 </div>
- 

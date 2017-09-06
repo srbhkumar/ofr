@@ -11,7 +11,7 @@ export class TemplateField {
     Description:string;
     Type:string;
     Required:boolean;
-    Options:Array<string>;   
+    Options:Array<string>; 
 };
 
 export class CaseViewModel
