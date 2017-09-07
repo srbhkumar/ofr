@@ -1,16 +1,18 @@
 ﻿import { Injectable } from '@angular/core';
-
+import { Msal } '../../../../node_modules/msal/out/msal';
 declare var bootbox: any;
 declare var Msal: any;
 
 @Injectable()
+
+
 export class MsalService {
     access_token: string;
 
     tenantConfig = {
         tenant: "ofrdev.onmicrosoft.com",
         clientID: 'e2948675-750b-415f-be88-19f39e89283e',
-        signUpSignInPolicy: "C2C_1_sign-up-policy",
+        signUpSignInPolicy: "B2C_1_sign-up-policy",
         b2cScopes: ["https://AkereB2cTenantDev.onmicrosoft.com/demoapi/demo.read"]
     };
 

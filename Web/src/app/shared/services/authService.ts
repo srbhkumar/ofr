@@ -7,7 +7,7 @@
         this.userkey = "userId";
     }
 
-    login(token: string, userId: number, accountName: string): boolean {
+    login(token: string, userId: number): boolean {
         localStorage.setItem(this.tokenkey, token);
         localStorage.setItem(this.userkey, userId.toString());
         return true;
