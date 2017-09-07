@@ -1,28 +1,33 @@
-
-export class AuthService {
-   private loginKey: string;
+﻿export class AuthService {
+    private tokenkey: string;
+    private userkey: string;
 
     constructor() {
-        this.loginKey = 'username';
+        this.tokenkey = 'token';
+        this.userkey = "userId";
     }
 
-    login(user: string, password: string): boolean {
-        if (user == 'test@leaporbit.com' && password == '1234') {
-            localStorage.setItem(this.loginKey, user);
-            return true;
-        }
+    login(token: string, userId: number, accountName: string): boolean {
+        localStorage.setItem(this.tokenkey, token);
+        localStorage.setItem(this.userkey, userId.toString());
         return true;
     }
 
     logOut(): any {
-        localStorage.removeItem(this.loginKey);
+        localStorage.removeItem(this.tokenkey);
+        localStorage.removeItem(this.userkey);
     }
 
-    getUser():any{
-        return localStorage.getItem(this.loginKey);
+    getUserId(): any {
+        return localStorage.getItem(this.userkey);
     }
 
-    isLoggedIn(): boolean{
-        return this.getUser()!==null;
+
+    getToken(): any {
+        return localStorage.getItem(this.tokenkey);
+    }
+
+    isLoggedIn(): boolean {
+        return this.getUserId() !== null;
     }
 }
