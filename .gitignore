@@ -4,3 +4,5 @@ obj
 /.vs
 /Web/.vs
 /OFR/.vs
+/OfrApi/packages
+/OfrApi/.vs
