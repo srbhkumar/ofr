@@ -5,8 +5,18 @@
 
     <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type" class="col-md-5 ">
         <div *ngSwitchCase="'Text'">
-            <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
-                (input)="setValue($event.target.value)" />
+            <div *ngIf="ViewModel.Data[Field.Name]">
+                <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                    (input)="setValue($event.target.value)"  />
+            </div>
+            <div *ngIf="!ViewModel.Data[Field.Name]">
+                <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)"
+                />
+            </div>
+            <!-- <div *ngIf="!ViewModel.Data[AgeatDeath]">
+                <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[AgeatDeath]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)"
+                readonly/>
+            </div> -->
 
         </div>
 
@@ -16,11 +26,11 @@
 
         </div>
 
-        <div *ngSwitchCase="'Label'">
-                <input class="form-control" type="label" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="c"
-                    (input)="setValue($event.target.value)">
-    
-            </div>
+        <!-- <div *ngSwitchCase="'Text'">
+            <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                (input)="setValue($event.target.value)" readonly>
+
+        </div> -->
 
         <div *ngSwitchCase="'Radio'">
             <span *ngFor="let opt of Field.Options; let idx = index">
@@ -37,7 +47,7 @@
                 (input)="setValue($event.target.value)">
                 <option *ngFor="let opt of Field.Options">{{opt}}</option>
             </select>
-            
+
 
         </div>
 
@@ -48,37 +58,39 @@
 
         </div>
 
-
-    <!--PW <small *ngIf="Field.Required && form.touched" class="text-danger">
-                <div [hidden]="form.controls[Field.Name].pristine || form.controls[Field.Name].touched ">Please fill {{Field.Name}}  </div>
-                
-      </small> -->
-
-
-      <!-- Check here for form.touched, probably make another case for form.untouched too, when the user comes back and submits the form without making any changes -->
-
-      <!-- FW<small *ngIf="Field.Required && form.touched" class="text-danger">
-            <div *ngIf="form.controls[Field.Name].pristine">
-                <div [hidden]="!form.controls[Field.Name].valid"> Please fill {{Field.Name}}  </div>
-            </div>
-            <div *ngIf="!form.controls[Field.Name].pristine">
-                    <div [hidden]="form.controls[Field.Name].valid"> Please fill {{Field.Name}}  </div>
-            </div>
-    </small> -->
-
-    <small *ngIf="Field.Required && form.touched" class="text-danger">
+        <!-- LW<small *ngIf="Field.Required && form.touched" class="text-danger">
             <div *ngIf="form.controls[Field.Name].pristine">
                 <div [hidden]="form.controls[Field.Name].valid"> Please fill {{Field.Name}}  </div>
             </div>
             <div *ngIf="!form.controls[Field.Name].pristine">
                     <div [hidden]="form.controls[Field.Name].valid"> Please fill {{Field.Name}}  </div>
             </div>
+    </small> -->
+
+        <small *ngIf="form.controls[Field.Name].invalid && (form.dirty || form.touched)" class="text-danger">
+            <div *ngIf="!form.controls[Field.Name].pristine">
+            <div *ngIf="Field.Required">
+                <div> Please fill {{Field.Name}}  </div>
+            </div>
+            <div *ngIf="Field.maxlength">
+                    <div> Please fill within specified limits.</div>
+            </div>
+            </div>
+            <div *ngIf="form.controls[Field.Name].pristine">
+                <div *ngIf="Field.Required">
+                    <div> Please fill {{Field.Name}}  </div>
+                </div>
+                <div *ngIf="Field.maxlength">
+                        <div> Please fill within specified limits.</div>
+                </div>
+                </div>
     </small>
 
 
-      
 
-        <!-- <small *ngIf="Field.maxLength(100) &&  !form.controls[Field.Name].valid" class="text-danger">
+
+
+        <!-- <small *ngIf="Field.maxLength(3500) &&  !form.controls[Field.Name].valid" class="text-danger">
                 Maximum allowed length for {{Field.Name}} is 100 characters. 
         </small> -->
 
