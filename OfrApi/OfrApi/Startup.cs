@@ -1,13 +1,11 @@
-﻿using Microsoft.Owin.Security.OAuth;
+﻿using Microsoft.Owin;
+using Microsoft.Owin.Security.Jwt;
+using Microsoft.Owin.Security.OAuth;
+using OfrApi.App_Start;
 using Owin;
 using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.Web.Http;
-using OfrApi.App_Start;
-using Microsoft.Owin.Security.Jwt;
-using System.Web.Http.Cors;
-using OfrApi.Services;
-using Microsoft.Owin;
 
 [assembly: OwinStartup(typeof(OfrApi.Startup))]
 namespace OfrApi

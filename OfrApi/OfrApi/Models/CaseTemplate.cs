@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace OfrApi.Models
 {
 
-/*public enum FieldType
-{
-    Text,
-    Date,
-    Time,
-    Checkbox,
-    Radio,
-    Dropdown
-}*/
+    /*public enum FieldType
+    {
+        Text,
+        Date,
+        Time,
+        Checkbox,
+        Radio,
+        Dropdown
+    }*/
 
     public class CaseField
     {

@@ -1,18 +1,12 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Azure.Documents.Client;
-using Newtonsoft.Json;
 using OfrApi.Models;
 using OfrApi.Services;
-using Swashbuckle.Swagger.Annotations;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace OfrApi.Controllers
 {
