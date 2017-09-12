@@ -16,14 +16,14 @@ namespace OfrApi.Services
 
         static Dal()
         {
-            //string endpoint = ConfigurationManager.AppSettings["DocumentEndpoint"];
-            //string primkey = ConfigurationManager.AppSettings["DocumentPrimKey"];
+            string endpoint = "https://ofr-cosmos-dev.documents.azure.com:443/";// ConfigurationManager.AppSettings["StorageEndpoint"];
+            string primkey = "sirTwP2K1VK4YgyIJ3wBkPfTgZmjsMU4xb4yzow3IYjNk2dS9ah2VZkYdhYZChxGgKW88pM33t5WE8eAFDLIuw=="; //ConfigurationManager.AppSettings["DocumentPrimKey"];
 
-            //Client = new DocumentClient(new Uri(endpoint), primkey);
+            Client = new DocumentClient(new Uri(endpoint), primkey);
 
 
-            //TelemetryConfiguration.Active.InstrumentationKey = ConfigurationManager.AppSettings["InstrumentationKey"];
-            //TelClient = new TelemetryClient();
+            TelemetryConfiguration.Active.InstrumentationKey = "57ojou71xaefuwctvhy3kjhftm30djd2r43xajq7"; //ConfigurationManager.AppSettings["InstrumentationKey"];
+            TelClient = new TelemetryClient();
         }
     }
 }

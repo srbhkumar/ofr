@@ -6,7 +6,10 @@ using System.Web.Http;
 using OfrApi.App_Start;
 using Microsoft.Owin.Security.Jwt;
 using System.Web.Http.Cors;
+using OfrApi.Services;
+using Microsoft.Owin;
 
+[assembly: OwinStartup(typeof(OfrApi.Startup))]
 namespace OfrApi
 {
     public class Startup
@@ -19,13 +22,18 @@ namespace OfrApi
 
         public void Configuration(IAppBuilder app)
         {
+            
             //Doesn't seem to ever work
             //Currently just set in web config, but should be modified to only allow calls from our specific web app 
-            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            /*app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
                 
-            HttpConfiguration config = new HttpConfiguration();
-            ConfigureOAuth(app);
+            
+            
             config.EnableCors(new EnableCorsAttribute("*", "*", "GET, POST, OPTIONS, PUT, DELETE"));
+            */
+            HttpConfiguration config = new HttpConfiguration();
+            //config.MessageHandlers.Add(new CorsHandler());
+            ConfigureOAuth(app);
             WebApiConfig.Register(config);
             app.UseWebApi(config);
         }

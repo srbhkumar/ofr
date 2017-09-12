@@ -1,5 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
-import { Msal } '../../../../node_modules/msal/out/msal';
+import { Router, ActivatedRoute } from '@angular/router';
+//import '../../../../node_modules/msal/out/msal';
+/// <reference path="../../../../node_modules/msal/out/msal.d.ts" />
 declare var bootbox: any;
 declare var Msal: any;
 
@@ -8,12 +10,11 @@ declare var Msal: any;
 
 export class MsalService {
     access_token: string;
-
     tenantConfig = {
         tenant: "ofrdev.onmicrosoft.com",
-        clientID: 'e2948675-750b-415f-be88-19f39e89283e',
+        clientID: "b132f819-f134-4418-98e3-97d09be72856",
         signUpSignInPolicy: "B2C_1_sign-up-policy",
-        b2cScopes: ["https://AkereB2cTenantDev.onmicrosoft.com/demoapi/demo.read"]
+        b2cScopes: ["https://ofrdev.onmicrosoft.com/api/case"],
     };
 
     // Configure the authority for Azure AD B2C
@@ -22,42 +23,38 @@ export class MsalService {
 
     /*
      * B2C SignIn SignUp Policy Configuration
+     * 
      */
     clientApplication = new Msal.UserAgentApplication(
-        this.tenantConfig.clientID, this.authority,
-        function (errorDesc: any, token: any, error: any, tokenType: any) {            
-            if (errorDesc && (<string>errorDesc).startsWith('AADB2C90118')) {
-                localStorage.setItem('AccessDenied', 'true');
-            }
-            else if (token) {
-                localStorage.setItem('token', token);
-            }
-        }
-    );
+        this.tenantConfig.clientID, this.authority);
 
     login(): void {
-        this.clientApplication.loginRedirect(this.tenantConfig.b2cScopes).then(function (idToken: any) {
-            this.clientApplication.acquireTokenSilent(this.tenantConfig.b2cScopes).then(
-                function (accessToken: any) {
-                    this.access_token = accessToken;
-                }, function (error: any) {
-                    this.clientApplication.acquireTokenPopup(this.tenantConfig.b2cScopes).then(
-                        function (accessToken: any) {
-                            this.access_token = accessToken;
-                        }, function (error: any) {
-                            alert("Error acquiring the popup:\n" + error);
-                        });
-                })
-        }, function (error: any) {
-            alert("Error during login:\n" + error);
-        });
+        this.clientApplication.loginRedirect([this.tenantConfig.clientID]);
     }
 
+    updateToken(){
+
+        Promise.all(
+            this.clientApplication.acquireTokenSilent(this.tenantConfig.b2cScopes, null, this.clientApplication.getUser()).then(function (accessToken) {
+                localStorage.setItem('AccessToken', accessToken);
+                
+            }, function (error) {
+                this.clientApplication.acquireTokenPopup(this.tenantConfig.b2cScopes, null, this.clientApplication.getUser()).then(function (accessToken) {
+                    localStorage.setItem('AccessToken', accessToken);
+                }, function (error) {
+                    alert("Error acquiring the access token to call the Web api:\n" + error);
+                });
+        }));
+    }
+
+    getAccessToken(): string{
+        return localStorage.getItem('AccessToken');
+    }
     logout(): void {
         this.clientApplication.logout();
     };
 
     isOnline(): boolean {
-        return this.clientApplication.getToken() != null;
+        return this.clientApplication.getUser() != null;
     };
 }

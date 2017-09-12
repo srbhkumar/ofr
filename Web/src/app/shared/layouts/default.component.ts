@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../services/authService';
+import { MsalService } from '../services/MsalService'
 
 
 @Component({
@@ -9,9 +9,9 @@ import { AuthService } from '../services/authService';
 })
 
 export class DefaultComponent {
-    constructor(public authService: AuthService, public router: Router) { }
+    constructor( private msal: MsalService, public router: Router) { }
     logOut(){
-        this.authService.logOut();
-        this.router.navigate(['login']);
+        this.msal.logout();
+        this.router.navigate(['']);
     }
 }

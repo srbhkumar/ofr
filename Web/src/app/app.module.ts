@@ -16,7 +16,6 @@ import{DashboardComponent} from '../app/dashboard/dashboard.component';
 
 import { routing }        from './app.routing';
 import{LoggedInGuard} from './shared/guards/auth.guard';
-import { AuthService } from './shared/services/authService';
 import {MsalService} from './shared/services/MsalService';
 import{DataService} from './shared/services/dataService';
  
@@ -52,7 +51,7 @@ import { PopupModule } from 'ng2-opd-popup';
     DataTableModule,
     Ng2PaginationModule
   ],
-  providers: [LoggedInGuard,AuthService,MsalService,DataService],
+  providers: [LoggedInGuard, MsalService, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
