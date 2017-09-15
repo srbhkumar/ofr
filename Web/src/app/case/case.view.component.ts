@@ -72,8 +72,7 @@ export class CaseComponent implements OnInit {
         this.caseId = this.route.snapshot.params['id'];
         console.log(this.caseId);
 
-        this.NotifyActiveUsers(this.caseId, this.userName);
-        //console.log(this.service.getCaseInformation(this.caseId));
+        //this.NotifyActiveUsers(this.caseId, this.userName); //This is Temporarily commented out for demo by Mike. We can restore it later/
         this.service.getCaseInformation(this.caseId).then(
             resp => {
                 this.getTemplateInformation(resp);

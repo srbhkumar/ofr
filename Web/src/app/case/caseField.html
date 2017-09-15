@@ -6,10 +6,10 @@
     <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type" class="col-md-5 ">
         <div *ngSwitchCase="'Text'">
             <!-- <div *ngIf="ViewModel.Data[Field.Name]"> -->
-                <input class="form-control" type="text" maxlength="{{Field.Length}}" formControlName="{{Field.Name}}"  [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
-                    (input)="setTextValue($event.target.value)"/>
+            <input class="form-control" type="text" maxlength="{{Field.Length}}" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]"
+                id="case-field-{{Field.Name}}" (input)="setTextValue($event.target.value)" />
 
-                    <!-- <textarea placeholder="Please type here" class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+            <!-- <textarea placeholder="Please type here" class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
                     (input)="setTextValue($event.target.value)"></textarea> -->
             <!-- </div> -->
             <!-- <div *ngIf="!ViewModel.Data[Field.Name]">
@@ -25,16 +25,16 @@
 
 
         <div *ngSwitchCase="'Textarea'">
-                <textarea maxlength="{{Field.Length}}" class="form-control" type="text" rows="5" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
-                (input)="setTextValue($event.target.value)"></textarea>
-    
-            </div>
+            <textarea maxlength="{{Field.Length}}" class="form-control" type="text" rows="5" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]"
+                id="case-field-{{Field.Name}}" (input)="setTextValue($event.target.value)"></textarea>
 
-            <div *ngSwitchCase="'TextAreaBig'">
-                <textarea maxlength="{{Field.Length}}" class="form-control" type="text" rows="15" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
-                (input)="setTextValue($event.target.value)"></textarea>
-    
-            </div>
+        </div>
+
+        <div *ngSwitchCase="'TextAreaBig'">
+            <textarea maxlength="{{Field.Length}}" class="form-control" type="text" rows="15" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]"
+                id="case-field-{{Field.Name}}" (input)="setTextValue($event.target.value)"></textarea>
+
+        </div>
 
         <div *ngSwitchCase="'Date'">
             <input class="form-control" type="date" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
@@ -84,27 +84,28 @@
     </small> -->
 
 
-    <small *ngIf="(form.controls[Field.Name].invalid && form.controls[Field.Name].pristine) && (form.pristine || form.untouched)" class="text-danger">
+    <small *ngIf="(form.controls[Field.Name].invalid && form.controls[Field.Name].pristine) && (form.pristine && form.untouched)"
+            class="text-danger">
             <div *ngIf="Field.Required">
-                <div> Please fill {{Field.Name}}  </div>
+                <div>This is a required field.</div>
             </div>
     </small>
+
+    <!-- <small *ngIf="form.controls[Field.Name].pristine && (form.pristine || form.untouched)" class="text-danger">
+    <div *ngIf="Field.Required">
+        <div [hidden]="form.pristine  && form.controls[Field.Name].valid">This is a required field.</div>
+    </div>
+</small> -->
 
     <small *ngIf="form.controls[Field.Name].invalid && (form.dirty || form.touched)" class="text-danger">
             <div *ngIf="!form.controls[Field.Name].pristine">
             <div *ngIf="Field.Required">
-                <div> Please fill {{Field.Name}}  </div>
-            </div>
-            <div *ngIf="Field.maxlength">
-                    <div> Please fill within specified limits.</div>
+                <div>This is a required field.</div>
             </div>
             </div>
             <div *ngIf="form.controls[Field.Name].pristine">
                 <div *ngIf="Field.Required">
-                    <div> Please fill {{Field.Name}}  </div>
-                </div>
-                <div *ngIf="Field.maxlength">
-                        <div> Please fill within specified limits.</div>
+                    <div>This is a required field</div>
                 </div>
                 </div>
     </small>

@@ -3,45 +3,47 @@
     <div *ngIf="caseDetails">
         <div class="modal-body">
             <div class="container">
-                <!-- <table class="table table-bordered table-hover">
-        <thead>
-            <th>OCME</th>
-            <th>ResidentCounty</th>
-            <th>DateofDeath</th>
-            <th>CauseofDeath</th>
-            <th>CountyofDeath</th>
-            <th>Status</th>
-            <th>Action</th>
-        </thead>
-        <tbody class="table">
-            <tr>
-                <td>{{caseDetails.OCME}}</td>
-                <td>{{caseDetails.Data['ResidentCounty']}}</td>
-                <td>{{caseDetails.Data['DateofDeath']}}</td>
-                <td>{{caseDetails.Data['CauseofDeath']}}</td>
-                <td>{{caseDetails.Data['CountyofDeath']}}</td>
-                <td>{{caseDetails.Status}}</td>
-                <td *ngIf="caseDetails.Status =='Assigned'">  
-                        <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft    margin_l25 "> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                </td>
-                <td *ngIf="caseDetails.Status =='Available'">
-                        <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l5"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft   margin_l25"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                </td>
-                <td *ngIf="caseDetails.Status =='Dismissed'">
-                        <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                </td>
-            </tr>
-        </tbody>
-    </table> -->
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <th>OCME</th>
+                        <th>ResidentCounty</th>
+                        <th>DateofDeath</th>
+                        <th>CauseofDeath</th>
+                        <th>CountyofDeath</th>
+                        <th>Status</th>
+                        <th style="width:230px">Action</th>
+                        <th>View Clinical Data</th>
+                    </thead>
+                    <tbody class="table">
+                        <tr>
+                            <td>{{caseDetails.OCME}}</td>
+                            <td>{{caseDetails.Data['ResidentCounty']}}</td>
+                            <td>{{caseDetails.Data['DateofDeath']}}</td>
+                            <td>{{caseDetails.Data['CauseofDeath']}}</td>
+                            <td>{{caseDetails.Data['CountyofDeath']}}</td>
+                            <td>{{caseDetails.Status}}</td>
+                            <td *ngIf="caseDetails.Status =='Assigned'">
+                                <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft    margin_l25 "> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                            </td>
+                            <td *ngIf="caseDetails.Status =='Available'">
+                                <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l5"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft   margin_l25"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                            </td>
+                            <td *ngIf="caseDetails.Status =='Dismissed'">
+                                <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                            </td>
+                            <td ><a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" class="btn btn-info" role="button">Clinical Data</a></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <div class="container">
+                <!-- Temporarily commenetd out for Demo<div class="container">
                     <h2>Case Details</h2>
                     <h2>Demographic Details</h2>
                     <div class="panel-group">
@@ -109,14 +111,14 @@
                                     <div class="col-sm-6">1234</div>
                                     <div class="col-sm-6">OCME</div>
                                     <div class="col-sm-6">1234</div>
-                                    <!-- <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div> -->
+                                    <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>
                                 </div>
                             </div>
                         </div>
 
 
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -203,7 +205,7 @@
                             <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5"> </a>
-                            <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o fright" style="width:25%;" aria-hidden="true"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -262,7 +264,7 @@
                             <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
                             <!--<a [routerLink]="['/case', item.id]"><span class="icon-edit fleft   margin_l5"></span></a>-->
-                            <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <!--Not allowed for Available cases <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> --> 
 
 
                         </td>
