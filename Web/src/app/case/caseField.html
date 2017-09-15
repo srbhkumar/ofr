@@ -5,20 +5,36 @@
 
     <div *ngIf='!ViewModel.IsDisplay' [ngSwitch]="Field.Type" class="col-md-5 ">
         <div *ngSwitchCase="'Text'">
-            <div *ngIf="ViewModel.Data[Field.Name]">
-                <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
-                    (input)="setValue($event.target.value)"  />
-            </div>
-            <div *ngIf="!ViewModel.Data[Field.Name]">
-                <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)"
+            <!-- <div *ngIf="ViewModel.Data[Field.Name]"> -->
+                <input class="form-control" type="text" maxlength="{{Field.Length}}" formControlName="{{Field.Name}}"  [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                    (input)="setTextValue($event.target.value)"/>
+
+                    <!-- <textarea placeholder="Please type here" class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                    (input)="setTextValue($event.target.value)"></textarea> -->
+            <!-- </div> -->
+            <!-- <div *ngIf="!ViewModel.Data[Field.Name]">
+                <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="" id="case-field-{{Field.Name}}" (input)="setTextValue($event.target.value)"
                 />
-            </div>
+            </div> -->
             <!-- <div *ngIf="!ViewModel.Data[AgeatDeath]">
                 <input class="form-control" type="text" formControlName="{{Field.Name}}" [value]="ViewModel.Data[AgeatDeath]" id="case-field-{{Field.Name}}" (input)="setValue($event.target.value)"
                 readonly/>
             </div> -->
 
         </div>
+
+
+        <div *ngSwitchCase="'Textarea'">
+                <textarea maxlength="{{Field.Length}}" class="form-control" type="text" rows="5" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                (input)="setTextValue($event.target.value)"></textarea>
+    
+            </div>
+
+            <div *ngSwitchCase="'TextAreaBig'">
+                <textarea maxlength="{{Field.Length}}" class="form-control" type="text" rows="15" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                (input)="setTextValue($event.target.value)"></textarea>
+    
+            </div>
 
         <div *ngSwitchCase="'Date'">
             <input class="form-control" type="date" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
@@ -37,7 +53,7 @@
                   <input type="radio"  formControlName="{{Field.Name}}"  
                   name="{{Field.Name}}" id="case-field-{{Field.Name}}" 
                 value={{opt}}  (change)="setRadioVal($event.target.value)" [checked]="opt==ViewModel.Data[Field.Name]">
-                <span> {{opt}} </span>
+                <span style="padding: 0px 20px 0px 0px;"> {{opt}} </span>
 
             </span>
         </div>
@@ -54,7 +70,7 @@
         <div *ngSwitchCase="'Checkbox'">
             <input type="checkbox" name="{{Field.Name}}" formControlName="{{Field.Name}}" id="case-field-{{Field.Name}}" [checked]="ViewModel.Data[Field.Name]"
                 [value]="ViewModel.Data[Field.Name]" (change)="setCheckVal($event.target.value)">
-            <span> {{Field.Name}} </span>
+            <!-- <span> {{Field.Name}} </span> -->
 
         </div>
 
@@ -67,7 +83,14 @@
             </div>
     </small> -->
 
-        <small *ngIf="form.controls[Field.Name].invalid && (form.dirty || form.touched)" class="text-danger">
+
+    <small *ngIf="(form.controls[Field.Name].invalid && form.controls[Field.Name].pristine) && (form.pristine || form.untouched)" class="text-danger">
+            <div *ngIf="Field.Required">
+                <div> Please fill {{Field.Name}}  </div>
+            </div>
+    </small>
+
+    <small *ngIf="form.controls[Field.Name].invalid && (form.dirty || form.touched)" class="text-danger">
             <div *ngIf="!form.controls[Field.Name].pristine">
             <div *ngIf="Field.Required">
                 <div> Please fill {{Field.Name}}  </div>

@@ -77,6 +77,7 @@ export class CaseComponent implements OnInit {
         this.service.getCaseInformation(this.caseId).then(
             resp => {
                 this.getTemplateInformation(resp);
+                console.log("Template" + resp)
 
             });
 
@@ -149,32 +150,36 @@ export class CaseComponent implements OnInit {
         return true;
     }
 
-
     getTemplateInformation(respCase: Case) {
         this.case = respCase;
         this.service.getTemplate(respCase.Template).then(
             t => {
-            this.dataModel = {
-                Template: t,
-                changeset: {},
-                Data: this.case.Data,
-                IsDisplay: false,
-                OnChange: this.onChange.bind(this)
+                this.dataModel = {
+                    Template: t,
+                    changeset: {},
+                    Data: this.case.Data,
+                    IsDisplay: false,
+                    OnChange: this.onChange.bind(this)
 
-            };
+                };
+                console.log("Temp" + t.Name);
 
             });
+           
 
 
     }
+
+    
     initializeFormControls(): void {
         this.caseForm = this.formBuilder.group({
             "NameofReviewer": ["Reviewer 1", Validators.required],
+            "DateofInitialCaseReview": ["", Validators.required],
             "DateofDeath": ["", Validators.required],
             "YearofDeath": ["", Validators.required],
-            "JurisdictionofDeath": ["", Validators.required],
+            "IncidentJurisdiction": ["", Validators.required],
             "CountyofDeath": ["", Validators.required],
-            "ResidentCounty": ["", Validators.required],
+            "ResidentJurisdiction": ["", Validators.required],
             "CauseofDeath": ["", Validators.nullValidator],
             "MannerofDeath": ["", Validators.required],
             "Sex": ["", Validators.required],
@@ -191,7 +196,7 @@ export class CaseComponent implements OnInit {
             "PDMPRecords": ["", Validators.nullValidator],
             "PharmacyRecords": ["", Validators.nullValidator],
             "EDEncounter": ["", Validators.nullValidator],
-            "ED_DayofDeath": ["", Validators.nullValidator],
+            //"ED_DayofDeath": ["", Validators.nullValidator],
             "PainManagement": ["", Validators.nullValidator],
             "ChronicSomatic": ["", Validators.nullValidator],
             "BrainInjury": ["", Validators.nullValidator],
@@ -217,6 +222,7 @@ export class CaseComponent implements OnInit {
             "BHHdRecords": ["", Validators.nullValidator],
             "BHPrivateRecords": ["", Validators.nullValidator],
             "BHTreatmentatDeath": ["", Validators.nullValidator],
+            "BHMAT": ["", Validators.nullValidator],
             "BHMentalHealth": ["", Validators.nullValidator],
             "BHBeacon": ["", Validators.nullValidator],
             "BHHDContact": ["", Validators.nullValidator],
@@ -233,10 +239,11 @@ export class CaseComponent implements OnInit {
             "FamilyInterviews": ["", Validators.nullValidator],
             "MaritalStatus": ["", Validators.nullValidator],
             "IntimatePartnerViolence": ["", Validators.nullValidator],
+            "IPVRole": ["", Validators.nullValidator],
             "DecedentChildren": ["", Validators.nullValidator],
             "HRMORPRecords": ["", Validators.nullValidator],
             "HRSterileSyringe": ["", Validators.nullValidator],
-            "HRPeerRecovery": ["", Validators.nullValidator],
+            //"HRPeerRecovery": ["", Validators.nullValidator],
             "SexualOrientation": ["", Validators.nullValidator],
             "Pregnancy": ["", Validators.nullValidator],
             "Occupation": ["", Validators.maxLength(50)],
@@ -256,7 +263,6 @@ export class CaseComponent implements OnInit {
             "Delay911": ["", Validators.nullValidator],
             "IVuseIndicatedScene": ["", Validators.nullValidator],
             "PrescriptionPillsonScene": ["", Validators.nullValidator],
-
             "CaseSummary": ["", Validators.compose([Validators.required, Validators.maxLength(3500)])],
             "CaseGaps1": ["", Validators.compose([Validators.required, Validators.maxLength(250)])],
             "CaseGaps2": ["", Validators.maxLength(250)],
@@ -360,15 +366,37 @@ export class CaseComponent implements OnInit {
         }
 
         //Actual form submission/
+        var i, field
+        field = this.dataModel.Template.Fields;
         console.log(this.caseForm);
         if (this.caseForm.valid) {
             this.service.submitCase(this.caseId, null).then(
                 resp => console.log(resp.Result));
             this.router.navigate(['dashboard']);
         }
+
         else {
-            alert("Form is not valid. Please make sure all required fields(*) are filled");
-            console.log(this.caseForm.controls);
+            var errorMsg = "";
+            for (i = 0; i < field.length - 1; i++) {
+                if (!this.caseForm.controls[field[i].Name].valid) {
+
+                    if (this.dataModel.Template.Fields[i].Type.toString() == "Textarea") {
+                        errorMsg = errorMsg + "\"" + this.dataModel.Template.Fields[i].Description.toString() + "\" is a required text field. Please make sure it's filled and is within the character limits.\n";
+                    }
+
+                    if (this.dataModel.Template.Fields[i].Type.toString() == "Text") {
+                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required text field. Please make sure it's filled and is within the character limits.\n";
+                    }
+                    if (this.dataModel.Template.Fields[i].Type.toString() == "TextAreaBig") {
+                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required text field. Please make sure it's filled and is within the character limits.\n";
+                    }
+                    else {
+                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required field. Please make sure it's filled.\n";
+                    }
+
+                }
+            }
+            alert(errorMsg);
         }
     }
 

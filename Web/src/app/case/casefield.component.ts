@@ -8,7 +8,8 @@ import { Case } from '../shared/models/caseModel';
 })
 
 
-export class CaseFieldComponent implements OnChanges {
+
+export class CaseFieldComponent implements OnChanges, OnInit {
     @Input() FieldName: string;
     @Input() ViewModel: CaseViewModel;
     @Input() form: FormGroup;
@@ -22,23 +23,9 @@ export class CaseFieldComponent implements OnChanges {
 
 
     constructor() {
-
+      
     }
 
-
-    ngOnChanges(ch: SimpleChanges): void {
-        if (!this.ViewModel || !this.ViewModel.Template) return;
-        var fields = this.ViewModel.Template.Fields;
-        for (var i = 0; i < fields.length; ++i) {
-            if (fields[i].Name == this.FieldName) {
-                this.Field = fields[i];
-                break;
-            }
-        }
-    }
-
-    //This peace of code (bindModel) does two way does template -> model data binding sice reactive forms do not support two way daat binding.
-    //On each value change, all the value from ViewModel.Data will be assigned to each form control model, making them valid. This is required for succesful validation upon hitting 'Submit" button.
 
     bindModel() {
         var key;
@@ -49,10 +36,37 @@ export class CaseFieldComponent implements OnChanges {
         }
     }
 
+    ngOnInit() {
+        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+        //Add 'implements OnInit' to the class.
+        this.bindModel(); //Its also important to bind when the form first loads, to make sure the filled controls are already in valid state when the form first loads.
+        if (!this.ViewModel.Data[this.FieldName])
+            this.ViewModel.Data[this.FieldName] = null;
+        
+        
+    }
+   
+
+    ngOnChanges(ch: SimpleChanges): void {
+        if (!this.ViewModel || !this.ViewModel.Template) return;
+        var fields = this.ViewModel.Template.Fields;
+        //console.log(fields);
+        for (var i = 0; i < fields.length; ++i) {
+            if (fields[i].Name == this.FieldName) {
+                this.Field = fields[i];
+                console.log(this.Field.Length);
+                break;
+            }
+        }
+    }
+
+    //This peace of code (bindModel) does two way does template -> model data binding sice reactive forms do not support two way daat binding.
+    //On each value change, all the value from ViewModel.Data will be assigned to each form control model, making them valid. This is required for succesful validation upon hitting 'Submit" button.
+
+
 
     setValue(val: number | string | boolean): void {
         //Calcaute year of death from Date of Death entered by user
-
 
 
         this.ViewModel.Data[this.FieldName] = val;
@@ -66,6 +80,52 @@ export class CaseFieldComponent implements OnChanges {
             this.ViewModel.changeset['YearofDeath'] = yearOfDeath.toString();
             this.ViewModel.Data['YearofDeath'] = yearOfDeath.toString();
             this.ViewModel.OnChange();
+        }
+
+        //Calculare age from Date of Death and Date of Birth provided by the user
+        if (this.ViewModel.Data['DateofDeath'] && this.ViewModel.Data['DateofBirth']) {
+            var dateOfDeath = this.ViewModel.Data['DateofDeath'];
+            var dateOfBirth = this.ViewModel.Data['DateofBirth'];
+            // var age = dateOfBirth.getFullYear();
+            var yearOfBirth = Number(dateOfBirth.substr(0, 4));
+            var yearOfDeath = Number(dateOfDeath.substr(0, 4));
+            if (yearOfDeath > yearOfBirth) {
+                var age = yearOfDeath - yearOfBirth;
+                console.log(age);
+                this.ViewModel.changeset['AgeatDeath'] = age.toString();
+                this.ViewModel.Data['AgeatDeath'] = age.toString();
+                //make atemplate for Age or find a way to include Age in the final data getting submitted 
+            }
+            else {
+                this.ViewModel.Data['AgeatDeath'] = "Invalid Data. Please make sure Date of Death is later than Date of Birth";
+            }
+        }
+        this.bindModel();
+
+
+
+
+
+        // todo: trigger saves
+    }
+
+
+    setTextValue(val: number | string | boolean): void {
+        //Calcaute year of death from Date of Death entered by user
+
+
+        this.ViewModel.Data[this.FieldName] = val;
+
+        this.ViewModel.changeset[this.FieldName] = val;
+        this.ViewModel.OnChange();
+
+        if (this.ViewModel.Data['DateofDeath']) {
+            var dateOfDeath = this.ViewModel.Data['DateofDeath'];
+            var yearOfDeath = Number(dateOfDeath.substr(0, 4));
+            this.ViewModel.changeset['YearofDeath'] = yearOfDeath.toString();
+            //this.ViewModel.Data['YearofDeath'] = yearOfDeath.toString();
+            this.ViewModel.OnChange();
+            //this.bindModel();
         }
 
         //Calculare age from Date of Death and Date of Birth provided by the user
@@ -138,4 +198,5 @@ export class CaseFieldComponent implements OnChanges {
         // this.ViewModel.changeset[this.FieldName] = !p;
         // this.ViewModel.OnChange();
     }
+    
 }

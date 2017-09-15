@@ -1,9 +1,9 @@
 <!--<Code for Popup>-->
-    <popup>
+<popup>
     <div *ngIf="caseDetails">
-    <div class="modal-body">
-    <div class="container">
-    <table class="table table-bordered table-hover">
+        <div class="modal-body">
+            <div class="container">
+                <!-- <table class="table table-bordered table-hover">
         <thead>
             <th>OCME</th>
             <th>ResidentCounty</th>
@@ -39,11 +39,88 @@
                 </td>
             </tr>
         </tbody>
-    </table>
-    </div> 
-    </div> 
+    </table> -->
+
+                <div class="container">
+                    <h2>Case Details</h2>
+                    <h2>Demographic Details</h2>
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Panel Header</div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">1234</div>
+                                    <!-- <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div> -->
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    </popup>
+</popup>
 
 <!--<code for Pop up ends>-->
 
@@ -71,9 +148,9 @@
 <div class="clear"></div>
 
 <div [ngSwitch]='status'>
-        <div *ngSwitchCase="'loading'" class="load-spinner" >
-                  Loading....
-        </div>
+    <div *ngSwitchCase="'loading'" class="load-spinner">
+        Loading....
+    </div>
     <div *ngSwitchCase="'active'">
 
         <div class="table-responsive">
@@ -85,7 +162,8 @@
 			autohide = "true"
             >
 </pagination-controls></span></h5>
-            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfAssigned="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfAssigned="mfDataTable" [(mfSortBy)]="sortBy"
+                [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
                         <th class="width12">
@@ -107,7 +185,7 @@
                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                         </th>-->
                         <th class="width12"> Case Action </th>
-                       
+
                     </tr>
                 </thead>
                 <tbody>
@@ -120,8 +198,8 @@
                         <td>{{item.CauseofDeath}}</td>
                         <td>{{item.CountyofDeath}}</td>
                         <!--<td>{{item.Status}}</td>-->
-                          <td>
-                           
+                        <td>
+
                             <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5"> </a>
@@ -143,7 +221,8 @@
             </span>
         </h5>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfNew="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfNew="mfDataTable" [(mfSortBy)]="sortBy"
+                [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
                         <th class="width12">
@@ -165,7 +244,7 @@
                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                         </th>-->
                         <th class="width12"> Case Action </th>
-                       
+
                     </tr>
                 </thead>
                 <tbody>
@@ -177,15 +256,15 @@
                         <td>{{item.CauseofDeath}}</td>
                         <td>{{item.CountyofDeath}}</td>
                         <!--<td>{{item.Status}}</td>-->
-                          <td>
+                        <td>
                             <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
                             <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
                             <!--<a [routerLink]="['/case', item.id]"><span class="icon-edit fleft   margin_l5"></span></a>-->
                             <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            
-                            
+
+
                         </td>
                     </tr>
                 </tbody>
@@ -193,10 +272,10 @@
 
         </div>
 
-        
+
 
         <h5 class="heading"><span>Dismissed Cases</span>
-        <span style="float:right; padding-bottom:20px"><pagination-controls 
+            <span style="float:right; padding-bottom:20px"><pagination-controls 
 			(pageChange) = "pageDismissed = paginationDismissedData($event); pDismissed = $event;" 
 			id="3"
 			maxSize = "8"
@@ -206,7 +285,8 @@
         </span>
         </h5>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy"
+                [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
                         <th class="width12">
@@ -228,7 +308,7 @@
                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                         </th>-->
                         <th class="width12"> Case Action </th>
-                      
+
                     </tr>
                 </thead>
                 <tbody>
@@ -252,7 +332,7 @@
         </div>
 
         <h5 class="heading"><span>Submitted Cases</span>
-        <span style="float:right; padding-bottom:20px"><pagination-controls 
+            <span style="float:right; padding-bottom:20px"><pagination-controls 
 			(pageChange) = "pageSubmitted = paginationSubmittedData($event); pSubmitted = $event;" 
 			id="4"
 			maxSize = "8"
@@ -260,9 +340,10 @@
 			autohide = "true">
             </pagination-controls>
         </span>
-    </h5>
+        </h5>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfSubmitted="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfSubmitted="mfDataTable" [(mfSortBy)]="sortBy"
+                [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
                         <th class="width12">
@@ -284,7 +365,7 @@
                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                         </th>-->
                         <th class="width12"> Case Action </th>
-                      
+
                     </tr>
                 </thead>
                 <tbody>
