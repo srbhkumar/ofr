@@ -25,9 +25,6 @@ export class CaseViewModel
 
 export class Dashboard
 {
-    identity:string;
-    regions:string[];
-    roles:string[];
     cases:Case[];
 }
 

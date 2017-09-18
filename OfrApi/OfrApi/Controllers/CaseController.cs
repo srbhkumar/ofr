@@ -43,7 +43,7 @@ namespace OfrApi.Controllers
         }
 
         // POST api/case
-        [Route("")]
+        [Route("{id}")]
         [HttpPost]
         public HttpResponseMessage Post(string id)
         {
@@ -60,10 +60,10 @@ namespace OfrApi.Controllers
 
         //Get api/case/page/1/submitted
         [HttpGet]
-        [Route("page/{number:int}/submitted")]
+        [Route("page/{number}/submitted")]
         public HttpResponseMessage GetSubmittedPage(int number)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, CaseDal.GetSubmittedCasesByPage(number, Request).ToArray(), Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK, new { cases = CaseDal.GetSubmittedCasesByPage(number, Request) }, Configuration.Formatters.JsonFormatter, "text/html");
         }
 
         //Get api/case/page/1/dismissed
@@ -71,7 +71,7 @@ namespace OfrApi.Controllers
         [Route("page/{number}/dismissed")]
         public HttpResponseMessage GetDismissedPage(int number)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, CaseDal.GetDismissedCasesByPage(number, Request).ToArray(), Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK, new { cases = CaseDal.GetDismissedCasesByPage(number, Request)}, Configuration.Formatters.JsonFormatter, "text/html");
         }
 
         //Get api/case/page/1/available
@@ -79,7 +79,7 @@ namespace OfrApi.Controllers
         [Route("page/{number}/available")]
         public HttpResponseMessage GetAvailablePage(int number)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, CaseDal.GetAvailableCasesByPage(number, Request).ToArray(), Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK, new { cases = CaseDal.GetAvailableCasesByPage(number, Request) }, Configuration.Formatters.JsonFormatter, "text/html");
         }
 
         //Get api/case/page/1/open
@@ -88,13 +88,12 @@ namespace OfrApi.Controllers
         public HttpResponseMessage GetOpenPage(int number)
         {
             
-            return Request.CreateResponse(HttpStatusCode.OK, 
-                    new {
-                        identity = "Test User",
-                        regions = new[] { "Baltimore City" },
-                        roles = new[] { "Caseworker" },
-                        cases = CaseDal.GetOpenCasesByPage(number, Request) }, Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK,  new {cases = CaseDal.GetOpenCasesByPage(number, Request) }, Configuration.Formatters.JsonFormatter, "text/html");
         }
+
+        //Handles the uploading of OCME files
+        //[HttpPost]
+        //[Route("load/")]
 
 
     }

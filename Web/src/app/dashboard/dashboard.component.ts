@@ -94,8 +94,6 @@ export class DashboardComponent implements OnInit {
 
     dashBoardResponse(resp: Dashboard): void {
         for (let item in resp.cases) {
-            //alert(item);
-            console.log(item);
             let caseItem: any;
             caseItem = resp.cases[item];
 
