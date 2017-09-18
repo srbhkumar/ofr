@@ -48,6 +48,13 @@ export class DataService {
         return this.httpget<Dashboard>('/dashboard');
     } 
 
+
+    public getCaseCount(casetype: string):Promise<number>
+    {
+        return this.httpget<number>(`/casecount/${casetype}`);
+    }
+
+
     public getOpenCases(page:number):Promise<Dashboard>
     {
         return this.httpget<Dashboard>(`/opencases/${page}`);

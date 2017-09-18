@@ -25,10 +25,15 @@ import {Ng2PaginationModule} from 'ng2-pagination';
 export class DashboardComponent implements OnInit {
     show: boolean;
     public data: Array<any> = [];
+    public OpenCasesdata: Array<any> = [];
+    public AvailableCasesdata: Array<any> = [];
+    public DismissedCasesdata: Array<any> = [];
+    public SubmittedCasesdata: Array<any> = [];
     public status: string;
     public caseId: string;
     public caseDetails: Case;
     public page : number = 1; //SK remove it, just for testing
+    public totalPage : number = 15; //SK remove it, just for testing
 
     //  public rows:Array<any> = [];  
 
@@ -108,17 +113,116 @@ export class DashboardComponent implements OnInit {
 
     }
 
-    updateStatus(caseId: string, newStatus: string): void {
+
+    dashBoardOpenCasesResponse(resp: Dashboard): void {
+        for (let item in resp.cases) {
+            console.log(item);
+            let caseItem: any;
+            caseItem = resp.cases[item];
+            this.OpenCasesdata.push({
+                'id': caseItem.id,
+                'OCME': caseItem.OCME,
+                'ResidentCounty': caseItem.Data['ResidentCounty'],
+                'DateofDeath': caseItem.Data['DateofDeath'],
+                'CauseofDeath': caseItem.Data['CauseofDeath'],
+                'CountyofDeath': caseItem.Data['CountyofDeath'],
+                'Flagged': caseItem.Flagged,
+                'Status': caseItem.Status
+            });
+        }
+
+    }
+
+
+    dashBoardAvailableCasesResponse(resp: Dashboard): void {
+        for (let item in resp.cases) {
+            console.log(item);
+            let caseItem: any;
+            caseItem = resp.cases[item];
+            this.AvailableCasesdata.push({
+                'id': caseItem.id,
+                'OCME': caseItem.OCME,
+                'ResidentCounty': caseItem.Data['ResidentCounty'],
+                'DateofDeath': caseItem.Data['DateofDeath'],
+                'CauseofDeath': caseItem.Data['CauseofDeath'],
+                'CountyofDeath': caseItem.Data['CountyofDeath'],
+                'Flagged': caseItem.Flagged,
+                'Status': caseItem.Status
+            });
+        }
+
+    }
+
+    dashBoardDismissedCasesResponse(resp: Dashboard): void {
+        for (let item in resp.cases) {
+            console.log(item);
+            let caseItem: any;
+            caseItem = resp.cases[item];
+            this.DismissedCasesdata.push({
+                'id': caseItem.id,
+                'OCME': caseItem.OCME,
+                'ResidentCounty': caseItem.Data['ResidentCounty'],
+                'DateofDeath': caseItem.Data['DateofDeath'],
+                'CauseofDeath': caseItem.Data['CauseofDeath'],
+                'CountyofDeath': caseItem.Data['CountyofDeath'],
+                'Flagged': caseItem.Flagged,
+                'Status': caseItem.Status
+            });
+        }
+
+    }
+
+
+    dashBoardSubmittedCasesResponse(resp: Dashboard): void {
+        for (let item in resp.cases) {
+            console.log(item);
+            let caseItem: any;
+            caseItem = resp.cases[item];
+            this.SubmittedCasesdata.push({
+                'id': caseItem.id,
+                'OCME': caseItem.OCME,
+                'ResidentCounty': caseItem.Data['ResidentCounty'],
+                'DateofDeath': caseItem.Data['DateofDeath'],
+                'CauseofDeath': caseItem.Data['CauseofDeath'],
+                'CountyofDeath': caseItem.Data['CountyofDeath'],
+                'Flagged': caseItem.Flagged,
+                'Status': caseItem.Status
+            });
+        }
+
+    }
+
+    // updateStatus(caseId: string, newStatus: string): void {
+    //     this.status = "loading";
+    //     this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
+    //         if (newStatus == "Flagged") {
+    //             this.data.find(item => item.id == caseId).Flagged = true;
+    //         }
+    //         else if (newStatus == "Unflagged") {
+    //             this.data.find(item => item.id == caseId).Flagged = false;
+    //         }
+    //         else {
+    //             this.data.find(item => item.id == caseId).Status = newStatus;
+    //         }
+    //         // location.reload(true);
+    //         this.status = "active";
+    //     });
+
+
+    // }
+
+
+    updateOpenCasesStatus(caseId: string, newStatus: string): void {
         this.status = "loading";
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
             if (newStatus == "Flagged") {
-                this.data.find(item => item.id == caseId).Flagged = true;
+                this.OpenCasesdata.find(item => item.id == caseId).Flagged = true;
             }
             else if (newStatus == "Unflagged") {
-                this.data.find(item => item.id == caseId).Flagged = false;
+                this.OpenCasesdata.find(item => item.id == caseId).Flagged = false;
             }
             else {
-                this.data.find(item => item.id == caseId).Status = newStatus;
+                this.OpenCasesdata.find(item => item.id == caseId).Status = newStatus;
             }
             // location.reload(true);
             this.status = "active";
@@ -126,6 +230,67 @@ export class DashboardComponent implements OnInit {
 
 
     }
+
+
+    updateAvailableCasesStatus(caseId: string, newStatus: string): void {
+        this.status = "loading";
+        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
+            if (newStatus == "Flagged") {
+                this.AvailableCasesdata.find(item => item.id == caseId).Flagged = true;
+            }
+            else if (newStatus == "Unflagged") {
+                this.AvailableCasesdata.find(item => item.id == caseId).Flagged = false;
+            }
+            else {
+                this.AvailableCasesdata.find(item => item.id == caseId).Status = newStatus;
+            }
+            // location.reload(true);
+            this.status = "active";
+        });
+
+
+    }
+
+
+    updateDismissedCasesStatus(caseId: string, newStatus: string): void {
+        this.status = "loading";
+        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
+            if (newStatus == "Flagged") {
+                this.DismissedCasesdata.find(item => item.id == caseId).Flagged = true;
+            }
+            else if (newStatus == "Unflagged") {
+                this.DismissedCasesdata.find(item => item.id == caseId).Flagged = false;
+            }
+            else {
+                this.DismissedCasesdata.find(item => item.id == caseId).Status = newStatus;
+            }
+            // location.reload(true);
+            this.status = "active";
+        });
+
+
+    }
+
+
+    updateSubmittedCasesStatus(caseId: string, newStatus: string): void {
+        this.status = "loading";
+        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
+            if (newStatus == "Flagged") {
+                this.SubmittedCasesdata.find(item => item.id == caseId).Flagged = true;
+            }
+            else if (newStatus == "Unflagged") {
+                this.SubmittedCasesdata.find(item => item.id == caseId).Flagged = false;
+            }
+            else {
+                this.SubmittedCasesdata.find(item => item.id == caseId).Status = newStatus;
+            }
+            // location.reload(true);
+            this.status = "active";
+        });
+
+
+    }
+
 
     fillDashboard(): void {
         this.dataService.getOpenCases(this.page).then(d => {
@@ -153,31 +318,44 @@ export class DashboardComponent implements OnInit {
 
     // }
 
+    // paginationOpenCasesData(event): void {
+    //     this.clearDashboard();
+    //     console.log("open cases" + event);
+    //     this.dataService.getOpenCases(event).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });    
+    // }
+
+
     paginationOpenCasesData(event): void {
-        this.clearDashboard();
+        this.clearOpenCasesDashboard();
+        console.log("open cases" + event);
         this.dataService.getOpenCases(event).then(d => {
-            this.dashBoardResponse(d);
+            this.dashBoardOpenCasesResponse(d);
         });    
     }
     
     paginationAvailableCasesData(event): void {
         this.clearDashboard();
+        console.log("available cases" + event);
         this.dataService.getAvailableCases(event).then(d => {
-            this.dashBoardResponse(d);
+            this.dashBoardAvailableCasesResponse(d);
         });    
     }
     
     paginationDismissedData(event): void {
-        this.clearDashboard();
+        this.clearDismissedCasesDashboard();
+        console.log("dismissed cases" + event);
         this.dataService.getDismissedCases(event).then(d => {
-            this.dashBoardResponse(d);
+            this.dashBoardDismissedCasesResponse(d);
         });    
         }
 
     paginationSubmittedData(event): void {
             this.clearDashboard();
+            console.log("submitted cases" + event);
             this.dataService.getSubmittedCases(event).then(d => {
-                this.dashBoardResponse(d);
+                this.dashBoardSubmittedCasesResponse(d);
             });    
             }
     
@@ -186,5 +364,13 @@ export class DashboardComponent implements OnInit {
 
     clearDashboard(status?:any): void {
         this.data = [];
+    }
+
+    clearOpenCasesDashboard(status?:any): void {
+        this.OpenCasesdata = [];
+    }
+
+    clearDismissedCasesDashboard(status?:any): void {
+        this.DismissedCasesdata = [];
     }
 }
