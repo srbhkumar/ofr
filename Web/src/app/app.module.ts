@@ -18,6 +18,8 @@ import { routing }        from './app.routing';
 import{LoggedInGuard} from './shared/guards/auth.guard';
 import {MsalService} from './shared/services/MsalService';
 import{DataService} from './shared/services/dataService';
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfig }       from './app.config';
  
 import{DefaultComponent} from './shared/layouts/default.component';
 import{LayoutComponent} from './shared/layouts/layout.component';
@@ -51,7 +53,15 @@ import { PopupModule } from 'ng2-opd-popup';
     DataTableModule,
     Ng2PaginationModule
   ],
-  providers: [LoggedInGuard, MsalService, DataService],
+  providers: [LoggedInGuard, MsalService, DataService,
+    AppConfig,{ provide: APP_INITIALIZER, useFactory: init_app, deps: [AppConfig], multi: true }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function init_app(first_service: AppConfig){
+  // Do initing of services that is required before app loads
+  // NOTE: this factory needs to return a function (that then returns a promise)
+  return () => first_service.load()  // + any other services...
+}

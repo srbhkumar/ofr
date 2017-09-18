@@ -4,30 +4,23 @@ import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import{Template, Case, OFRResponse,Dashboard} from '../models/caseModel';
-import {Constant} from '../utility/constants';
+import{AppConfig} from '../../app.config'
 import{PingCase} from '../models/pingcase';
 import{MsalService} from './MsalService';
 
 @Injectable()
 export class DataService {
-    constant: Constant;
     private headers: Headers;
    
     
-    constructor(private http: Http, private msal: MsalService) {
-        this.constant = new Constant();
+    constructor(private http: Http, private msal: MsalService, private config: AppConfig) {
         this.headers = new Headers();
-        this.httpget<string>('/user/groups/' + this.msal.getUser()).then(function(value){
-           localStorage.setItem("GroupAccess", value); 
-           alert(value);
-        });
     }
 
     private httpget<T>(action: string): Promise<T> {
         this.appendToken();
-
         return this.http
-            .get(this.constant.rootUrl + action, { headers: this.headers })
+            .get(this.config.getConfig("rootUrl") + action, { headers: this.headers })
             .toPromise()
             .then(res => res.json() as T)
             .catch(this.handleError);
@@ -38,7 +31,7 @@ export class DataService {
         this.appendToken();
 
         return this.http
-            .post(this.constant.rootUrl + action, body, { headers: this.headers })
+            .post(this.config.getConfig("rootUrl") + action, body, { headers: this.headers })
             .toPromise()
             .then(res => res.json() as T)
             .catch(this.handleError);
@@ -53,32 +46,21 @@ export class DataService {
 
     public getAccess():Promise<any>
     {
-        return this.msal.updateToken().then(() => {this.getGroups()});;
+        return this.msal.updateToken();
 
     }
     private appendToken()
     {
-        let tempThis : DataService = this;
-        this.msal.updateToken().then(_ => {
-            if (!this.headers.has("Authorization")) {
-                this.headers.delete("Authorization");
-
-                this.headers.append('Authorization', 'Bearer ' + this.msal.getAccessToken());
-            }
-            if (!this.headers.has("GroupAccess")){
-                this.headers.delete("GroupAccess");
-                this.headers.append("GroupAccess", localStorage.getItem("GroupAccess"));
-            } 
-            
-            
-        });
+        this.msal.updateToken();
+        this.headers.set('Authorization', 'Bearer ' + this.msal.getAccessToken());
+        this.headers.set("GroupAccess", localStorage.getItem("GroupAccess"));   
     }
 
     public getDashboard():Promise<Dashboard>
     {
         //return this.httpget<Dashboard>('/dashboard?code=wcRKuW6TpHd47/98eOlnx38wVixZBJJ5T9cDzn6U4F7NcAkqeYj6TQ==');
 
-        return this.httpget<Dashboard>('/case');
+        return this.httpget<Dashboard>('/case/');
     } 
 
     public getOpenCases(page:number):Promise<Dashboard>

@@ -188,8 +188,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CaseDal.cs" />
     <Compile Include="Services\EncryptionService.cs" />
+    <Compile Include="Interfaces\IUserDal.cs" />
+    <Compile Include="Interfaces\ICaseDal.cs" />
     <Compile Include="Services\UserDal.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\CaseStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

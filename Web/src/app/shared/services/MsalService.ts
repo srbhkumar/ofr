@@ -1,5 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import {AppConfig} from '../../app.config'
 //import '../../../../node_modules/msal/out/msal';
 /// <reference path="../../../../node_modules/msal/out/msal.d.ts" />
 var jwt = require('jwt-simple');
@@ -11,22 +12,27 @@ declare var Msal: any;
 
 export class MsalService {
     access_token: string;
-    tenantConfig = {
-        tenant: "ofrdev.onmicrosoft.com",
-        clientID: "b132f819-f134-4418-98e3-97d09be72856",
-        signUpSignInPolicy: "B2C_1_sign-in-policy",
-        b2cScopes: ["https://ofrdev.onmicrosoft.com/api/case"],
+    tenantConfig: any;
+    authority: any;
+    clientApplication: any;
+
+    constructor(private config: AppConfig) {
+    this.tenantConfig = {
+        tenant: config.getConfig("b2cTenant"),
+        clientID: config.getConfig("b2cClientId"),
+        signUpSignInPolicy: config.getConfig("b2cPolicy"),
+        b2cScopes: config.getConfig("b2cScopes")
     };
 
     // Configure the authority for Azure AD B2C
 
-    authority = "https://login.microsoftonline.com/tfp/" + this.tenantConfig.tenant + "/" + this.tenantConfig.signUpSignInPolicy;
+    this.authority = "https://login.microsoftonline.com/tfp/" + this.tenantConfig.tenant + "/" + this.tenantConfig.signUpSignInPolicy;
 
     /*
      * B2C SignIn SignUp Policy Configuration
      * 
      */
-    clientApplication = new Msal.UserAgentApplication(
+    this.clientApplication = new Msal.UserAgentApplication(
         this.tenantConfig.clientID, this.authority,  
         function (errorDesc: any, token: any, error: any, tokenType: any) {            
             if (errorDesc && (<string>errorDesc).startsWith('AADB2C90118')) {
@@ -36,6 +42,7 @@ export class MsalService {
                 localStorage.setItem('IdToken', token);
             }
         });
+    }
 
     login(): void {
         localStorage.clear();
