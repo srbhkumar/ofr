@@ -1,49 +1,103 @@
 <!--<Code for Popup>-->
-    <popup>
+<popup>
     <div *ngIf="caseDetails">
-    <div class="modal-body">
-    <div class="container">
-    <table class="table table-bordered table-hover">
-        <thead>
-            <th>OCME</th>
-            <th>ResidentCounty</th>
-            <th>DateofDeath</th>
-            <th>CauseofDeath</th>
-            <th>CountyofDeath</th>
-            <th>Status</th>
-            <th>Action</th>
-        </thead>
-        <tbody class="table">
-            <tr>
-                <td>{{caseDetails.OCME}}</td>
-                <td>{{caseDetails.Data['ResidentCounty']}}</td>
-                <td>{{caseDetails.Data['DateofDeath']}}</td>
-                <td>{{caseDetails.Data['CauseofDeath']}}</td>
-                <td>{{caseDetails.Data['CountyofDeath']}}</td>
-                <td>{{caseDetails.Status}}</td>
-                <td *ngIf="caseDetails.Status =='Assigned'">  
-                        <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft    margin_l25 "> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                </td>
-                <td *ngIf="caseDetails.Status =='Available'">
-                        <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l5"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft   margin_l25"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                </td>
-                <td *ngIf="caseDetails.Status =='Dismissed'">
-                        <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                        <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    </div> 
-    </div> 
-    </div>
-    </popup>
+        <div class="modal-body">
+            <div class="container">
+                <!-- <table class="table table-bordered table-hover">
+                    <thead>
+                        <th>OCME</th>
+                        <th>ResidentCounty</th>
+                        <th>DateofDeath</th>
+                        <th>CauseofDeath</th>
+                        <th>CountyofDeath</th>
+                        <th>Status</th>
+                        <th style="width:230px;border:dotted">Action</th>
+                        <th>View Clinical Data</th>
+                    </thead>
+                   <tbody class="table">
+                        <tr>
+                            <td>{{caseDetails.OCME}}</td>
+                            <td>{{caseDetails.Data['ResidentCounty']}}</td>
+                            <td>{{caseDetails.Data['DateofDeath']}}</td>
+                            <td>{{caseDetails.Data['CauseofDeath']}}</td>
+                            <td>{{caseDetails.Data['CountyofDeath']}}</td>
+                            <td>{{caseDetails.Status}}</td>
+                            <td *ngIf="caseDetails.Status =='Assigned'">
+                                <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft    margin_l25 "> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                            </td>
+                            <td *ngIf="caseDetails.Status =='Available'">
+                                <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l5"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft   margin_l25"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                            </td>
+                            <td *ngIf="caseDetails.Status =='Dismissed'">
+                                <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                                <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                            </td>
+                            <td ><a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" class="btn btn-info" role="button">Clinical Data</a></td>
+                        </tr>
+                    </tbody>
+                </table> -->
+
+                <div class="container">
+                    <h2>Case Details</h2>
+                    <h2>Demographic Details</h2>
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Panel Header</div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-6">{{caseDetails.OCME}}</div>
+                                    <div class="col-sm-6">Resident County</div>
+                                    <div class="col-sm-6">{{caseDetails.Data['ResidentCounty']}}</div>
+                                    <div class="col-sm-6">Cause of Death</div>
+                                    <div class="col-sm-6">{{caseDetails.Data['CauseofDeath']}}</div> 
+                                    <div class="col-sm-6">OCME</div>
+                                    <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>
+                                </div>
+                                <h2>Applicable Drugs</h2>
+                                        <div class="panel-heading">Panel Header</div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">Resident County</div>
+                                                <div class="col-sm-6">{{caseDetails.Data['ResidentCounty']}}</div>
+                                                <div class="col-sm-6">Cause of Death</div>
+                                                <div class="col-sm-6">{{caseDetails.Data['CauseofDeath']}}</div>
+                                                <div class="col-sm-6">OCME</div>
+                                                <div class="col-sm-6">1234</div>
+                                                <div class="col-sm-6">OCME</div>
+                                                <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>
+                                            </div>
+                                        </div>
+                                        <h2>Actions</h2>
+                                        <div class="panel-heading">Panel Header</div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-sm-6">Resident County</div>
+                                                <div class="col-sm-6">{{caseDetails.Data['ResidentCounty']}}</div>
+                                                <div class="col-sm-6">Cause of Death</div>
+                                                <div class="col-sm-6">{{caseDetails.Data['CauseofDeath']}}</div>
+                                                <div class="col-sm-6">OCME</div>
+                                                <div class="col-sm-6">1234</div>
+                                                <div class="col-sm-6">OCME</div>
+                                                <div class="col-sm-4" style="background-color:lavender;">.col-sm-4</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</popup>
 
 <!--<code for Pop up ends>-->
 
@@ -71,9 +125,9 @@
 <div class="clear"></div>
 
 <div [ngSwitch]='status'>
-        <div *ngSwitchCase="'loading'" class="load-spinner" >
-                  Loading....
-        </div>
+    <div *ngSwitchCase="'loading'" class="load-spinner">
+        Loading....
+    </div>
     <div *ngSwitchCase="'active'">
 
         <div class="table-responsive">
@@ -85,7 +139,8 @@
 			autohide = "true"
             >
 </pagination-controls></span></h5>
-            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfAssigned="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="OpenCasesdata" #mfAssigned="mfDataTable" [(mfSortBy)]="sortBy"
+                [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
                         <th class="width12">
@@ -107,7 +162,7 @@
                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                         </th>-->
                         <th class="width12"> Case Action </th>
-                       
+
                     </tr>
                 </thead>
                 <tbody>
@@ -120,12 +175,12 @@
                         <td>{{item.CauseofDeath}}</td>
                         <td>{{item.CountyofDeath}}</td>
                         <!--<td>{{item.Status}}</td>-->
-                          <td>
-                           
-                            <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5"> </a>
-                            <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <td>
+
+                            <a (click)="updateOpenCasesStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
+                            <a (click)="updateOpenCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5"> </a>
+                            <a (click)="updateOpenCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5"> </a>
+                            <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o fright" style="width:25%;" aria-hidden="true"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -143,7 +198,8 @@
             </span>
         </h5>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="data" #mfNew="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="AvailableCasesdata" #mfNew="mfDataTable" [(mfSortBy)]="sortBy"
+                [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
                         <th class="width12">
@@ -165,7 +221,7 @@
                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                         </th>-->
                         <th class="width12"> Case Action </th>
-                       
+
                     </tr>
                 </thead>
                 <tbody>
@@ -177,15 +233,15 @@
                         <td>{{item.CauseofDeath}}</td>
                         <td>{{item.CountyofDeath}}</td>
                         <!--<td>{{item.Status}}</td>-->
-                          <td>
-                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
+                        <td>
+                            <a (click)="updateAvailableCasesStatus(item.id ,'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
+                            <a (click)="updateAvailableCasesStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
+                            <a (click)="updateAvailableCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
+                            <a (click)="updateAvailableCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
                             <!--<a [routerLink]="['/case', item.id]"><span class="icon-edit fleft   margin_l5"></span></a>-->
-                            <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            
-                            
+                            <!--Not allowed for Available cases <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> -->
+
+
                         </td>
                     </tr>
                 </tbody>
@@ -193,20 +249,20 @@
 
         </div>
 
-        
+
 
         <h5 class="heading"><span>Dismissed Cases</span>
-        <span style="float:right; padding-bottom:20px"><pagination-controls 
+            <span style="float:right; padding-bottom:20px"><pagination-controls 
 			(pageChange) = "pageDismissed = paginationDismissedData($event); pDismissed = $event;" 
 			id="3"
 			maxSize = "8"
-			directionLinks = "true"
-			autohide = "true">
+			directionLinks = "true">
             </pagination-controls>
         </span>
         </h5>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <table class="table table-bordered table-striped mycasetable" [mfData]="DismissedCasesdata" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy"
+                [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
                         <th class="width12">
@@ -228,11 +284,11 @@
                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                         </th>-->
                         <th class="width12"> Case Action </th>
-                      
+
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed'] | paginate : { itemsPerPage:5, currentPage:pDismissed, id : 3, totalItems:15} ">
+                    <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed'] | paginate : { itemsPerPage:5, currentPage:pDismissed, id : 3, totalItems:25} ">
                         <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                         <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <td>{{item.ResidentCounty}}</td>
@@ -241,9 +297,9 @@
                         <td>{{item.CountyofDeath}}</td>
                         <!--<td>{{item.Status}} </td>-->
                         <td>
-                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
+                            <a (click)="updateDismissedCasesStatus(item.id ,'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
+                            <a (click)="updateDismissedCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
+                            <a (click)="updateDismissedCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
                         </td>
                     </tr>
                 </tbody>
@@ -252,7 +308,7 @@
         </div>
 
         <h5 class="heading"><span>Submitted Cases</span>
-        <span style="float:right; padding-bottom:20px"><pagination-controls 
+            <span style="float:right; padding-bottom:20px"><pagination-controls 
 			(pageChange) = "pageSubmitted = paginationSubmittedData($event); pSubmitted = $event;" 
 			id="4"
 			maxSize = "8"
@@ -260,9 +316,10 @@
 			autohide = "true">
             </pagination-controls>
         </span>
-    </h5>
+        </h5>
         <div class="table-responsive">
-            <table class="table table-bordered table-striped mycasetable" [mfData]="data" #mfSubmitted="mfDataTable" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+            <table class="table table-bordered table-striped mycasetable" [mfData]="SubmittedCasesdata" #mfSubmitted="mfDataTable" [(mfSortBy)]="sortBy"
+                [(mfSortOrder)]="sortOrder">
                 <thead>
                     <tr>
                         <th class="width12">
@@ -284,11 +341,11 @@
                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                         </th>-->
                         <th class="width12"> Case Action </th>
-                      
+
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfSubmitted.data | filter : ['Submitted'] | paginate : { itemsPerPage:5, currentPage:pSubmitted, id : 4, totalItems:15} ">
+                    <tr *ngFor="let item of mfSubmitted.data | filter : ['Submitted'] | paginate : { itemsPerPage:5, currentPage:pSubmitted, id : 4, totalItems : recordCount} ">
                         <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                         <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <td>{{item.ResidentCounty}}</td>
@@ -298,9 +355,9 @@
                         <!--<td>{{item.Status}} </td>-->
                         <td>
                             <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
-                            <a (click)="updateStatus(item.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
-                            <a (click)="updateStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                            <a (click)="updateStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                            <a (click)="updateSubmittedCasesStatus(item.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
+                            <a (click)="updateSubmittedCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                            <a (click)="updateSubmittedCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
                         </td>
                     </tr>
                 </tbody>

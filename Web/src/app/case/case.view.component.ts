@@ -41,7 +41,7 @@ export class CaseComponent implements OnInit {
         clickToClose: true,
         maxLength: 0,
         maxStack: 7,
-        showProgressBar: true,
+        showProgressBar: false,
         pauseOnHover: true,
         preventDuplicates: false,
         preventLastDuplicates: 'visible',
@@ -72,11 +72,11 @@ export class CaseComponent implements OnInit {
         this.caseId = this.route.snapshot.params['id'];
         console.log(this.caseId);
 
-        this.NotifyActiveUsers(this.caseId, this.userName);
-        //console.log(this.service.getCaseInformation(this.caseId));
+        //this.NotifyActiveUsers(this.caseId, this.userName); //This is Temporarily commented out for demo by Mike. We can restore it later/
         this.service.getCaseInformation(this.caseId).then(
             resp => {
                 this.getTemplateInformation(resp);
+                console.log("Template" + resp)
 
             });
 
@@ -149,40 +149,44 @@ export class CaseComponent implements OnInit {
         return true;
     }
 
-
     getTemplateInformation(respCase: Case) {
         this.case = respCase;
         this.service.getTemplate(respCase.Template).then(
             t => {
-            this.dataModel = {
-                Template: t,
-                changeset: {},
-                Data: this.case.Data,
-                IsDisplay: false,
-                OnChange: this.onChange.bind(this)
+                this.dataModel = {
+                    Template: t,
+                    changeset: {},
+                    Data: this.case.Data,
+                    IsDisplay: false,
+                    OnChange: this.onChange.bind(this)
 
-            };
+                };
+                console.log("Temp" + t.Name);
 
             });
+           
 
 
     }
+
+    
     initializeFormControls(): void {
         this.caseForm = this.formBuilder.group({
             "NameofReviewer": ["Reviewer 1", Validators.required],
+            "DateofInitialCaseReview": ["", Validators.required],
             "DateofDeath": ["", Validators.required],
             "YearofDeath": ["", Validators.required],
-            "JurisdictionofDeath": ["", Validators.required],
+            "IncidentJurisdiction": ["", Validators.required],
             "CountyofDeath": ["", Validators.required],
-            "ResidentCounty": ["", Validators.required],
-            "CauseofDeath": ["", Validators.required],
+            "ResidentJurisdiction": ["", Validators.required],
+            "CauseofDeath": ["", Validators.nullValidator],
             "MannerofDeath": ["", Validators.required],
-            "Sex": ["", Validators.nullValidator],
+            "Sex": ["", Validators.required],
             "Transgender": ["", Validators.nullValidator],
-            "DateofBirth": ["", Validators.nullValidator],
-            "AgeatDeath": ["", Validators.nullValidator],
-            "Race": ["", Validators.nullValidator],
-            "Hispanic": ["", Validators.nullValidator],
+            "DateofBirth": ["", Validators.required],
+            "AgeatDeath": ["", Validators.required],
+            "Race": ["", Validators.required],
+            "Hispanic": ["", Validators.required],
             "EMSRecords": ["", Validators.nullValidator],
             "PriorEMS": ["", Validators.nullValidator],
             "EMS_DayofDeath": ["", Validators.nullValidator],
@@ -191,7 +195,7 @@ export class CaseComponent implements OnInit {
             "PDMPRecords": ["", Validators.nullValidator],
             "PharmacyRecords": ["", Validators.nullValidator],
             "EDEncounter": ["", Validators.nullValidator],
-            "ED_DayofDeath": ["", Validators.nullValidator],
+            //"ED_DayofDeath": ["", Validators.nullValidator],
             "PainManagement": ["", Validators.nullValidator],
             "ChronicSomatic": ["", Validators.nullValidator],
             "BrainInjury": ["", Validators.nullValidator],
@@ -205,7 +209,7 @@ export class CaseComponent implements OnInit {
             "DUIHistory": ["", Validators.nullValidator],
             "DrugCourtContact": ["", Validators.nullValidator],
             "LawProsecuted": ["", Validators.nullValidator],
-            "LawCharge": ["", Validators.nullValidator],
+            "LawCharge": ["", Validators.maxLength(50)],
             "DetentionCenterRecords": ["", Validators.nullValidator],
             "DetentionCenterContact": ["", Validators.nullValidator],
             "DetentionCenterDrugTreatment": ["", Validators.nullValidator],
@@ -217,6 +221,7 @@ export class CaseComponent implements OnInit {
             "BHHdRecords": ["", Validators.nullValidator],
             "BHPrivateRecords": ["", Validators.nullValidator],
             "BHTreatmentatDeath": ["", Validators.nullValidator],
+            "BHMAT": ["", Validators.nullValidator],
             "BHMentalHealth": ["", Validators.nullValidator],
             "BHBeacon": ["", Validators.nullValidator],
             "BHHDContact": ["", Validators.nullValidator],
@@ -233,20 +238,22 @@ export class CaseComponent implements OnInit {
             "FamilyInterviews": ["", Validators.nullValidator],
             "MaritalStatus": ["", Validators.nullValidator],
             "IntimatePartnerViolence": ["", Validators.nullValidator],
+            "IPVRole": ["", Validators.nullValidator],
             "DecedentChildren": ["", Validators.nullValidator],
             "HRMORPRecords": ["", Validators.nullValidator],
             "HRSterileSyringe": ["", Validators.nullValidator],
-            "HRPeerRecovery": ["", Validators.nullValidator],
+            //"HRPeerRecovery": ["", Validators.nullValidator],
             "SexualOrientation": ["", Validators.nullValidator],
             "Pregnancy": ["", Validators.nullValidator],
-            "Occupation": ["", Validators.nullValidator],
+            "Occupation": ["", Validators.maxLength(50)],
             "EmploymentStatus": ["", Validators.nullValidator],
             "Homeless": ["", Validators.nullValidator],
             "Military": ["", Validators.nullValidator],
             "Institution": ["", Validators.nullValidator],
+            "InstitutionOther": ["", Validators.maxLength(50)],
             "DrugExposure": ["", Validators.nullValidator],
             "LocationOfDeathType": ["", Validators.nullValidator],
-            "LocationofDeathOther": ["", Validators.compose([Validators.nullValidator, Validators.maxLength(100)])],
+            "LocationofDeathOther": ["", Validators.maxLength(100)],
             "NaloxoneAdministered": ["", Validators.nullValidator],
             "NaloxoneAdministratorBystander": ["", Validators.nullValidator],
             "NaloxoneAdministratorProfessionalFirstResponder": ["", Validators.nullValidator],
@@ -255,28 +262,27 @@ export class CaseComponent implements OnInit {
             "Delay911": ["", Validators.nullValidator],
             "IVuseIndicatedScene": ["", Validators.nullValidator],
             "PrescriptionPillsonScene": ["", Validators.nullValidator],
-
-            "CaseSummary": ["", Validators.nullValidator],
-            "CaseGaps1": ["", Validators.nullValidator],
-            "CaseGaps2": ["", Validators.nullValidator],
-            "CaseGaps3": ["", Validators.nullValidator],
-            "CaseRecommendations1": ["", Validators.nullValidator],
-            "CaseRecommendations1Category": ["", Validators.nullValidator],
-            "CaseRecommendations1Target": ["", Validators.nullValidator],
-            "CaseRecommendations1Agency": ["", Validators.nullValidator],
-            "CaseRecommendations1Party": ["", Validators.nullValidator],
-            "CaseRecommendations2": ["", Validators.nullValidator],
-            "CaseRecommendations2Category": ["", Validators.nullValidator],
-            "CaseRecommendations2Target": ["", Validators.nullValidator],
-            "CaseRecommendations2Agency": ["", Validators.nullValidator],
-            "CaseRecommendations2Party": ["", Validators.nullValidator],
-            "CaseRecommendations3": ["", Validators.nullValidator],
-            "CaseRecommendations3Category": ["", Validators.nullValidator],
-            "CaseRecommendations3Target": ["", Validators.nullValidator],
-            "CaseRecommendations3Agency": ["", Validators.nullValidator],
-            "CaseRecommendations3Party": ["", Validators.nullValidator],
+            "CaseSummary": ["", Validators.compose([Validators.required, Validators.maxLength(3500)])],
+            "CaseGaps1": ["", Validators.compose([Validators.required, Validators.maxLength(250)])],
+            "CaseGaps2": ["", Validators.maxLength(250)],
+            "CaseGaps3": ["", Validators.maxLength(250)],
+            "CaseRecommendations1": ["", Validators.compose([Validators.required, Validators.maxLength(250)])],
+            "CaseRecommendations1Category": ["", Validators.required],
+            "CaseRecommendations1Target": ["", Validators.required],
+            "CaseRecommendations1Agency": ["", Validators.required],
+            "CaseRecommendations1Party": ["", Validators.required],
+            "CaseRecommendations2": ["", Validators.compose([Validators.required, Validators.maxLength(250)])],
+            "CaseRecommendations2Category": ["", Validators.required],
+            "CaseRecommendations2Target": ["", Validators.required],
+            "CaseRecommendations2Agency": ["", Validators.required],
+            "CaseRecommendations2Party": ["", Validators.required],
+            "CaseRecommendations3": ["", Validators.compose([Validators.required, Validators.maxLength(250)])],
+            "CaseRecommendations3Category": ["", Validators.required],
+            "CaseRecommendations3Target": ["", Validators.required],
+            "CaseRecommendations3Agency": ["", Validators.required],
+            "CaseRecommendations3Party": ["", Validators.required],
             "BHAReview": ["", Validators.nullValidator],
-            "BHAFollowup": ["", Validators.nullValidator]
+            "BHAFollowup": ["", Validators.maxLength(280)]
 
 
         });
@@ -320,7 +326,7 @@ export class CaseComponent implements OnInit {
                 position: ["top", "right"],
                 timeOut: 3 * 1000,
                 maxStack: 3,
-                showProgressBar: true,
+                showProgressBar: false,
                 pauseOnHover: true,
                 clickToClose: true,
             }
@@ -359,15 +365,37 @@ export class CaseComponent implements OnInit {
         }
 
         //Actual form submission/
+        var i, field
+        field = this.dataModel.Template.Fields;
         console.log(this.caseForm);
         if (this.caseForm.valid) {
             this.service.submitCase(this.caseId, null).then(
                 resp => console.log(resp.Result));
             this.router.navigate(['dashboard']);
         }
+
         else {
-            alert("Form is not valid. Please make sure all required fields(*) are filled");
-            console.log(this.caseForm.controls);
+            var errorMsg = "";
+            for (i = 0; i < field.length - 1; i++) {
+                if (!this.caseForm.controls[field[i].Name].valid) {
+
+                    if (this.dataModel.Template.Fields[i].Type.toString() == "Textarea") {
+                        errorMsg = errorMsg + "\"" + this.dataModel.Template.Fields[i].Description.toString() + "\" is a required text field. Please make sure it's filled and is within the character limits.\n";
+                    }
+
+                    if (this.dataModel.Template.Fields[i].Type.toString() == "Text") {
+                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required text field. Please make sure it's filled and is within the character limits.\n";
+                    }
+                    if (this.dataModel.Template.Fields[i].Type.toString() == "TextAreaBig") {
+                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required text field. Please make sure it's filled and is within the character limits.\n";
+                    }
+                    else {
+                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required field. Please make sure it's filled.\n";
+                    }
+
+                }
+            }
+            alert(errorMsg);
         }
     }
 

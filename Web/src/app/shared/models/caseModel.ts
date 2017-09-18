@@ -11,6 +11,7 @@ export class TemplateField {
     Description:string;
     Type:string;
     Required:boolean;
+    Length:string;
     Options:Array<string>; 
 };
 
