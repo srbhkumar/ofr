@@ -14,20 +14,23 @@ namespace OfrApi.Controllers
     [RoutePrefix("api/template")]
     public class TemplateController : ApiController
     {
-        [Route("${id:int}")]
-        public void Get(string id)
+        private TemplateDal TemplateDal;
+ 
+        public TemplateController()
         {
-            /*using (var op = Dal.TelClient.StartOperation<RequestTelemetry>("GetTemplate"))
-            {
-                op.Telemetry.ResponseCode = "200";
-                op.Telemetry.Url = Request.RequestUri;
+            TemplateDal = new TemplateDal();
+        }
 
-                var c = Dal.Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri("ofr", "templates"))
-                    .Where(d => d.id == id)
-                    .AsEnumerable().FirstOrDefault();
+        public TemplateController(TemplateDal dal)
+        {
+            TemplateDal = dal;
+        }
 
-                return Request.CreateResponse(HttpStatusCode.OK, c);
-            }*/
+        //api/case/3
+        [Route("{id}")]
+        public HttpResponseMessage Get(string id)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, TemplateDal.getTemplate(id, Request), Configuration.Formatters.JsonFormatter, "text/html");
         }
     }
 }
