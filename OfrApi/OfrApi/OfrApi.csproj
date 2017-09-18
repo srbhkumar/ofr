@@ -179,6 +179,7 @@
     <Compile Include="Controllers\CaseController.cs" />
     <Compile Include="Controllers\ImporterController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Services\TemplateDal.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

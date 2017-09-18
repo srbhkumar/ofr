@@ -82,13 +82,19 @@ namespace OfrApi.Services
 
                 // Get request body
                 dynamic data = request.Content.ReadAsAsync<object>();
-
-                this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "MergeCase"),
+                var feedOptions = new FeedOptions
+                {
+                    EnableCrossPartitionQuery = true,
+                    MaxItemCount = -1,
+                    EnableScanInQuery = true
+                };
+                this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "MergeCase"),
                     id,
                     data
                 );
+                return "";
             }
-            return "";
+            
         }
 
         public string SubmitCaseById(string id, HttpRequestMessage request)
