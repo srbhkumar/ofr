@@ -2,7 +2,9 @@
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Documents.Client;
+using OfrApi.Interfaces;
 using OfrApi.Models;
+using OfrApi.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ using System.Web.Configuration;
 
 namespace OfrApi.Services
 {
-    public class CaseDal
+    public class CaseDal : ICaseDal
     {
         public DocumentClient Client { get; protected set; }
         public TelemetryClient TelClient { get; protected set; }
@@ -114,10 +116,10 @@ namespace OfrApi.Services
             return "";
         }
 
-        public IEnumerable<Case> GetSubmittedCasesByPage(int page, HttpRequestMessage request)
+        public IEnumerable<Case> GetCasesByPage(int page, CaseStatus status, HttpRequestMessage request)
         {
             List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("AvailableCasesDashboard"))
+            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("CasesDashboard"))
             {
                 operation.Telemetry.ResponseCode = "200";
                 operation.Telemetry.Url = request.RequestUri;
@@ -131,117 +133,19 @@ namespace OfrApi.Services
 
 
 
-                var skipCount = (pageParam - 1) * 5;
-                var takeCount = 5;
+                var skipCount = (pageParam - 1) * int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
+                var takeCount = int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
 
-                var submittedCases = Client.CreateDocumentQuery<Case>(
+                var cases = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
-                .Where(c => c.Status == "Submitted" && jurisdictions.Contains(c.Jurisdiction))
+                .Where(c => c.Status == status.ToString() && jurisdictions.Contains(c.Jurisdiction))
                 .Take(skipCount + takeCount)
                 .ToArray()
                 .Skip(skipCount);
 
-                return submittedCases;
+                return cases;
             }
-        }
-       
-        public IEnumerable<Case> GetDismissedCasesByPage(int page, HttpRequestMessage request)
-        {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("AvailableCasesDashboard"))
-            {
-                operation.Telemetry.ResponseCode = "200";
-                operation.Telemetry.Url = request.RequestUri;
-                var pageParam = page;
-                var feedOptions = new FeedOptions
-                {
-                    EnableCrossPartitionQuery = true,
-                    MaxItemCount = -1,
-                    EnableScanInQuery = true
-                };
-
-
-
-                var skipCount = (pageParam - 1) * 5;
-                var takeCount = 5;
-
-                var dismissedCases = Client.CreateDocumentQuery<Case>(
-                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-                feedOptions)
-                .Where(c => c.Status == "Dismissed" && jurisdictions.Contains(c.Jurisdiction))
-                .Take(skipCount + takeCount)
-                .ToArray()
-                .Skip(skipCount);
-
-                return dismissedCases ;
-            }
-        }
-
-        public IEnumerable<Case> GetAvailableCasesByPage(int page, HttpRequestMessage request)
-        {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("AvailableCasesDashboard"))
-            {
-                operation.Telemetry.ResponseCode = "200";
-                operation.Telemetry.Url = request.RequestUri;
-                var pageParam = page;
-                var feedOptions = new FeedOptions
-                {
-                    EnableCrossPartitionQuery = true,
-                    MaxItemCount = -1,
-                    EnableScanInQuery = true
-                };
-
-
-
-                var skipCount = (pageParam - 1) * 5;
-                var takeCount = 5;
-
-                var availableCases = Client.CreateDocumentQuery<Case>(
-                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-                feedOptions)
-                .Where(c => c.Status == "Available" && jurisdictions.Contains(c.Jurisdiction))
-                .Take(skipCount + takeCount)
-                .ToArray()
-                .Skip(skipCount);
-
-                return availableCases;
-            }
-        }
-
-        public Object GetOpenCasesByPage(int page, HttpRequestMessage request)
-        {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("OpenCasesDashboard"))
-            {
-                operation.Telemetry.ResponseCode = "200";
-                operation.Telemetry.Url = request.RequestUri;
-                var pageParam = page;
-                var feedOptions = new FeedOptions
-                {
-                    EnableCrossPartitionQuery = true,
-                    MaxItemCount = -1,
-                    EnableScanInQuery = true
-                };
-
-
-
-                var skipCount = (pageParam - 1) * 5;
-                var takeCount = 5;
-
-                var openCases = Client.CreateDocumentQuery<Case>(
-                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-                feedOptions)
-                .Where(c => c.Status == "Assigned" && jurisdictions.Contains(c.Jurisdiction))
-                .Take(skipCount + takeCount)
-                .ToArray()
-                .Skip(skipCount);
-
-                return openCases;
-            }
-
-                
         }
     }
 }

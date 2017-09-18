@@ -2,8 +2,10 @@
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
+using OfrApi.Interfaces;
 using OfrApi.Models;
 using OfrApi.Services;
+using OfrApi.Utilities;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,22 +18,22 @@ namespace OfrApi.Controllers
     [RoutePrefix("api/case")]
     public class CaseController : ApiController
     {
-        private CaseDal CaseDal;
+        private ICaseDal _caseDal;
         public CaseController()
         {
-            CaseDal = new CaseDal();
+            _caseDal = new CaseDal();
         }
 
-        public CaseController(CaseDal caseDal)
+        public CaseController(ICaseDal caseDal)
         {
-            CaseDal = caseDal;
+            _caseDal = caseDal;
         }
 
         // GET api/case/5
         [Route("{id}")]
         public HttpResponseMessage Get(string id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, CaseDal.GetCaseById(id, Request), Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK, _caseDal.GetCaseById(id, Request), Configuration.Formatters.JsonFormatter, "application/json");
         }
 
         // GET api/case/2/ping
@@ -43,27 +45,27 @@ namespace OfrApi.Controllers
         }
 
         // POST api/case
-        [Route("{id}")]
+        [Route("")]
         [HttpPost]
         public HttpResponseMessage Post(string id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, CaseDal.PostCaseById(id, Request), Configuration.Formatters.JsonFormatter, "text/html"); ;
+            return Request.CreateResponse(HttpStatusCode.OK, _caseDal.PostCaseById(id, Request), Configuration.Formatters.JsonFormatter, "application/json"); ;
         }
 
         // GET api/case/1/submit
         [Route("{id}/submit")]
         public HttpResponseMessage Submit(string id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, CaseDal.SubmitCaseById(id, Request), Configuration.Formatters.JsonFormatter, "text/html"); ;
+            return Request.CreateResponse(HttpStatusCode.OK, _caseDal.SubmitCaseById(id, Request), Configuration.Formatters.JsonFormatter, "application/json"); ;
         }
 
 
         //Get api/case/page/1/submitted
         [HttpGet]
-        [Route("page/{number}/submitted")]
+        [Route("page/{number:int}/submitted")]
         public HttpResponseMessage GetSubmittedPage(int number)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, new { cases = CaseDal.GetSubmittedCasesByPage(number, Request) }, Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK, _caseDal.GetCasesByPage(number, CaseStatus.Submitted, Request).ToArray(), Configuration.Formatters.JsonFormatter, "application/json");
         }
 
         //Get api/case/page/1/dismissed
@@ -71,7 +73,7 @@ namespace OfrApi.Controllers
         [Route("page/{number}/dismissed")]
         public HttpResponseMessage GetDismissedPage(int number)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, new { cases = CaseDal.GetDismissedCasesByPage(number, Request)}, Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK, _caseDal.GetCasesByPage(number, CaseStatus.Dismissed, Request).ToArray(), Configuration.Formatters.JsonFormatter, "application/json");
         }
 
         //Get api/case/page/1/available
@@ -79,7 +81,7 @@ namespace OfrApi.Controllers
         [Route("page/{number}/available")]
         public HttpResponseMessage GetAvailablePage(int number)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, new { cases = CaseDal.GetAvailableCasesByPage(number, Request) }, Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK, _caseDal.GetCasesByPage(number, CaseStatus.Available, Request).ToArray(), Configuration.Formatters.JsonFormatter, "application/json");
         }
 
         //Get api/case/page/1/open
@@ -88,12 +90,13 @@ namespace OfrApi.Controllers
         public HttpResponseMessage GetOpenPage(int number)
         {
             
-            return Request.CreateResponse(HttpStatusCode.OK,  new {cases = CaseDal.GetOpenCasesByPage(number, Request) }, Configuration.Formatters.JsonFormatter, "text/html");
+            return Request.CreateResponse(HttpStatusCode.OK, 
+                    new {
+                        identity = "Test User",
+                        regions = new[] { "Baltimore City" },
+                        roles = new[] { "Caseworker" },
+                        cases = _caseDal.GetCasesByPage(number, CaseStatus.Open, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
         }
-
-        //Handles the uploading of OCME files
-        //[HttpPost]
-        //[Route("load/")]
 
 
     }

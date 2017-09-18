@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Newtonsoft.Json;
+using OfrApi.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Web.Configuration;
 
 namespace OfrApi.Services
 {
-    public class UserDal
+    public class UserDal : IUserDal
     {
         private string tenant;
         private AuthenticationContext authContext;
@@ -65,7 +66,7 @@ namespace OfrApi.Services
         public static List<string> GetGroupsFromHeader(HttpRequestMessage request)
         {
             var groupHeader = String.Join("",request.Headers.GetValues("GroupAccess"));
-            return new List<string>(new EncryptionService().Decrypt(groupHeader).Split(','));
+            return new List<string>(EncryptionService.Decrypt(groupHeader).Split(','));
         }
     }
 }

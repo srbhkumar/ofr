@@ -41,12 +41,14 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() { 
         var instance : DashboardComponent = this;
-        this.dataService.getAccess().then(() => {
-        instance.paginationOpenCasesData(1);
-        instance.paginationAvailableCasesData(1);
-        instance.paginationDismissedData(1);
-        instance.paginationSubmittedData(1);
-        instance.status = "active"});
+        this.dataService.getAccess()
+            .then(() => instance.dataService.getGroups()
+            .then(() => {
+            instance.paginationOpenCasesData(1);
+            instance.paginationAvailableCasesData(1);
+            instance.paginationDismissedData(1);
+            instance.paginationSubmittedData(1);
+            instance.status = "active"}));
         
     }
     //openDialog = function(){

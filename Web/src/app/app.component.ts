@@ -17,18 +17,11 @@ export class AppComponent {
     }
 
     b2cAuthenticationEvent(): void {
-        let errorType = "error";
 
-        if (localStorage.getItem(errorType) != null) {
-            localStorage.removeItem(errorType);
-            this.msalService.login();
+        if (this.msalService.isOnline()) {
+            this.router.navigate(['dashboard']);
         } else {
-            if (this.msalService.isOnline()) {
-                this.router.navigate(['dashboard']);
-            }
-            else {
-                this.msalService.login();
-            }
+            this.msalService.login();
         }
     }
 

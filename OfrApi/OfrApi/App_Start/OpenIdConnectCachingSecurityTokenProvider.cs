@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Protocols;
 
 namespace OfrApi.App_Start
 {
+    // Example code pulled from microsoft documentation
+    // see : https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-devquickstarts-api-dotnet
     // This class is necessary because the OAuthBearer Middleware does not leverage
     // the OpenID Connect metadata endpoint exposed by the STS by default.
     public class OpenIdConnectCachingSecurityTokenProvider : IIssuerSecurityTokenProvider
