@@ -17,7 +17,10 @@ export class DataService {
     constructor(private http: Http, private msal: MsalService) {
         this.constant = new Constant();
         this.headers = new Headers();
-
+        this.httpget<string>('/user/groups/' + this.msal.getUser()).then(function(value){
+           localStorage.setItem("GroupAccess", value); 
+           alert(value);
+        });
     }
 
     private httpget<T>(action: string): Promise<T> {
@@ -41,13 +44,34 @@ export class DataService {
             .catch(this.handleError);
     }
 
-    public appendToken()
+    public getGroups():Promise<void>
     {
-        this.msal.updateToken();
-        if (!this.headers.has("Authorization")) {
-            this.headers.delete("Authorization");
-            this.headers.append('Authorization', 'Bearer ' + this.msal.getAccessToken());
-        }
+        return this.httpget<string>('/user/groups/' + this.msal.getUser()).then(function(groups){
+            localStorage.setItem("GroupAccess", groups);
+        });
+    }
+
+    public getAccess():Promise<any>
+    {
+        return this.msal.updateToken().then(() => {this.getGroups()});;
+
+    }
+    private appendToken()
+    {
+        let tempThis : DataService = this;
+        this.msal.updateToken().then(_ => {
+            if (!this.headers.has("Authorization")) {
+                this.headers.delete("Authorization");
+
+                this.headers.append('Authorization', 'Bearer ' + this.msal.getAccessToken());
+            }
+            if (!this.headers.has("GroupAccess")){
+                this.headers.delete("GroupAccess");
+                this.headers.append("GroupAccess", localStorage.getItem("GroupAccess"));
+            } 
+            
+            
+        });
     }
 
     public getDashboard():Promise<Dashboard>

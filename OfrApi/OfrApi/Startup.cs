@@ -3,8 +3,8 @@ using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using OfrApi.App_Start;
 using Owin;
-using System.Configuration;
 using System.IdentityModel.Tokens;
+using System.Web.Configuration;
 using System.Web.Http;
 
 [assembly: OwinStartup(typeof(OfrApi.Startup))]
@@ -12,10 +12,10 @@ namespace OfrApi
 {
     public class Startup
     {
-        public static string aadInstance = ConfigurationManager.AppSettings["ida:AadInstance"];
-        public static string tenant = ConfigurationManager.AppSettings["ida:Tenant"];
-        public static string clientId = ConfigurationManager.AppSettings["ida:ClientId"];
-        public static string signUpSignInPolicy = ConfigurationManager.AppSettings["ida:SignUpSignInPolicyId"];
+        public static string aadInstance = WebConfigurationManager.AppSettings["ida:AadInstance"];
+        public static string tenant = WebConfigurationManager.AppSettings["ida:Tenant"];
+        public static string clientId = WebConfigurationManager.AppSettings["ida:ClientId"];
+        public static string signUpSignInPolicy = WebConfigurationManager.AppSettings["ida:SignUpSignInPolicyId"];
         public static string defaultPolicy = signUpSignInPolicy;
 
         public void Configuration(IAppBuilder app)

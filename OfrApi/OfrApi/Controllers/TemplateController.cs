@@ -15,9 +15,9 @@ namespace OfrApi.Controllers
     public class TemplateController : ApiController
     {
         [Route("${id:int}")]
-        public HttpResponseMessage Get(string id)
+        public void Get(string id)
         {
-            using (var op = Dal.TelClient.StartOperation<RequestTelemetry>("GetTemplate"))
+            /*using (var op = Dal.TelClient.StartOperation<RequestTelemetry>("GetTemplate"))
             {
                 op.Telemetry.ResponseCode = "200";
                 op.Telemetry.Url = Request.RequestUri;
@@ -27,7 +27,7 @@ namespace OfrApi.Controllers
                     .AsEnumerable().FirstOrDefault();
 
                 return Request.CreateResponse(HttpStatusCode.OK, c);
-            }
+            }*/
         }
     }
 }
