@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+﻿import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 
@@ -10,15 +10,16 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {Ng2PaginationModule} from 'ng2-pagination';
 import { AppComponent }  from './app.component';
-import{LoginComponent} from './login/login.component';
 import{ProtectedComponent} from './protected/protected.component';
 import{DashboardComponent} from '../app/dashboard/dashboard.component';
 
 
 import { routing }        from './app.routing';
 import{LoggedInGuard} from './shared/guards/auth.guard';
-import{AuthService} from './shared/services/authService';
+import {MsalService} from './shared/services/MsalService';
 import{DataService} from './shared/services/dataService';
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfig }       from './app.config';
  
 import{DefaultComponent} from './shared/layouts/default.component';
 import{LayoutComponent} from './shared/layouts/layout.component';
@@ -37,7 +38,7 @@ import { PopupModule } from 'ng2-opd-popup';
 
 @NgModule({
   declarations: [
-   AppComponent,LoginComponent,ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseComponent,
+   AppComponent, ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseComponent,
    CaseFieldComponent,CaseReportComponent,FilterPipe,CaseDetailsComponent],
   imports: [
     BrowserModule,
@@ -52,7 +53,15 @@ import { PopupModule } from 'ng2-opd-popup';
     DataTableModule,
     Ng2PaginationModule
   ],
-  providers: [LoggedInGuard,AuthService,DataService],
+  providers: [LoggedInGuard, MsalService, DataService,
+    AppConfig,{ provide: APP_INITIALIZER, useFactory: init_app, deps: [AppConfig], multi: true }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function init_app(first_service: AppConfig){
+  // Do initing of services that is required before app loads
+  // NOTE: this factory needs to return a function (that then returns a promise)
+  return () => first_service.load()  // + any other services...
+}

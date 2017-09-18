@@ -1,33 +1,26 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import{Template, Case, OFRResponse,Dashboard} from '../models/caseModel';
-import {Constant} from '../utility/constants';
+import{AppConfig} from '../../app.config'
 import{PingCase} from '../models/pingcase';
+import{MsalService} from './MsalService';
 
 @Injectable()
 export class DataService {
-    constant: Constant;
     private headers: Headers;
    
     
-    constructor(private http: Http) {
-        this.constant = new Constant();
+    constructor(private http: Http, private msal: MsalService, private config: AppConfig) {
         this.headers = new Headers();
-        //this.headers.append(this.constant.headerSubscriptionKey, this.constant.headerSubscriptionValue);  
-        this.headers.append('Username', 'Rock'); //Temporery code. Once SSO is implemented we'll make it dynamic.
-    }
-
-    public setAuthentication(token:string):void
-    {
-        this.headers.append("Authentication", token);
     }
 
     private httpget<T>(action: string): Promise<T> {
+        this.appendToken();
         return this.http
-            .get(this.constant.rootUrl + action, { headers: this.headers })
+            .get(this.config.getConfig("rootUrl") + action, { headers: this.headers })
             .toPromise()
             .then(res => res.json() as T)
             .catch(this.handleError);
@@ -35,17 +28,39 @@ export class DataService {
 
     private httppost<T>(action:string,body:any):Promise<T>
     {
+        this.appendToken();
+
         return this.http
-            .post(this.constant.rootUrl + action, body, { headers: this.headers })
+            .post(this.config.getConfig("rootUrl") + action, body, { headers: this.headers })
             .toPromise()
             .then(res => res.json() as T)
             .catch(this.handleError);
     }
 
+    public getGroups():Promise<void>
+    {
+        return this.httpget<string>('/user/groups/' + this.msal.getUser()).then(function(groups){
+            localStorage.setItem("GroupAccess", groups);
+        });
+    }
+
+    public getAccess():Promise<any>
+    {
+        return this.msal.updateToken();
+
+    }
+    private appendToken()
+    {
+        this.msal.updateToken();
+        this.headers.set('Authorization', 'Bearer ' + this.msal.getAccessToken());
+        this.headers.set("GroupAccess", localStorage.getItem("GroupAccess"));   
+    }
+
     public getDashboard():Promise<Dashboard>
     {
         //return this.httpget<Dashboard>('/dashboard?code=wcRKuW6TpHd47/98eOlnx38wVixZBJJ5T9cDzn6U4F7NcAkqeYj6TQ==');
-        return this.httpget<Dashboard>('/dashboard');
+
+        return this.httpget<Dashboard>('/case/');
     } 
 
 
@@ -57,57 +72,57 @@ export class DataService {
 
     public getOpenCases(page:number):Promise<Dashboard>
     {
-        return this.httpget<Dashboard>(`/opencases/${page}`);
+        return this.httpget<Dashboard>(`/case/page/${page}/open`);
        
     } 
 
     public getAvailableCases(page:number):Promise<Dashboard>
     {
-        return this.httpget<Dashboard>(`/availablecases/${page}`);
+        return this.httpget<Dashboard>(`/case/page/${page}/available`);
        
     } 
 
      public getDismissedCases(page:number):Promise<Dashboard>
     {
-        return this.httpget<Dashboard>(`/dismissedcases/${page}`);
+        return this.httpget<Dashboard>(`/case/page/${page}/dismissed`);
        
     }
 
     public getSubmittedCases(page:number):Promise<Dashboard>
     {
-        return this.httpget<Dashboard>(`/submittedcases/${page}`);
+        return this.httpget<Dashboard>(`/case/page/${page}/submitted`);
        
     } 
     
 
     public getTemplate(id:string):Promise<Template>
     {
-        return this.httpget<Template>(`/template/${id}?code=NoDHzZb8vajzRtZSfRJm40VDALjVZQ60IfLje0J7qn16sOmsvXHvAg==`);
+        return this.httpget<Template>(`/template/${id}`);
     } 
 
     public getCaseInformation(id:string):Promise<Case>
     {
-        return this.httpget<Case>(`/case/${id}?code=d4T3BVwlduK9fFDcdtWjB4klXYS84B5ptNj3coZTQ5ulNsAdykjp1w==`);
+        return this.httpget<Case>(`/case/${id}`);
     }
 
     public saveCase(id:string, data:any):Promise<OFRResponse>
     {
      
-        return this.httppost<OFRResponse>(`/case/${id}?code=7Oa0NJFoifqddtJLQeyBjv7nOXRq/3EnDvVqmpsun9KkehaYCbgxAA==`, data);
+        return this.httppost<OFRResponse>(`/case/${id}`, data);
     } 
     
     public submitCase(id:string, data:any):Promise<OFRResponse>
     {
-        return this.httppost<OFRResponse>(`/submit/${id}?code=5wQEYgfrJAhRaehea2vsRTuuhesDnjsFdKDBgaw0se3PnHzl0X5HEA==`, data);
+        return this.httppost<OFRResponse>(`/case/${id}/submit`, data);
     }
 
     public updateCaseStatus(id:string, newStatus:any):Promise<OFRResponse>
     {
-        return this.httppost<OFRResponse>(`/status/${id}/${newStatus}?code=DdDhm1YEHMkJn13a7AuFYaFbrU5kaBhPcVn1Cu/POq0yDYUs3rBNiQ==`, {});
+        return this.httppost<OFRResponse>(`/case/${id}/${newStatus}/updatestatus`, {});
     }
  
     public PingCase(id: string): Promise<PingCase> {
-        return this.httppost<PingCase>(`/ping/${id}?code=aBAAa3pLY8TGSmnivFajbn4A7a0j6hTJ/yYw5fwVOUqG/XRJ4b9W9w==`, {});
+        return this.httppost<PingCase>(`/case/${id}/ping`, {});
     }
  
     private handleError(error: any) {

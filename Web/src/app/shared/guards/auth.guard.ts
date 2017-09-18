@@ -1,22 +1,18 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import{Router,CanActivate} from '@angular/router';
-import{AuthService} from '../services/authService'
+import { MsalService } from '../services/MsalService';
 
 @Injectable()
 export class LoggedInGuard implements CanActivate{
 
-    constructor(private authService:AuthService,private router:Router){
+    constructor(private msalService:MsalService){
     }
 
     canActivate():boolean{
-        if(this.authService.isLoggedIn()===true)
+        if(this.msalService.isOnline()===true)
         {
             return true;
         }
-
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/login'] );
         return false;
-
     }
 }

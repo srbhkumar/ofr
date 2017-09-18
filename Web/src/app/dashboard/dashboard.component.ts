@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
 
     //  public rows:Array<any> = [];  
 
-    constructor(private dataService: DataService, private zone: NgZone, private popup:Popup) {
+    constructor( private dataService: DataService, private zone: NgZone, private popup:Popup) {
         this.show = false;
         this.status = "loading";
         
@@ -45,12 +45,16 @@ export class DashboardComponent implements OnInit {
     
 
     ngOnInit() { 
-        this.paginationOpenCasesData(1);
-        this.paginationAvailableCasesData(1);
-        this.paginationDismissedData(1);
-        this.paginationSubmittedData(1);
+        var instance : DashboardComponent = this;
+        this.dataService.getAccess()
+            .then(() => instance.dataService.getGroups()
+            .then(() => {
+            instance.paginationOpenCasesData(1);
+            instance.paginationAvailableCasesData(1);
+            instance.paginationDismissedData(1);
+            instance.paginationSubmittedData(1);
+            instance.status = "active"}));
         
-        this.status = "active";
     }
     //openDialog = function(){
     // alert('hi Vandana');
@@ -99,6 +103,7 @@ export class DashboardComponent implements OnInit {
         for (let item in resp.cases) {
             let caseItem: any;
             caseItem = resp.cases[item];
+
             this.data.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
