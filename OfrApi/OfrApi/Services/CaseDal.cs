@@ -139,7 +139,7 @@ namespace OfrApi.Services
                 var cases = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
-                .Where(c => c.Status == status.ToString() && jurisdictions.Contains(c.Jurisdiction))
+                .Where(c => (c.Status == status.ToString() && jurisdictions.Contains(c.Jurisdiction)))
                 .Take(skipCount + takeCount)
                 .ToArray()
                 .Skip(skipCount);

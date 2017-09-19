@@ -14,7 +14,7 @@ public class DAL
 
     public static DAL()
     {
-        string endpoint = ConfigurationManager.AppSettings["StorageEndpoint"];
+        string endpoint = "ConfigurationManager.AppSettings["StorageEndpoint"];
         string primkey = ConfigurationManager.AppSettings["StoragePrimKey"];
 
         Client = new DocumentClient(new Uri(endpoint), primkey);
