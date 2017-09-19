@@ -7,3 +7,4 @@ obj
 /OfrApi/packages
 /OfrApi/.vs
 /OfrApi/OfrApi/OfrApi.csproj.user
+/npm-debug.log

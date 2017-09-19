@@ -1,6 +1,7 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using OfrApi.Interfaces;
 using OfrApi.Models;
@@ -49,10 +50,39 @@ namespace OfrApi.Services
                 var caseById = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
-                .Where(c => c.id == id);
-                var currentCase = caseById.AsEnumerable().FirstOrDefault();
-                return jurisdictions.Contains(currentCase.Jurisdiction) ? currentCase : null;
+                .Where(c => c.id == id).AsEnumerable().FirstOrDefault();
+                return jurisdictions.Contains(caseById.Jurisdiction) ? caseById : null;
             }
+        }
+
+        public string UpdateStatusById(string id, CaseStatus status, HttpRequestMessage request)
+        {
+            using (var op = TelClient.StartOperation<RequestTelemetry>("UpdateStatus"))
+            {
+                op.Telemetry.ResponseCode = "200";
+                op.Telemetry.Url = request.RequestUri;
+
+                var feedOptions = new FeedOptions
+                {
+                    EnableCrossPartitionQuery = true,
+                    MaxItemCount = -1,
+                    EnableScanInQuery = true
+                };
+                var caseById = Client.CreateDocumentQuery<Case>(
+               UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+               feedOptions)
+               .Where(c => c.id == id)
+               .AsEnumerable().FirstOrDefault();
+                var keyValue = caseById.Jurisdiction;
+
+                var result = Client.ExecuteStoredProcedureAsync<object>(
+                    UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "SetCaseStatus"),
+                    new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
+                    id,
+                    status.ToString()
+                ).Result;
+            }
+            return "It did something";
         }
 
         //Not sure about the future status of this one
@@ -79,41 +109,31 @@ namespace OfrApi.Services
             {
                 op.Telemetry.ResponseCode = "200";
                 op.Telemetry.Url = request.RequestUri;
-
                 // Get request body
                 dynamic data = request.Content.ReadAsAsync<object>();
+
                 var feedOptions = new FeedOptions
                 {
                     EnableCrossPartitionQuery = true,
                     MaxItemCount = -1,
                     EnableScanInQuery = true
                 };
+                var caseById = Client.CreateDocumentQuery<Case>(
+               UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+               feedOptions)
+               .Where(c => c.id == id)
+               .AsEnumerable().FirstOrDefault();
+               var keyValue = caseById.Jurisdiction;
+
+                
                 this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "MergeCase"),
+                    new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
                     id,
-                    data
+                    data.Result
                 );
                 return "";
             }
             
-        }
-
-        public string SubmitCaseById(string id, HttpRequestMessage request)
-        {
-            using (var op = this.TelClient.StartOperation<RequestTelemetry>("Submit"))
-            {
-                op.Telemetry.ResponseCode = "200";
-                op.Telemetry.Url = request.RequestUri;
-
-                // todo: validation
-
-                this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "SubmitCase"),
-                    id
-                );
-
-                // todo: emails
-
-            }
-            return "";
         }
 
         public IEnumerable<Case> GetCasesByPage(int page, CaseStatus status, HttpRequestMessage request)
@@ -139,7 +159,7 @@ namespace OfrApi.Services
                 var cases = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
-                .Where(c => c.Status == status.ToString() && jurisdictions.Contains(c.Jurisdiction))
+                .Where(c => (c.Status == status.ToString() && jurisdictions.Contains(c.Jurisdiction)))
                 .Take(skipCount + takeCount)
                 .ToArray()
                 .Skip(skipCount);
