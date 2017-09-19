@@ -42,5 +42,20 @@ namespace OfrApi.Controllers
                 return c.AsEnumerable().FirstOrDefault() ;
             }
         } 
+
+        public string GetNewestTemplateId(HttpRequestMessage request)
+        {
+            using (var op = TelClient.StartOperation<RequestTelemetry>("GetNewestTemplate"))
+            {
+                op.Telemetry.ResponseCode = "200";
+                op.Telemetry.Url = request.RequestUri;
+
+                var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]))
+                    .OrderBy(f => f._ts);
+
+                return c.AsEnumerable().FirstOrDefault().id;
+            }
+        }
+
     }
 }

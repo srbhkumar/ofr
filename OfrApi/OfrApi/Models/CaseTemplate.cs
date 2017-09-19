@@ -28,6 +28,7 @@ namespace OfrApi.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Layout { get; set; }
+        public long _ts { get; set; }
         public List<CaseField> Fields { get; set; }
 
         public bool Validate(Case c)

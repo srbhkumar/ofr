@@ -113,7 +113,7 @@ export class DataService {
     
     public submitCase(id:string, data:any):Promise<OFRResponse>
     {
-        return this.httppost<OFRResponse>(`/case/${id}/submit`, data);
+        return this.httppost<OFRResponse>(`/case/${id}/Submitted/updatestatus`, data);
     }
 
     public updateCaseStatus(id:string, newStatus:any):Promise<OFRResponse>

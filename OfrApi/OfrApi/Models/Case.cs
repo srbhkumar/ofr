@@ -17,5 +17,6 @@ namespace OfrApi.Models
 
         public string Template { get; set; }
         public dynamic Data { get; set; }
+
     }
 }
