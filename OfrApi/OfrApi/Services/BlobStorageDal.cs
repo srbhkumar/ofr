@@ -33,11 +33,11 @@ namespace OfrApi.Services
             return blobContainer;
         }
 
-        public bool UploadFromStream(string accountName, string fileName, Stream sourceStream)
+        public bool UploadFromStream(string fileName, Stream sourceStream)
         {
             try
             {
-                var blockBlob = CloudBlobContainer.GetBlockBlobReference(accountName + "/" + fileName);
+                var blockBlob = CloudBlobContainer.GetBlockBlobReference(fileName);
                 blockBlob.Properties.ContentType = ContentType;
                 blockBlob.UploadFromStream(sourceStream);
 
@@ -49,11 +49,11 @@ namespace OfrApi.Services
             }
         }
 
-        public bool UploadFromText(string accountName, string fileName, string source)
+        public bool UploadFromText( string fileName, string source)
         {
             try
             {
-                var blockBlob = CloudBlobContainer.GetBlockBlobReference(accountName + "/" + fileName);
+                var blockBlob = CloudBlobContainer.GetBlockBlobReference(fileName);
                 blockBlob.Properties.ContentType = ContentType;
                 blockBlob.UploadText(source);
 
@@ -65,13 +65,13 @@ namespace OfrApi.Services
             }
         }
 
-        public void UploadFromUri(string accountName, string fileName, Uri sourceUri)
+        public void UploadFromUri(string fileName, Uri sourceUri)
         {
-            var blockBlob = CloudBlobContainer.GetBlockBlobReference($"{accountName}/{fileName}");
+            var blockBlob = CloudBlobContainer.GetBlockBlobReference($"{fileName}");
             var x = 2;
             while (blockBlob.Exists())
             {
-                blockBlob = CloudBlobContainer.GetBlockBlobReference($"{accountName}/{fileName}_{x}");
+                blockBlob = CloudBlobContainer.GetBlockBlobReference($"{fileName}_{x}");
                 x++;
             }
 
@@ -90,11 +90,11 @@ namespace OfrApi.Services
 
             if (blockBlob.CopyState.Status != CopyStatus.Success)
             {
-                throw new BlobStorageException($"Failed to copy {accountName}\\{fileName} from file storage to blob");
+                throw new BlobStorageException($"Failed to copy {fileName} from file storage to blob");
             }
         }
 
-        public string DownloadBlob(string accountName, string filename)
+        public string DownloadBlob(string filename)
         {
             return "";
         }

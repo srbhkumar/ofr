@@ -58,7 +58,8 @@ namespace OfrApi.Controllers
 
             try
             {
-                CopyFileToBlob(userName, fileName);
+                CopyFileToBlob(fileName);
+                var ocmeData = _blobDal.DownloadBlob(fileName);
             }
             catch (FileStorageException ex)
             {
@@ -71,7 +72,7 @@ namespace OfrApi.Controllers
             return Ok();
         }
 
-        private void CopyFileToBlob(string username, string filename)
+        private void CopyFileToBlob(string filename)
         {
             var uri = FileDal.GetFileUri(username, filename);
             BlobDal.UploadFromUri(username, filename, uri);
