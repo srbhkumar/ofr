@@ -45,7 +45,7 @@ namespace OfrApi.Controllers
         }
 
         // POST api/case
-        [Route("")]
+        [Route("{id}")]
         [HttpPost]
         public HttpResponseMessage Post(string id)
         {
@@ -92,7 +92,7 @@ namespace OfrApi.Controllers
             
             return Request.CreateResponse(HttpStatusCode.OK, 
                     new {
-                        cases = _caseDal.GetCasesByPage(number, CaseStatus.Open, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
+                        cases = _caseDal.GetCasesByPage(number, CaseStatus.Assigned, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
         }
 
 

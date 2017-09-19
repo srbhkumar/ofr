@@ -288,6 +288,7 @@ export class DashboardComponent implements OnInit {
             }
             else {
                 this.SubmittedCasesdata.find(item => item.id == caseId).Status = newStatus;
+                //code to reload the new status table
             }
             // location.reload(true);
             this.status = "active";
