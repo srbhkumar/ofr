@@ -16,6 +16,6 @@ namespace OfrApi.Interfaces
         IEnumerable<Case> GetCasesByPage(int page, CaseStatus status, HttpRequestMessage request);
         object PingCaseById(string id, HttpRequestMessage request);
         string PostCaseById(string id, HttpRequestMessage request);
-        string SubmitCaseById(string id, HttpRequestMessage request);
+        string UpdateStatusById(string id, CaseStatus status, HttpRequestMessage request);
     }
 }

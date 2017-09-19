@@ -4,7 +4,7 @@ namespace OfrApi.Utilities
     public enum CaseStatus
     {
         Submitted,
-        Open,
+        Assigned,
         Available,
         Dismissed
     }

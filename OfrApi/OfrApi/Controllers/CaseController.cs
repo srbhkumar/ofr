@@ -6,6 +6,7 @@ using OfrApi.Interfaces;
 using OfrApi.Models;
 using OfrApi.Services;
 using OfrApi.Utilities;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -36,7 +37,8 @@ namespace OfrApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, _caseDal.GetCaseById(id, Request), Configuration.Formatters.JsonFormatter, "application/json");
         }
 
-        // GET api/case/2/ping
+        // GET/POST api/case/2/ping
+        [HttpPost]
         [HttpGet]
         [Route("{id}/ping")]
         public string Ping(string id)
@@ -44,21 +46,22 @@ namespace OfrApi.Controllers
             return "routing works";
         }
 
+        [HttpPost]
+        [Route("{id}/{status}/updatestatus")]
+        public HttpResponseMessage UpdateStatus(string id, string status)
+        {
+            CaseStatus newStatus;
+            Enum.TryParse(status, out newStatus);
+            return Request.CreateResponse(HttpStatusCode.OK, _caseDal.UpdateStatusById(id, newStatus, Request), Configuration.Formatters.JsonFormatter, "application/json");
+        }
+
         // POST api/case
-        [Route("")]
+        [Route("{id}")]
         [HttpPost]
         public HttpResponseMessage Post(string id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, _caseDal.PostCaseById(id, Request), Configuration.Formatters.JsonFormatter, "application/json"); ;
         }
-
-        // GET api/case/1/submit
-        [Route("{id}/submit")]
-        public HttpResponseMessage Submit(string id)
-        {
-            return Request.CreateResponse(HttpStatusCode.OK, _caseDal.SubmitCaseById(id, Request), Configuration.Formatters.JsonFormatter, "application/json"); ;
-        }
-
 
         //Get api/case/page/1/submitted
         [HttpGet]
@@ -90,9 +93,7 @@ namespace OfrApi.Controllers
         public HttpResponseMessage GetOpenPage(int number)
         {
             
-            return Request.CreateResponse(HttpStatusCode.OK, 
-                    new {
-                        cases = _caseDal.GetCasesByPage(number, CaseStatus.Open, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
+            return Request.CreateResponse(HttpStatusCode.OK, new {cases = _caseDal.GetCasesByPage(number, CaseStatus.Assigned, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
         }
 
 
