@@ -61,6 +61,7 @@ namespace OfrApi.Controllers
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     var cases = _caseDal.DownloadCases(start, end, Request);
+                    
                     for (int i = cases.Count - 1; i >= 0; i--)
                     {
                         var dateOfDeath = DateTime.ParseExact(cases[i].Data["DateofDeath"].ToString().PadLeft(9, '0'), "yyyy-MM-dd", CultureInfo.InvariantCulture);
@@ -69,7 +70,10 @@ namespace OfrApi.Controllers
                             cases.RemoveAt(i);
                     }
                     var returnFile = new StringBuilder("Status,UpdatedOn,");
-
+                    if (cases.Count == 0)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.InternalServerError, "No cases exist in the specified date range");
+                    }
 
                     //Retrieve the longest OCME header
                     var longestOCMEHeaderLength = cases.Max(c => c.OCMEData.Count);

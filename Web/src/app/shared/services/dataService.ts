@@ -132,8 +132,7 @@ export class DataService {
     }
  
     private handleError(error: any) {
-        // todo: display errors to the user (sometimes)
-        console.error('An error occurred', error);
+        alert('An error occurred\n' + error.json());
         return Promise.reject(error.message || error);
     }
 }
