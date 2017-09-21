@@ -176,7 +176,6 @@ export class CaseComponent implements OnInit {
             "DateofInitialCaseReview": ["", Validators.required],
             "DateofDeath": ["", Validators.required],
             "YearofDeath": ["", Validators.required],
-            "IncidentJurisdiction": ["", Validators.required],
             "CountyofDeath": ["", Validators.required],
             "ResidentJurisdiction": ["", Validators.required],
             "CauseofDeath": ["", Validators.nullValidator],

@@ -3,6 +3,7 @@ import { SelectModule } from 'angular2-select';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from "rxjs/Observable";
 import { ResponseContentType, RequestOptions, Http } from "@angular/http";
+import { DataService} from "../../shared/services/dataService"
 let jsPDF = require('jspdf');
  
  
@@ -23,7 +24,7 @@ export class CaseReportComponent {
   private disabled:boolean = false;
    date :Date;
 
-  constructor( private formBuilder : FormBuilder){
+  constructor(private dataService: DataService, private formBuilder : FormBuilder){
       this.date=new Date();
               this.caseReportForm = this.formBuilder.group({
                             "startDate" : ["",  Validators.required]   ,
@@ -113,28 +114,26 @@ export class CaseReportComponent {
   onSave(caseReportForm  :any) {
     console.log(caseReportForm);
   
-    if(caseReportForm.format.toLowerCase() == "csv")
-    {
-        this.downloadCSV();
-    }
-     if(caseReportForm.format.toLowerCase() == "pdf")
-    {
-       this.downloadPDF();
-    }
+    console.log(caseReportForm.startDate)
+    this.downloadCSV(caseReportForm.startDate, caseReportForm.endDate, caseReportForm.type);
  
  
 }
 
-downloadCSV(){
-     var blob = new Blob([this.items], { type: 'text/csv' });
-     var csvUrl = window.URL.createObjectURL(blob);
+downloadCSV(startDate: string, endDate: string, type: string){
+     
+  this.dataService.DownloadCases(startDate, endDate, type).then(function(contents){
+    alert(contents);
+    var blob = new Blob([contents]);
+    var csvUrl = window.URL.createObjectURL(blob);
 
     var arc = document.createElement('a');
     arc.id = "lnkDwnldLnk";
-    arc.setAttribute('download', "test.csv");
+    arc.setAttribute('download', "ofr" + Date.now() + ".csv");
     arc.setAttribute('href', csvUrl);
     arc.click();
     document.body.appendChild(arc);
+  });
 
 }
 //<table style=width:100%><tr><th>Firstname</th><th>Lastname</th> <th>Age</th></tr><tr><td>Jill</td><td>Smith</td> <td>50</td></tr><tr><td>Eve</td><td>Jackson</td> <td>94</td> </tr></table>

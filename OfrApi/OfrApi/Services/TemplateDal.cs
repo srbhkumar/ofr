@@ -15,7 +15,6 @@ namespace OfrApi.Controllers
     public class TemplateDal
     {
         public DocumentClient Client { get; protected set; }
-        public TelemetryClient TelClient { get; protected set; }
 
         public TemplateDal()
         {
@@ -23,38 +22,24 @@ namespace OfrApi.Controllers
             string primarykey = WebConfigurationManager.AppSettings["DocumentPrimaryKey"];
 
             Client = new DocumentClient(new Uri(endpoint), primarykey);
-
-
-            TelemetryConfiguration.Active.InstrumentationKey = WebConfigurationManager.AppSettings["InstrumentationKey"];
-            TelClient = new TelemetryClient();
         }
 
         public CaseTemplate getTemplate(string id, HttpRequestMessage request)
         {
-            using (var op = TelClient.StartOperation<RequestTelemetry>("GetTemplate"))
-            {
-                op.Telemetry.ResponseCode = "200";
-                op.Telemetry.Url = request.RequestUri;
+            var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]))
+                .Where(d => d.id == id);
 
-                var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]))
-                    .Where(d => d.id == id);
-
-                return c.AsEnumerable().FirstOrDefault() ;
-            }
+            return c.AsEnumerable().FirstOrDefault() ;
+           
         } 
 
-        public string GetNewestTemplateId(HttpRequestMessage request)
+        public string GetCurrentTemplate()
         {
-            using (var op = TelClient.StartOperation<RequestTelemetry>("GetNewestTemplate"))
-            {
-                op.Telemetry.ResponseCode = "200";
-                op.Telemetry.Url = request.RequestUri;
+            var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]))
+                .OrderBy(f => f._ts);
 
-                var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]))
-                    .OrderBy(f => f._ts);
+            return c.AsEnumerable().FirstOrDefault().id;
 
-                return c.AsEnumerable().FirstOrDefault().id;
-            }
         }
 
     }

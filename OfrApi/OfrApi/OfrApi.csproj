@@ -195,7 +195,6 @@
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CaseController.cs" />
-    <Compile Include="Controllers\ImporterController.cs" />
     <Compile Include="Controllers\OCMEController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Services\BlobStorageDal.cs" />
@@ -204,6 +203,7 @@
     <Compile Include="Interfaces\IFileStorageDal.cs" />
     <Compile Include="Interfaces\IBlobStorageDal.cs" />
     <Compile Include="Services\FileStorageException.cs" />
+    <Compile Include="Services\HeaderMap.cs" />
     <Compile Include="Services\TemplateDal.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">

@@ -7,7 +7,9 @@ namespace OfrApi.Interfaces
     {
         bool UploadFromStream(string fileName, Stream sourceStream);
         bool UploadFromText(string fileName, string source);
-        void UploadFromUri(string fileName, Uri sourceUri);
-        object DownloadBlob(string fileName);
+        string UploadFromUri(string fileName, Uri sourceUri);
+        string DownloadBlob(string fileName);
+        void MoveFileToPoison(string filename);
+        void MoveFileToProcessed(string filename);
     }
 }

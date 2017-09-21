@@ -113,7 +113,8 @@ export class DataService {
     
     public submitCase(id:string, data:any):Promise<OFRResponse>
     {
-        return this.httppost<OFRResponse>(`/case/${id}/Submitted/updatestatus`, data);
+        this.headers.set("Username", localStorage.getItem("IdToken"));   
+        return this.httppost<OFRResponse>(`/case/${id}/submit`, data);
     }
 
     public updateCaseStatus(id:string, newStatus:any):Promise<OFRResponse>
@@ -123,6 +124,11 @@ export class DataService {
  
     public PingCase(id: string): Promise<PingCase> {
         return this.httppost<PingCase>(`/case/${id}/ping`, {});
+    }
+
+    public DownloadCases(startDate: string, endDate: string, type: string): Promise<string>{
+        return this.httpget<string>(`/case/download/cases?startDate=${startDate}&endDate=${endDate}&type=${type}`);
+        
     }
  
     private handleError(error: any) {

@@ -127,7 +127,7 @@ export class DashboardComponent implements OnInit {
             this.OpenCasesdata.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
-                'ResidentCounty': caseItem.Data['ResidentCounty'],
+                'ResidentCounty': caseItem.Data['ResidentJurisdiction'],
                 'DateofDeath': caseItem.Data['DateofDeath'],
                 'CauseofDeath': caseItem.Data['CauseofDeath'],
                 'CountyofDeath': caseItem.Data['CountyofDeath'],
@@ -147,7 +147,7 @@ export class DashboardComponent implements OnInit {
             this.AvailableCasesdata.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
-                'ResidentCounty': caseItem.Data['ResidentCounty'],
+                'ResidentCounty': caseItem.Data['ResidentJurisdiction'],
                 'DateofDeath': caseItem.Data['DateofDeath'],
                 'CauseofDeath': caseItem.Data['CauseofDeath'],
                 'CountyofDeath': caseItem.Data['CountyofDeath'],
@@ -166,7 +166,7 @@ export class DashboardComponent implements OnInit {
             this.DismissedCasesdata.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
-                'ResidentCounty': caseItem.Data['ResidentCounty'],
+                'ResidentCounty': caseItem.Data['ResidentJurisdiction'],
                 'DateofDeath': caseItem.Data['DateofDeath'],
                 'CauseofDeath': caseItem.Data['CauseofDeath'],
                 'CountyofDeath': caseItem.Data['CountyofDeath'],
@@ -186,7 +186,7 @@ export class DashboardComponent implements OnInit {
             this.SubmittedCasesdata.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
-                'ResidentCounty': caseItem.Data['ResidentCounty'],
+                'ResidentCounty': caseItem.Data['ResidentJurisdiction'],
                 'DateofDeath': caseItem.Data['DateofDeath'],
                 'CauseofDeath': caseItem.Data['CauseofDeath'],
                 'CountyofDeath': caseItem.Data['CountyofDeath'],

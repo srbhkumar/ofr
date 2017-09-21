@@ -20,9 +20,9 @@ namespace OfrApi.Services
             CloudFileShare = fileClient.GetShareReference(fileShareName);
         }
 
-        public Uri GetFileUri(string directoryName, string fileName)
+        public Uri GetFileUri(string fileName)
         {
-            var file = GetCloudFile(directoryName, fileName);
+            var file = GetCloudFile(fileName);
 
             var sharedAccessSignature = file.GetSharedAccessSignature(new SharedAccessFilePolicy()
             {
@@ -33,27 +33,23 @@ namespace OfrApi.Services
             return new Uri(file.StorageUri.PrimaryUri.ToString() + sharedAccessSignature);
         }
 
-        public void DeleteFile(string directoryName, string fileName)
+        public void DeleteFile(string fileName)
         {
-            var file = GetCloudFile(directoryName, fileName);
+            var file = GetCloudFile(fileName);
 
             file.Delete();
         }
 
-        private CloudFile GetCloudFile(string directoryName, string fileName)
+        private CloudFile GetCloudFile(string fileName)
         {
             if (!CloudFileShare.Exists())
                 throw new FileStorageException($"File share '{CloudFileShare.Name}' does not exist");
 
-            var dir = CloudFileShare.GetRootDirectoryReference().GetDirectoryReference(directoryName);
 
-            if (!dir.Exists())
-                throw new FileStorageException($"Directory '{directoryName}' does not exist in file share '{CloudFileShare.Name}'");
-
-            var file = dir.GetFileReference(fileName);
+            var file = CloudFileShare.GetRootDirectoryReference().GetFileReference(fileName);
 
             if (!file.Exists())
-                throw new FileStorageException($"File '{fileName}' does not exist in directory '{directoryName}' in file share '{CloudFileShare.Name}'");
+                throw new FileStorageException($"File '{fileName}' does not exist in file share '{CloudFileShare.Name}'");
 
             return file;
         }
