@@ -16,6 +16,7 @@ namespace OfrApi.Models
         public DateTime UpdatedOn { get; set; }
 
         public string Template { get; set; }
+        public string[] DrugsInSystem { get; set; }
         public dynamic Data { get; set; }
 
     }
