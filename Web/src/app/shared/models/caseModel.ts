@@ -46,6 +46,7 @@ export class Case
   UpdatedOn: string;
   Template: string;
   Flagged:boolean;
+  DrugsInSystem:string[];
   Data: any;
 };
 

@@ -164,6 +164,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     width: 25px;
    
 }
+
+.logout {
+
+  color: #D80004; 
+  font-size: 1.3em; 
+  cursor:pointer
+}
+
 .load-spinner {
    background:url('~/assets/images/giphy.gif');
    

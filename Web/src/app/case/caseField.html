@@ -66,10 +66,17 @@
 
 
         </div>
+<!-- To be implemented<div *ngSwitchCase="'Dropdown'">
+            <select class="form-control" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                (input)="setValue($event.target.value)">
+                <option *ngFor="let opt of Field.Options">{{opt}}</option>
+            </select>
 
+
+        </div> -->
         <div *ngSwitchCase="'Checkbox'">
             <input type="checkbox" name="{{Field.Name}}" formControlName="{{Field.Name}}" id="case-field-{{Field.Name}}" [checked]="ViewModel.Data[Field.Name]"
-                [value]="ViewModel.Data[Field.Name]" (change)="setCheckVal($event.target.value)">
+                [value]="ViewModel.Data[Field.Name]" (change)="setCheckVal($event.target.value)"><label>&nbsp; Check yes if indicated.</label>
             <!-- <span> {{Field.Name}} </span> -->
 
         </div>
