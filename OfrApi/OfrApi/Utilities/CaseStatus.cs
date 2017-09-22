@@ -6,6 +6,8 @@ namespace OfrApi.Utilities
         Submitted,
         Assigned,
         Available,
-        Dismissed
+        Dismissed,
+        Flagged,
+        Unflagged
     }
 }

@@ -8,11 +8,6 @@
    
      <label class="col-md-1"> End Date <span class="text-danger"> * </span> </label>
         <input class="col-md-2 form-control input-sm" type="date"  formControlName="endDate" value="{{endDate}}" name="endDate" required/>
-          <label  class="col-md-1"> Format   </label>
-        <select class="form-control input-sm col-md-2" id="format"  formControlName="format" item-width="col-2" required>
-                <option>csv</option>
-                <option>pdf</option>
-        </select>
      </div>
 <p class="clearfix"></p>
      <div class="row">
@@ -20,24 +15,12 @@
     
         <label  class="col-md-1"> Report Type   </label>
         <select class="form-control input-sm col-md-2"  formControlName="type" id="type" item-width="col-2" required>
-                <option>Report</option>
-                <option>Census</option>
+                <option selected>OCME</option>
+                <option>FULL</option>
         </select>
    
-            <label class="col-md-1">Jurisdiction </label>
-            <div class="col-md-3">
-            <ng-select [multiple]="true"
-                        [options]="items"
-                          
-                         (data)="refreshValue($event)"
-                        (selected)="selected($event)"
-                        (removed)="removed($event)"
-                        placeholder="No city selected"  formControlName="jurisdiction" required>
-                        
-            </ng-select>
-            </div>
             <div class="col-md-2">
-                  <button type="submit"  class="btn btn-sm btn-primary ui button fleft">Submit </button>  
+                  <button type="submit"  class="btn btn-sm btn-primary ui button fleft">Download</button>  
             </div>
     </div>
 

@@ -68,5 +68,10 @@ namespace OfrApi.Services
             var groupHeader = String.Join("",request.Headers.GetValues("GroupAccess"));
             return new List<string>(EncryptionService.Decrypt(groupHeader).Split(','));
         }
+
+        public static string GetUserNameFromHeader(HttpRequestMessage request)
+        {
+            return String.Join("", request.Headers.GetValues("Username"));
+        }
     }
 }

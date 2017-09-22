@@ -13,12 +13,18 @@ namespace OfrApi.Services
     {
         private const string ContentType = "text/plain";
         private CloudBlobContainer CloudBlobContainer { get; }
+        private CloudBlobContainer PoisonContainer { get; }
+        private CloudBlobContainer ProcessedContainer { get; }
 
         public BlobStorageDal()
         {
             var storageAccountConnection = WebConfigurationManager.AppSettings["storageAccountConnection"];
             var blobContainerName = WebConfigurationManager.AppSettings["blobContainerName"];
+            var blobProcessedName = WebConfigurationManager.AppSettings["blobProcessedName"];
+            var blobPoisonName = WebConfigurationManager.AppSettings["blobPoisonName"];
             CloudBlobContainer = GetCloudBlobContainer(storageAccountConnection, blobContainerName);
+            PoisonContainer = GetCloudBlobContainer(storageAccountConnection, blobPoisonName);
+            ProcessedContainer = GetCloudBlobContainer(storageAccountConnection, blobProcessedName);
         }
 
         private CloudBlobContainer GetCloudBlobContainer(string storageAccountConnection, string blobContainerName)
@@ -33,70 +39,61 @@ namespace OfrApi.Services
             return blobContainer;
         }
 
-        public bool UploadFromStream(string accountName, string fileName, Stream sourceStream)
+        public string UploadFromUri(string fileName, Uri sourceUri)
         {
-            try
-            {
-                var blockBlob = CloudBlobContainer.GetBlockBlobReference(accountName + "/" + fileName);
-                blockBlob.Properties.ContentType = ContentType;
-                blockBlob.UploadFromStream(sourceStream);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public bool UploadFromText(string accountName, string fileName, string source)
-        {
-            try
-            {
-                var blockBlob = CloudBlobContainer.GetBlockBlobReference(accountName + "/" + fileName);
-                blockBlob.Properties.ContentType = ContentType;
-                blockBlob.UploadText(source);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public void UploadFromUri(string accountName, string fileName, Uri sourceUri)
-        {
-            var blockBlob = CloudBlobContainer.GetBlockBlobReference($"{accountName}/{fileName}");
-            var x = 2;
+            var blockBlob = CloudBlobContainer.GetBlockBlobReference($"{fileName}");
+            var x = 1;
             while (blockBlob.Exists())
             {
-                blockBlob = CloudBlobContainer.GetBlockBlobReference($"{accountName}/{fileName}_{x}");
                 x++;
+                blockBlob = CloudBlobContainer.GetBlockBlobReference($"{fileName}_{x}");
             }
+
+            
 
             blockBlob.Properties.ContentType = ContentType;
             blockBlob.StartCopyAsync(sourceUri).Wait();
 
             // wait for copy to complete up to 6000 times, waiting 50 miliseconds each time
             // 50 * 6000 miliseconds = 300000 miliseconds = 5 minutes
-            x = 0;
-            while (blockBlob.CopyState.Status == CopyStatus.Pending && x < 6000)
+            var i = 0;
+            while (blockBlob.CopyState.Status == CopyStatus.Pending && i < 6000)
             {
                 Thread.Sleep(50);
                 blockBlob.FetchAttributes();
-                x++;
+                i++;
             }
 
             if (blockBlob.CopyState.Status != CopyStatus.Success)
             {
-                throw new BlobStorageException($"Failed to copy {accountName}\\{fileName} from file storage to blob");
+                throw new BlobStorageException($"Failed to copy {fileName} from file storage to blob");
             }
+            if (x > 1)
+                return $"{fileName}_{x}";
+            else
+                return fileName;
         }
 
-        public string DownloadBlob(string accountName, string filename)
+        public string DownloadBlob(string filename)
         {
-            return "";
+            var blockBlob = CloudBlobContainer.GetBlockBlobReference($"{filename}");
+            return blockBlob.DownloadText();
+        }
+
+        public void MoveFileToPoison(string filename)
+        {
+            var poisonReference = PoisonContainer.GetBlockBlobReference(filename);
+            var rawReference = CloudBlobContainer.GetBlockBlobReference(filename);
+            poisonReference.StartCopy(rawReference);
+            rawReference.Delete();
+        }
+
+        public void MoveFileToProcessed(string filename)
+        {
+            var processedReference = ProcessedContainer.GetBlockBlobReference(filename);
+            var rawReference = CloudBlobContainer.GetBlockBlobReference(filename);
+            processedReference.StartCopy(rawReference);
+            rawReference.Delete();
         }
     }
 }
