@@ -171,6 +171,7 @@ namespace OfrApi.Controllers
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     CaseStatus newStatus;
                     Enum.TryParse(status, out newStatus);
+                    _caseDal.UpdateStatusById(id, newStatus, Request);
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
                 catch (Exception ex)
