@@ -270,18 +270,24 @@ export class DashboardComponent implements OnInit {
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
             if (newStatus == "Flagged") {
                 this.OpenCasesdata.find(item => item.id == caseId).Flagged = true;
-                this.popup.hide();
+                if (this.popup) {
+                    this.popup.hide();//Code for hiding the popup.
+                }
             }
             else if (newStatus == "Unflagged") {
                 this.OpenCasesdata.find(item => item.id == caseId).Flagged = false;
-                this.popup.hide();
+                if (this.popup) {
+                    this.popup.hide();//Code for hiding the popup.
+                }
             }
             else {
                 this.OpenCasesdata.find(item => item.id == caseId).Status = newStatus;
                 //alert("Successfully Moved to Dismissed Cases");
                 this.paginationOpenCasesData(this.currentOpenCasePage);
                 this.paginationDismissedData(this.currentDismissedCasePage);
-                this.popup.hide();
+                if (this.popup) {
+                    this.popup.hide();//Code for hiding the popup.
+                }
                 this.StatusChangeNotification();
             }
             // location.reload(true);
