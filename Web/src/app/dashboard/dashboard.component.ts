@@ -25,6 +25,11 @@ import {Ng2PaginationModule} from 'ng2-pagination';
 export class DashboardComponent implements OnInit {
     show: boolean;
     public data: Array<any> = [];
+    public caseStatus: string;
+    public AvailableCaseCount: number;
+    public AssignedCaseCount: number;
+    public DismissedCaseCount: number;
+    public SubmittedCaseCount: number;
     public OpenCasesdata: Array<any> = [];
     public AvailableCasesdata: Array<any> = [];
     public DismissedCasesdata: Array<any> = [];
@@ -53,14 +58,31 @@ export class DashboardComponent implements OnInit {
             instance.paginationAvailableCasesData(1);
             instance.paginationDismissedData(1);
             instance.paginationSubmittedData(1);
+            instance.getCaseCount('Assigned').then(caseCount => instance.AssignedCaseCount = caseCount  );
             instance.status = "active"}));
-        
-    }
-    //openDialog = function(){
-    // alert('hi Vandana');
 
-    //}
-    //@ViewChild('popup1') popup: Popup;
+            //var totalAssignedCAses =
+            // this.getCaseCount('Assigned')
+            //     .then(caseCount => { instance.setAssignedCaseCount(caseCount); }  );
+
+                this.getCaseCount('Available')
+                .then(caseCount => instance.AvailableCaseCount=caseCount);
+
+                this.getCaseCount('Dismissed')
+                .then(caseCount => instance.DismissedCaseCount=caseCount);
+
+                this.getCaseCount('Submitted')
+                .then(caseCount => instance.SubmittedCaseCount=caseCount);
+
+            //var openCaseCount = this.getCaseCount('Assigned');
+    }
+
+    // public setAssignedCaseCount(caseCount : number) : void {
+    //     alert(this.AssignedCaseCount);
+    //     this.AssignedCaseCount = caseCount;
+    //     alert(this.AssignedCaseCount);
+    // }
+
     openDialog(event: any) {
         // show the "please wait" popup
         this.caseId = event.srcElement.id;
@@ -90,6 +112,20 @@ export class DashboardComponent implements OnInit {
     showDetails( caseData : Case) :Case {
         this.caseDetails = caseData;
         return this.caseDetails;    
+    }
+
+
+    getCaseCount(casestatus: string):Promise<number> {
+        console.log(casestatus);
+        this.caseStatus = casestatus;
+        return this.dataService.getCaseCount(this.caseStatus)
+            .catch(error => { console.error(error); return null; });
+    }
+
+    showcount(statuscount: number): number {
+        this.AvailableCaseCount = statuscount;
+        console.log("Case Count" + this.AvailableCaseCount)
+        return this.AvailableCaseCount;
     }
 
     

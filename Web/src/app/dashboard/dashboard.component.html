@@ -166,7 +166,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfAssigned.data | filter : ['Assigned'] | paginate : { itemsPerPage:5, currentPage:p, id : 1, totalItems:15 }">
+                    <tr *ngFor="let item of mfAssigned.data | filter : ['Assigned'] | paginate : { itemsPerPage:5, currentPage:p, id : 1, totalItems: AssignedCaseCount }">
                         <!--<td><a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                         <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <!--<td><button md-button (click)="openDialog()">{{item.OCME}}</button></td>-->
@@ -225,7 +225,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mfNew.data | filter : ['New','Available'] | paginate : { itemsPerPage:5, currentPage:pAvailable, id : 2, totalItems:5 } ">
+                    <tr *ngFor="let item of mfNew.data | filter : ['New','Available'] | paginate : { itemsPerPage:5, currentPage:pAvailable, id : 2, totalItems:availableCaseCount } ">
                         <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                         <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <td>{{item.ResidentCounty}}</td>
