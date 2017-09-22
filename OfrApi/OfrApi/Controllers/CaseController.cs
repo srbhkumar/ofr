@@ -149,7 +149,7 @@ namespace OfrApi.Controllers
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Success");
                 }
                 catch (Exception ex)
                 {
@@ -172,7 +172,7 @@ namespace OfrApi.Controllers
                     CaseStatus newStatus;
                     Enum.TryParse(status, out newStatus);
                     _caseDal.UpdateStatusById(id, newStatus, Request);
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Success");
                 }
                 catch (Exception ex)
                 {
@@ -192,7 +192,7 @@ namespace OfrApi.Controllers
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     _caseDal.SubmitCase(id, Request);
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Success");
                 }
                 catch (Exception ex)
                 {
@@ -212,7 +212,7 @@ namespace OfrApi.Controllers
                 try
                 {
                     _caseDal.PostCaseById(id, Request);
-                    return Request.CreateResponse(HttpStatusCode.OK, Configuration.Formatters.JsonFormatter, "application/json");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Success", Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
                 {
