@@ -19,10 +19,9 @@ namespace OfrApi.Controllers
 {
     [Authorize]
     [RoutePrefix("api/case")]
-    public class CaseController : ApiController
+    public class CaseController : BaseController
     {
         private ICaseDal _caseDal;
-        private TelemetryClient TelClient;
         public CaseController()
         {
             _caseDal = new CaseDal();
@@ -50,38 +49,29 @@ namespace OfrApi.Controllers
                 DateTime end;
                 if (!DateTime.TryParse(startDate, out start))
                 {
-                    start = new DateTime(1970, 1, 1);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid end date");
                 }
 
                 if (!DateTime.TryParse(endDate, out end))
                 {
-                    end = DateTime.Now;
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid end date");
                 }
                 try
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     var cases = _caseDal.DownloadCases(start, end, Request);
                     
-                    for (int i = cases.Count - 1; i >= 0; i--)
-                    {
-                        var dateOfDeath = DateTime.ParseExact(cases[i].Data["DateofDeath"].ToString().PadLeft(9, '0'), "yyyy-MM-dd", CultureInfo.InvariantCulture);
-                        if (dateOfDeath < start ||
-                            dateOfDeath > end)
-                            cases.RemoveAt(i);
-                    }
                     var returnFile = new StringBuilder("Status,UpdatedOn,");
                     if (cases.Count == 0)
                     {
-                        return Request.CreateResponse(HttpStatusCode.InternalServerError, "No cases exist in the specified date range");
+                        return Request.CreateResponse(HttpStatusCode.NoContent, "No cases exist in the specified date range");
                     }
 
                     //Retrieve the longest OCME header
-                    var longestOCMEHeaderLength = cases.Max(c => c.OCMEData.Count);
-                    var longestOCMEHeader = cases.Where(c => c.OCMEData.Count == longestOCMEHeaderLength).First().OCMEData.Select(d => d.Key);
+                    var longestOCMEHeader = cases.OrderByDescending(c => c.OCMEData.Count).First().OCMEData.Select(d => d.Key);
                     if (cases.Count > 0 && type == "OCME")
                     {
-                        returnFile.Append(string.Join(",", longestOCMEHeader));
-                        returnFile.Append(Environment.NewLine);
+                        returnFile.AppendLine(string.Join(",", longestOCMEHeader));
                         foreach (Case c in cases)
                         {
                             //Adds empty strings where a case does not have a matching key in OCME data
@@ -96,12 +86,11 @@ namespace OfrApi.Controllers
                     else if (cases.Count > 0 && type == "FULL")
                     {
                         //Retrieve the longest data header
-                        var longestDataHeaderLength = cases.Max(c => c.Data.Count);
-                        var longestDataHeader = cases.Where(c => c.Data.Count == longestDataHeaderLength).First().Data.Select(d => d.Key);
+                        var longestDataHeader = cases.OrderByDescending(c => c.Data.Count).First().Data.Select(d => d.Key);
                         returnFile.Append(string.Join(",", longestDataHeader) + ",");
                         returnFile.Append(string.Join(",", longestOCMEHeader));
-
                         returnFile.Append(Environment.NewLine);
+
                         foreach (Case c in cases)
                         {
                             //Adds empty strings where a case does not have a matching key in Data
@@ -123,10 +112,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -146,10 +132,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -170,10 +153,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -195,10 +175,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -218,10 +195,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -236,16 +210,11 @@ namespace OfrApi.Controllers
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
-                    _caseDal.PostCaseById(id, Request);
-                    operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    return HandleExceptions(ex, operation, Request);
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -265,10 +234,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -288,10 +254,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -311,10 +274,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
@@ -334,10 +294,35 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    TelClient.TrackException(ex);
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
+        
+        //Get api/case/count/Open
+        [HttpGet]
+        [Route("count/{status}")]
+        public HttpResponseMessage GetCaseCount(string status)
+        {
+            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("GetCaseCount" + status))
+            {
+                operation.Telemetry.ResponseCode = "200";
+                operation.Telemetry.Url = Request.RequestUri;
+                try
+                {
+                    CaseStatus statusType;
+                    if(!Enum.TryParse(status, out statusType))
+                    {
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Case Status : " + status);
+                    }
+                    return Request.CreateResponse(HttpStatusCode.OK, _caseDal.GetCaseCount(statusType, Request));
+                }
+                catch (Exception ex)
+                {
+                    return HandleExceptions(ex, operation, Request);
+                }
+            }
+        }
+
     }
 }

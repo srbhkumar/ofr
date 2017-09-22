@@ -8,6 +8,7 @@ using OfrApi.Models;
 using OfrApi.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Configuration;
@@ -196,7 +197,9 @@ namespace OfrApi.Services
         public List<Case> DownloadCases(DateTime startDate, DateTime endDate, HttpRequestMessage request)
         {
             List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            
+            var end = endDate.ToString("yyyy-MM-dd");
+            var start = startDate.ToString("yyyy-MM-dd");
+
             var feedOptions = new FeedOptions
             {
                 EnableCrossPartitionQuery = true,
@@ -207,11 +210,27 @@ namespace OfrApi.Services
             var cases = Client.CreateDocumentQuery<Case>(
             UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
             feedOptions)
-            .Where(c => (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])))
+            .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])) && c.Data["DateofDeath"].CompareTo(end) <= 0 && c.Data["DateofDeath"].CompareTo(start) >= 0))
             .ToList<Case>();
 
             return cases;
+        }
 
+        public int GetCaseCount(CaseStatus status, HttpRequestMessage request)
+        {
+            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
+            var feedOptions = new FeedOptions
+            {
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+            var count = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])) && c.Status == status.ToString()))
+            .ToList<Case>().Count;
+            return count;
         }
     }
 }

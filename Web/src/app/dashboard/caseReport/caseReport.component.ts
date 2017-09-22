@@ -123,7 +123,6 @@ export class CaseReportComponent {
 downloadCSV(startDate: string, endDate: string, type: string){
      
   this.dataService.DownloadCases(startDate, endDate, type).then(function(contents){
-    alert(contents);
     var blob = new Blob([contents]);
     var csvUrl = window.URL.createObjectURL(blob);
 

@@ -15,10 +15,9 @@ namespace OfrApi.Controllers
 {
     [Authorize]
     [RoutePrefix("api/user")]
-    public class UserController : ApiController
+    public class UserController : BaseController
     {
         private IUserDal _userDal { get; }
-        private TelemetryClient TelClient;
         public UserController()
         {
             _userDal = new UserDal();
@@ -47,10 +46,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }

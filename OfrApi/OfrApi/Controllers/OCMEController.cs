@@ -1,5 +1,6 @@
 ﻿using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.ApplicationInsights.Extensibility;
 using OfrApi.Interfaces;
 using OfrApi.Models;
 using OfrApi.Services;
@@ -16,7 +17,7 @@ using System.Web.Http;
 namespace OfrApi.Controllers
 {
     [RoutePrefix("api/ocme")]
-    public class OCMEController : ApiController
+    public class OCMEController : BaseController
     {
         public class UploadedFile
         {
@@ -40,7 +41,6 @@ namespace OfrApi.Controllers
 
         private ICaseDal _caseDal;
         private TemplateDal _templateDal;
-        public TelemetryClient TelClient { get; protected set; }
 
         public OCMEController()
         {
@@ -57,26 +57,27 @@ namespace OfrApi.Controllers
                 if (uploadedFile == null || string.IsNullOrWhiteSpace(uploadedFile.Url) || string.IsNullOrWhiteSpace(uploadedFile.Name))
                         return Request.CreateResponse(HttpStatusCode.BadRequest, "The file to be uploaded is empty");
 
-                    var fileShareName = WebConfigurationManager.AppSettings["fileShareName"];
+                var fileShareName = WebConfigurationManager.AppSettings["fileShareName"];
 
-                    // the incoming url will look like this:
-                    // "azure://<accountname>:<accesskey>@file.core.windows.net/<sharename>/<filename>"
-                    var urlSplit = uploadedFile.Url.Split('/');
+                // the incoming url will look like this:
+                // "azure://<accountname>:<accesskey>@file.core.windows.net/<sharename>/<filename>"
+                var urlSplit = uploadedFile.Url.Split('/');
 
-                    if (urlSplit.Length < 2 ||
-                        !urlSplit[urlSplit.Length - 2].Equals(fileShareName, StringComparison.InvariantCultureIgnoreCase) ||
-                        !urlSplit[urlSplit.Length - 1].Equals(uploadedFile.Name))
-                    {
-                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Request's Url does not match request's Name or does not contain expected file share name");
-                    }
-                    string ocmeData;
-                    var fileName = urlSplit[urlSplit.Length - 1];
+                if (urlSplit.Length < 2 ||
+                    !urlSplit[urlSplit.Length - 2].Equals(fileShareName, StringComparison.InvariantCultureIgnoreCase) ||
+                    !urlSplit[urlSplit.Length - 1].Equals(uploadedFile.Name))
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request's Url does not match request's Name or does not contain expected file share name");
+                }
+                string ocmeData;
+                var fileName = urlSplit[urlSplit.Length - 1];
 
                   
-                    fileName = CopyFileToBlob(fileName);
-                    ocmeData = _blobDal.DownloadBlob(fileName);
+                    
                 try
                 {
+                    fileName = CopyFileToBlob(fileName);
+                    ocmeData = _blobDal.DownloadBlob(fileName);
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     operation.Telemetry.Url = Request.RequestUri;
 
@@ -123,10 +124,7 @@ namespace OfrApi.Controllers
                 catch (Exception ex)
                 {
                     _blobDal.MoveFileToPoison(fileName);
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }

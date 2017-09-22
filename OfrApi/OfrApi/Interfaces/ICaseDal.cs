@@ -20,5 +20,6 @@ namespace OfrApi.Interfaces
         void UploadCase(Case caseObj);
         void SubmitCase(string id, HttpRequestMessage request);
         List<Case> DownloadCases(DateTime dateTime1, DateTime dateTime2, HttpRequestMessage request);
+        int GetCaseCount(CaseStatus status, HttpRequestMessage request);
     }
 }

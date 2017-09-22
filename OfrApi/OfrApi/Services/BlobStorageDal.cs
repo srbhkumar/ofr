@@ -39,38 +39,6 @@ namespace OfrApi.Services
             return blobContainer;
         }
 
-        public bool UploadFromStream(string fileName, Stream sourceStream)
-        {
-            try
-            {
-                var blockBlob = CloudBlobContainer.GetBlockBlobReference(fileName);
-                blockBlob.Properties.ContentType = ContentType;
-                blockBlob.UploadFromStream(sourceStream);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public bool UploadFromText( string fileName, string source)
-        {
-            try
-            {
-                var blockBlob = CloudBlobContainer.GetBlockBlobReference(fileName);
-                blockBlob.Properties.ContentType = ContentType;
-                blockBlob.UploadText(source);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
         public string UploadFromUri(string fileName, Uri sourceUri)
         {
             var blockBlob = CloudBlobContainer.GetBlockBlobReference($"{fileName}");

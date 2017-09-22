@@ -194,6 +194,7 @@
     <Compile Include="App_Start\OpenIdConnectCachingSecurityTokenProvider.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CaseController.cs" />
     <Compile Include="Controllers\OCMEController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />

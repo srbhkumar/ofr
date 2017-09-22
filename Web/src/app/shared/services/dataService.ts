@@ -66,7 +66,7 @@ export class DataService {
 
     public getCaseCount(casetype: string):Promise<number>
     {
-        return this.httpget<number>(`/casecount/${casetype}`);
+        return this.httpget<number>(`/case/count/${casetype}`);
     }
 
 

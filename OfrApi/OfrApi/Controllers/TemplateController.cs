@@ -14,12 +14,11 @@ using System.Web.Http;
 
 namespace OfrApi.Controllers
 {
-    //Allows retreival and creation of new templates 
+    //Allows retreival 
     [RoutePrefix("api/template")]
-    public class TemplateController : ApiController
+    public class TemplateController : BaseController
     {
         private TemplateDal TemplateDal;
-        private TelemetryClient TelClient;
         public TemplateController()
         {
             TemplateDal = new TemplateDal();
@@ -48,10 +47,7 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.InternalServerError.ToString();
-                    var identifier = DateTime.Now.Ticks.ToString().Substring(8);
-                    TelClient.TrackException(ex, new Dictionary<string, string> { { "id", identifier } });
-                    return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error ID: " + identifier);
+                    return HandleExceptions(ex, operation, Request);
                 }
             }
         }
