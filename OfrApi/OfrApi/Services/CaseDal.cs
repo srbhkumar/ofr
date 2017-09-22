@@ -8,6 +8,7 @@ using OfrApi.Models;
 using OfrApi.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Configuration;
@@ -17,7 +18,6 @@ namespace OfrApi.Services
     public class CaseDal : ICaseDal
     {
         public DocumentClient Client { get; protected set; }
-        public TelemetryClient TelClient { get; protected set; }
 
         public CaseDal()
         {
@@ -25,147 +25,212 @@ namespace OfrApi.Services
             string primarykey = WebConfigurationManager.AppSettings["DocumentPrimaryKey"];
 
             Client = new DocumentClient(new Uri(endpoint), primarykey);
-
-
-            TelemetryConfiguration.Active.InstrumentationKey = WebConfigurationManager.AppSettings["InstrumentationKey"];
-            TelClient = new TelemetryClient();
         }
 
         public Case GetCaseById(string id, HttpRequestMessage request)
         {
             List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("AvailableCasesDashboard"))
+            
+            var feedOptions = new FeedOptions
             {
-                operation.Telemetry.ResponseCode = "200";
-                operation.Telemetry.Url = request.RequestUri;
-                var feedOptions = new FeedOptions
-                {
-                    EnableCrossPartitionQuery = true,
-                    MaxItemCount = -1,
-                    EnableScanInQuery = true
-                };
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
 
 
 
-                var caseById = Client.CreateDocumentQuery<Case>(
-                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-                feedOptions)
-                .Where(c => c.id == id).AsEnumerable().FirstOrDefault();
-                return jurisdictions.Contains(caseById.Jurisdiction) ? caseById : null;
-            }
+            var caseById = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => (c.id == id && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])))).AsEnumerable().FirstOrDefault();
+
+            return caseById;
+            
         }
 
-        public string UpdateStatusById(string id, CaseStatus status, HttpRequestMessage request)
+        public void UpdateStatusById(string id, CaseStatus status, HttpRequestMessage request)
         {
-            using (var op = TelClient.StartOperation<RequestTelemetry>("UpdateStatus"))
+            var feedOptions = new FeedOptions
             {
-                op.Telemetry.ResponseCode = "200";
-                op.Telemetry.Url = request.RequestUri;
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+            var caseById = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => c.id == id)
+            .AsEnumerable().FirstOrDefault();
+            var keyValue = caseById.Jurisdiction;
 
-                var feedOptions = new FeedOptions
-                {
-                    EnableCrossPartitionQuery = true,
-                    MaxItemCount = -1,
-                    EnableScanInQuery = true
-                };
-                var caseById = Client.CreateDocumentQuery<Case>(
-               UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-               feedOptions)
-               .Where(c => c.id == id)
-               .AsEnumerable().FirstOrDefault();
-                var keyValue = caseById.Jurisdiction;
+            var result = Client.ExecuteStoredProcedureAsync<object>(
+                UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "SetCaseStatus"),
+                new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
+                id,
+                status.ToString()
+            ).Result;
+               
+        }
 
-                var result = Client.ExecuteStoredProcedureAsync<object>(
-                    UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "SetCaseStatus"),
-                    new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
-                    id,
-                    status.ToString()
-                ).Result;
-            }
-            return "It did something";
+        public void SubmitCase(string id, HttpRequestMessage request)
+        {
+            var username = UserDal.GetUserNameFromHeader(request);
+           
+      
+            var feedOptions = new FeedOptions
+            {
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+            var caseById = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => c.id == id)
+            .AsEnumerable().FirstOrDefault();
+            var keyValue = caseById.Jurisdiction;
+
+            var result = Client.ExecuteStoredProcedureAsync<object>(
+                UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "SubmitCase"),
+                new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
+                id,
+                username
+            ).Result;
+             
         }
 
         //Not sure about the future status of this one
         public object PingCaseById(string id, HttpRequestMessage request)
         {
             List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            using (var op = this.TelClient.StartOperation<RequestTelemetry>("Ping"))
-            {
-                op.Telemetry.ResponseCode = "200";
-                op.Telemetry.Url = request.RequestUri;
+            
+            var username = request.Headers.GetValues("Username").First();
 
-                var username = request.Headers.GetValues("Username").First();
+            var response = Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "PingCase"),
+                id);
+            return response;
 
-                var response = Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri("OFR", "Cases", "PingCase"),
-                    id);
-                return response;
-            }
         }
 
-        public string PostCaseById(string id, HttpRequestMessage request)
+        public void PostCaseById(string id, HttpRequestMessage request)
         {
-            //May end up verifying that the user has rights to post that case
-            using (var op = this.TelClient.StartOperation<RequestTelemetry>("PostCase"))
+            // Get request body
+            dynamic data = request.Content.ReadAsAsync<object>();
+
+            var feedOptions = new FeedOptions
             {
-                op.Telemetry.ResponseCode = "200";
-                op.Telemetry.Url = request.RequestUri;
-                // Get request body
-                dynamic data = request.Content.ReadAsAsync<object>();
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+            var caseById = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => c.id == id)
+            .AsEnumerable().FirstOrDefault();
+            var keyValue = caseById.Jurisdiction;
 
-                var feedOptions = new FeedOptions
-                {
-                    EnableCrossPartitionQuery = true,
-                    MaxItemCount = -1,
-                    EnableScanInQuery = true
-                };
-                var caseById = Client.CreateDocumentQuery<Case>(
-               UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-               feedOptions)
-               .Where(c => c.id == id)
-               .AsEnumerable().FirstOrDefault();
-               var keyValue = caseById.Jurisdiction;
 
-                
-                this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "MergeCase"),
-                    new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
-                    id,
-                    data.Result
-                );
-                return "";
-            }
-            
+            this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "MergeCase"),
+                new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
+                id,
+                data.Result);
+
+ 
         }
 
         public IEnumerable<Case> GetCasesByPage(int page, CaseStatus status, HttpRequestMessage request)
         {
             List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("CasesDashboard"))
+            
+            var pageParam = page;
+            var feedOptions = new FeedOptions
             {
-                operation.Telemetry.ResponseCode = "200";
-                operation.Telemetry.Url = request.RequestUri;
-                var pageParam = page;
-                var feedOptions = new FeedOptions
-                {
-                    EnableCrossPartitionQuery = true,
-                    MaxItemCount = -1,
-                    EnableScanInQuery = true
-                };
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
 
 
 
-                var skipCount = (pageParam - 1) * int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
-                var takeCount = int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
+            var skipCount = (pageParam - 1) * int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
+            var takeCount = int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
 
-                var cases = Client.CreateDocumentQuery<Case>(
-                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-                feedOptions)
-                .Where(c => (c.Status == status.ToString() && jurisdictions.Contains(c.Jurisdiction)))
-                .Take(skipCount + takeCount)
-                .ToArray()
-                .Skip(skipCount);
+            var cases = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => (c.Status == status.ToString() && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]))))
+            .Take(skipCount + takeCount)
+            .ToArray()
+            .Skip(skipCount);
 
-                return cases;
+            return cases;
+   
+        }
+
+        public void UploadCase(Case newCase)
+        {
+
+            var feedOptions = new FeedOptions
+            {
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+
+
+
+            var caseById = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => c.OCME == newCase.OCME).AsEnumerable().FirstOrDefault();
+
+            if (caseById == null)
+            {
+                var cases = Client.UpsertDocumentAsync(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]), newCase).Result;
             }
+           
+        }
+
+
+        public List<Case> DownloadCases(DateTime startDate, DateTime endDate, HttpRequestMessage request)
+        {
+            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
+            var end = endDate.ToString("yyyy-MM-dd");
+            var start = startDate.ToString("yyyy-MM-dd");
+
+            var feedOptions = new FeedOptions
+            {
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+
+            var cases = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])) && c.Data["DateofDeath"].CompareTo(end) <= 0 && c.Data["DateofDeath"].CompareTo(start) >= 0))
+            .ToList<Case>();
+
+            return cases;
+        }
+
+        public int GetCaseCount(CaseStatus status, HttpRequestMessage request)
+        {
+            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
+            var feedOptions = new FeedOptions
+            {
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+            var count = Client.CreateDocumentQuery<Case>(
+            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+            feedOptions)
+            .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])) && c.Status == status.ToString()))
+            .ToList<Case>().Count;
+            return count;
         }
     }
 }

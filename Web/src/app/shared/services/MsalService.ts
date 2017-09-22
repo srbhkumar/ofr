@@ -81,6 +81,14 @@ export class MsalService {
         return oid;
     }
 
+    getUserName(): string {
+        var idToken = localStorage.getItem("IdToken");
+        var segments = idToken.split('.');
+        var payload = atob(segments[1]);
+        var username = JSON.parse(payload).name;
+        return username;
+    }
+
     isOnline(): boolean {
         return this.clientApplication.getUser() != null;
     };

@@ -5,8 +5,9 @@ namespace OfrApi.Interfaces
 {
     public interface IBlobStorageDal
     {
-        bool UploadFromStream(string accountName, string fileName, Stream sourceStream);
-        bool UploadFromText(string accountName, string fileName, string source);
-        void UploadFromUri(string accountName, string fileName, Uri sourceUri);
+        string UploadFromUri(string fileName, Uri sourceUri);
+        string DownloadBlob(string fileName);
+        void MoveFileToPoison(string filename);
+        void MoveFileToProcessed(string filename);
     }
 }
