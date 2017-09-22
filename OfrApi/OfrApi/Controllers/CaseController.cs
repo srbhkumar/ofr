@@ -49,7 +49,7 @@ namespace OfrApi.Controllers
                 DateTime end;
                 if (!DateTime.TryParse(startDate, out start))
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid end date");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid start date");
                 }
 
                 if (!DateTime.TryParse(endDate, out end))
@@ -210,7 +210,8 @@ namespace OfrApi.Controllers
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
-                    return HandleExceptions(ex, operation, Request);
+                    _caseDal.PostCaseById(id, Request);
+                    return Request.CreateResponse(HttpStatusCode.OK, Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
                 {
