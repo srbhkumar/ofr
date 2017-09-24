@@ -10,7 +10,8 @@ import { Case } from '../shared/models/caseModel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { NotificationsService } from 'angular2-notifications';
-
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 
 
@@ -29,10 +30,20 @@ export class DashboardComponent implements OnInit {
     public AvailableCasesdata: Array<any> = [];
     public DismissedCasesdata: Array<any> = [];
     public SubmittedCasesdata: Array<any> = [];
+    public OpenObserve: Observable<Array<any>>;
+    public AvailableObserve: Observable<Array<any>>;
+    public SubmittedObserve: Observable<Array<any>>;
+    public DismissedObserve: Observable<Array<any>>;
     public currentOpenCasePage: number;
     public currentAvailableCasePage: number;
     public currentDismissedCasePage: number;
     public currentSubmittedCasePage: number;
+    public currentOpenCaseCount: number;
+    public currentAvailableCaseCount: number;
+    public currentDismissedCaseCount: number;
+    public currentSubmittedCaseCount: number;
+
+
     public status: string;
     public caseId: string;
     public caseDetails: Case;
@@ -204,6 +215,8 @@ export class DashboardComponent implements OnInit {
                 'Status': caseItem.Status
             });
         }
+        this.currentDismissedCaseCount = resp.total;
+        this.DismissedObserve = Observable.of(this.DismissedCasesdata);
 
     }
 

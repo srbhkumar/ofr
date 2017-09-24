@@ -357,4 +357,62 @@
             </div>
 
 
+<h5 class="heading">
+  <span>Submitted Cases</span>
+  <span style="float:right; padding-bottom:20px">
+    <pagination-controls (pageChange)="pageDismissed = paginationDismissedData($event); pDismissed = $event;"
+                         id="10"
+                         maxSize="8"
+                         directionLinks="true"
+                         autohide="true">
+    </pagination-controls>
+  </span>
+</h5>
+<div class="table-responsive">
+  <table class="table table-bordered table-striped mycasetable">
+    <thead>
+      <tr>
+        <th class="width12">
+          OCME#
+        </th>
+        <th class="width12">
+          Resident County
+        </th>
+        <th class="width12">
+          Date Of Death
+        </th>
+        <th class="width12">
+          Cause of Death
+        </th>
+        <th class="width12">
+         County of Death
+        </th>
+        <!--<th class="width12">
+            <mfDefaultSorter by="Status">Status</mfDefaultSorter>
+        </th>-->
+        <th class="width12"> Case Action </th>
 
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of DismissedObserve| async | filter : ['Dismissed'] | paginate : { itemsPerPage:5, currentPage:pDismissed, id : 10, totalItems : currentDismissedCaseCount} ">
+        <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
+        <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
+        <td>{{item.ResidentJurisdiction}}</td>
+        <td>{{item.DateofDeath}}</td>
+        <td>{{item.CauseofDeath}}</td>
+        <td>{{item.CountyofDeath}}</td>
+        <!--<td>{{item.Status}} </td>-->
+        <td>
+          <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
+          <a (click)="updateDismissedCasesStatus(item.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
+          <a (click)="updateDismissedCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+          <a (click)="updateDismissedCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+    
