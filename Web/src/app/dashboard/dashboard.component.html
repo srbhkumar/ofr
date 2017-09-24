@@ -1,121 +1,88 @@
 <!--<Code for Popup>-->
-        <popup>
-                <div *ngIf="caseDetails">
-                    <div class="modal-body">
-                        <div class="container">
-                            <!-- <table class="table table-bordered table-hover">
-                                <thead>
-                                    <th>OCME</th>
-                                    <th>ResidentCounty</th>
-                                    <th>DateofDeath</th>
-                                    <th>CauseofDeath</th>
-                                    <th>CountyofDeath</th>
-                                    <th>Status</th>
-                                    <th style="width:230px;border:dotted">Action</th>
-                                    <th>View Clinical Data</th>
-                                </thead>
-                               <tbody class="table">
-                                    <tr>
-                                        <td>{{caseDetails.OCME}}</td>
-                                        <td>{{caseDetails.Data['ResidentCounty']}}</td>
-                                        <td>{{caseDetails.Data['DateofDeath']}}</td>
-                                        <td>{{caseDetails.Data['CauseofDeath']}}</td>
-                                        <td>{{caseDetails.Data['CountyofDeath']}}</td>
-                                        <td>{{caseDetails.Status}}</td>
-                                        <td *ngIf="caseDetails.Status =='Assigned'">
-                                            <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft    margin_l25 "> </a>
-                                            <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                                            <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                                        </td>
-                                        <td *ngIf="caseDetails.Status =='Available'">
-                                            <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l5"> </a>
-                                            <a (click)="updateStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft   margin_l25"> </a>
-                                            <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                                            <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                                        </td>
-                                        <td *ngIf="caseDetails.Status =='Dismissed'">
-                                            <a (click)="updateStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
-                                            <a (click)="updateStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                                            <a (click)="updateStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-                                        </td>
-                                        <td ><a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" class="btn btn-info" role="button">Clinical Data</a></td>
-                                    </tr>
-                                </tbody>
-                            </table> -->
-            
-                            <div class="container">
-                                <!-- <h2>Case Details</h2> -->
-                                <h2>Case Details</h2>
-                                <div class="panel-group">
-                                    <div class="panel panel-default">
-                                        <!-- <div class="panel-heading">Panel Header</div> -->
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-sm-3">OCME</div>
-                                                <div class="col-sm-9">{{caseDetails.OCME}}</div>
-                                                <div class="col-sm-3">Resident County</div>
-                                                <div class="col-sm-9">{{caseDetails.Data['ResidentJurisdiction']}}</div>
-                                                <div class="col-sm-3">Date of Death</div>
-                                                <div class="col-sm-9">{{caseDetails.Data['DateofDeath']}}</div>
-                                                <div class="col-sm-3">Cause of Death</div>
-                                                <div class="col-sm-9">{{caseDetails.Data['CauseofDeath']}}</div>
-                                                <div class="col-sm-3">County of Death</div>
-                                                <div class="col-sm-9">{{caseDetails.Data['CountyofDeath']}}</div>
-                                            </div>
-                                            <br>
-                                            <h2>Applicable Drugs</h2>
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <br>
-                                                    <br>
-                                                    <ul>
-                                                        <li *ngFor="let item of caseDetails.DrugsInSystem">
-                                                            {{item}}
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <h2>Actions</h2>
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-sm-3">View PDMP</div>
-                                                    <div class="col-sm-9"><a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info"
-                                                            role="button" style="margin-bottom:10px;">PDMP Data</a></div>
-            
-                                                    <div class="col-sm-3">Other Actions</div>
-                                                    <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
-                                                        <a (click)="updateOpenCasesStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft" style="width: 25px;height: 33px;"></a>
-                                                        <a (click)="updateOpenCasesStatus(caseDetails.id ,'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;"> </a>
-                                                        <a (click)="updateOpenCasesStatus(caseDetails.id ,'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;"> </a>
-                                                    </div>
-                                                    <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
-                                                        <a (click)="updateAvailableCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
-                                                        <a (click)="updateAvailableCasesStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft" style="width: 90px;"></a>
-                                                        <a (click)="updateAvailableCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"> </a>
-                                                        <a (click)="updateAvailableCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"> </a>
-                                                    </div>
-                                                    <div *ngIf="caseDetails.Status =='Dismissed'" class="col-sm-9">
-                                                        <a (click)="updateDismissedCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
-                                                        <a (click)="updateDismissedCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"> </a>
-                                                        <a (click)="updateDismissedCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"> </a>
-                                                    </div>
-                                                    <div *ngIf="caseDetails.Status =='Submitted'" class="col-sm-9">
-                                                        <a (click)="updateSubmittedCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-            
-            
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div id="caseDetailsPopup" class="modal modal-lg">
+  <div class="modal-dialog" role="document">
+
+    <div *ngIf="caseDetails">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Details for Case : {{caseDetails.OCME}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-3">OCME</div>
+                  <div class="col-sm-9">{{caseDetails.OCME}}</div>
+                  <div class="col-sm-3">Resident County</div>
+                  <div class="col-sm-9">{{caseDetails.Data['ResidentJurisdiction']}}</div>
+                  <div class="col-sm-3">Date of Death</div>
+                  <div class="col-sm-9">{{caseDetails.Data['DateofDeath']}}</div>
+                  <div class="col-sm-3">Cause of Death</div>
+                  <div class="col-sm-9">{{caseDetails.Data['CauseofDeath']}}</div>
+                  <div class="col-sm-3">County of Death</div>
+                  <div class="col-sm-9">{{caseDetails.Data['CountyofDeath']}}</div>
                 </div>
-            </popup>
-            
+                <br>
+                <h2>Applicable Drugs</h2>
+                <div class="panel-body">
+                  <div class="row">
+                    <br>
+                    <br>
+                    <ul>
+                      <li *ngFor="let item of caseDetails.DrugsInSystem">
+                        {{item}}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <br>
+                <h2>Actions</h2>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-3">View PDMP</div>
+                    <div class="col-sm-9">
+                      <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info"
+                         role="button" style="margin-bottom:10px;">PDMP Data</a>
+                    </div>
+
+                    <div class="col-sm-3">Other Actions</div>
+                    <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
+                      <a data-dismiss="modal" (click)="updateOpenCasesStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft" style="width: 25px;height: 33px;"></a>
+                      <a (click)="updateOpenCasesStatus(caseDetails.id ,'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;"> </a>
+                      <a (click)="updateOpenCasesStatus(caseDetails.id ,'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;"> </a>
+                    </div>
+                    <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
+                      <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
+                      <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft" style="width: 90px;"></a>
+                      <a (click)="updateAvailableCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"> </a>
+                      <a (click)="updateAvailableCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"> </a>
+                    </div>
+                    <div *ngIf="caseDetails.Status =='Dismissed'" class="col-sm-9">
+                      <a data-dismiss="modal" (click)="updateDismissedCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
+                      <a (click)="updateDismissedCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"> </a>
+                      <a (click)="updateDismissedCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"> </a>
+                    </div>
+                    <div *ngIf="caseDetails.Status =='Submitted'" class="col-sm-9">
+                      <a data-dismiss="modal" (click)="updateSubmittedCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
             
             <simple-notifications id="2" [options]="options">This is good</simple-notifications>
             
@@ -188,7 +155,7 @@
                             <tbody>
                                 <tr *ngFor="let item of mfAssigned.data | filter : ['Assigned'] | paginate : { itemsPerPage:5, currentPage:p, id : 1, totalItems:25 }">
                                     <!--<td><a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
-                                    <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
+                                    <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <!--<td><button md-button (click)="openDialog()">{{item.OCME}}</button></td>-->
                                     <td>{{item.ResidentJurisdiction}}</td>
                                     <td>{{item.DateofDeath}}</td>
@@ -247,7 +214,7 @@
                             <tbody>
                                 <tr *ngFor="let item of mfNew.data | filter : ['New','Available'] | paginate : { itemsPerPage:5, currentPage:pAvailable, id : 2, totalItems:30 } ">
                                     <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
-                                    <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
+                                    <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>
                                     <td>{{item.DateofDeath}}</td>
                                     <td>{{item.CauseofDeath}}</td>
@@ -310,7 +277,7 @@
                             <tbody>
                                 <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed'] | paginate : { itemsPerPage:5, currentPage:pDismissed, id : 3, totalItems:25} ">
                                     <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
-                                    <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
+                                    <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>
                                     <td>{{item.DateofDeath}}</td>
                                     <td>{{item.CauseofDeath}}</td>
@@ -367,7 +334,7 @@
                             <tbody>
                                 <tr *ngFor="let item of mfSubmitted.data | filter : ['Submitted'] | paginate : { itemsPerPage:5, currentPage:pSubmitted, id : 4, totalItems : 30} ">
                                     <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
-                                    <td><a class="label-ocme" (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
+                                    <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>
                                     <td>{{item.DateofDeath}}</td>
                                     <td>{{item.CauseofDeath}}</td>
@@ -388,3 +355,6 @@
             
                 </div>
             </div>
+
+
+

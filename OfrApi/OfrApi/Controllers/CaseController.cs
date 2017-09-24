@@ -149,7 +149,7 @@ namespace OfrApi.Controllers
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Success");
                 }
                 catch (Exception ex)
                 {
@@ -172,7 +172,7 @@ namespace OfrApi.Controllers
                     CaseStatus newStatus;
                     Enum.TryParse(status, out newStatus);
                     _caseDal.UpdateStatusById(id, newStatus, Request);
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Success");
                 }
                 catch (Exception ex)
                 {
@@ -192,7 +192,7 @@ namespace OfrApi.Controllers
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     _caseDal.SubmitCase(id, Request);
-                    return Request.CreateResponse(HttpStatusCode.OK);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Success");
                 }
                 catch (Exception ex)
                 {
@@ -212,7 +212,7 @@ namespace OfrApi.Controllers
                 try
                 {
                     _caseDal.PostCaseById(id, Request);
-                    return Request.CreateResponse(HttpStatusCode.OK, Configuration.Formatters.JsonFormatter, "application/json");
+                    return Request.CreateResponse(HttpStatusCode.OK, "Success", Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
                 {
@@ -232,7 +232,13 @@ namespace OfrApi.Controllers
                 try
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    return Request.CreateResponse(HttpStatusCode.OK, new { cases = _caseDal.GetCasesByPage(number, CaseStatus.Submitted, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                                            new
+                                            {
+                                                total = _caseDal.GetCaseCount(CaseStatus.Submitted, Request),
+                                                cases = _caseDal.GetCasesByPage(number, CaseStatus.Submitted, Request),
+                                                page = number
+                                            }, Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
                 {
@@ -252,7 +258,13 @@ namespace OfrApi.Controllers
                 try
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    return Request.CreateResponse(HttpStatusCode.OK, new { cases = _caseDal.GetCasesByPage(number, CaseStatus.Dismissed, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                                            new
+                                            {
+                                                total = _caseDal.GetCaseCount(CaseStatus.Dismissed, Request),
+                                                cases = _caseDal.GetCasesByPage(number, CaseStatus.Dismissed, Request),
+                                                page = number
+                                            }, Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
                 {
@@ -272,7 +284,13 @@ namespace OfrApi.Controllers
                 try
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    return Request.CreateResponse(HttpStatusCode.OK, new { cases = _caseDal.GetCasesByPage(number, CaseStatus.Available, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                                            new
+                                            {
+                                                total = _caseDal.GetCaseCount(CaseStatus.Available, Request),
+                                                cases = _caseDal.GetCasesByPage(number, CaseStatus.Available, Request),
+                                                page = number
+                                            }, Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
                 {
@@ -288,11 +306,16 @@ namespace OfrApi.Controllers
         {
             using (var operation = this.TelClient.StartOperation<RequestTelemetry>("GetOpenCasePage"))
             {
-                operation.Telemetry.ResponseCode = "200";
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, new {cases = _caseDal.GetCasesByPage(number, CaseStatus.Assigned, Request) }, Configuration.Formatters.JsonFormatter, "application/json");
+                    operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
+
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new { total = _caseDal.GetCaseCount(CaseStatus.Assigned, Request),
+                            cases = _caseDal.GetCasesByPage(number, CaseStatus.Assigned, Request),
+                            page = number
+                        }, Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
                 {

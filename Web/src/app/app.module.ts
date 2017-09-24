@@ -1,4 +1,4 @@
-﻿import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 
@@ -33,7 +33,6 @@ import {DataTableModule} from "angular2-datatable";
 import {FilterPipe} from './shared/directives/searchPipe';
 //import {MdDialog, MdDialogRef} from '@angular/material';
 import { DialogRef, ModalComponent, CloseGuard, ModalModule } from 'angular2-modal';
-import { PopupModule } from 'ng2-opd-popup';
 
 
 @NgModule({
@@ -48,7 +47,6 @@ import { PopupModule } from 'ng2-opd-popup';
     routing,
     NgbModule.forRoot(),
     SelectModule,
-    PopupModule.forRoot(),
     SimpleNotificationsModule.forRoot(),
     DataTableModule,
     Ng2PaginationModule

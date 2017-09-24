@@ -6,7 +6,6 @@ import { CaseReportComponent } from './caseReport/caseReport.component';
 import { FilterPipe } from '../shared/directives/searchPipe';
 import { Overlay } from 'angular2-modal';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
-import { Popup } from 'ng2-opd-popup';
 import { Case } from '../shared/models/caseModel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2PaginationModule } from 'ng2-pagination';
@@ -58,7 +57,7 @@ export class DashboardComponent implements OnInit {
         position: ['right', 'bottom']
     };
 
-    constructor(private dataService: DataService, private zone: NgZone, private popup: Popup, private notificationsService: NotificationsService) {
+    constructor(private dataService: DataService, private zone: NgZone, private notificationsService: NotificationsService) {
         this.show = false;
         this.status = "loading";
 
@@ -89,23 +88,6 @@ export class DashboardComponent implements OnInit {
         this.dataService.getCaseInformation(this.caseId)
             .then(resp => this.showDetails(resp)).//then(resp => console.log(this.caseDetails))/* turn the please wait popup into the real display */
             catch(error => console.error(error));
-
-        //code to style the modal popup
-        this.popup.options = {
-            header: "Case Details",
-            color: "#0275d8", // red, blue....
-            widthProsentage: 60, // The with of the popou measured by browser width
-            animationDuration: 0.5, // in seconds, 0 = no animation
-            showButtons: true, // You can hide this in case you want to use custom buttons
-            confirmBtnContent: "OK", // The text on your confirm button
-            cancleBtnContent: "Cancel", // the text on your cancel button
-            confirmBtnClass: "btn btn-default", // your class for styling the confirm button
-            cancleBtnClass: "btn btn-default", // you class for styling the cancel button
-            animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
-        };
-
-        this.popup.show(this.popup.options);
-        //this.popup.show()
 
     }
 
@@ -270,18 +252,15 @@ export class DashboardComponent implements OnInit {
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
             if (newStatus == "Flagged") {
                 this.OpenCasesdata.find(item => item.id == caseId).Flagged = true;
-                this.popup.hide();
             }
             else if (newStatus == "Unflagged") {
                 this.OpenCasesdata.find(item => item.id == caseId).Flagged = false;
-                this.popup.hide();
             }
             else {
                 this.OpenCasesdata.find(item => item.id == caseId).Status = newStatus;
                 //alert("Successfully Moved to Dismissed Cases");
                 this.paginationOpenCasesData(this.currentOpenCasePage);
                 this.paginationDismissedData(this.currentDismissedCasePage);
-                this.popup.hide();
                 this.StatusChangeNotification();
             }
             // location.reload(true);
@@ -297,15 +276,10 @@ export class DashboardComponent implements OnInit {
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
             if (newStatus == "Flagged") {
                 this.AvailableCasesdata.find(item => item.id == caseId).Flagged = true;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
             }
             else if (newStatus == "Unflagged") {
                 this.AvailableCasesdata.find(item => item.id == caseId).Flagged = false;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
+
             }
             else {
                 this.AvailableCasesdata.find(item => item.id == caseId).Status = newStatus;
@@ -316,9 +290,6 @@ export class DashboardComponent implements OnInit {
                 else {
                     this.paginationAvailableCasesData(this.currentAvailableCasePage);
                     this.paginationDismissedData(this.currentDismissedCasePage);
-                }
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
                 }
                 this.StatusChangeNotification();
             }
@@ -335,23 +306,14 @@ export class DashboardComponent implements OnInit {
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
             if (newStatus == "Flagged") {
                 this.DismissedCasesdata.find(item => item.id == caseId).Flagged = true;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
             }
             else if (newStatus == "Unflagged") {
                 this.DismissedCasesdata.find(item => item.id == caseId).Flagged = false;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
             }
             else {
                 this.DismissedCasesdata.find(item => item.id == caseId).Status = newStatus;
                 this.paginationDismissedData(this.currentDismissedCasePage);
                 this.paginationOpenCasesData(this.currentOpenCasePage);
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
                 this.StatusChangeNotification();
             }
             // location.reload(true);
@@ -367,24 +329,18 @@ export class DashboardComponent implements OnInit {
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
             if (newStatus == "Flagged") {
                 this.SubmittedCasesdata.find(item => item.id == caseId).Flagged = true;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
+
             }
             else if (newStatus == "Unflagged") {
                 this.SubmittedCasesdata.find(item => item.id == caseId).Flagged = false;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
+
 
             }
             else {
                 this.SubmittedCasesdata.find(item => item.id == caseId).Status = newStatus;
                 this.paginationSubmittedData(this.currentSubmittedCasePage);
                 this.paginationOpenCasesData(this.currentOpenCasePage);
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
+
                 this.StatusChangeNotification();
                 //code to reload the new status table
             }

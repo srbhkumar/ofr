@@ -33,7 +33,7 @@ export class AppConfig {
      */
     public load() {
         return new Promise((resolve, reject) => {
-            this.http.get('env.json').map( res => res.json() ).catch((error: any):any => {
+            this.http.get('assets/env.json').map( res => res.json() ).catch((error: any):any => {
                 console.log('Configuration file "env.json" could not be read');
                 resolve(true);
                 return Observable.throw(error.json().error || 'Server error');
@@ -43,11 +43,11 @@ export class AppConfig {
 
                 switch (envResponse.env) {
                     case 'production': {
-                        request = this.http.get('config.' + envResponse.env + '.json');
+                        request = this.http.get('assets/config.' + envResponse.env + '.json');
                     } break;
 
                     case 'development': {
-                        request = this.http.get('config.' + envResponse.env + '.json');
+                        request = this.http.get('assets/config.' + envResponse.env + '.json');
                     } break;
 
                     case 'default': {
