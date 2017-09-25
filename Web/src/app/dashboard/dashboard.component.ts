@@ -216,88 +216,20 @@ export class DashboardComponent implements OnInit {
 
     // }
 
-
-    updateOpenCasesStatus(caseId: string, newStatus: string): void {
+    updateCaseStatus(caseId:string, oldStatus: string, newStatus: string):void{
         this.status = "loading";
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged" || newStatus == "Unflagged") {
-                this.paginationOpenCasesData(this.currentOpenCasePage);
-             }
-            else {
-                //alert("Successfully Moved to Dismissed Cases");
-                this.paginationOpenCasesData(this.currentOpenCasePage);
+            if(oldStatus == "Dismissed" || newStatus == "Dismissed")
                 this.paginationDismissedData(this.currentDismissedCasePage);
-                this.StatusChangeNotification();
-            }
-            // location.reload(true);
-            this.status = "active";
-        });
-
-
-    }
-
-
-    updateAvailableCasesStatus(caseId: string, newStatus: string): void {
-        this.status = "loading";
-        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-             if (newStatus == "Flagged" || newStatus == "Unflagged") {
+            if(oldStatus == "Submitted" || newStatus == "Submitted")
+                this.paginationSubmittedData(this.currentSubmittedCasePage);
+            if(oldStatus == "Assigned" || newStatus == "Assigned")
+                this.paginationOpenCasesData(this.currentOpenCasePage);
+            if(oldStatus == "Available" || newStatus == "Available")
                 this.paginationAvailableCasesData(this.currentAvailableCasePage);
-             }
-            else {
-                if (newStatus == "Assigned") {
-                    this.paginationAvailableCasesData(this.currentAvailableCasePage);
-                    this.paginationOpenCasesData(this.currentOpenCasePage);
-                }
-                else {
-                    this.paginationAvailableCasesData(this.currentAvailableCasePage);
-                    this.paginationDismissedData(this.currentDismissedCasePage);
-                }
-                this.StatusChangeNotification();
-            }
-            // location.reload(true);
+            this.StatusChangeNotification();
             this.status = "active";
-        });
-
-
-    }
-
-
-    updateDismissedCasesStatus(caseId: string, newStatus: string): void {
-        this.status = "loading";
-        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged" || newStatus == "Unflagged") {
-                this.paginationDismissedData(this.currentDismissedCasePage);
-            }
-            else {
-                this.paginationDismissedData(this.currentDismissedCasePage);
-                this.paginationOpenCasesData(this.currentOpenCasePage);
-                this.StatusChangeNotification();
-            }
-            // location.reload(true);
-            this.status = "active";
-        });
-
-
-    }
-
-
-    updateSubmittedCasesStatus(caseId: string, newStatus: string): void {
-        this.status = "loading";
-        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged" || newStatus == "Unflagged") {
-                this.paginationSubmittedData(this.currentSubmittedCasePage);
-            }
-            else {
-                this.paginationSubmittedData(this.currentSubmittedCasePage);
-                this.paginationOpenCasesData(this.currentOpenCasePage);
-
-                this.StatusChangeNotification();
-                //code to reload the new status table
-            }
-            // location.reload(true);
-            this.status = "active";
-        });
-
+            });
 
     }
 
