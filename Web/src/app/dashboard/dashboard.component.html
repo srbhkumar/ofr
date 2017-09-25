@@ -120,7 +120,7 @@
                     <div class="table-responsive">
                         <h5 class="heading"><span>Open Cases</span><span style="float:right; padding-bottom:20px"><pagination-controls 
                         (pageChange) = "page = paginationOpenCasesData($event);" 
-                        id="1"
+                        id="open"
                         maxSize = "5"
                         directionLinks = "true"
                         autohide = "true"
@@ -152,7 +152,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:5, currentPage: currentOpenCasePage, id : 1, totalItems:currentOpenCaseCount }">
+                                <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:5, currentPage: currentOpenCasePage, id : 'open', totalItems:currentOpenCaseCount }">
                                     <!--<td><a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <!--<td><button md-button (click)="openDialog()">{{item.OCME}}</button></td>-->
@@ -176,7 +176,7 @@
                     <h5 class="heading"><span>Available to Review </span><span style="float:right; padding-bottom:20px">
                         <pagination-controls 
                         (pageChange) = "page = paginationAvailableCasesData($event);" 
-                        id="2"
+                        id="available"
                         maxSize = "8"
                         directionLinks = "true"
                         autohide = "true">
@@ -184,8 +184,7 @@
                         </span>
                     </h5>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="AvailableCasesdata" #mfNew="mfDataTable"
-                            [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <table class="table table-bordered table-striped table-sm mycasetable" >
                             <thead>
                                 <tr>
                                     <th class="width12">
@@ -211,7 +210,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of AvailableObserve | paginate : { itemsPerPage:5, currentPage:currentAvailableCasePage, id : 2, totalItems:currentAvailableCaseCount } ">
+                                <tr *ngFor="let item of AvailableObserve |async |  paginate : { itemsPerPage:5, currentPage:currentAvailableCasePage, id : 'available', totalItems:currentAvailableCaseCount } ">
                                     <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>
@@ -239,8 +238,8 @@
                   <h5 class="heading">
                     <span>Dismissed Cases</span>
                     <span style="float:right; padding-bottom:20px">
-                      <pagination-controls (pageChange)="pageDismissed = paginationDismissedData($event);"
-                                           id="3"
+                      <pagination-controls (pageChange)="page = paginationDismissedData($event);"
+                                           id="dismissed"
                                            maxsize="5"
                                            directionLinks="true"
                                            autohide="true">
@@ -274,7 +273,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of DismissedObserve| async |  paginate : { itemsPerPage:5, currentPage:currentDismissedCasePage, id : 3, totalItems : currentDismissedCaseCount} ">
+                        <tr *ngFor="let item of DismissedObserve| async |  paginate : { itemsPerPage:5, currentPage:currentDismissedCasePage, id : 'dismissed', totalItems : currentDismissedCaseCount} ">
                           <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                           <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                           <td>{{item.ResidentJurisdiction}}</td>
@@ -296,8 +295,8 @@
 
                     <h5 class="heading"><span>Submitted Cases</span>
                         <span style="float:right; padding-bottom:20px"><pagination-controls 
-                        (pageChange) = "pageSubmitted = paginationSubmittedData($event);" 
-                        id="4"
+                        (pageChange) = "page = paginationSubmittedData($event);" 
+                        id="submitted"
                         maxSize = "5"
                         directionLinks = "true"
                         autohide = "true">
@@ -331,7 +330,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:5, currentPage:currentSubmittedCasePage, id : 4, totalItems : currentSubmittedCaseCount} ">
+                                <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:5, currentPage:currentSubmittedCasePage, id : 'submitted', totalItems : currentSubmittedCaseCount} ">
                                     <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>

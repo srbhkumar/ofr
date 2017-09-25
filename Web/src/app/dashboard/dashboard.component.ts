@@ -29,14 +29,14 @@ export class DashboardComponent implements OnInit {
     public AvailableObserve: Observable<Array<any>>;
     public SubmittedObserve: Observable<Array<any>>;
     public DismissedObserve: Observable<Array<any>>;
-    public currentOpenCasePage: number;
-    public currentAvailableCasePage: number;
-    public currentDismissedCasePage: number;
-    public currentSubmittedCasePage: number;
-    public currentOpenCaseCount: number;
-    public currentAvailableCaseCount: number;
-    public currentDismissedCaseCount: number;
-    public currentSubmittedCaseCount: number;
+    public currentOpenCasePage: number = 1;
+    public currentAvailableCasePage: number = 1;
+    public currentDismissedCasePage: number = 1;
+    public currentSubmittedCasePage: number = 1 ;
+    public currentOpenCaseCount: number = 0;
+    public currentAvailableCaseCount: number = 0;
+    public currentDismissedCaseCount: number = 0;
+    public currentSubmittedCaseCount: number = 0 ;
 
 
     public status: string;
@@ -75,10 +75,10 @@ export class DashboardComponent implements OnInit {
         this.dataService.getAccess()
             .then(() => instance.dataService.getGroups()
                 .then(() => {
-                    instance.paginationOpenCasesData(1);
-                    instance.paginationAvailableCasesData(1);
-                    instance.paginationDismissedData(1);
-                    instance.paginationSubmittedData(1);
+                    instance.paginationOpenCasesData(this.currentOpenCasePage)
+                    instance.paginationAvailableCasesData(this.currentAvailableCasePage)
+                    instance.paginationDismissedData(this.currentDismissedCasePage)
+                    instance.paginationSubmittedData(this.currentSubmittedCasePage)
                     instance.status = "active"
                 }));
 
@@ -193,10 +193,10 @@ export class DashboardComponent implements OnInit {
                 'Flagged': caseItem.Flagged,
                 'Status': caseItem.Status
             });
-            this.currentAvailableCaseCount = resp.total;
-            this.AvailableObserve = Observable.of(tempAvailableData);
+            
         }
-
+        this.currentAvailableCaseCount = resp.total;
+        this.AvailableObserve = Observable.of(tempAvailableData);
     }
 
     dashBoardDismissedCasesResponse(resp: Dashboard): void {
@@ -224,7 +224,6 @@ export class DashboardComponent implements OnInit {
 
     dashBoardSubmittedCasesResponse(resp: Dashboard): void {
         var tempSubmittedData = [];
-        debugger;
         for (let item in resp.cases) {
             console.log(item);
             let caseItem: any;
