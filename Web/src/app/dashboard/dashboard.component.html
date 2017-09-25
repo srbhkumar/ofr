@@ -121,29 +121,28 @@
                         <h5 class="heading"><span>Open Cases</span><span style="float:right; padding-bottom:20px"><pagination-controls 
                         (pageChange) = "page = paginationOpenCasesData($event); p = $event;" 
                         id="1"
-                        maxSize = "8"
+                        maxSize = "5"
                         directionLinks = "true"
                         autohide = "true"
                         >
             </pagination-controls></span></h5>
-                        <table class="table table-bordered table-striped table-sm mycasetable" [mfData]="OpenCasesdata" #mfAssigned="mfDataTable"
-                            [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                        <table class="table table-bordered table-striped table-sm mycasetable">
                             <thead>
                                 <tr>
                                     <th class="width12">
-                                        <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>
+                                        OCME #
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>
+                                        Resident County
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter>
+                                        Date Of Death
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>
+                                        Cause of Death
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>
+                                        County of Death
                                     </th>
                                     <!--<th class="width12">
                                         <mfDefaultSorter by="Status">Status</mfDefaultSorter>
@@ -153,7 +152,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of mfAssigned.data | filter : ['Assigned'] | paginate : { itemsPerPage:5, currentPage:p, id : 1, totalItems:25 }">
+                                <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:5, currentPage:p, id : 1, totalItems:currentOpenCaseCount }">
                                     <!--<td><a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <!--<td><button md-button (click)="openDialog()">{{item.OCME}}</button></td>-->
@@ -190,19 +189,19 @@
                             <thead>
                                 <tr>
                                     <th class="width12">
-                                        <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>
+                                        OCME #
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>
+                                        Resident County
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter>
+                                        Date Of Death
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>
+                                       Cause of Death
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>
+                                        County of Death
                                     </th>
                                     <!--<th class="width12">
                                         <mfDefaultSorter by="Status">Status</mfDefaultSorter>
@@ -212,7 +211,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of mfNew.data | filter : ['New','Available'] | paginate : { itemsPerPage:5, currentPage:pAvailable, id : 2, totalItems:30 } ">
+                                <tr *ngFor="let item of AvailableObserve | paginate : { itemsPerPage:5, currentPage:pAvailable, id : 2, totalItems:currentAvailableCaseCount } ">
                                     <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>
@@ -237,92 +236,92 @@
                     </div>
             
             
-            
-                    <h5 class="heading"><span>Dismissed Cases</span>
-                        <span style="float:right; padding-bottom:20px"><pagination-controls 
-                        (pageChange) = "pageDismissed = paginationDismissedData($event); pDismissed = $event;" 
-                        id="3"
-                        maxSize = "8"
-                        directionLinks = "true">
-                        </pagination-controls>
+                  <h5 class="heading">
+                    <span>Dismissed Cases</span>
+                    <span style="float:right; padding-bottom:20px">
+                      <pagination-controls (pageChange)="pageDismissed = paginationDismissedData($event); pDismissed = $event;"
+                                           id="3"
+                                           maxsize="5"
+                                           directionLinks="true"
+                                           autohide="true">
+                      </pagination-controls>
                     </span>
-                    </h5>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped mycasetable" [mfData]="DismissedCasesdata" #mfDismissed="mfDataTable" [(mfSortBy)]="sortBy"
-                            [(mfSortOrder)]="sortOrder">
-                            <thead>
-                                <tr>
-                                    <th class="width12">
-                                        <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>
-                                    </th>
-                                    <th class="width12">
-                                        <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>
-                                    </th>
-                                    <th class="width12">
-                                        <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter>
-                                    </th>
-                                    <th class="width12">
-                                        <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>
-                                    </th>
-                                    <th class="width12">
-                                        <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>
-                                    </th>
-                                    <!--<th class="width12">
-                                        <mfDefaultSorter by="Status">Status</mfDefaultSorter>
-                                    </th>-->
-                                    <th class="width12"> Case Action </th>
-            
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of mfDismissed.data | filter : ['Dismissed'] | paginate : { itemsPerPage:5, currentPage:pDismissed, id : 3, totalItems:25} ">
-                                    <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
-                                    <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
-                                    <td>{{item.ResidentJurisdiction}}</td>
-                                    <td>{{item.DateofDeath}}</td>
-                                    <td>{{item.CauseofDeath}}</td>
-                                    <td>{{item.CountyofDeath}}</td>
-                                    <!--<td>{{item.Status}} </td>-->
-                                    <td>
-                                        <a (click)="updateDismissedCasesStatus(item.id ,'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
-                                        <a (click)="updateDismissedCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
-                                        <a (click)="updateDismissedCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-            
-                    </div>
-            
+                  </h5>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped mycasetable">
+                      <thead>
+                        <tr>
+                          <th class="width12">
+                            OCME#
+                          </th>
+                          <th class="width12">
+                            Resident County
+                          </th>
+                          <th class="width12">
+                            Date Of Death
+                          </th>
+                          <th class="width12">
+                            Cause of Death
+                          </th>
+                          <th class="width12">
+                            County of Death
+                          </th>
+                          <!--<th class="width12">
+              <mfDefaultSorter by="Status">Status</mfDefaultSorter>
+          </th>-->
+                          <th class="width12"> Case Action </th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of DismissedObserve| async |  paginate : { itemsPerPage:5, currentPage:pDismissed, id : 3, totalItems : currentDismissedCaseCount} ">
+                          <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
+                          <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
+                          <td>{{item.ResidentJurisdiction}}</td>
+                          <td>{{item.DateofDeath}}</td>
+                          <td>{{item.CauseofDeath}}</td>
+                          <td>{{item.CountyofDeath}}</td>
+                          <!--<td>{{item.Status}} </td>-->
+                          <td>
+                            <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
+                            <a (click)="updateDismissedCasesStatus(item.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
+                            <a (click)="updateDismissedCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                            <a (click)="updateDismissedCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+
                     <h5 class="heading"><span>Submitted Cases</span>
                         <span style="float:right; padding-bottom:20px"><pagination-controls 
                         (pageChange) = "pageSubmitted = paginationSubmittedData($event); pSubmitted = $event;" 
                         id="4"
-                        maxSize = "8"
+                        maxSize = "5"
                         directionLinks = "true"
                         autohide = "true">
                         </pagination-controls>
                     </span>
                     </h5>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped mycasetable" [mfData]="SubmittedCasesdata" #mfSubmitted="mfDataTable" [(mfSortBy)]="sortBy"
-                            [(mfSortOrder)]="sortOrder">
+                        <table class="table table-bordered table-striped mycasetable">
                             <thead>
                                 <tr>
                                     <th class="width12">
-                                        <mfDefaultSorter by="OCME">OCME #</mfDefaultSorter>
+                                        OCME #
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="ResidentCounty">Resident County</mfDefaultSorter>
+                                        Resident County
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="DateofDeath">Date Of Death</mfDefaultSorter>
+                                       Date Of Death
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="CauseofDeath">Cause of Death</mfDefaultSorter>
+                                       Cause of Death
                                     </th>
                                     <th class="width12">
-                                        <mfDefaultSorter by="CountyofDeath">County of Death</mfDefaultSorter>
+                                        County of Death
                                     </th>
                                     <!--<th class="width12">
                                         <mfDefaultSorter by="Status">Status</mfDefaultSorter>
@@ -332,7 +331,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of mfSubmitted.data | filter : ['Submitted'] | paginate : { itemsPerPage:5, currentPage:pSubmitted, id : 4, totalItems : 30} ">
+                                <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:5, currentPage:pSubmitted, id : 4, totalItems : currentSubmittedCaseCount} ">
                                     <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>
@@ -357,62 +356,5 @@
             </div>
 
 
-<h5 class="heading">
-  <span>Submitted Cases</span>
-  <span style="float:right; padding-bottom:20px">
-    <pagination-controls (pageChange)="pageDismissed = paginationDismissedData($event); pDismissed = $event;"
-                         id="10"
-                         maxSize="8"
-                         directionLinks="true"
-                         autohide="true">
-    </pagination-controls>
-  </span>
-</h5>
-<div class="table-responsive">
-  <table class="table table-bordered table-striped mycasetable">
-    <thead>
-      <tr>
-        <th class="width12">
-          OCME#
-        </th>
-        <th class="width12">
-          Resident County
-        </th>
-        <th class="width12">
-          Date Of Death
-        </th>
-        <th class="width12">
-          Cause of Death
-        </th>
-        <th class="width12">
-         County of Death
-        </th>
-        <!--<th class="width12">
-            <mfDefaultSorter by="Status">Status</mfDefaultSorter>
-        </th>-->
-        <th class="width12"> Case Action </th>
-
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of DismissedObserve| async | filter : ['Dismissed'] | paginate : { itemsPerPage:5, currentPage:pDismissed, id : 10, totalItems : currentDismissedCaseCount} ">
-        <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
-        <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
-        <td>{{item.ResidentJurisdiction}}</td>
-        <td>{{item.DateofDeath}}</td>
-        <td>{{item.CauseofDeath}}</td>
-        <td>{{item.CountyofDeath}}</td>
-        <!--<td>{{item.Status}} </td>-->
-        <td>
-          <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
-          <a (click)="updateDismissedCasesStatus(item.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
-          <a (click)="updateDismissedCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-          <a (click)="updateDismissedCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
 
     

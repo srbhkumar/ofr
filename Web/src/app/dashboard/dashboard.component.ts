@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
     public currentSubmittedCasePage: number;
     public currentOpenCaseCount: number;
     public currentAvailableCaseCount: number;
-    public currentDismissedCaseCount: number;
+    public currentDismissedCaseCount: number = 20;
     public currentSubmittedCaseCount: number;
 
 
@@ -175,6 +175,8 @@ export class DashboardComponent implements OnInit {
                 'DrugInSystem': caseItem.DrugInSystem
 
             });
+            this.currentOpenCaseCount = resp.total;
+            this.OpenObserve = Observable.of(this.OpenCasesdata);
         }
 
     }
@@ -195,6 +197,8 @@ export class DashboardComponent implements OnInit {
                 'Flagged': caseItem.Flagged,
                 'Status': caseItem.Status
             });
+            this.currentAvailableCaseCount = resp.total;
+            this.AvailableObserve = Observable.of(this.AvailableCasesdata);
         }
 
     }
@@ -236,6 +240,8 @@ export class DashboardComponent implements OnInit {
                 'Flagged': caseItem.Flagged,
                 'Status': caseItem.Status
             });
+            this.currentSubmittedCaseCount = resp.total;
+            this.SubmittedObserve = Observable.of(this.SubmittedCasesdata);
         }
 
     }
@@ -270,7 +276,6 @@ export class DashboardComponent implements OnInit {
                 this.OpenCasesdata.find(item => item.id == caseId).Flagged = false;
             }
             else {
-                this.OpenCasesdata.find(item => item.id == caseId).Status = newStatus;
                 //alert("Successfully Moved to Dismissed Cases");
                 this.paginationOpenCasesData(this.currentOpenCasePage);
                 this.paginationDismissedData(this.currentDismissedCasePage);
@@ -295,7 +300,6 @@ export class DashboardComponent implements OnInit {
 
             }
             else {
-                this.AvailableCasesdata.find(item => item.id == caseId).Status = newStatus;
                 if (newStatus == "Assigned") {
                     this.paginationAvailableCasesData(this.currentAvailableCasePage);
                     this.paginationOpenCasesData(this.currentOpenCasePage);
@@ -324,7 +328,6 @@ export class DashboardComponent implements OnInit {
                 this.DismissedCasesdata.find(item => item.id == caseId).Flagged = false;
             }
             else {
-                this.DismissedCasesdata.find(item => item.id == caseId).Status = newStatus;
                 this.paginationDismissedData(this.currentDismissedCasePage);
                 this.paginationOpenCasesData(this.currentOpenCasePage);
                 this.StatusChangeNotification();
@@ -350,7 +353,6 @@ export class DashboardComponent implements OnInit {
 
             }
             else {
-                this.SubmittedCasesdata.find(item => item.id == caseId).Status = newStatus;
                 this.paginationSubmittedData(this.currentSubmittedCasePage);
                 this.paginationOpenCasesData(this.currentOpenCasePage);
 
