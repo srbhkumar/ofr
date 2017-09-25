@@ -226,25 +226,7 @@ namespace OfrApi.Controllers
         [Route("page/{number}/submitted")]
         public HttpResponseMessage GetSubmittedPage(int number)
         {
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("GetSubmittedCasePage"))
-            {
-                operation.Telemetry.Url = Request.RequestUri;
-                try
-                {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    return Request.CreateResponse(HttpStatusCode.OK,
-                                            new
-                                            {
-                                                total = _caseDal.GetCaseCount(CaseStatus.Submitted, Request),
-                                                cases = _caseDal.GetCasesByPage(number, CaseStatus.Submitted, Request),
-                                                page = number
-                                            }, Configuration.Formatters.JsonFormatter, "application/json");
-                }
-                catch (Exception ex)
-                {
-                    return HandleExceptions(ex, operation, Request);
-                }
-            }
+            return GetPageByType(number, CaseStatus.Submitted, Request);
         }
 
         //Get api/case/page/1/dismissed
@@ -252,25 +234,7 @@ namespace OfrApi.Controllers
         [Route("page/{number}/dismissed")]
         public HttpResponseMessage GetDismissedPage(int number)
         {
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("GetDismissedCasePage"))
-            {
-                operation.Telemetry.Url = Request.RequestUri;
-                try
-                {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    return Request.CreateResponse(HttpStatusCode.OK,
-                                            new
-                                            {
-                                                total = _caseDal.GetCaseCount(CaseStatus.Dismissed, Request),
-                                                cases = _caseDal.GetCasesByPage(number, CaseStatus.Dismissed, Request),
-                                                page = number
-                                            }, Configuration.Formatters.JsonFormatter, "application/json");
-                }
-                catch (Exception ex)
-                {
-                    return HandleExceptions(ex, operation, Request);
-                }
-            }
+            return GetPageByType(number, CaseStatus.Dismissed, Request);
         }
 
         //Get api/case/page/1/available
@@ -278,25 +242,7 @@ namespace OfrApi.Controllers
         [Route("page/{number}/available")]
         public HttpResponseMessage GetAvailablePage(int number)
         {
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("GetAvailableCasePage"))
-            {
-                operation.Telemetry.Url = Request.RequestUri;
-                try
-                {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    return Request.CreateResponse(HttpStatusCode.OK,
-                                            new
-                                            {
-                                                total = _caseDal.GetCaseCount(CaseStatus.Available, Request),
-                                                cases = _caseDal.GetCasesByPage(number, CaseStatus.Available, Request),
-                                                page = number
-                                            }, Configuration.Formatters.JsonFormatter, "application/json");
-                }
-                catch (Exception ex)
-                {
-                    return HandleExceptions(ex, operation, Request);
-                }
-            }
+            return GetPageByType(number, CaseStatus.Available, Request);
         }
 
         //Get api/case/page/1/open
@@ -304,24 +250,7 @@ namespace OfrApi.Controllers
         [Route("page/{number}/open")]
         public HttpResponseMessage GetOpenPage(int number)
         {
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("GetOpenCasePage"))
-            {
-                operation.Telemetry.Url = Request.RequestUri;
-                try
-                {
-                    operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-
-                    return Request.CreateResponse(HttpStatusCode.OK,
-                        new { total = _caseDal.GetCaseCount(CaseStatus.Assigned, Request),
-                            cases = _caseDal.GetCasesByPage(number, CaseStatus.Assigned, Request),
-                            page = number
-                        }, Configuration.Formatters.JsonFormatter, "application/json");
-                }
-                catch (Exception ex)
-                {
-                    return HandleExceptions(ex, operation, Request);
-                }
-            }
+            return GetPageByType(number, CaseStatus.Assigned, Request);
         }
         
         //Get api/case/count/Open
@@ -341,6 +270,30 @@ namespace OfrApi.Controllers
                         return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Case Status : " + status);
                     }
                     return Request.CreateResponse(HttpStatusCode.OK, _caseDal.GetCaseCount(statusType, Request));
+                }
+                catch (Exception ex)
+                {
+                    return HandleExceptions(ex, operation, Request);
+                }
+            }
+        }
+
+        private HttpResponseMessage GetPageByType(int number, CaseStatus status, HttpRequestMessage request)
+        {
+            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("Get" + status.ToString() + "CasePage"))
+            {
+                operation.Telemetry.Url = Request.RequestUri;
+                try
+                {
+                    operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
+
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        new
+                        {
+                            total = _caseDal.GetCaseCount(status, request),
+                            cases = _caseDal.GetCasesByPage(number, status, request),
+                            page = number
+                        }, Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
                 {
