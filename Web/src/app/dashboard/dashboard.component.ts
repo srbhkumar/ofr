@@ -25,11 +25,6 @@ import 'rxjs/add/observable/of';
 
 export class DashboardComponent implements OnInit {
     show: boolean;
-    public data: Array<any> = [];
-    public OpenCasesdata: Array<any> = [];
-    public AvailableCasesdata: Array<any> = [];
-    public DismissedCasesdata: Array<any> = [];
-    public SubmittedCasesdata: Array<any> = [];
     public OpenObserve: Observable<Array<any>>;
     public AvailableObserve: Observable<Array<any>>;
     public SubmittedObserve: Observable<Array<any>>;
@@ -47,8 +42,7 @@ export class DashboardComponent implements OnInit {
     public status: string;
     public caseId: string;
     public caseDetails: Case;
-    public page: number = 1; //SK remove it, just for testing
-    public totalPage: number = 15; //SK remove it, just for testing
+
 
     //  public rows:Array<any> = [];  
 
@@ -114,26 +108,26 @@ export class DashboardComponent implements OnInit {
         this.show = !this.show;
     }
 
-    dashBoardResponse(resp: Dashboard): void {
-        for (let item in resp.cases) {
-            let caseItem: any;
-            caseItem = resp.cases[item];
-            console.log(caseItem.DrugsInSystem);
+    // dashBoardResponse(resp: Dashboard): void {
+    //     for (let item in resp.cases) {
+    //         let caseItem: any;
+    //         caseItem = resp.cases[item];
+    //         console.log(caseItem.DrugsInSystem);
 
-            this.data.push({
-                'id': caseItem.id,
-                'OCME': caseItem.OCME,
-                'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
-                'DateofDeath': caseItem.Data['DateofDeath'],
-                'CauseofDeath': caseItem.Data['CauseofDeath'],
-                'CountyofDeath': caseItem.Data['CountyofDeath'],
-                'Flagged': caseItem.Flagged,
-                'Status': caseItem.Status,
-                'DrugsInSystem': caseItem.DrugsInSystem
-            });
-        }
+    //         this.data.push({
+    //             'id': caseItem.id,
+    //             'OCME': caseItem.OCME,
+    //             'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
+    //             'DateofDeath': caseItem.Data['DateofDeath'],
+    //             'CauseofDeath': caseItem.Data['CauseofDeath'],
+    //             'CountyofDeath': caseItem.Data['CountyofDeath'],
+    //             'Flagged': caseItem.Flagged,
+    //             'Status': caseItem.Status,
+    //             'DrugsInSystem': caseItem.DrugsInSystem
+    //         });
+    //     }
 
-    }
+    // }
 
 
     StatusChangeNotification(): any {
@@ -155,6 +149,7 @@ export class DashboardComponent implements OnInit {
 
 
     dashBoardOpenCasesResponse(resp: Dashboard): void {
+        var tempOpenData = [];
         for (let item in resp.cases) {
             console.log(item);
             let caseItem: any;
@@ -163,7 +158,7 @@ export class DashboardComponent implements OnInit {
                 var DrugInSystemArray = (caseItem.DrugsInSystem);
                 // console.log(caseItem.DrugsInSystem);
             }
-            this.OpenCasesdata.push({
+            tempOpenData.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
                 'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
@@ -176,18 +171,19 @@ export class DashboardComponent implements OnInit {
 
             });
             this.currentOpenCaseCount = resp.total;
-            this.OpenObserve = Observable.of(this.OpenCasesdata);
+            this.OpenObserve = Observable.of(tempOpenData);
         }
 
     }
 
 
     dashBoardAvailableCasesResponse(resp: Dashboard): void {
+        var tempAvailableData = [];
         for (let item in resp.cases) {
             console.log(item);
             let caseItem: any;
             caseItem = resp.cases[item];
-            this.AvailableCasesdata.push({
+            tempAvailableData.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
                 'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
@@ -198,17 +194,18 @@ export class DashboardComponent implements OnInit {
                 'Status': caseItem.Status
             });
             this.currentAvailableCaseCount = resp.total;
-            this.AvailableObserve = Observable.of(this.AvailableCasesdata);
+            this.AvailableObserve = Observable.of(tempAvailableData);
         }
 
     }
 
     dashBoardDismissedCasesResponse(resp: Dashboard): void {
+        var tempDismissedData = [];
         for (let item in resp.cases) {
             console.log(item);
             let caseItem: any;
             caseItem = resp.cases[item];
-            this.DismissedCasesdata.push({
+            tempDismissedData.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
                 'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
@@ -220,17 +217,18 @@ export class DashboardComponent implements OnInit {
             });
         }
         this.currentDismissedCaseCount = resp.total;
-        this.DismissedObserve = Observable.of(this.DismissedCasesdata);
+        this.DismissedObserve = Observable.of(tempDismissedData);
 
     }
 
 
     dashBoardSubmittedCasesResponse(resp: Dashboard): void {
+        var tempSubmittedData = [];
         for (let item in resp.cases) {
             console.log(item);
             let caseItem: any;
             caseItem = resp.cases[item];
-            this.SubmittedCasesdata.push({
+            tempSubmittedData.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
                 'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
@@ -241,7 +239,7 @@ export class DashboardComponent implements OnInit {
                 'Status': caseItem.Status
             });
             this.currentSubmittedCaseCount = resp.total;
-            this.SubmittedObserve = Observable.of(this.SubmittedCasesdata);
+            this.SubmittedObserve = Observable.of(tempSubmittedData);
         }
 
     }
@@ -269,12 +267,9 @@ export class DashboardComponent implements OnInit {
     updateOpenCasesStatus(caseId: string, newStatus: string): void {
         this.status = "loading";
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged") {
-                this.OpenCasesdata.find(item => item.id == caseId).Flagged = true;
-            }
-            else if (newStatus == "Unflagged") {
-                this.OpenCasesdata.find(item => item.id == caseId).Flagged = false;
-            }
+            if (newStatus == "Flagged" || newStatus == "Unflagged") {
+                this.paginationOpenCasesData(this.currentOpenCasePage);
+             }
             else {
                 //alert("Successfully Moved to Dismissed Cases");
                 this.paginationOpenCasesData(this.currentOpenCasePage);
@@ -292,13 +287,9 @@ export class DashboardComponent implements OnInit {
     updateAvailableCasesStatus(caseId: string, newStatus: string): void {
         this.status = "loading";
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged") {
-                this.AvailableCasesdata.find(item => item.id == caseId).Flagged = true;
-            }
-            else if (newStatus == "Unflagged") {
-                this.AvailableCasesdata.find(item => item.id == caseId).Flagged = false;
-
-            }
+             if (newStatus == "Flagged" || newStatus == "Unflagged") {
+                this.paginationAvailableCasesData(this.currentAvailableCasePage);
+             }
             else {
                 if (newStatus == "Assigned") {
                     this.paginationAvailableCasesData(this.currentAvailableCasePage);
@@ -321,11 +312,8 @@ export class DashboardComponent implements OnInit {
     updateDismissedCasesStatus(caseId: string, newStatus: string): void {
         this.status = "loading";
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged") {
-                this.DismissedCasesdata.find(item => item.id == caseId).Flagged = true;
-            }
-            else if (newStatus == "Unflagged") {
-                this.DismissedCasesdata.find(item => item.id == caseId).Flagged = false;
+            if (newStatus == "Flagged" || newStatus == "Unflagged") {
+                this.paginationDismissedData(this.currentDismissedCasePage);
             }
             else {
                 this.paginationDismissedData(this.currentDismissedCasePage);
@@ -343,14 +331,8 @@ export class DashboardComponent implements OnInit {
     updateSubmittedCasesStatus(caseId: string, newStatus: string): void {
         this.status = "loading";
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged") {
-                this.SubmittedCasesdata.find(item => item.id == caseId).Flagged = true;
-
-            }
-            else if (newStatus == "Unflagged") {
-                this.SubmittedCasesdata.find(item => item.id == caseId).Flagged = false;
-
-
+            if (newStatus == "Flagged" || newStatus == "Unflagged") {
+                this.paginationSubmittedData(this.currentSubmittedCasePage);
             }
             else {
                 this.paginationSubmittedData(this.currentSubmittedCasePage);
@@ -367,17 +349,17 @@ export class DashboardComponent implements OnInit {
     }
 
 
-    fillDashboard(): void {
-        this.dataService.getOpenCases(this.page).then(d => {
-            this.dashBoardResponse(d);
-        });
-        this.dataService.getAvailableCases(this.page).then(d => {
-            this.dashBoardResponse(d);
-        });
-        this.dataService.getDismissedCases(this.page).then(d => {
-            this.dashBoardResponse(d);
-        });
-    }
+    // fillDashboard(): void {
+    //     this.dataService.getOpenCases(this.page).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });
+    //     this.dataService.getAvailableCases(this.page).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });
+    //     this.dataService.getDismissedCases(this.page).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });
+    // }
 
     // paginationData(event): void {
     //     this.clearDashboard();
@@ -403,61 +385,30 @@ export class DashboardComponent implements OnInit {
 
 
     paginationOpenCasesData(event): void {
-        this.clearOpenCasesDashboard();
         this.currentOpenCasePage = event;
-        console.log(this.currentOpenCasePage);
         this.dataService.getOpenCases(event).then(d => {
             this.dashBoardOpenCasesResponse(d);
         });
     }
 
     paginationAvailableCasesData(event): void {
-        this.clearAvailableCasesDashboard();
         this.currentAvailableCasePage = event;
-        console.log(this.currentAvailableCasePage);
         this.dataService.getAvailableCases(event).then(d => {
             this.dashBoardAvailableCasesResponse(d);
         });
     }
 
     paginationDismissedData(event): void {
-        this.clearDismissedCasesDashboard();
         this.currentDismissedCasePage = event;
-        console.log(this.currentDismissedCasePage);
         this.dataService.getDismissedCases(event).then(d => {
             this.dashBoardDismissedCasesResponse(d);
         });
     }
 
     paginationSubmittedData(event): void {
-        this.clearSubmittedCasesDashboard();
         this.currentSubmittedCasePage = event;
-        console.log(this.currentSubmittedCasePage);
         this.dataService.getSubmittedCases(event).then(d => {
             this.dashBoardSubmittedCasesResponse(d);
         });
-    }
-
-
-
-
-    clearDashboard(status?: any): void {
-        this.data = [];
-    }
-
-    clearOpenCasesDashboard(status?: any): void {
-        this.OpenCasesdata = [];
-    }
-
-    clearDismissedCasesDashboard(status?: any): void {
-        this.DismissedCasesdata = [];
-    }
-
-    clearAvailableCasesDashboard(status?: any): void {
-        this.AvailableCasesdata = [];
-    }
-
-    clearSubmittedCasesDashboard(status?: any): void {
-        this.SubmittedCasesdata = [];
     }
 }

@@ -53,19 +53,19 @@
                     <div class="col-sm-3">Other Actions</div>
                     <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
                       <a data-dismiss="modal" (click)="updateOpenCasesStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft" style="width: 25px;height: 33px;"></a>
-                      <a (click)="updateOpenCasesStatus(caseDetails.id ,'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;"> </a>
-                      <a (click)="updateOpenCasesStatus(caseDetails.id ,'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;"> </a>
+                      <a data-dismiss="modal" (click)="updateOpenCasesStatus(caseDetails.id ,'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;"> </a>
+                      <a data-dismiss="modal" (click)="updateOpenCasesStatus(caseDetails.id ,'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;"> </a>
                     </div>
                     <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
                       <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
                       <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft" style="width: 90px;"></a>
-                      <a (click)="updateAvailableCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"> </a>
-                      <a (click)="updateAvailableCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"> </a>
+                      <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"> </a>
+                      <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"> </a>
                     </div>
                     <div *ngIf="caseDetails.Status =='Dismissed'" class="col-sm-9">
                       <a data-dismiss="modal" (click)="updateDismissedCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
-                      <a (click)="updateDismissedCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"> </a>
-                      <a (click)="updateDismissedCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"> </a>
+                      <a data-dismiss="modal" (click)="updateDismissedCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"> </a>
+                      <a data-dismiss="modal"(click)="updateDismissedCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"> </a>
                     </div>
                     <div *ngIf="caseDetails.Status =='Submitted'" class="col-sm-9">
                       <a data-dismiss="modal" (click)="updateSubmittedCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"></a>
@@ -119,7 +119,7 @@
             
                     <div class="table-responsive">
                         <h5 class="heading"><span>Open Cases</span><span style="float:right; padding-bottom:20px"><pagination-controls 
-                        (pageChange) = "page = paginationOpenCasesData($event); p = $event;" 
+                        (pageChange) = "page = paginationOpenCasesData($event);" 
                         id="1"
                         maxSize = "5"
                         directionLinks = "true"
@@ -152,7 +152,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:5, currentPage:p, id : 1, totalItems:currentOpenCaseCount }">
+                                <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:5, currentPage: currentOpenCasePage, id : 1, totalItems:currentOpenCaseCount }">
                                     <!--<td><a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <!--<td><button md-button (click)="openDialog()">{{item.OCME}}</button></td>-->
@@ -175,7 +175,7 @@
             
                     <h5 class="heading"><span>Available to Review </span><span style="float:right; padding-bottom:20px">
                         <pagination-controls 
-                        (pageChange) = "page = paginationAvailableCasesData($event); pAvailable = $event;" 
+                        (pageChange) = "page = paginationAvailableCasesData($event);" 
                         id="2"
                         maxSize = "8"
                         directionLinks = "true"
@@ -211,7 +211,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of AvailableObserve | paginate : { itemsPerPage:5, currentPage:pAvailable, id : 2, totalItems:currentAvailableCaseCount } ">
+                                <tr *ngFor="let item of AvailableObserve | paginate : { itemsPerPage:5, currentPage:currentAvailableCasePage, id : 2, totalItems:currentAvailableCaseCount } ">
                                     <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>
@@ -239,7 +239,7 @@
                   <h5 class="heading">
                     <span>Dismissed Cases</span>
                     <span style="float:right; padding-bottom:20px">
-                      <pagination-controls (pageChange)="pageDismissed = paginationDismissedData($event); pDismissed = $event;"
+                      <pagination-controls (pageChange)="pageDismissed = paginationDismissedData($event);"
                                            id="3"
                                            maxsize="5"
                                            directionLinks="true"
@@ -274,7 +274,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of DismissedObserve| async |  paginate : { itemsPerPage:5, currentPage:pDismissed, id : 3, totalItems : currentDismissedCaseCount} ">
+                        <tr *ngFor="let item of DismissedObserve| async |  paginate : { itemsPerPage:5, currentPage:currentDismissedCasePage, id : 3, totalItems : currentDismissedCaseCount} ">
                           <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                           <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                           <td>{{item.ResidentJurisdiction}}</td>
@@ -296,7 +296,7 @@
 
                     <h5 class="heading"><span>Submitted Cases</span>
                         <span style="float:right; padding-bottom:20px"><pagination-controls 
-                        (pageChange) = "pageSubmitted = paginationSubmittedData($event); pSubmitted = $event;" 
+                        (pageChange) = "pageSubmitted = paginationSubmittedData($event);" 
                         id="4"
                         maxSize = "5"
                         directionLinks = "true"
@@ -331,7 +331,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:5, currentPage:pSubmitted, id : 4, totalItems : currentSubmittedCaseCount} ">
+                                <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:5, currentPage:currentSubmittedCasePage, id : 4, totalItems : currentSubmittedCaseCount} ">
                                     <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                                     <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                                     <td>{{item.ResidentJurisdiction}}</td>
