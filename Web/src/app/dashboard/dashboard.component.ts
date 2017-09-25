@@ -224,6 +224,7 @@ export class DashboardComponent implements OnInit {
 
     dashBoardSubmittedCasesResponse(resp: Dashboard): void {
         var tempSubmittedData = [];
+        debugger;
         for (let item in resp.cases) {
             console.log(item);
             let caseItem: any;
@@ -238,10 +239,10 @@ export class DashboardComponent implements OnInit {
                 'Flagged': caseItem.Flagged,
                 'Status': caseItem.Status
             });
-            this.currentSubmittedCaseCount = resp.total;
-            this.SubmittedObserve = Observable.of(tempSubmittedData);
+            
         }
-
+        this.currentSubmittedCaseCount = resp.total;
+        this.SubmittedObserve = Observable.of(tempSubmittedData);
     }
 
     // updateStatus(caseId: string, newStatus: string): void {
