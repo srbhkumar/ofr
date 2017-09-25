@@ -5,8 +5,8 @@
         <div *ngIf="caseDetails">
             <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Details for Case : {{caseDetails.OCME}}</h5>
+                <div class="modal-header" style="background-color:#2199e8">
+                    <h5 class="modal-title" style="color:white">Details for Case : {{caseDetails.OCME}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -55,26 +55,20 @@
                                         <div class="col-sm-3">Other Actions</div>
                                         <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="icon-trash fleft" style="width: 25px;height: 33px;"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged"
-                                                class="icon-flagged fleft   margin_l5" style="width: 70px;"> </a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id , 'Assigned', 'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged"
-                                                class="icon-unflagged fleft  margin_l5" style="width: 70px;"> </a>
-                                            <a data-dismiss="modal" [routerLink]="['/case', caseDetails.id]"><i class="fa fa-pencil-square-o fleft" style="width:70px; margin-left: 40px;" aria-hidden="true"></i></a>
+                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;"> </a>
+                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id , 'Assigned', 'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;"> </a>
+                                            <a data-dismiss="modal" [routerLink]="['/case', caseDetails.id]"><i class="fa fa-pencil-square-o fleft" style="width:70px; margin-left: 65px;" aria-hidden="true"></i></a>
                                         </div>
                                         <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Dismissed')" class="icon-trash fleft" style="width: 90px;"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"
-                                                style="width: 85px;"> </a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5"
-                                                style="width: 85px;"> </a>
+                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"> </a>
+                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"> </a>
                                         </div>
                                         <div *ngIf="caseDetails.Status =='Dismissed'" class="col-sm-9">
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"
-                                                style="width: 75px;"> </a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5"
-                                                style="width: 75px;"> </a>
+                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"> </a>
+                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"> </a>
                                         </div>
                                         <div *ngIf="caseDetails.Status =='Submitted'" class="col-sm-9">
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Submitted','Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"></a>
@@ -83,8 +77,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
