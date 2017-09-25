@@ -58,7 +58,11 @@ namespace OfrApi.Services
             {
                 groups += "," + group.Groups[1].Value; 
             }
-            groups = groups.Substring(1, groups.Length - 1);
+            if (!string.IsNullOrEmpty(groups))
+            {
+                groups = groups.Substring(1, groups.Length - 1);
+            }
+            
 
             return groups;
         }
