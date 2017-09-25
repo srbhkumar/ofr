@@ -147,18 +147,17 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-
-    dashBoardOpenCasesResponse(resp: Dashboard): void {
-        var tempOpenData = [];
-        for (let item in resp.cases) {
+    dashboardHelper(respCases: Array<any>): Observable<Array<any>>{
+        var tempData = [];
+        for (let item in respCases) {
             console.log(item);
             let caseItem: any;
-            caseItem = resp.cases[item];
+            caseItem = respCases[item];
             if (caseItem.DrugsInSystem) {
                 var DrugInSystemArray = (caseItem.DrugsInSystem);
                 // console.log(caseItem.DrugsInSystem);
             }
-            tempOpenData.push({
+            tempData.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
                 'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
@@ -170,78 +169,32 @@ export class DashboardComponent implements OnInit {
                 'DrugInSystem': caseItem.DrugInSystem
 
             });
-            this.currentOpenCaseCount = resp.total;
-            this.OpenObserve = Observable.of(tempOpenData);
         }
+        return Observable.of(tempData);
+    }
 
+
+    dashBoardOpenCasesResponse(resp: Dashboard): void {
+        this.currentOpenCaseCount = resp.total;
+        this.OpenObserve = this.dashboardHelper(resp.cases);
     }
 
 
     dashBoardAvailableCasesResponse(resp: Dashboard): void {
-        var tempAvailableData = [];
-        for (let item in resp.cases) {
-            console.log(item);
-            let caseItem: any;
-            caseItem = resp.cases[item];
-            tempAvailableData.push({
-                'id': caseItem.id,
-                'OCME': caseItem.OCME,
-                'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
-                'DateofDeath': caseItem.Data['DateofDeath'],
-                'CauseofDeath': caseItem.Data['CauseofDeath'],
-                'CountyofDeath': caseItem.Data['CountyofDeath'],
-                'Flagged': caseItem.Flagged,
-                'Status': caseItem.Status
-            });
-            
-        }
         this.currentAvailableCaseCount = resp.total;
-        this.AvailableObserve = Observable.of(tempAvailableData);
+        this.AvailableObserve = this.dashboardHelper(resp.cases);
     }
 
     dashBoardDismissedCasesResponse(resp: Dashboard): void {
-        var tempDismissedData = [];
-        for (let item in resp.cases) {
-            console.log(item);
-            let caseItem: any;
-            caseItem = resp.cases[item];
-            tempDismissedData.push({
-                'id': caseItem.id,
-                'OCME': caseItem.OCME,
-                'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
-                'DateofDeath': caseItem.Data['DateofDeath'],
-                'CauseofDeath': caseItem.Data['CauseofDeath'],
-                'CountyofDeath': caseItem.Data['CountyofDeath'],
-                'Flagged': caseItem.Flagged,
-                'Status': caseItem.Status
-            });
-        }
         this.currentDismissedCaseCount = resp.total;
-        this.DismissedObserve = Observable.of(tempDismissedData);
+        this.DismissedObserve = this.dashboardHelper(resp.cases);
 
     }
 
 
     dashBoardSubmittedCasesResponse(resp: Dashboard): void {
-        var tempSubmittedData = [];
-        for (let item in resp.cases) {
-            console.log(item);
-            let caseItem: any;
-            caseItem = resp.cases[item];
-            tempSubmittedData.push({
-                'id': caseItem.id,
-                'OCME': caseItem.OCME,
-                'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
-                'DateofDeath': caseItem.Data['DateofDeath'],
-                'CauseofDeath': caseItem.Data['CauseofDeath'],
-                'CountyofDeath': caseItem.Data['CountyofDeath'],
-                'Flagged': caseItem.Flagged,
-                'Status': caseItem.Status
-            });
-            
-        }
         this.currentSubmittedCaseCount = resp.total;
-        this.SubmittedObserve = Observable.of(tempSubmittedData);
+        this.SubmittedObserve = this.dashboardHelper(resp.cases);
     }
 
     // updateStatus(caseId: string, newStatus: string): void {

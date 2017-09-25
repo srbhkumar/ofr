@@ -52,23 +52,24 @@
 
                     <div class="col-sm-3">Other Actions</div>
                     <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
-                      <a data-dismiss="modal" (click)="updateOpenCasesStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft" style="width: 25px;height: 33px;"></a>
-                      <a data-dismiss="modal" (click)="updateOpenCasesStatus(caseDetails.id ,'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;"> </a>
-                      <a data-dismiss="modal" (click)="updateOpenCasesStatus(caseDetails.id ,'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;"> </a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="icon-trash fleft" style="width: 25px;height: 33px;"></a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;"> </a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id , 'Assigned', 'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;"> </a>
+                      <a data-dismiss="modal" [routerLink]="['/case', caseDetails.id]"><i class="fa fa-pencil-square-o fleft" style="width:70px; margin-left: 40px;" aria-hidden="true"></i></a>
                     </div>
                     <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
-                      <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
-                      <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Dismissed')" class="icon-trash fleft" style="width: 90px;"></a>
-                      <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"> </a>
-                      <a data-dismiss="modal" (click)="updateAvailableCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"> </a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Dismissed')" class="icon-trash fleft" style="width: 90px;"></a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"> </a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"> </a>
                     </div>
                     <div *ngIf="caseDetails.Status =='Dismissed'" class="col-sm-9">
-                      <a data-dismiss="modal" (click)="updateDismissedCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
-                      <a data-dismiss="modal" (click)="updateDismissedCasesStatus(caseDetails.id ,'Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"> </a>
-                      <a data-dismiss="modal"(click)="updateDismissedCasesStatus(caseDetails.id ,'Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"> </a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"></a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"> </a>
+                      <a data-dismiss="modal"(click)="updateCaseStatus(caseDetails.id ,'Dismissed','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"> </a>
                     </div>
                     <div *ngIf="caseDetails.Status =='Submitted'" class="col-sm-9">
-                      <a data-dismiss="modal" (click)="updateSubmittedCasesStatus(caseDetails.id ,'Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"></a>
+                      <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Submitted','Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"></a>
                     </div>
                   </div>
                 </div>
@@ -163,9 +164,9 @@
                                     <!--<td>{{item.Status}}</td>-->
                                     <td>
             
-                                        <a (click)="updateOpenCasesStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
-                                        <a (click)="updateOpenCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5"> </a>
-                                        <a (click)="updateOpenCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5"> </a>
+                                        <a (click)="updateCaseStatus(item.id ,'Assigned', 'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
+                                        <a (click)="updateCaseStatus(item.id ,'Assigned','Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5"> </a>
+                                        <a (click)="updateCaseStatus(item.id ,'Assigned','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5"> </a>
                                         <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o fright" style="width:25%;" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
@@ -219,10 +220,10 @@
                                     <td>{{item.CountyofDeath}}</td>
                                     <!--<td>{{item.Status}}</td>-->
                                     <td>
-                                        <a (click)="updateAvailableCasesStatus(item.id ,'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
-                                        <a (click)="updateAvailableCasesStatus(item.id ,'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
-                                        <a (click)="updateAvailableCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
-                                        <a (click)="updateAvailableCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
+                                        <a (click)="updateCaseStatus(item.id ,'Available', 'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
+                                        <a (click)="updateCaseStatus(item.id ,'Available', 'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
+                                        <a (click)="updateAvailableCasesStatus(item.id ,'Available', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
+                                        <a (click)="updateAvailableCasesStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
                                         <!--<a [routerLink]="['/case', item.id]"><span class="icon-edit fleft   margin_l5"></span></a>-->
                                         <!--Not allowed for Available cases <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> -->
             
@@ -283,9 +284,9 @@
                           <!--<td>{{item.Status}} </td>-->
                           <td>
                             <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
-                            <a (click)="updateDismissedCasesStatus(item.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
-                            <a (click)="updateDismissedCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                            <a (click)="updateDismissedCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Assigned')" class="icon-accept fleft   margin_l25"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
                           </td>
                         </tr>
                       </tbody>
@@ -340,9 +341,9 @@
                                     <!--<td>{{item.Status}} </td>-->
                                     <td>
                                         <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
-                                        <a (click)="updateSubmittedCasesStatus(item.id ,'Assigned')" class="icon-accept fleft   margin_l25"> </a>
-                                        <a (click)="updateSubmittedCasesStatus(item.id ,'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
-                                        <a (click)="updateSubmittedCasesStatus(item.id ,'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
+                                        <a (click)="updateCaseStatus(item.id , 'Submitted', 'Assigned')" class="icon-accept fleft   margin_l25"> </a>
+                                        <a (click)="updateCaseStatus(item.id ,'Submitted', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"> </a>
+                                        <a (click)="updateCaseStatus(item.id ,'Submitted', 'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"> </a>
                                     </td>
                                 </tr>
                             </tbody>
