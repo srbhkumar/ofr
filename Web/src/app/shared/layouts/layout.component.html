@@ -9,7 +9,7 @@
           <li class="nav-item active">
             <a class="nav-link"  [routerLink]="['/dashboard']">Dashboard <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" [routerLink]="['/protected']">Case</a>
           </li>
           <li class="nav-item">
@@ -17,11 +17,11 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Help</a>
-          </li>
+          </li> -->
         </ul>
         <form class="form-inline mt-2 mt-md-0">
          <!--Temporary method for logging out. Not an ideal solution.-->
-         <a class="icon-logout" (click)="logout()"></a>
+         <a class="logout" style="color:#0275d8" (click)="logout()">Logout</a>
     <!--      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Logout</button>  -->
         </form>
       </div>

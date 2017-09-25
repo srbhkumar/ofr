@@ -1,7 +1,7 @@
 {
     "b2cTenant": "ofrdev.onmicrosoft.com",
-    "b2cClientId": "b132f819-f134-4418-98e3-97d09be72856",
+    "b2cClientId": "4e5a4ada-8071-4d07-b0f9-c84713cd40c3",
     "b2cPolicy": "B2C_1_sign-in-policy",
     "b2cScopes": ["https://ofrdev.onmicrosoft.com/api/case"],
-    "rootUrl": "http://localhost:62913/api"
+    "rootUrl": "https://ofr-api.azurewebsites.net/api"
 }
