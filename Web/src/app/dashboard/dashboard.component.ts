@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
     public currentSubmittedCasePage: number;
     public currentOpenCaseCount: number;
     public currentAvailableCaseCount: number;
-    public currentDismissedCaseCount: number = 20;
+    public currentDismissedCaseCount: number;
     public currentSubmittedCaseCount: number;
 
 
