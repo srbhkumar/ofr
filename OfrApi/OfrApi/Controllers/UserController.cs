@@ -41,6 +41,8 @@ namespace OfrApi.Controllers
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     operation.Telemetry.Success = true;
                     var groups = await new UserDal().GetGroupsById(id);
+                    if (string.IsNullOrEmpty(groups))
+                        return Request.CreateResponse(HttpStatusCode.TemporaryRedirect, "User has access to no jurisidictions.\nContact the administrator to gain access");
                     groups = EncryptionService.Encrypt(groups);
                     return Request.CreateResponse(HttpStatusCode.OK, groups);
                 }
