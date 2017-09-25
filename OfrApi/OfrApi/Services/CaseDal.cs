@@ -161,6 +161,7 @@ namespace OfrApi.Services
             UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
             feedOptions)
             .Where(c => (c.Status == status.ToString() && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]))))
+            .OrderBy(c => c.Data["DateofDeath"])
             .Take(skipCount + takeCount)
             .ToArray()
             .Skip(skipCount);

@@ -26,7 +26,9 @@ export class CaseViewModel
 
 export class Dashboard
 {
-    cases:Case[];
+    total: number;
+    cases: Case[];
+    page: number;
 }
 
 

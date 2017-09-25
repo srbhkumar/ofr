@@ -6,12 +6,12 @@ import { CaseReportComponent } from './caseReport/caseReport.component';
 import { FilterPipe } from '../shared/directives/searchPipe';
 import { Overlay } from 'angular2-modal';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
-import { Popup } from 'ng2-opd-popup';
 import { Case } from '../shared/models/caseModel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { NotificationsService } from 'angular2-notifications';
-
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 
 
@@ -25,20 +25,24 @@ import { NotificationsService } from 'angular2-notifications';
 
 export class DashboardComponent implements OnInit {
     show: boolean;
-    public data: Array<any> = [];
-    public OpenCasesdata: Array<any> = [];
-    public AvailableCasesdata: Array<any> = [];
-    public DismissedCasesdata: Array<any> = [];
-    public SubmittedCasesdata: Array<any> = [];
-    public currentOpenCasePage: number;
-    public currentAvailableCasePage: number;
-    public currentDismissedCasePage: number;
-    public currentSubmittedCasePage: number;
+    public OpenObserve: Observable<Array<any>>;
+    public AvailableObserve: Observable<Array<any>>;
+    public SubmittedObserve: Observable<Array<any>>;
+    public DismissedObserve: Observable<Array<any>>;
+    public currentOpenCasePage: number = 1;
+    public currentAvailableCasePage: number = 1;
+    public currentDismissedCasePage: number = 1;
+    public currentSubmittedCasePage: number = 1 ;
+    public currentOpenCaseCount: number = 0;
+    public currentAvailableCaseCount: number = 0;
+    public currentDismissedCaseCount: number = 0;
+    public currentSubmittedCaseCount: number = 0 ;
+
+
     public status: string;
     public caseId: string;
     public caseDetails: Case;
-    public page: number = 1; //SK remove it, just for testing
-    public totalPage: number = 15; //SK remove it, just for testing
+
 
     //  public rows:Array<any> = [];  
 
@@ -58,7 +62,7 @@ export class DashboardComponent implements OnInit {
         position: ['right', 'bottom']
     };
 
-    constructor(private dataService: DataService, private zone: NgZone, private popup: Popup, private notificationsService: NotificationsService) {
+    constructor(private dataService: DataService, private zone: NgZone, private notificationsService: NotificationsService) {
         this.show = false;
         this.status = "loading";
 
@@ -71,10 +75,10 @@ export class DashboardComponent implements OnInit {
         this.dataService.getAccess()
             .then(() => instance.dataService.getGroups()
                 .then(() => {
-                    instance.paginationOpenCasesData(1);
-                    instance.paginationAvailableCasesData(1);
-                    instance.paginationDismissedData(1);
-                    instance.paginationSubmittedData(1);
+                    instance.paginationOpenCasesData(this.currentOpenCasePage)
+                    instance.paginationAvailableCasesData(this.currentAvailableCasePage)
+                    instance.paginationDismissedData(this.currentDismissedCasePage)
+                    instance.paginationSubmittedData(this.currentSubmittedCasePage)
                     instance.status = "active"
                 }));
 
@@ -90,23 +94,6 @@ export class DashboardComponent implements OnInit {
             .then(resp => this.showDetails(resp)).//then(resp => console.log(this.caseDetails))/* turn the please wait popup into the real display */
             catch(error => console.error(error));
 
-        //code to style the modal popup
-        this.popup.options = {
-            header: "Case Details",
-            color: "#0275d8", // red, blue....
-            widthProsentage: 60, // The with of the popou measured by browser width
-            animationDuration: 0.5, // in seconds, 0 = no animation
-            showButtons: true, // You can hide this in case you want to use custom buttons
-            confirmBtnContent: "OK", // The text on your confirm button
-            cancleBtnContent: "Cancel", // the text on your cancel button
-            confirmBtnClass: "btn btn-default", // your class for styling the confirm button
-            cancleBtnClass: "btn btn-default", // you class for styling the cancel button
-            animation: "fadeInDown" // 'fadeInLeft', 'fadeInRight', 'fadeInUp', 'bounceIn','bounceInDown'
-        };
-
-        this.popup.show(this.popup.options);
-        //this.popup.show()
-
     }
 
     showDetails(caseData: Case): Case {
@@ -121,26 +108,26 @@ export class DashboardComponent implements OnInit {
         this.show = !this.show;
     }
 
-    dashBoardResponse(resp: Dashboard): void {
-        for (let item in resp.cases) {
-            let caseItem: any;
-            caseItem = resp.cases[item];
-            console.log(caseItem.DrugsInSystem);
+    // dashBoardResponse(resp: Dashboard): void {
+    //     for (let item in resp.cases) {
+    //         let caseItem: any;
+    //         caseItem = resp.cases[item];
+    //         console.log(caseItem.DrugsInSystem);
 
-            this.data.push({
-                'id': caseItem.id,
-                'OCME': caseItem.OCME,
-                'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
-                'DateofDeath': caseItem.Data['DateofDeath'],
-                'CauseofDeath': caseItem.Data['CauseofDeath'],
-                'CountyofDeath': caseItem.Data['CountyofDeath'],
-                'Flagged': caseItem.Flagged,
-                'Status': caseItem.Status,
-                'DrugsInSystem': caseItem.DrugsInSystem
-            });
-        }
+    //         this.data.push({
+    //             'id': caseItem.id,
+    //             'OCME': caseItem.OCME,
+    //             'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
+    //             'DateofDeath': caseItem.Data['DateofDeath'],
+    //             'CauseofDeath': caseItem.Data['CauseofDeath'],
+    //             'CountyofDeath': caseItem.Data['CountyofDeath'],
+    //             'Flagged': caseItem.Flagged,
+    //             'Status': caseItem.Status,
+    //             'DrugsInSystem': caseItem.DrugsInSystem
+    //         });
+    //     }
 
-    }
+    // }
 
 
     StatusChangeNotification(): any {
@@ -160,17 +147,17 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-
-    dashBoardOpenCasesResponse(resp: Dashboard): void {
-        for (let item in resp.cases) {
+    dashboardHelper(respCases: Array<any>): Observable<Array<any>>{
+        var tempData = [];
+        for (let item in respCases) {
             console.log(item);
             let caseItem: any;
-            caseItem = resp.cases[item];
+            caseItem = respCases[item];
             if (caseItem.DrugsInSystem) {
                 var DrugInSystemArray = (caseItem.DrugsInSystem);
                 // console.log(caseItem.DrugsInSystem);
             }
-            this.OpenCasesdata.push({
+            tempData.push({
                 'id': caseItem.id,
                 'OCME': caseItem.OCME,
                 'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
@@ -183,66 +170,31 @@ export class DashboardComponent implements OnInit {
 
             });
         }
+        return Observable.of(tempData);
+    }
 
+
+    dashBoardOpenCasesResponse(resp: Dashboard): void {
+        this.currentOpenCaseCount = resp.total;
+        this.OpenObserve = this.dashboardHelper(resp.cases);
     }
 
 
     dashBoardAvailableCasesResponse(resp: Dashboard): void {
-        for (let item in resp.cases) {
-            console.log(item);
-            let caseItem: any;
-            caseItem = resp.cases[item];
-            this.AvailableCasesdata.push({
-                'id': caseItem.id,
-                'OCME': caseItem.OCME,
-                'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
-                'DateofDeath': caseItem.Data['DateofDeath'],
-                'CauseofDeath': caseItem.Data['CauseofDeath'],
-                'CountyofDeath': caseItem.Data['CountyofDeath'],
-                'Flagged': caseItem.Flagged,
-                'Status': caseItem.Status
-            });
-        }
-
+        this.currentAvailableCaseCount = resp.total;
+        this.AvailableObserve = this.dashboardHelper(resp.cases);
     }
 
     dashBoardDismissedCasesResponse(resp: Dashboard): void {
-        for (let item in resp.cases) {
-            console.log(item);
-            let caseItem: any;
-            caseItem = resp.cases[item];
-            this.DismissedCasesdata.push({
-                'id': caseItem.id,
-                'OCME': caseItem.OCME,
-                'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
-                'DateofDeath': caseItem.Data['DateofDeath'],
-                'CauseofDeath': caseItem.Data['CauseofDeath'],
-                'CountyofDeath': caseItem.Data['CountyofDeath'],
-                'Flagged': caseItem.Flagged,
-                'Status': caseItem.Status
-            });
-        }
+        this.currentDismissedCaseCount = resp.total;
+        this.DismissedObserve = this.dashboardHelper(resp.cases);
 
     }
 
 
     dashBoardSubmittedCasesResponse(resp: Dashboard): void {
-        for (let item in resp.cases) {
-            console.log(item);
-            let caseItem: any;
-            caseItem = resp.cases[item];
-            this.SubmittedCasesdata.push({
-                'id': caseItem.id,
-                'OCME': caseItem.OCME,
-                'ResidentJurisdiction': caseItem.Data['ResidentJurisdiction'],
-                'DateofDeath': caseItem.Data['DateofDeath'],
-                'CauseofDeath': caseItem.Data['CauseofDeath'],
-                'CountyofDeath': caseItem.Data['CountyofDeath'],
-                'Flagged': caseItem.Flagged,
-                'Status': caseItem.Status
-            });
-        }
-
+        this.currentSubmittedCaseCount = resp.total;
+        this.SubmittedObserve = this.dashboardHelper(resp.cases);
     }
 
     // updateStatus(caseId: string, newStatus: string): void {
@@ -264,149 +216,35 @@ export class DashboardComponent implements OnInit {
 
     // }
 
-
-    updateOpenCasesStatus(caseId: string, newStatus: string): void {
+    updateCaseStatus(caseId:string, oldStatus: string, newStatus: string):void{
         this.status = "loading";
         this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged") {
-                this.OpenCasesdata.find(item => item.id == caseId).Flagged = true;
-                this.popup.hide();
-            }
-            else if (newStatus == "Unflagged") {
-                this.OpenCasesdata.find(item => item.id == caseId).Flagged = false;
-                this.popup.hide();
-            }
-            else {
-                this.OpenCasesdata.find(item => item.id == caseId).Status = newStatus;
-                //alert("Successfully Moved to Dismissed Cases");
-                this.paginationOpenCasesData(this.currentOpenCasePage);
+            if(oldStatus == "Dismissed" || newStatus == "Dismissed")
                 this.paginationDismissedData(this.currentDismissedCasePage);
-                this.popup.hide();
-                this.StatusChangeNotification();
-            }
-            // location.reload(true);
-            this.status = "active";
-        });
-
-
-    }
-
-
-    updateAvailableCasesStatus(caseId: string, newStatus: string): void {
-        this.status = "loading";
-        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged") {
-                this.AvailableCasesdata.find(item => item.id == caseId).Flagged = true;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-            }
-            else if (newStatus == "Unflagged") {
-                this.AvailableCasesdata.find(item => item.id == caseId).Flagged = false;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-            }
-            else {
-                this.AvailableCasesdata.find(item => item.id == caseId).Status = newStatus;
-                if (newStatus == "Assigned") {
-                    this.paginationAvailableCasesData(this.currentAvailableCasePage);
-                    this.paginationOpenCasesData(this.currentOpenCasePage);
-                }
-                else {
-                    this.paginationAvailableCasesData(this.currentAvailableCasePage);
-                    this.paginationDismissedData(this.currentDismissedCasePage);
-                }
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-                this.StatusChangeNotification();
-            }
-            // location.reload(true);
-            this.status = "active";
-        });
-
-
-    }
-
-
-    updateDismissedCasesStatus(caseId: string, newStatus: string): void {
-        this.status = "loading";
-        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged") {
-                this.DismissedCasesdata.find(item => item.id == caseId).Flagged = true;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-            }
-            else if (newStatus == "Unflagged") {
-                this.DismissedCasesdata.find(item => item.id == caseId).Flagged = false;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-            }
-            else {
-                this.DismissedCasesdata.find(item => item.id == caseId).Status = newStatus;
-                this.paginationDismissedData(this.currentDismissedCasePage);
-                this.paginationOpenCasesData(this.currentOpenCasePage);
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-                this.StatusChangeNotification();
-            }
-            // location.reload(true);
-            this.status = "active";
-        });
-
-
-    }
-
-
-    updateSubmittedCasesStatus(caseId: string, newStatus: string): void {
-        this.status = "loading";
-        this.dataService.updateCaseStatus(caseId, newStatus).then(res => {
-            if (newStatus == "Flagged") {
-                this.SubmittedCasesdata.find(item => item.id == caseId).Flagged = true;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-            }
-            else if (newStatus == "Unflagged") {
-                this.SubmittedCasesdata.find(item => item.id == caseId).Flagged = false;
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-
-            }
-            else {
-                this.SubmittedCasesdata.find(item => item.id == caseId).Status = newStatus;
+            if(oldStatus == "Submitted" || newStatus == "Submitted")
                 this.paginationSubmittedData(this.currentSubmittedCasePage);
+            if(oldStatus == "Assigned" || newStatus == "Assigned")
                 this.paginationOpenCasesData(this.currentOpenCasePage);
-                if (this.popup) {
-                    this.popup.hide();//Code for hiding the popup.
-                }
-                this.StatusChangeNotification();
-                //code to reload the new status table
-            }
-            // location.reload(true);
+            if(oldStatus == "Available" || newStatus == "Available")
+                this.paginationAvailableCasesData(this.currentAvailableCasePage);
+            this.StatusChangeNotification();
             this.status = "active";
-        });
-
+            });
 
     }
 
 
-    fillDashboard(): void {
-        this.dataService.getOpenCases(this.page).then(d => {
-            this.dashBoardResponse(d);
-        });
-        this.dataService.getAvailableCases(this.page).then(d => {
-            this.dashBoardResponse(d);
-        });
-        this.dataService.getDismissedCases(this.page).then(d => {
-            this.dashBoardResponse(d);
-        });
-    }
+    // fillDashboard(): void {
+    //     this.dataService.getOpenCases(this.page).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });
+    //     this.dataService.getAvailableCases(this.page).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });
+    //     this.dataService.getDismissedCases(this.page).then(d => {
+    //         this.dashBoardResponse(d);
+    //     });
+    // }
 
     // paginationData(event): void {
     //     this.clearDashboard();
@@ -432,61 +270,30 @@ export class DashboardComponent implements OnInit {
 
 
     paginationOpenCasesData(event): void {
-        this.clearOpenCasesDashboard();
         this.currentOpenCasePage = event;
-        console.log(this.currentOpenCasePage);
         this.dataService.getOpenCases(event).then(d => {
             this.dashBoardOpenCasesResponse(d);
         });
     }
 
     paginationAvailableCasesData(event): void {
-        this.clearAvailableCasesDashboard();
         this.currentAvailableCasePage = event;
-        console.log(this.currentAvailableCasePage);
         this.dataService.getAvailableCases(event).then(d => {
             this.dashBoardAvailableCasesResponse(d);
         });
     }
 
     paginationDismissedData(event): void {
-        this.clearDismissedCasesDashboard();
         this.currentDismissedCasePage = event;
-        console.log(this.currentDismissedCasePage);
         this.dataService.getDismissedCases(event).then(d => {
             this.dashBoardDismissedCasesResponse(d);
         });
     }
 
     paginationSubmittedData(event): void {
-        this.clearSubmittedCasesDashboard();
         this.currentSubmittedCasePage = event;
-        console.log(this.currentSubmittedCasePage);
         this.dataService.getSubmittedCases(event).then(d => {
             this.dashBoardSubmittedCasesResponse(d);
         });
-    }
-
-
-
-
-    clearDashboard(status?: any): void {
-        this.data = [];
-    }
-
-    clearOpenCasesDashboard(status?: any): void {
-        this.OpenCasesdata = [];
-    }
-
-    clearDismissedCasesDashboard(status?: any): void {
-        this.DismissedCasesdata = [];
-    }
-
-    clearAvailableCasesDashboard(status?: any): void {
-        this.AvailableCasesdata = [];
-    }
-
-    clearSubmittedCasesDashboard(status?: any): void {
-        this.SubmittedCasesdata = [];
     }
 }
