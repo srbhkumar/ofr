@@ -1,5 +1,5 @@
 <!--<Code for Popup>-->
-<div id="caseDetailsPopup" class="modal">
+<div id="caseDetailsPopup" class="modal fade">
     <div class="modal-dialog modal-lg" role="document">
 
         <div *ngIf="caseDetails">
@@ -155,8 +155,7 @@
                 <tbody>
                     <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:5, currentPage: currentOpenCasePage, id : 'open', totalItems:currentOpenCaseCount }">
                         <!--<td><a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
-                        <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
-                                id={{item.id}}>{{item.OCME}}</a></td>
+                        <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <!--<td><button md-button (click)="openDialog()">{{item.OCME}}</button></td>-->
                         <td>{{item.ResidentJurisdiction}}</td>
                         <td>{{item.DateofDeath}}</td>
@@ -352,9 +351,6 @@
                     </tr>
                 </tbody>
             </table>
-
         </div>
-
-
     </div>
 </div>
