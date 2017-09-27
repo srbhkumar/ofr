@@ -27,6 +27,7 @@ namespace OfrApi.Services
             string primarykey = WebConfigurationManager.AppSettings["DocumentPrimaryKey"];
 
             Client = new DocumentClient(new Uri(endpoint), primarykey);
+            _userDal = new UserDal();
         }
 
         public Case GetCaseById(string id, HttpRequestMessage request)
@@ -85,7 +86,7 @@ namespace OfrApi.Services
 
         public void SubmitCase(string id, HttpRequestMessage request)
         {
-            var username = UserDal.GetUserNameFromHeader(request);
+            var username = _userDal.GetUserNameFromHeader(request);
            
       
             var feedOptions = new FeedOptions
@@ -172,6 +173,7 @@ namespace OfrApi.Services
                 cases = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
+                .Where(c => c.Status == status.ToString())
                 .OrderBy(c => c.Data["DateofDeath"])
                 .Take(skipCount + takeCount)
                 .ToArray()
@@ -253,7 +255,7 @@ namespace OfrApi.Services
 
         public int GetCaseCount(CaseStatus status, HttpRequestMessage request)
         {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
+            List<string> jurisdictions = _userDal.GetGroupsFromHeader(request);
             var feedOptions = new FeedOptions
             {
                 EnableCrossPartitionQuery = true,

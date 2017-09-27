@@ -104,7 +104,14 @@
 <div class="row">
     <div class="col-md-6 col-sm-6 pull-left mainheading"></div>
     <div class="col-md-6 col-sm-6 ">
+        
         <div class="pull-right btn-Case-Report"> <button type="button" (click)="onToggle(show)" class="btn btn-sm btn-primary">Case Report </button></div>
+        <div class="pull-right" style="margin-right: 2%;">
+            <label class="btn btn-sm btn-primary">
+                <input type="file" style="display: none;" multiple="true" (change)="fileChange($event)" accept=".csv">
+                <span>Upload Ocme</span>
+            </label>
+        </div>
     </div>
 </div>
 <div id=caseReport *ngIf="show">

@@ -17,6 +17,7 @@ using System.Web.Http;
 
 namespace OfrApi.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/ocme")]
     public class OCMEController : BaseController
     {
@@ -51,6 +52,7 @@ namespace OfrApi.Controllers
 
         public OCMEController()
         {
+            _userDal = new UserDal();
             _caseDal = new CaseDal();
             _templateDal = new TemplateDal();
             _blobDal = new BlobStorageDal();
