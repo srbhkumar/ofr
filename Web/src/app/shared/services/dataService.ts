@@ -119,7 +119,6 @@ export class DataService {
 
     public uploadFiles(files: Array<any>)
     {
-        debugger;
         let headers = new Headers();
         this.appendToken();
         if (files.length > 0) {

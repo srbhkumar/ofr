@@ -205,6 +205,7 @@
     <Compile Include="Interfaces\IBlobStorageDal.cs" />
     <Compile Include="Services\FileStorageException.cs" />
     <Compile Include="Services\HeaderMap.cs" />
+    <Compile Include="Interfaces\ITemplateDal.cs" />
     <Compile Include="Services\TemplateDal.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">

@@ -48,15 +48,20 @@ namespace OfrApi.Controllers
         }
 
         private ICaseDal _caseDal;
-        private TemplateDal _templateDal;
+        public ICaseDal CaseDal
+        {
+            get { return _caseDal ?? (_caseDal = new CaseDal()); }
+            set { _caseDal = value; }
+        }
+        private ITemplateDal _templateDal;
+        public ITemplateDal TemplateDal
+        {
+            get { return _templateDal ?? (_templateDal = new TemplateDal()); }
+            set { _templateDal = value;  }
+        }
 
         public OCMEController()
         {
-            _userDal = new UserDal();
-            _caseDal = new CaseDal();
-            _templateDal = new TemplateDal();
-            _blobDal = new BlobStorageDal();
-            TelClient = new TelemetryClient();
         }
 
         [HttpPost, Route("upload"), AllowAnonymous]
@@ -87,7 +92,7 @@ namespace OfrApi.Controllers
                 try
                 {
                     fileName = CopyFileToBlob(fileName);
-                    ocmeData = _blobDal.DownloadBlob(fileName);
+                    ocmeData = BlobDal.DownloadBlob(fileName);
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     operation.Telemetry.Url = Request.RequestUri;
 
@@ -95,14 +100,14 @@ namespace OfrApi.Controllers
                     ParseAndUpload(ocmeData);
 
 
-                    _blobDal.MoveFileToProcessed(fileName);
+                    BlobDal.MoveFileToProcessed(fileName);
                     return Request.CreateResponse(HttpStatusCode.OK);
 
 
                 }
                 catch (Exception ex)
                 {
-                    _blobDal.MoveFileToPoison(fileName);
+                    BlobDal.MoveFileToPoison(fileName);
                     return HandleExceptions(ex, operation, Request);
                 }
 
@@ -111,7 +116,7 @@ namespace OfrApi.Controllers
         [HttpPost, Route("upload/web")]
         public async Task<HttpResponseMessage> Upload()
         {
-            var groups = _userDal.GetGroupsFromHeader(Request);
+            var groups = UserDal.GetGroupsFromHeader(Request);
             if (!groups.Contains("Admin"))
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, "You do not have permission to upload files.");
             using (var operation = this.TelClient.StartOperation<RequestTelemetry>("UploadFromSite"))
@@ -131,14 +136,14 @@ namespace OfrApi.Controllers
                         operation.Telemetry.Url = Request.RequestUri;
                         var buffer = await file.ReadAsByteArrayAsync();
                         var contents = System.Text.Encoding.UTF8.GetString(buffer);
-                        filename = _blobDal.UploadFromText("ocme" + DateTime.Now.ToString(@"yyyy-MM-dd"), contents);
+                        filename = BlobDal.UploadFromText("ocme" + DateTime.Now.ToString(@"yyyy-MM-dd"), contents);
                         ParseAndUpload(contents);
-                        _blobDal.MoveFileToProcessed(filename);
+                        BlobDal.MoveFileToProcessed(filename);
                     }
                     catch (Exception ex)
                     {
                         if (!string.IsNullOrEmpty(filename))
-                            _blobDal.MoveFileToPoison(filename);
+                            BlobDal.MoveFileToPoison(filename);
                         return HandleExceptions(ex, operation, Request);
                     }
                 }
@@ -167,7 +172,7 @@ namespace OfrApi.Controllers
             var header = new List<string>(entries[0].Split(','));
             entries.RemoveAt(0);
 
-            var template = _templateDal.GetCurrentTemplate();
+            var template = template.GetCurrentTemplate();
             foreach (string entry in entries)
             {
                 //Removes commas from fields that are enclosed in quotes
@@ -181,7 +186,7 @@ namespace OfrApi.Controllers
                 tempCase.Status = CaseStatus.Available.ToString();
                 tempCase.Template = template;
                 tempCase.UpdatedOn = DateTime.Now;
-                _caseDal.UploadCase(tempCase);
+                CaseDal.UploadCase(tempCase);
 
             }
         }
