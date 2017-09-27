@@ -75,11 +75,11 @@ export class DashboardComponent implements OnInit {
         this.dataService.getAccess()
             .then(() => instance.dataService.getGroups()
                 .then(() => {
-                    instance.paginationOpenCasesData(this.currentOpenCasePage)
-                    instance.paginationAvailableCasesData(this.currentAvailableCasePage)
-                    instance.paginationDismissedData(this.currentDismissedCasePage)
-                    instance.paginationSubmittedData(this.currentSubmittedCasePage)
-                    instance.status = "active"
+                    instance.paginationOpenCasesData(this.currentOpenCasePage);
+                    instance.paginationAvailableCasesData(this.currentAvailableCasePage);
+                    instance.paginationDismissedData(this.currentDismissedCasePage);
+                    instance.paginationSubmittedData(this.currentSubmittedCasePage);
+                    instance.status = "active";
                 }));
 
     }
@@ -102,6 +102,16 @@ export class DashboardComponent implements OnInit {
     }
 
 
+    fileChange(event){
+        var confirmationString = "Confirm that you intend to upload files:\n";
+        for (let file of event.target.files) {
+            confirmationString = confirmationString + file.name + "\n";
+        }
+
+        if (confirm(confirmationString) == true) {
+            this.dataService.uploadFiles(event.target.files);
+        }
+    }
 
     onToggle(show: boolean): void {
 
