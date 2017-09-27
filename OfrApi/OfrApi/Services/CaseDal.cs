@@ -31,7 +31,7 @@ namespace OfrApi.Services
 
         public Case GetCaseById(string id, HttpRequestMessage request)
         {
-            List<string> jurisdictions = _userDal.GetGroupsFromHeader(request);
+            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
             
             var feedOptions = new FeedOptions
             {

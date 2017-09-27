@@ -172,7 +172,7 @@ namespace OfrApi.Controllers
             var header = new List<string>(entries[0].Split(','));
             entries.RemoveAt(0);
 
-            var template = template.GetCurrentTemplate();
+            var template = TemplateDal.GetCurrentTemplate();
             foreach (string entry in entries)
             {
                 //Removes commas from fields that are enclosed in quotes
