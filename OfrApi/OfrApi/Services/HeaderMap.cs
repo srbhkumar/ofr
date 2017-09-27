@@ -10,17 +10,17 @@ namespace OfrApi.Services
     {
         public static Case MapToCase(List<string> header, List<string> fields)
         {
-            var caseId = header.IndexOf("﻿CaseNum");
-            var jurisdiction = header.IndexOf("Incident County");
-            var residence = header.IndexOf("Res County");
+            var caseId = header.IndexOf("﻿CASENUM");
+            var jurisdiction = header.IndexOf("INCIDENT_COUNTY");
+            var residence = header.IndexOf("RES_COUNTY");
             var dod = header.IndexOf("DATE_OF_DEATH");
-            var dob = header.IndexOf("Date Of Birth");
-            var mod = header.IndexOf("Manner");
-            var race = header.IndexOf("Race/ethnicity");
+            var dob = header.IndexOf("DATE_OF_BIRTH");
+            var mod = header.IndexOf("MANNER");
+            var race = header.IndexOf("RACE_ETHNICITY");
             var cod = header.IndexOf("CODICD");
-            var aad = header.IndexOf("Age");
-            var yod = header.IndexOf("Year_Of_Death");
-            var gender = header.IndexOf("Gender");
+            var aad = header.IndexOf("AGE");
+            var yod = header.IndexOf("YEAR_OF_DEATH");
+            var gender = header.IndexOf("GENDER");
 
             //Creates a list of all drugs with a value of 1
             //Based on the assumption that acetaminophen and 
