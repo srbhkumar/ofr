@@ -130,7 +130,7 @@ export class DataService {
         headers.set('Accept', 'text/csv');
         let options = new RequestOptions({ headers: headers });
         this.httppost<string>(`/ocme/upload/web`, formData)
-            .then(res => {alert("Succesfully Uploaded File")})
+            .then(res => {alert("Successfully Uploaded File")})
             .catch(this.handleError);
         }
     }
