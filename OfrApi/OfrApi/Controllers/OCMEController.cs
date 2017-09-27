@@ -59,9 +59,11 @@ namespace OfrApi.Controllers
             get { return _templateDal ?? (_templateDal = new TemplateDal()); }
             set { _templateDal = value;  }
         }
+        
 
         public OCMEController()
         {
+            TelClient = new TelemetryClient();
         }
 
         [HttpPost, Route("upload"), AllowAnonymous]
