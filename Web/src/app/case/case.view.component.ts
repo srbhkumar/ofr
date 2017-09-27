@@ -4,6 +4,7 @@ import { Template, CaseViewModel, TemplateField, Case } from '../shared/models/c
 import { DataService } from '../shared/services/dataService';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/map';
 import { PingCase } from '../shared/models/pingcase';
 import { NotificationsService } from 'angular2-notifications';
 
@@ -23,6 +24,7 @@ export class CaseComponent implements OnInit {
     field1: Object;
 
     caseForm: FormGroup;
+    rec2SetVal: string;
 
     interval: any;
     pingCase: PingCase;
@@ -70,14 +72,10 @@ export class CaseComponent implements OnInit {
     ngOnInit(): void {
 
         this.caseId = this.route.snapshot.params['id'];
-        console.log(this.caseId);
-
         //this.NotifyActiveUsers(this.caseId, this.userName); //This is Temporarily commented out for demo by Mike. We can restore it later/
         this.service.getCaseInformation(this.caseId).then(
             resp => {
                 this.getTemplateInformation(resp);
-                console.log("Template" + resp)
-
             });
 
 
@@ -161,15 +159,13 @@ export class CaseComponent implements OnInit {
                     OnChange: this.onChange.bind(this)
 
                 };
-                console.log("Temp" + t.Name);
-
             });
-           
+
 
 
     }
 
-    
+
     initializeFormControls(): void {
         this.caseForm = this.formBuilder.group({
             "NameofReviewer": ["Reviewer 1", Validators.required],
@@ -270,21 +266,59 @@ export class CaseComponent implements OnInit {
             "CaseRecommendations1Target": ["", Validators.required],
             "CaseRecommendations1Agency": ["", Validators.required],
             "CaseRecommendations1Party": ["", Validators.required],
-            "CaseRecommendations2": ["", Validators.compose([Validators.required, Validators.maxLength(250)])],
-            "CaseRecommendations2Category": ["", Validators.required],
-            "CaseRecommendations2Target": ["", Validators.required],
-            "CaseRecommendations2Agency": ["", Validators.required],
-            "CaseRecommendations2Party": ["", Validators.required],
-            "CaseRecommendations3": ["", Validators.compose([Validators.required, Validators.maxLength(250)])],
-            "CaseRecommendations3Category": ["", Validators.required],
-            "CaseRecommendations3Target": ["", Validators.required],
-            "CaseRecommendations3Agency": ["", Validators.required],
-            "CaseRecommendations3Party": ["", Validators.required],
+            "CaseRecommendations2": ["", Validators.nullValidator],
+            "CaseRecommendations2Category": ["", Validators.nullValidator],
+            "CaseRecommendations2Target": ["", Validators.nullValidator],
+            "CaseRecommendations2Agency": ["", Validators.nullValidator],
+            "CaseRecommendations2Party": ["", Validators.nullValidator],
+            "CaseRecommendations3": ["", Validators.nullValidator],
+            "CaseRecommendations3Category": ["", Validators.nullValidator],
+            "CaseRecommendations3Target": ["", Validators.nullValidator],
+            "CaseRecommendations3Agency": ["", Validators.nullValidator],
+            "CaseRecommendations3Party": ["", Validators.nullValidator],
             "BHAReview": ["", Validators.nullValidator],
             "BHAFollowup": ["", Validators.maxLength(280)]
 
 
         });
+
+        this.caseForm.get('CaseRecommendations2').valueChanges.subscribe(
+            (value: string) => {
+                if (value != null) {
+                    if (value !== "") {
+                        this.caseForm.get('CaseRecommendations2Category').setValidators(Validators.required);
+                        this.caseForm.get('CaseRecommendations2Target').setValidators(Validators.required);
+                        this.caseForm.get('CaseRecommendations2Agency').setValidators(Validators.required);
+                        this.caseForm.get('CaseRecommendations2Party').setValidators(Validators.required);
+                    }
+                    else {
+                        this.caseForm.get('CaseRecommendations2Category').setValidators(Validators.nullValidator);
+                        this.caseForm.get('CaseRecommendations2Target').setValidators(Validators.nullValidator);
+                        this.caseForm.get('CaseRecommendations2Agency').setValidators(Validators.nullValidator);
+                        this.caseForm.get('CaseRecommendations2Party').setValidators(Validators.nullValidator);
+                    }
+                }
+            })
+        
+
+        this.caseForm.get('CaseRecommendations3').valueChanges.subscribe(
+            (value: string) => {
+                if (value != null) {
+                    if (value !== "") {
+                        this.caseForm.get('CaseRecommendations3Category').setValidators(Validators.required);
+                        this.caseForm.get('CaseRecommendations3Target').setValidators(Validators.required);
+                        this.caseForm.get('CaseRecommendations3Agency').setValidators(Validators.required);
+                        this.caseForm.get('CaseRecommendations3Party').setValidators(Validators.required);
+                    }
+                    else {
+                        this.caseForm.get('CaseRecommendations3Category').setValidators(Validators.nullValidator);
+                        this.caseForm.get('CaseRecommendations3Target').setValidators(Validators.nullValidator);
+                        this.caseForm.get('CaseRecommendations3Agency').setValidators(Validators.nullValidator);
+                        this.caseForm.get('CaseRecommendations3Party').setValidators(Validators.nullValidator);
+                    }
+                }
+            })
+
     }
 
 
@@ -298,7 +332,6 @@ export class CaseComponent implements OnInit {
     }
 
     saveChanges(): void {
-        console.log("Saving");
         this.timeoutTag = null;
         var oldChanges = this.dataModel.changeset;
         this.dataModel.changeset = {};
@@ -366,7 +399,6 @@ export class CaseComponent implements OnInit {
         //Actual form submission/
         var i, field
         field = this.dataModel.Template.Fields;
-        console.log(this.caseForm);
         if (this.caseForm.valid) {
             this.service.submitCase(this.caseId, null).then(
                 resp => console.log(resp.Result));
@@ -383,13 +415,13 @@ export class CaseComponent implements OnInit {
                     }
 
                     if (this.dataModel.Template.Fields[i].Type.toString() == "Text") {
-                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required text field. Please make sure it's filled and is within the character limits.\n";
+                        errorMsg = errorMsg + "\"" + this.dataModel.Template.Fields[i].Description.toString() + "\" is a required text field. Please make sure it's filled and is within the character limits.\n";
                     }
                     if (this.dataModel.Template.Fields[i].Type.toString() == "TextAreaBig") {
-                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required text field. Please make sure it's filled and is within the character limits.\n";
+                        errorMsg = errorMsg + "\"" + this.dataModel.Template.Fields[i].Description.toString() + "\" is a required text field. Please make sure it's filled and is within the character limits.\n";
                     }
                     else {
-                        errorMsg = errorMsg + this.dataModel.Template.Fields[i].Description.toString() + " is a required field. Please make sure it's filled.\n";
+                        errorMsg = errorMsg + "\"" + this.dataModel.Template.Fields[i].Description.toString() + "\" is a required field. Please make sure it's filled.\n";
                     }
 
                 }

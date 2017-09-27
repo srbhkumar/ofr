@@ -223,8 +223,8 @@
                         <td>
                             <a (click)="updateCaseStatus(item.id ,'Available', 'Assigned')" class="icon-accept  fleft   margin_l5"> </a>
                             <a (click)="updateCaseStatus(item.id ,'Available', 'Dismissed')" class="icon-trash  fleft   margin_l5"> </a>
-                            <a (click)="updateAvailableCasesStatus(item.id ,'Available', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
-                            <a (click)="updateAvailableCasesStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5"> </a>
                             <!--<a [routerLink]="['/case', item.id]"><span class="icon-edit fleft   margin_l5"></span></a>-->
                             <!--Not allowed for Available cases <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> -->
 
