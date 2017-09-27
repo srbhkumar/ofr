@@ -1,14 +1,10 @@
-﻿using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.Azure.Documents;
+﻿using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using OfrApi.Interfaces;
 using OfrApi.Models;
 using OfrApi.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Configuration;
@@ -18,6 +14,12 @@ namespace OfrApi.Services
     public class CaseDal : ICaseDal
     {
         public DocumentClient Client { get; protected set; }
+        private IUserDal _userDal;
+        public IUserDal UserDal
+        {
+            get { return _userDal ?? (_userDal = new UserDal()); }
+            set { _userDal = value; }
+        }
 
         public CaseDal()
         {
@@ -29,7 +31,7 @@ namespace OfrApi.Services
 
         public Case GetCaseById(string id, HttpRequestMessage request)
         {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
+            List<string> jurisdictions = _userDal.GetGroupsFromHeader(request);
             
             var feedOptions = new FeedOptions
             {
@@ -38,13 +40,21 @@ namespace OfrApi.Services
                 EnableScanInQuery = true
             };
 
-
-
-            var caseById = Client.CreateDocumentQuery<Case>(
-            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-            feedOptions)
-            .Where(c => (c.id == id && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])))).AsEnumerable().FirstOrDefault();
-
+            Case caseById;
+            if (jurisdictions.Contains("Admin"))
+            {
+                caseById = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .Where(c => c.id == id).AsEnumerable().FirstOrDefault();
+            }
+            else
+            {
+                caseById = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .Where(c => (c.id == id && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])))).AsEnumerable().FirstOrDefault();
+            }
             return caseById;
             
         }
@@ -103,7 +113,7 @@ namespace OfrApi.Services
         //Not sure about the future status of this one
         public object PingCaseById(string id, HttpRequestMessage request)
         {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
+            List<string> jurisdictions = _userDal.GetGroupsFromHeader(request);
             
             var username = request.Headers.GetValues("Username").First();
 
@@ -142,7 +152,7 @@ namespace OfrApi.Services
 
         public IEnumerable<Case> GetCasesByPage(int page, CaseStatus status, HttpRequestMessage request)
         {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
+            List<string> jurisdictions = _userDal.GetGroupsFromHeader(request);
             
             var pageParam = page;
             var feedOptions = new FeedOptions
@@ -156,16 +166,28 @@ namespace OfrApi.Services
 
             var skipCount = (pageParam - 1) * int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
             var takeCount = int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
-
-            var cases = Client.CreateDocumentQuery<Case>(
-            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-            feedOptions)
-            .Where(c => (c.Status == status.ToString() && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]))))
-            .OrderBy(c => c.Data["DateofDeath"])
-            .Take(skipCount + takeCount)
-            .ToArray()
-            .Skip(skipCount);
-
+            IEnumerable<Case> cases;
+            if (jurisdictions.Contains("Admin"))
+            {
+                cases = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .OrderBy(c => c.Data["DateofDeath"])
+                .Take(skipCount + takeCount)
+                .ToArray()
+                .Skip(skipCount);
+            }
+            else
+            {
+                cases = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .Where(c => (c.Status == status.ToString() && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]))))
+                .OrderBy(c => c.Data["DateofDeath"])
+                .Take(skipCount + takeCount)
+                .ToArray()
+                .Skip(skipCount);
+            }
             return cases;
    
         }
@@ -197,7 +219,7 @@ namespace OfrApi.Services
 
         public List<Case> DownloadCases(DateTime startDate, DateTime endDate, HttpRequestMessage request)
         {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
+            List<string> jurisdictions = _userDal.GetGroupsFromHeader(request);
             var end = endDate.ToString("yyyy-MM-dd");
             var start = startDate.ToString("yyyy-MM-dd");
 
@@ -208,11 +230,23 @@ namespace OfrApi.Services
                 EnableScanInQuery = true
             };
 
-            var cases = Client.CreateDocumentQuery<Case>(
-            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-            feedOptions)
-            .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])) && c.Data["DateofDeath"].CompareTo(end) <= 0 && c.Data["DateofDeath"].CompareTo(start) >= 0))
-            .ToList<Case>();
+            List<Case> cases;
+            if (jurisdictions.Contains("Admin"))
+            {
+                cases = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .Where(c => ( c.Data["DateofDeath"].CompareTo(end) <= 0 && c.Data["DateofDeath"].CompareTo(start) >= 0))
+                .ToList<Case>();
+            }
+            else
+            {
+                cases = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])) && c.Data["DateofDeath"].CompareTo(end) <= 0 && c.Data["DateofDeath"].CompareTo(start) >= 0))
+                .ToList<Case>();
+            }
 
             return cases;
         }
@@ -226,11 +260,23 @@ namespace OfrApi.Services
                 MaxItemCount = -1,
                 EnableScanInQuery = true
             };
-            var count = Client.CreateDocumentQuery<Case>(
-            UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-            feedOptions)
-            .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])) && c.Status == status.ToString()))
-            .ToList<Case>().Count;
+            int count;
+            if (jurisdictions.Contains("Admin"))
+            {
+                count = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .Where(c => c.Status == status.ToString())
+                .ToList<Case>().Count;
+            }
+            else
+            {
+                count = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"])) && c.Status == status.ToString()))
+                .ToList<Case>().Count;
+            }
             return count;
         }
     }

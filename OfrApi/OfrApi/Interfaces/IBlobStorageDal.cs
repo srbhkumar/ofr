@@ -9,5 +9,6 @@ namespace OfrApi.Interfaces
         string DownloadBlob(string fileName);
         void MoveFileToPoison(string filename);
         void MoveFileToProcessed(string filename);
+        string UploadFromText(string fileName, string source);
     }
 }
