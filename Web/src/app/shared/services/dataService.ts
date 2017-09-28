@@ -117,6 +117,24 @@ export class DataService {
         return this.httppost<OFRResponse>(`/case/${id}/submit`, data);
     }
 
+    public uploadFiles(files: Array<any>)
+    {
+        let headers = new Headers();
+        this.appendToken();
+        if (files.length > 0) {
+        let formData: FormData = new FormData();
+        for (let file of files) {
+             formData.append('files', file, file.name);
+        }
+        
+        headers.set('Accept', 'text/csv');
+        let options = new RequestOptions({ headers: headers });
+        this.httppost<string>(`/ocme/upload/web`, formData)
+            .then(res => {alert("Successfully Uploaded File")})
+            .catch(this.handleError);
+        }
+    }
+
     public updateCaseStatus(id:string, newStatus:any):Promise<OFRResponse>
     {
         return this.httppost<OFRResponse>(`/case/${id}/${newStatus}/updatestatus`, {});

@@ -58,18 +58,22 @@ namespace OfrApi.Services
             {
                 groups += "," + group.Groups[1].Value; 
             }
-            groups = groups.Substring(1, groups.Length - 1);
+            if (!string.IsNullOrEmpty(groups))
+            {
+                groups = groups.Substring(1, groups.Length - 1);
+            }
+            
 
             return groups;
         }
 
-        public static List<string> GetGroupsFromHeader(HttpRequestMessage request)
+        public List<string> GetGroupsFromHeader(HttpRequestMessage request)
         {
             var groupHeader = String.Join("",request.Headers.GetValues("GroupAccess"));
             return new List<string>(EncryptionService.Decrypt(groupHeader).Split(','));
         }
 
-        public static string GetUserNameFromHeader(HttpRequestMessage request)
+        public string GetUserNameFromHeader(HttpRequestMessage request)
         {
             return String.Join("", request.Headers.GetValues("Username"));
         }

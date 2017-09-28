@@ -10,13 +10,13 @@ namespace OfrApi.Services
     {
         public static Case MapToCase(List<string> header, List<string> fields)
         {
-            var caseId = header.IndexOf("CASENUM");
+            var caseId = header.IndexOf("﻿CASENUM");
             var jurisdiction = header.IndexOf("INCIDENT_COUNTY");
             var residence = header.IndexOf("RES_COUNTY");
             var dod = header.IndexOf("DATE_OF_DEATH");
             var dob = header.IndexOf("DATE_OF_BIRTH");
             var mod = header.IndexOf("MANNER");
-            var race = header.IndexOf("RACE");
+            var race = header.IndexOf("RACE_ETHNICITY");
             var cod = header.IndexOf("CODICD");
             var aad = header.IndexOf("AGE");
             var yod = header.IndexOf("YEAR_OF_DEATH");

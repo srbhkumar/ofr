@@ -39,6 +39,24 @@ namespace OfrApi.Services
             return blobContainer;
         }
 
+        public string UploadFromText(string fileName, string source)
+        {
+            var blockBlob = CloudBlobContainer.GetBlockBlobReference(fileName);
+            var x = 1;
+            while (blockBlob.Exists())
+            {
+                x++;
+                blockBlob = CloudBlobContainer.GetBlockBlobReference($"{fileName}_{x}");
+            }
+            blockBlob.Properties.ContentType = ContentType;
+            blockBlob.UploadText(source);
+
+            if (x > 1)
+                return $"{fileName}_{x}";
+            else
+                return fileName;
+        }
+
         public string UploadFromUri(string fileName, Uri sourceUri)
         {
             var blockBlob = CloudBlobContainer.GetBlockBlobReference($"{fileName}");

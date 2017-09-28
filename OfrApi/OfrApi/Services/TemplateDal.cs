@@ -1,18 +1,13 @@
-﻿using Microsoft.ApplicationInsights;
-using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.Azure.Documents.Client;
+﻿using Microsoft.Azure.Documents.Client;
 using OfrApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Web;
 using System.Web.Configuration;
 
 namespace OfrApi.Controllers
 {
-    public class TemplateDal
+    public class TemplateDal : ITemplateDal
     {
         public DocumentClient Client { get; protected set; }
 
