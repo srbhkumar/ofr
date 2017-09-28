@@ -22,10 +22,7 @@ export class CaseComponent implements OnInit {
     caseId: string;
     case: Case;
     field1: Object;
-
     caseForm: FormGroup;
-    rec2SetVal: string;
-
     interval: any;
     pingCase: PingCase;
     previousPingCase: PingCase;
@@ -33,7 +30,6 @@ export class CaseComponent implements OnInit {
     userName: string;
     isValid: boolean;
     isNotifyEnabled: boolean;
-
     timeoutTag: any;
 
     public options = {
