@@ -77,29 +77,29 @@ export class CaseComponent implements OnInit {
 
         //Function calls for updating CaseRecommendation2 group of controls. 
         this.caseForm.get('CaseRecommendations2').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation2(value, 'CaseRecommendations2') } });
+            (value: string) => { this.updateValidatorRecommendation2(value) });
         this.caseForm.get('CaseRecommendations2Category').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation2(value, 'CaseRecommendations2Category') } });
+            (value: string) => { this.updateValidatorRecommendation2(value)  });
         this.caseForm.get('CaseRecommendations2Target').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation2(value, 'CaseRecommendations2Target') } });
+            (value: string) => { this.updateValidatorRecommendation2(value)  });
         this.caseForm.get('CaseRecommendations2Agency').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation2(value, 'CaseRecommendations2Agency') } });
+            (value: string) => { this.updateValidatorRecommendation2(value)  });
         this.caseForm.get('CaseRecommendations2Party').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation2(value, 'CaseRecommendations2Party') } });
+            (value: string) => { this.updateValidatorRecommendation2(value) });
 
 
 
         //Function calls for updating CaseRecommendation3 group of controls. 
         this.caseForm.get('CaseRecommendations3').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation3(value, 'CaseRecommendations3') } });
+            (value: string) => { this.updateValidatorRecommendation3(value)  });
         this.caseForm.get('CaseRecommendations3Category').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation3(value, 'CaseRecommendations3Category') } });
+            (value: string) => {  this.updateValidatorRecommendation3(value)  });
         this.caseForm.get('CaseRecommendations3Target').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation3(value, 'CaseRecommendations3Target') } });
+            (value: string) => {  this.updateValidatorRecommendation3(value) });
         this.caseForm.get('CaseRecommendations3Agency').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation3(value, 'CaseRecommendations3Agency') } });
+            (value: string) => { this.updateValidatorRecommendation3(value)  });
         this.caseForm.get('CaseRecommendations3Party').valueChanges.subscribe(
-            (value: string) => { if (value != null) { this.updateValidatorRecommendation3(value, 'CaseRecommendations3Party') } });
+            (value: string) => { this.updateValidatorRecommendation3(value)  });
 
 
     }
@@ -110,17 +110,35 @@ export class CaseComponent implements OnInit {
     }
 
 
-    //SK _Update validator function for Recommendation 2 set of controls
-    updateValidatorRecommendation2(controlVal: string, controlName: string) {
+    // //SK _Update validator function for Recommendation 2 set of controls
+    // updateValidatorRecommendation2(controlVal: string, controlName: string) {
+    //     if (controlVal != null) {
+    //         var rec2ControlArray = ["CaseRecommendations2", "CaseRecommendations2Category", "CaseRecommendations2Target", "CaseRecommendations2Agency", "CaseRecommendations2Party"];
+    //         var i = rec2ControlArray.indexOf(controlName.toString());
+    //         if (i > -1) {
+    //             rec2ControlArray.splice(i, 1);
+    //         }
+    //         var length = rec2ControlArray.length;
+    //         for (var j = 0; j <= length - 1; j++) {
+    //             if (controlVal !== "") {
+    //                 this.caseForm.controls[rec2ControlArray[j]].setValidators(Validators.required);
+    //                 this.caseForm.controls[rec2ControlArray[j]].updateValueAndValidity({ emitEvent: false });
+    //             }
+    //             else {
+    //                 this.caseForm.controls[rec2ControlArray[j]].setValidators(Validators.nullValidator);
+    //                 this.caseForm.controls[rec2ControlArray[j]].updateValueAndValidity({ emitEvent: false });
+    //             }
+    //         }
+    //     }
+    // }
+
+
+    updateValidatorRecommendation2(controlVal: string) {
         if (controlVal != null) {
             var rec2ControlArray = ["CaseRecommendations2", "CaseRecommendations2Category", "CaseRecommendations2Target", "CaseRecommendations2Agency", "CaseRecommendations2Party"];
-            var i = rec2ControlArray.indexOf(controlName.toString());
-            if (i > -1) {
-                rec2ControlArray.splice(i, 1);
-            }
             var length = rec2ControlArray.length;
             for (var j = 0; j <= length - 1; j++) {
-                if (controlVal !== "") {
+                if (controlVal !== ""){
                     this.caseForm.controls[rec2ControlArray[j]].setValidators(Validators.required);
                     this.caseForm.controls[rec2ControlArray[j]].updateValueAndValidity({ emitEvent: false });
                 }
@@ -132,14 +150,11 @@ export class CaseComponent implements OnInit {
         }
     }
 
+
     //SK _Update validator function for Recommendation 2 set of controls
-    updateValidatorRecommendation3(controlVal: string, controlName: string) {
+    updateValidatorRecommendation3(controlVal: string) {
         if (controlVal != null) {
             var rec3ControlArray = ["CaseRecommendations3", "CaseRecommendations3Category", "CaseRecommendations3Target", "CaseRecommendations3Agency", "CaseRecommendations3Party"];
-            var i = rec3ControlArray.indexOf(controlName.toString());
-            if (i > -1) {
-                rec3ControlArray.splice(i, 1);
-            }
             var length = rec3ControlArray.length;
             for (var j = 0; j <= length - 1; j++) {
                 if (controlVal !== "") {
