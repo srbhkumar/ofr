@@ -80,29 +80,29 @@ export class CaseComponent implements OnInit {
 
         //Function calls for updating CaseRecommendation2 group of controls. 
         this.caseForm.get('CaseRecommendations2').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Category').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Target').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Agency').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Party').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
 
 
 
         //Function calls for updating CaseRecommendation3 group of controls. 
         this.caseForm.get('CaseRecommendations3').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
         this.caseForm.get('CaseRecommendations3Category').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
         this.caseForm.get('CaseRecommendations3Target').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
         this.caseForm.get('CaseRecommendations3Agency').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
         this.caseForm.get('CaseRecommendations3Party').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
 
 
     }
@@ -119,6 +119,7 @@ export class CaseComponent implements OnInit {
         for (var j = 0; j <= controlArray.length - 1; j++) {
             if (this.caseForm.controls[controlArray[j]].value) {
                 isempty = false;
+                break;
             }
         }
         for (var j = 0; j <= controlArray.length - 1; j++) {
