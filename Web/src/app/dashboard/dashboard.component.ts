@@ -10,6 +10,7 @@ import { Case } from '../shared/models/caseModel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { NotificationsService } from 'angular2-notifications';
+import {AppConfig} from '../app.config'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
@@ -37,6 +38,12 @@ export class DashboardComponent implements OnInit {
     public currentAvailableCaseCount: number = 0;
     public currentDismissedCaseCount: number = 0;
     public currentSubmittedCaseCount: number = 0 ;
+    public pageSizeOpen: number = 5;
+    public pageSizeAvailable: number = 20;
+    public pageSizeSubmitted: number = 5;
+    public pageSizeDismissed: number = 5;
+    public flagFilter: boolean = false;
+
 
 
     public status: string;
@@ -62,7 +69,7 @@ export class DashboardComponent implements OnInit {
         position: ['right', 'bottom']
     };
 
-    constructor(private dataService: DataService, private zone: NgZone, private notificationsService: NotificationsService) {
+    constructor(private dataService: DataService, private config: AppConfig, private zone: NgZone, private notificationsService: NotificationsService) {
         this.show = false;
         this.status = "loading";
 
@@ -75,6 +82,10 @@ export class DashboardComponent implements OnInit {
         this.dataService.getAccess()
             .then(() => instance.dataService.getGroups()
                 .then(() => {
+                    instance.pageSizeOpen = Number(instance.config.getConfig("pageSizeAssigned"));
+                    instance.pageSizeAvailable = Number(instance.config.getConfig("pageSizeAvailable"));
+                    instance.pageSizeSubmitted = Number(instance.config.getConfig("pageSizeSubmitted"));
+                    instance.pageSizeDismissed = Number(instance.config.getConfig("pageSizeDismissed"));
                     instance.paginationOpenCasesData(this.currentOpenCasePage);
                     instance.paginationAvailableCasesData(this.currentAvailableCasePage);
                     instance.paginationDismissedData(this.currentDismissedCasePage);
@@ -281,28 +292,28 @@ export class DashboardComponent implements OnInit {
 
     paginationOpenCasesData(event): void {
         this.currentOpenCasePage = event;
-        this.dataService.getOpenCases(event).then(d => {
+        this.dataService.getOpenCases(event, this.pageSizeOpen, this.flagFilter).then(d => {
             this.dashBoardOpenCasesResponse(d);
         });
     }
 
     paginationAvailableCasesData(event): void {
         this.currentAvailableCasePage = event;
-        this.dataService.getAvailableCases(event).then(d => {
+        this.dataService.getAvailableCases(event, this.pageSizeAvailable, this.flagFilter).then(d => {
             this.dashBoardAvailableCasesResponse(d);
         });
     }
 
     paginationDismissedData(event): void {
         this.currentDismissedCasePage = event;
-        this.dataService.getDismissedCases(event).then(d => {
+        this.dataService.getDismissedCases(event, this.pageSizeDismissed, this.flagFilter).then(d => {
             this.dashBoardDismissedCasesResponse(d);
         });
     }
 
     paginationSubmittedData(event): void {
         this.currentSubmittedCasePage = event;
-        this.dataService.getSubmittedCases(event).then(d => {
+        this.dataService.getSubmittedCases(event, this.pageSizeSubmitted, this.flagFilter).then(d => {
             this.dashBoardSubmittedCasesResponse(d);
         });
     }
