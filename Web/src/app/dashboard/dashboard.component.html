@@ -160,7 +160,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:5, currentPage: currentOpenCasePage, id : 'open', totalItems:currentOpenCaseCount }">
+                    <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:pageSizeOpen, currentPage: currentOpenCasePage, id : 'open', totalItems:currentOpenCaseCount }">
                         <!--<td><a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                         <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
                         <!--<td><button md-button (click)="openDialog()">{{item.OCME}}</button></td>-->
@@ -218,7 +218,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of AvailableObserve |async |  paginate : { itemsPerPage:5, currentPage:currentAvailableCasePage, id : 'available', totalItems:currentAvailableCaseCount } ">
+                    <tr *ngFor="let item of AvailableObserve |async |  paginate : { itemsPerPage:pageSizeAvailable, currentPage:currentAvailableCasePage, id : 'available', totalItems:currentAvailableCaseCount } ">
                         <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
                         <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
                                 id={{item.id}}>{{item.OCME}}</a></td>
@@ -282,7 +282,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of DismissedObserve| async |  paginate : { itemsPerPage:5, currentPage:currentDismissedCasePage, id : 'dismissed', totalItems : currentDismissedCaseCount} ">
+                    <tr *ngFor="let item of DismissedObserve| async |  paginate : { itemsPerPage:pageSizeSubmitted, currentPage:currentDismissedCasePage, id : 'dismissed', totalItems : currentDismissedCaseCount} ">
                         <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                         <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
                                 id={{item.id}}>{{item.OCME}}</a></td>
@@ -340,7 +340,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:5, currentPage:currentSubmittedCasePage, id : 'submitted', totalItems : currentSubmittedCaseCount} ">
+                    <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:pageSizeDismissed, currentPage:currentSubmittedCasePage, id : 'submitted', totalItems : currentSubmittedCaseCount} ">
                         <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                         <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
                                 id={{item.id}}>{{item.OCME}}</a></td>

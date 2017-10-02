@@ -10,6 +10,7 @@ import { Case } from '../shared/models/caseModel';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2PaginationModule } from 'ng2-pagination';
 import { NotificationsService } from 'angular2-notifications';
+import {AppConfig} from '../app.config'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
@@ -37,6 +38,10 @@ export class DashboardComponent implements OnInit {
     public currentAvailableCaseCount: number = 0;
     public currentDismissedCaseCount: number = 0;
     public currentSubmittedCaseCount: number = 0 ;
+    public pageSizeOpen: number = 5;
+    public pageSizeAvailable: number = 20;
+    public pageSizeSubmitted: number = 5;
+    public pageSizeDismissed: number = 5;
 
 
     public status: string;
@@ -62,7 +67,7 @@ export class DashboardComponent implements OnInit {
         position: ['right', 'bottom']
     };
 
-    constructor(private dataService: DataService, private zone: NgZone, private notificationsService: NotificationsService) {
+    constructor(private dataService: DataService, private config: AppConfig, private zone: NgZone, private notificationsService: NotificationsService) {
         this.show = false;
         this.status = "loading";
 
@@ -75,6 +80,10 @@ export class DashboardComponent implements OnInit {
         this.dataService.getAccess()
             .then(() => instance.dataService.getGroups()
                 .then(() => {
+                    instance.pageSizeOpen = Number(instance.config.getConfig("pageSizeAssigned"));
+                    instance.pageSizeAvailable = Number(instance.config.getConfig("pageSizeAvailable"));
+                    instance.pageSizeSubmitted = Number(instance.config.getConfig("pageSizeSubmitted"));
+                    instance.pageSizeDismissed = Number(instance.config.getConfig("pageSizeDismissed"));
                     instance.paginationOpenCasesData(this.currentOpenCasePage);
                     instance.paginationAvailableCasesData(this.currentAvailableCasePage);
                     instance.paginationDismissedData(this.currentDismissedCasePage);
