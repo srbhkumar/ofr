@@ -31,9 +31,7 @@ constructor(
  ngOnInit():void
     {
        
-      this.caseId = this.route.snapshot.params['id'];
-   
-     console.log(this.caseId);             
+      this.caseId = this.route.snapshot.params['id'];           
     }
 
 

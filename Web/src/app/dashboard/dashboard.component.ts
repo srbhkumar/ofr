@@ -99,7 +99,6 @@ export class DashboardComponent implements OnInit {
     //@ViewChild('popup1') popup: Popup;
     openDialog(event: any) {
         // show the "please wait" popup
-        console.log(event);
         this.caseId = event.srcElement.id;
         this.dataService.getCaseInformation(this.caseId)
             .then(resp => this.showDetails(resp)).//then(resp => console.log(this.caseDetails))/* turn the please wait popup into the real display */
@@ -171,7 +170,6 @@ export class DashboardComponent implements OnInit {
     dashboardHelper(respCases: Array<any>): Observable<Array<any>>{
         var tempData = [];
         for (let item in respCases) {
-            console.log(item);
             let caseItem: any;
             caseItem = respCases[item];
             if (caseItem.DrugsInSystem) {

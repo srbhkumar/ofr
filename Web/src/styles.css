@@ -109,19 +109,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 }
 
 
-.tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: RoyalBlue;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-}
 
 .icon-trash {
     background:url('~/assets/images/cross.png') no-repeat right top;
@@ -181,6 +168,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   color: #156397;
   font-size: 25px;
   width: 35px;
+}
+
+.fa-times {
+  color: #156397;
+  cursor: pointer;
+  font-size: 25px;
+  width: 35px;
+  padding-left: 25px;
 }
 .nav-link {
     display: block;
