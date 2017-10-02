@@ -224,74 +224,52 @@ namespace OfrApi.Controllers
         //Get api/case/page/1/submitted
         [HttpGet]
         [Route("page/{number}/submitted")]
-        public HttpResponseMessage GetSubmittedPage(int number)
+        public HttpResponseMessage GetSubmittedPage(int number, int size = 5, bool flaggedOnly = false)
         {
-            return GetPageByType(number, CaseStatus.Submitted, Request);
+            return GetPageByType(number, CaseStatus.Submitted, size, flaggedOnly,  Request);
         }
 
         //Get api/case/page/1/dismissed
         [HttpGet]
         [Route("page/{number}/dismissed")]
-        public HttpResponseMessage GetDismissedPage(int number)
+        public HttpResponseMessage GetDismissedPage(int number, int size = 5, bool flaggedOnly = false)
         {
-            return GetPageByType(number, CaseStatus.Dismissed, Request);
+            return GetPageByType(number, CaseStatus.Dismissed, size, flaggedOnly, Request);
         }
 
         //Get api/case/page/1/available
         [HttpGet]
         [Route("page/{number}/available")]
-        public HttpResponseMessage GetAvailablePage(int number)
+        public HttpResponseMessage GetAvailablePage(int number, int size = 5, bool flaggedOnly = false)
         {
-            return GetPageByType(number, CaseStatus.Available, Request);
+            return GetPageByType(number, CaseStatus.Available,size,  flaggedOnly, Request);
         }
 
         //Get api/case/page/1/open
         [HttpGet]
         [Route("page/{number}/open")]
-        public HttpResponseMessage GetOpenPage(int number)
+        public HttpResponseMessage GetOpenPage(int number, int size = 5, bool flaggedOnly = false)
         {
-            return GetPageByType(number, CaseStatus.Assigned, Request);
-        }
-        
-        //Get api/case/count/Open
-        [HttpGet]
-        [Route("count/{status}")]
-        public HttpResponseMessage GetCaseCount(string status)
-        {
-            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("GetCaseCount" + status))
-            {
-                operation.Telemetry.ResponseCode = "200";
-                operation.Telemetry.Url = Request.RequestUri;
-                try
-                {
-                    CaseStatus statusType;
-                    if(!Enum.TryParse(status, out statusType))
-                    {
-                        return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid Case Status : " + status);
-                    }
-                    return Request.CreateResponse(HttpStatusCode.OK, _caseDal.GetCaseCount(statusType, Request));
-                }
-                catch (Exception ex)
-                {
-                    return HandleExceptions(ex, operation, Request);
-                }
-            }
+            return GetPageByType(number, CaseStatus.Assigned, size, flaggedOnly, Request);
         }
 
-        private HttpResponseMessage GetPageByType(int number, CaseStatus status, HttpRequestMessage request)
+        private HttpResponseMessage GetPageByType(int number, CaseStatus status, int size, bool flaggedOnly, HttpRequestMessage request)
         {
             using (var operation = this.TelClient.StartOperation<RequestTelemetry>("Get" + status.ToString() + "CasePage"))
             {
+                if (size < 1 || number < 1)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid query parameter");
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
 
+                    var caseResponse = _caseDal.GetCasesByPage(number, status, size, flaggedOnly, request);
                     return Request.CreateResponse(HttpStatusCode.OK,
                         new
                         {
-                            total = _caseDal.GetCaseCount(status, request),
-                            cases = _caseDal.GetCasesByPage(number, status, request),
+                            total = caseResponse.Item1,
+                            cases = caseResponse.Item2.ToList(),
                             page = number
                         }, Configuration.Formatters.JsonFormatter, "application/json");
                 }
