@@ -143,8 +143,7 @@ namespace OfrApi.Services
         public Tuple<int,List<Case>> GetCasesByPage(int page, CaseStatus status, int size, bool flaggedOnly, HttpRequestMessage request)
         {
             List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            
-            var pageParam = page;
+           
             var feedOptions = new FeedOptions
             {
                 EnableCrossPartitionQuery = true,
