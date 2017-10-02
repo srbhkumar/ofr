@@ -17,7 +17,7 @@ using System.Web.Http;
 
 namespace OfrApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [RoutePrefix("api/case")]
     public class CaseController : BaseController
     {
