@@ -50,11 +50,9 @@ export class CaseFieldComponent implements OnChanges, OnInit {
     ngOnChanges(ch: SimpleChanges): void {
         if (!this.ViewModel || !this.ViewModel.Template) return;
         var fields = this.ViewModel.Template.Fields;
-        //console.log(fields);
         for (var i = 0; i < fields.length; ++i) {
             if (fields[i].Name == this.FieldName) {
                 this.Field = fields[i];
-                console.log(this.Field.Length);
                 break;
             }
         }
@@ -91,7 +89,6 @@ export class CaseFieldComponent implements OnChanges, OnInit {
             var yearOfDeath = Number(dateOfDeath.substr(0, 4));
             if (yearOfDeath > yearOfBirth) {
                 var age = yearOfDeath - yearOfBirth;
-                console.log(age);
                 this.ViewModel.changeset['AgeatDeath'] = age.toString();
                 this.ViewModel.Data['AgeatDeath'] = age.toString();
                 //make atemplate for Age or find a way to include Age in the final data getting submitted 
@@ -137,7 +134,6 @@ export class CaseFieldComponent implements OnChanges, OnInit {
             var yearOfDeath = Number(dateOfDeath.substr(0, 4));
             if (yearOfDeath > yearOfBirth) {
                 var age = yearOfDeath - yearOfBirth;
-                console.log(age);
                 this.ViewModel.changeset['AgeatDeath'] = age.toString();
                 this.ViewModel.Data['AgeatDeath'] = age.toString();
                 //make atemplate for Age or find a way to include Age in the final data getting submitted 
@@ -159,9 +155,7 @@ export class CaseFieldComponent implements OnChanges, OnInit {
     //code to update the selection in DocumentDB
     setCheckboxValue(val: number | string): void {
         this.bindModel();
-        console.log(this.ViewModel.Data[this.FieldName]);
         if (!this.ViewModel.Data[this.FieldName]) {
-            console.log(this.ViewModel.Data);
             this.ViewModel.Data[this.FieldName].property = true;
             //this.ViewModel.Data.JSON,parse();
         }
@@ -186,10 +180,7 @@ export class CaseFieldComponent implements OnChanges, OnInit {
 
     setRadioVal(val: number | string | boolean): void {
         this.bindModel();
-        console.log("radioNewVal" + typeof (val));
-        console.log("RadioCrrentVal" + this.ViewModel.Data[this.FieldName])
         var currentVal = 2;
-        console.log(currentVal);
         this.ViewModel.Data[this.FieldName] = val;
         this.ViewModel.changeset[this.FieldName] = val;
         this.ViewModel.OnChange();
