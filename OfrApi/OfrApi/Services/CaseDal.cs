@@ -155,6 +155,9 @@ namespace OfrApi.Services
 
             var skipCount = (page - 1) * size;
             var takeCount = size;
+
+            //Although these appear to be repeated queries they are done in this way because they are executed remotely (on cosmosdb) and we
+            //do not want to retrieve all cases with their full data in order to count them
             var cases = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)

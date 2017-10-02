@@ -257,6 +257,8 @@ namespace OfrApi.Controllers
         {
             using (var operation = this.TelClient.StartOperation<RequestTelemetry>("Get" + status.ToString() + "CasePage"))
             {
+                if (size < 1 || number < 1)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid query parameter");
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
