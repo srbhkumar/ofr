@@ -70,27 +70,27 @@ export class DataService {
     }
 
 
-    public getOpenCases(page:number):Promise<Dashboard>
+    public getOpenCases(page:number, size:number, flaggedOnly: boolean):Promise<Dashboard>
     {
-        return this.httpget<Dashboard>(`/case/page/${page}/open`);
+        return this.httpget<Dashboard>(`/case/page/${page}/open?flaggedOnly=${flaggedOnly}&size=${size}`);
        
     } 
 
-    public getAvailableCases(page:number):Promise<Dashboard>
+    public getAvailableCases(page:number, size:number, flaggedOnly: boolean):Promise<Dashboard>
     {
-        return this.httpget<Dashboard>(`/case/page/${page}/available`);
+        return this.httpget<Dashboard>(`/case/page/${page}/available?flaggedOnly=${flaggedOnly}&size=${size}`);
        
     } 
 
-     public getDismissedCases(page:number):Promise<Dashboard>
+     public getDismissedCases(page:number, size:number, flaggedOnly: boolean):Promise<Dashboard>
     {
-        return this.httpget<Dashboard>(`/case/page/${page}/dismissed`);
+        return this.httpget<Dashboard>(`/case/page/${page}/dismissed?flaggedOnly=${flaggedOnly}&size=${size}`);
        
     }
 
-    public getSubmittedCases(page:number):Promise<Dashboard>
+    public getSubmittedCases(page:number, size:number, flaggedOnly: boolean):Promise<Dashboard>
     {
-        return this.httpget<Dashboard>(`/case/page/${page}/submitted`);
+        return this.httpget<Dashboard>(`/case/page/${page}/submitted?flaggedOnly=${flaggedOnly}&size=${size}`);
        
     } 
     

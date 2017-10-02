@@ -140,11 +140,10 @@ namespace OfrApi.Services
  
         }
 
-        public IEnumerable<Case> GetCasesByPage(int page, CaseStatus status, HttpRequestMessage request)
+        public Tuple<int,List<Case>> GetCasesByPage(int page, CaseStatus status, int size, bool flaggedOnly, HttpRequestMessage request)
         {
             List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            
-            var pageParam = page;
+           
             var feedOptions = new FeedOptions
             {
                 EnableCrossPartitionQuery = true,
@@ -154,18 +153,27 @@ namespace OfrApi.Services
 
 
 
-            var skipCount = (pageParam - 1) * int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
-            var takeCount = int.Parse(WebConfigurationManager.AppSettings["PageSize"]);
+            var skipCount = (page - 1) * size;
+            var takeCount = size;
+
+            //Although these appear to be repeated queries they are done in this way because they are executed remotely (on cosmosdb) and we
+            //do not want to retrieve all cases with their full data in order to count them
             var cases = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
-                .Where(c => (c.Status == status.ToString() && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin"))))
+                .Where(c => (c.Status == status.ToString() && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) && (!flaggedOnly || c.Flagged)))
                 .OrderBy(c => c.Data["DateofDeath"])
                 .Take(skipCount + takeCount)
                 .ToArray()
                 .Skip(skipCount);
-            
-            return cases;
+
+            var count = Client.CreateDocumentQuery<Case>(
+                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                feedOptions)
+                .Where(c => (c.Status == status.ToString() &&(jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) &&  (!flaggedOnly || c.Flagged)))
+                .ToList<Case>().Count;
+
+            return new Tuple<int, List<Case>>(count, cases.ToList<Case>());
    
         }
 
@@ -214,23 +222,6 @@ namespace OfrApi.Services
                 .ToList<Case>();
 
             return cases;
-        }
-
-        public int GetCaseCount(CaseStatus status, HttpRequestMessage request)
-        {
-            List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            var feedOptions = new FeedOptions
-            {
-                EnableCrossPartitionQuery = true,
-                MaxItemCount = -1,
-                EnableScanInQuery = true
-            };
-            var count = Client.CreateDocumentQuery<Case>(
-                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-                feedOptions)
-                .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) && c.Status == status.ToString()))
-                .ToList<Case>().Count;
-            return count;
         }
     }
 }
