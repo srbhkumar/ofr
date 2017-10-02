@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Template, CaseViewModel, TemplateField, Case } from '../shared/models/caseModel';
 import { DataService } from '../shared/services/dataService';
@@ -31,6 +31,9 @@ export class CaseComponent implements OnInit {
     isValid: boolean;
     isNotifyEnabled: boolean;
     timeoutTag: any;
+    rec2ControlArray = ["CaseRecommendations2", "CaseRecommendations2Category", "CaseRecommendations2Target", "CaseRecommendations2Agency", "CaseRecommendations2Party"];
+    rec3ControlArray = ["CaseRecommendations3", "CaseRecommendations3Category", "CaseRecommendations3Target", "CaseRecommendations3Agency", "CaseRecommendations3Party"];
+    
 
     public options = {
         id: 2,
@@ -77,29 +80,29 @@ export class CaseComponent implements OnInit {
 
         //Function calls for updating CaseRecommendation2 group of controls. 
         this.caseForm.get('CaseRecommendations2').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation2(value) });
+            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Category').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation2(value)  });
+            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Target').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation2(value)  });
+            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Agency').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation2(value)  });
+            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Party').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation2(value) });
+            (value: string) => { this.updateValidatorRecommendation(this.rec2ControlArray) });
 
 
 
         //Function calls for updating CaseRecommendation3 group of controls. 
         this.caseForm.get('CaseRecommendations3').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation3(value)  });
+            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
         this.caseForm.get('CaseRecommendations3Category').valueChanges.subscribe(
-            (value: string) => {  this.updateValidatorRecommendation3(value)  });
+            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
         this.caseForm.get('CaseRecommendations3Target').valueChanges.subscribe(
-            (value: string) => {  this.updateValidatorRecommendation3(value) });
+            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
         this.caseForm.get('CaseRecommendations3Agency').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation3(value)  });
+            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
         this.caseForm.get('CaseRecommendations3Party').valueChanges.subscribe(
-            (value: string) => { this.updateValidatorRecommendation3(value)  });
+            (value: string) => { this.updateValidatorRecommendation(this.rec3ControlArray) });
 
 
     }
@@ -109,65 +112,21 @@ export class CaseComponent implements OnInit {
         clearInterval(this.interval);
     }
 
-
-    // //SK _Update validator function for Recommendation 2 set of controls
-    // updateValidatorRecommendation2(controlVal: string, controlName: string) {
-    //     if (controlVal != null) {
-    //         var rec2ControlArray = ["CaseRecommendations2", "CaseRecommendations2Category", "CaseRecommendations2Target", "CaseRecommendations2Agency", "CaseRecommendations2Party"];
-    //         var i = rec2ControlArray.indexOf(controlName.toString());
-    //         if (i > -1) {
-    //             rec2ControlArray.splice(i, 1);
-    //         }
-    //         var length = rec2ControlArray.length;
-    //         for (var j = 0; j <= length - 1; j++) {
-    //             if (controlVal !== "") {
-    //                 this.caseForm.controls[rec2ControlArray[j]].setValidators(Validators.required);
-    //                 this.caseForm.controls[rec2ControlArray[j]].updateValueAndValidity({ emitEvent: false });
-    //             }
-    //             else {
-    //                 this.caseForm.controls[rec2ControlArray[j]].setValidators(Validators.nullValidator);
-    //                 this.caseForm.controls[rec2ControlArray[j]].updateValueAndValidity({ emitEvent: false });
-    //             }
-    //         }
-    //     }
-    // }
-
-
-    updateValidatorRecommendation2(controlVal: string) {
-        if (controlVal != null) {
-            var rec2ControlArray = ["CaseRecommendations2", "CaseRecommendations2Category", "CaseRecommendations2Target", "CaseRecommendations2Agency", "CaseRecommendations2Party"];
-            var length = rec2ControlArray.length;
-            for (var j = 0; j <= length - 1; j++) {
-                if (controlVal !== ""){
-                    this.caseForm.controls[rec2ControlArray[j]].setValidators(Validators.required);
-                    this.caseForm.controls[rec2ControlArray[j]].updateValueAndValidity({ emitEvent: false });
-                }
-                else {
-                    this.caseForm.controls[rec2ControlArray[j]].setValidators(Validators.nullValidator);
-                    this.caseForm.controls[rec2ControlArray[j]].updateValueAndValidity({ emitEvent: false });
-                }
+    //SK _Update validator function for Recommendation 2 and Recommendation 3 set of controls
+    updateValidatorRecommendation(controlArray: string[]) {
+        var isempty = true;
+       
+        for (var j = 0; j <= controlArray.length - 1; j++) {
+            if (this.caseForm.controls[controlArray[j]].value) {
+                isempty = false;
             }
+        }
+        for (var j = 0; j <= controlArray.length - 1; j++) {
+            this.caseForm.controls[controlArray[j]].setValidators(isempty ? Validators.nullValidator : Validators.required);
+            this.caseForm.controls[controlArray[j]].updateValueAndValidity({ emitEvent: false });
         }
     }
 
-
-    //SK _Update validator function for Recommendation 2 set of controls
-    updateValidatorRecommendation3(controlVal: string) {
-        if (controlVal != null) {
-            var rec3ControlArray = ["CaseRecommendations3", "CaseRecommendations3Category", "CaseRecommendations3Target", "CaseRecommendations3Agency", "CaseRecommendations3Party"];
-            var length = rec3ControlArray.length;
-            for (var j = 0; j <= length - 1; j++) {
-                if (controlVal !== "") {
-                    this.caseForm.controls[rec3ControlArray[j]].setValidators(Validators.required);
-                    this.caseForm.controls[rec3ControlArray[j]].updateValueAndValidity({ emitEvent: false });
-                }
-                else {
-                    this.caseForm.controls[rec3ControlArray[j]].setValidators(Validators.nullValidator);
-                    this.caseForm.controls[rec3ControlArray[j]].updateValueAndValidity({ emitEvent: false });
-                }
-            }
-        }
-    }
 
     NotifyActiveUsers(caseId: string, user: string): void {
 

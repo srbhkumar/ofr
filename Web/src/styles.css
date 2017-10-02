@@ -169,6 +169,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   font-size: 25px;
   width: 35px;
 }
+
+.fa-times {
+  color: #156397;
+  cursor: pointer;
+  font-size: 25px;
+  width: 35px;
+  padding-left: 25px;
+}
 .nav-link {
     display: block;
     padding: 2px;
