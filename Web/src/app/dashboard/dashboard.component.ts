@@ -42,11 +42,8 @@ export class DashboardComponent implements OnInit {
     public pageSizeAvailable: number = 20;
     public pageSizeSubmitted: number = 5;
     public pageSizeDismissed: number = 5;
-    public openFlagFilter: boolean = false;
-    public availableFlagFilter: boolean = false;
-    public dismissedFlagFilter: boolean = false;
-    public submittedFlagFilter: boolean = false;
-    
+    public flagFilter: boolean = false;
+
 
 
     public status: string;
@@ -295,28 +292,28 @@ export class DashboardComponent implements OnInit {
 
     paginationOpenCasesData(event): void {
         this.currentOpenCasePage = event;
-        this.dataService.getOpenCases(event, this.pageSizeOpen, this.openFlagFilter).then(d => {
+        this.dataService.getOpenCases(event, this.pageSizeOpen, this.flagFilter).then(d => {
             this.dashBoardOpenCasesResponse(d);
         });
     }
 
     paginationAvailableCasesData(event): void {
         this.currentAvailableCasePage = event;
-        this.dataService.getAvailableCases(event, this.pageSizeAvailable, this.availableFlagFilter).then(d => {
+        this.dataService.getAvailableCases(event, this.pageSizeAvailable, this.flagFilter).then(d => {
             this.dashBoardAvailableCasesResponse(d);
         });
     }
 
     paginationDismissedData(event): void {
         this.currentDismissedCasePage = event;
-        this.dataService.getDismissedCases(event, this.pageSizeDismissed, this.dismissedFlagFilter).then(d => {
+        this.dataService.getDismissedCases(event, this.pageSizeDismissed, this.flagFilter).then(d => {
             this.dashBoardDismissedCasesResponse(d);
         });
     }
 
     paginationSubmittedData(event): void {
         this.currentSubmittedCasePage = event;
-        this.dataService.getSubmittedCases(event, this.pageSizeSubmitted, this.submittedFlagFilter).then(d => {
+        this.dataService.getSubmittedCases(event, this.pageSizeSubmitted, this.flagFilter).then(d => {
             this.dashBoardSubmittedCasesResponse(d);
         });
     }

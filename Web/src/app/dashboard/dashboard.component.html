@@ -124,7 +124,12 @@
         Loading....
     </div>
     <div *ngSwitchCase="'active'">
-
+    <div class="pull-right text-muted" style="font-size: 10pt">
+                            <label for="flagFilter">Show Only Flagged Cases</label>
+                            <input id="flagFilter" [(ngModel)]="flagFilter" type="checkbox" 
+                            (change)="paginationOpenCasesData(currentOpenCasePage); paginationAvailableCasesData(currentAvailableCasePage);
+                                    paginationSubmittedData(currentSubmittedCasePage); paginationDismissedData(currentDismissedCasePage);"/>
+    </div>
         <div class="table-responsive">
             <h5 class="heading"><span>Open Cases</span><span style="float:right; margin-top:-1px; padding-bottom:20px"><pagination-controls 
                         (pageChange) = "page = paginationOpenCasesData($event);" 
@@ -134,10 +139,7 @@
                         autohide = "true"
                         >
             </pagination-controls></span>
-            <div class="pull-right text-muted" style="font-size: 10pt">
-                        <label for="openFlag">Show Only Flagged Cases</label>
-                        <input id="openFlag" [(ngModel)]="openFlagFilter" type="checkbox" (change)="paginationOpenCasesData(currentOpenCasePage)"/>
-            </div>
+            
         </h5>
             
             <table class="table table-bordered table-striped table-sm mycasetable">
@@ -196,10 +198,6 @@
                         autohide = "true">
                         </pagination-controls>
                         </span>
-            <div class="pull-right text-muted" style="font-size: 10pt">
-                <label for="availableFlag">Show Only Flagged Cases</label>
-                <input id="availableFlag" [(ngModel)]="availableFlagFilter" type="checkbox" (change)="paginationAvailableCasesData(currentAvailableCasePage)"/>
-            </div>
         </h5>
         
         <div class="table-responsive">
@@ -266,10 +264,6 @@
                                            autohide="true">
                       </pagination-controls>
                     </span>
-                <div class="pull-right text-muted" style="font-size: 10pt">
-                    <label for="dismissedFlag">Show Only Flagged Cases</label>
-                    <input id="dismissedFlag" [(ngModel)]="dismissedFlagFilter" type="checkbox" (change)="paginationDismissedData(currentDismissedCasePage)"/>
-                </div>
         </h5>
         
         <div class="table-responsive">
@@ -329,10 +323,6 @@
                         autohide = "true">
                         </pagination-controls>
                     </span>
-                    <div class="pull-right text-muted" style="font-size: 10pt">
-                        <label for="submittedFlag">Show Only Flagged Cases</label>
-                        <input id="submittedFlag" [(ngModel)]="submittedFlagFilter" type="checkbox" (change)="paginationSubmittedData(currentSubmittedCasePage)"/>
-                    </div>
         </h5>
         <div class="table-responsive">
             <table class="table table-bordered table-striped mycasetable">
