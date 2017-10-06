@@ -66,7 +66,7 @@
 
 
         </div>
-<!-- To be implemented<div *ngSwitchCase="'Dropdown'">
+        <!-- To be implemented<div *ngSwitchCase="'Dropdown'">
             <select class="form-control" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
                 (input)="setValue($event.target.value)">
                 <option *ngFor="let opt of Field.Options">{{opt}}</option>
@@ -75,10 +75,8 @@
 
         </div> -->
         <div *ngSwitchCase="'Checkbox'">
-            <input type="checkbox" name="{{Field.Name}}" formControlName="{{Field.Name}}" id="case-field-{{Field.Name}}" [checked]="ViewModel.Data[Field.Name]"
-                [value]="ViewModel.Data[Field.Name]" (change)="setCheckVal($event.target.value)"><label>&nbsp; Check yes if indicated.</label>
+            <input  type="checkbox" name="{{Field.Name}}" formControlName="{{Field.Name}}" id="case-field-{{Field.Name}}" [checked]="GetCheckedValue(ViewModel.Data[Field.Name])" (change)="setCheckVal($event.target.value)"/><label>&nbsp; Check yes if indicated.</label>
             <!-- <span> {{Field.Name}} </span> -->
-
         </div>
 
         <!-- LW<small *ngIf="Field.Required && form.touched" class="text-danger">
@@ -90,21 +88,16 @@
             </div>
     </small> -->
 
-
-    <small *ngIf="(form.controls[Field.Name].invalid && form.controls[Field.Name].pristine) && (form.pristine && form.untouched)"
-            class="text-danger">
+        <div *ngIf="(!ViewModel.Data[Field.Name])">
+        <small *ngIf="(form.controls[Field.Name].invalid && form.controls[Field.Name].pristine) && (form.pristine && form.untouched)" class="text-danger">
             <div *ngIf="Field.Required">
                 <div>This is a required field.</div>
             </div>
-    </small>
-
-    <!-- <small *ngIf="form.controls[Field.Name].pristine && (form.pristine || form.untouched)" class="text-danger">
-    <div *ngIf="Field.Required">
-        <div [hidden]="form.pristine  && form.controls[Field.Name].valid">This is a required field.</div>
+        </small>
     </div>
-</small> -->
 
-    <small *ngIf="form.controls[Field.Name].invalid && (form.dirty || form.touched)" class="text-danger">
+    <div *ngIf="(!ViewModel.Data[Field.Name])">
+        <small *ngIf="form.controls[Field.Name].invalid && (form.dirty || form.touched)" class="text-danger">
             <div *ngIf="!form.controls[Field.Name].pristine">
             <div *ngIf="Field.Required">
                 <div>This is a required field.</div>
@@ -116,6 +109,7 @@
                 </div>
                 </div>
     </small>
+    </div>
 
 
 

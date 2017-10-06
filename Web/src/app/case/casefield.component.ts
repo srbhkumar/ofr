@@ -19,7 +19,8 @@ export class CaseFieldComponent implements OnChanges, OnInit {
 
     Field: TemplateField;
 
-    checkboxValue: boolean = false;
+    checkboxValue: boolean = null;
+    checkboxVal : string = 'true';
 
 
     constructor() {
@@ -28,20 +29,48 @@ export class CaseFieldComponent implements OnChanges, OnInit {
 
 
     bindModel() {
+        // var key;
+        // for (key in this.ViewModel.Data) {
+        //     if (this.ViewModel.Data.hasOwnProperty(key)) {
+        //         this.form.controls[key].setValue(this.ViewModel.Data[key]);
+        //     }
+        // }
+    }
+
+
+    bindModelonInit() {
         var key;
         for (key in this.ViewModel.Data) {
-            if (this.ViewModel.Data.hasOwnProperty(key)) {
-                this.form.controls[key].setValue(this.ViewModel.Data[key]);
+            if(this.ViewModel.Template.Fields[key]){
+            if(this.ViewModel.Template.Fields[key].Type.toString() == "Checkbox"){
+                if(this.ViewModel.Data[key]) {
+                    this.form.controls[key].valid == true;
+                    console.log(this.form.controls[key].value);
+                } 
             }
+            else{
+                if(this.ViewModel.Data[key]) {
+                    console.log("it hit here");
+                    this.form.controls[key].valid == true;
+                    console.log(this.form.controls[key]);
+                } 
+                // else {
+                //     this.form.controls[key].setValue(this.ViewModel.Data[key]);
+                // }        
         }
+        }
+    }
     }
 
     ngOnInit() {
         //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
         //Add 'implements OnInit' to the class.
-        this.bindModel(); //Its also important to bind when the form first loads, to make sure the filled controls are already in valid state when the form first loads.
+        //this.bindModel(); //Its also important to bind when the form first loads, to make sure the filled controls are already in valid state when the form first loads.
+        this.bindModelonInit();
         if (!this.ViewModel.Data[this.FieldName])
             this.ViewModel.Data[this.FieldName] = null;
+
+            
         
         
     }
@@ -53,6 +82,9 @@ export class CaseFieldComponent implements OnChanges, OnInit {
         for (var i = 0; i < fields.length; ++i) {
             if (fields[i].Name == this.FieldName) {
                 this.Field = fields[i];
+                // if(this.Field.Type == "Checkbox"){
+                // console.log((this.ViewModel.Data["Transgender"] == this.checkboxVal));
+                // }
                 break;
             }
         }
@@ -153,26 +185,29 @@ export class CaseFieldComponent implements OnChanges, OnInit {
 
 
     //code to update the selection in DocumentDB
-    setCheckboxValue(val: number | string): void {
-        this.bindModel();
-        if (!this.ViewModel.Data[this.FieldName]) {
-            this.ViewModel.Data[this.FieldName].property = true;
-            //this.ViewModel.Data.JSON,parse();
-        }
-        var p = this.ViewModel.Data[this.FieldName];
-        for (var key in p) {
-            if (key === val) {
-                p[key] = !p[key];
-            }
-        }
-        this.ViewModel.changeset[this.FieldName] = p;
-        this.ViewModel.OnChange();
+    setCheckboxValue(val: number | string): boolean {
+        if (this.ViewModel.Data[this.FieldName]=="True" || this.ViewModel.Data[this.FieldName]==true ){this.checkboxValue = true;  return this.checkboxValue }
+        else if (this.ViewModel.Data[this.FieldName]=="False" || this.ViewModel.Data[this.FieldName]==false ){this.checkboxValue = false; return this.checkboxValue}
+        else {this.checkboxValue = false; return this.checkboxValue}
     }
 
 
+    public GetCheckedValue(value : string) :boolean
+    
+    {
+
+        return value && value.toString().toLowerCase() == "true";
+    }
+
     setCheckVal(val: number | string | boolean): void {
-        this.bindModel();
-        var p = this.ViewModel.Data[this.FieldName];
+        //this.bindModel();
+        //console.log(val);
+        //console.log((this.ViewModel.Data[this.FieldName]));
+        var p;
+        if (this.ViewModel.Data[this.FieldName]=="True" || this.ViewModel.Data[this.FieldName]==true ){p = true}
+        else if (this.ViewModel.Data[this.FieldName]=="False" || this.ViewModel.Data[this.FieldName]==false ){p = false}
+        else {p = false}
+        //console.log(p);
         this.ViewModel.Data[this.FieldName] = !p;
         this.ViewModel.changeset[this.FieldName] = !p;
         this.ViewModel.OnChange();

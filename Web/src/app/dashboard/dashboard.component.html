@@ -51,7 +51,7 @@
                                         <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
                                             <a href="https://ulp.crisphealth.org/" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;">PDMP Data</a>
                                             <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 50px;">Clinical Data</a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="icon-trash fleft" style="width: 25px;height: 33px;" title="Dismiss Case"></a>
+                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="fleft" title="Dismiss Case"><i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i></a>
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;" title="Unflag Case"></a>
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id , 'Assigned', 'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;" title="Flag Case"> </a>
                                             <a data-dismiss="modal" [routerLink]="['/case', caseDetails.id]"><i class="fa fa-pencil-square-o fleft" style="width:70px; margin-left: 65px;" aria-hidden="true" title="Edit Case Form"></i></a>
@@ -59,7 +59,7 @@
                                         <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
                                             <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 60px;">Clinical Data</a>
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"  title="Accept Case"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Dismissed')" class="icon-trash fleft" style="width: 90px;"  title="Dismiss Case"></a>
+                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Dismissed')" class="fleft" style="width:25%;padding-left: 70px;"  title="Dismiss Case"><i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i></a>
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"  title="Unflag Case"> </a>
                                             <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"  title="Flag Case"> </a>
                                             
@@ -113,7 +113,7 @@
         </div>
     </div>
 </div>
-<div id=caseReport *ngIf="show">
+<div id=caseReport *ngIf="show">    
     <case-report [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
 </div>
 <div class="clear"></div>
@@ -237,9 +237,9 @@
                         <!--<td>{{item.Status}}</td>-->
                         <td>
                             <a (click)="updateCaseStatus(item.id ,'Available', 'Assigned')" class="icon-accept  fleft   margin_l5" title="Accept Case"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Available', 'Dismissed')" class=" fleft   margin_l5" title="Dismiss Case"><i class="fa fa-times" style="width:30%;padding-left: 55px;" aria-hidden="true" title="Dismiss Case"></i></a>
-                            <a (click)="updateCaseStatus(item.id ,'Available', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5" title="Unflag Case" style="width:95px;"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5" title="Flag Case" style="width:95px;"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available', 'Dismissed')" title="Dismiss Case"><i class="fa fa-times" style="padding-left: 14%;" aria-hidden="true" title="Dismiss Case"></i></a>
+                            <a (click)="updateCaseStatus(item.id ,'Available','Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5" title="Unflag Case"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5" title="Flag Case"> </a>
                             <!--<a [routerLink]="['/case', item.id]"><span class="icon-edit fleft   margin_l5"></span></a>-->
                             <!--Not allowed for Available cases <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> -->
 
@@ -348,7 +348,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:pageSizeDismissed, currentPage:currentSubmittedCasePage, id : 'submitted', totalItems : currentSubmittedCaseCount} ">
+                    <tr *ngFor="let item of DismissedObserve | async | paginate : { itemsPerPage:pageSizeDismissed, currentPage:currentDismissedCasePage, id : 'submitted', totalItems : currentDismissedCaseCount} ">
                         <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                         <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
                                 id={{item.id}}>{{item.OCME}}</a></td>

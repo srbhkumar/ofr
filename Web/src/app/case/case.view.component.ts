@@ -30,6 +30,7 @@ export class CaseComponent implements OnInit {
     userName: string;
     isValid: boolean;
     isNotifyEnabled: boolean;
+    msgHide : boolean = true;
     timeoutTag: any;
     rec2ControlArray = ["CaseRecommendations2", "CaseRecommendations2Category", "CaseRecommendations2Target", "CaseRecommendations2Agency", "CaseRecommendations2Party"];
     rec3ControlArray = ["CaseRecommendations3", "CaseRecommendations3Category", "CaseRecommendations3Target", "CaseRecommendations3Agency", "CaseRecommendations3Party"];
@@ -76,6 +77,7 @@ export class CaseComponent implements OnInit {
             resp => {
                 this.getTemplateInformation(resp);
             });
+              
 
 
         //Function calls for updating CaseRecommendation2 group of controls. 
@@ -89,6 +91,10 @@ export class CaseComponent implements OnInit {
             () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
         this.caseForm.get('CaseRecommendations2Party').valueChanges.subscribe(
             () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+        // this.caseForm.get('CaseRecommendations2PartyLocal').valueChanges.subscribe(
+        //     () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+        // this.caseForm.get('CaseRecommendations2PartyState').valueChanges.subscribe(
+        //     () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
 
 
 
@@ -114,6 +120,7 @@ export class CaseComponent implements OnInit {
 
     //SK _Update validator function for Recommendation 2 and Recommendation 3 set of controls
     updateValidatorRecommendation(controlArray: string[]) {
+
         var isempty = true;
        
         for (var j = 0; j <= controlArray.length - 1; j++) {
@@ -274,6 +281,7 @@ export class CaseComponent implements OnInit {
             "SSEnrollment": ["", Validators.nullValidator],
             "SSCrisisRecords": ["", Validators.nullValidator],
             "FamilyInterviews": ["", Validators.nullValidator],
+            "FamilyInterviewsDetails": ["", Validators.nullValidator],
             "MaritalStatus": ["", Validators.nullValidator],
             "IntimatePartnerViolence": ["", Validators.nullValidator],
             "IPVRole": ["", Validators.nullValidator],
@@ -287,6 +295,7 @@ export class CaseComponent implements OnInit {
             "EmploymentStatus": ["", Validators.nullValidator],
             "Homeless": ["", Validators.nullValidator],
             "Military": ["", Validators.nullValidator],
+            "SexWork": ["", Validators.nullValidator],
             "Institution": ["", Validators.nullValidator],
             "InstitutionOther": ["", Validators.maxLength(50)],
             "DrugExposure": ["", Validators.nullValidator],
@@ -314,6 +323,8 @@ export class CaseComponent implements OnInit {
             "CaseRecommendations2Target": ["", Validators.nullValidator],
             "CaseRecommendations2Agency": ["", Validators.nullValidator],
             "CaseRecommendations2Party": ["", Validators.nullValidator],
+            // "CaseRecommendations2PartyLocal": ["", Validators.nullValidator],
+            // "CaseRecommendations2PartyState": ["", Validators.nullValidator],
             "CaseRecommendations3": ["", Validators.nullValidator],
             "CaseRecommendations3Category": ["", Validators.nullValidator],
             "CaseRecommendations3Target": ["", Validators.nullValidator],
@@ -403,6 +414,18 @@ export class CaseComponent implements OnInit {
                 this.caseForm.controls[key].setValue(this.case.Data[key]);
             }
         }
+
+        // var key;
+        // for (key in this.case.Data) {
+        //     if(this.template.Fields[key]){
+        //         if(this.template.Fields[key].Type == "Checkbox") {
+        //             this.caseForm.controls[key].setValue(this.case.Data[key]);
+        //         } 
+        //         else {
+        //             this.caseForm.controls[key].setValue(this.case.Data[key]);
+        //         }        
+        // }
+        // }
 
         //Actual form submission/
         var i, field

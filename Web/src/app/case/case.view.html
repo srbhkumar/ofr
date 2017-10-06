@@ -1,4 +1,5 @@
 <div class="row">
+
     <div class=" col-xs-12 col-sm-12 col-lg-9 col-md-9" *ngIf="dataModel">
 
 
@@ -130,7 +131,7 @@
                     </template>
                 </ngb-panel>
 
-                <ngb-panel id="4" title="Scene of Death">
+                <ngb-panel id="4" title="Scene of Incident">
                     <template ngbPanelContent>
                         <!-- <div class="form-group">
                             <label for="example-email-input" class="col-8  col-form-label">Location Of Death Type</label>
@@ -170,7 +171,7 @@
 
                         <div class="form-group">
                             <label for="example-email-input" class="col-form-label">Who administered naloxone at the scene?</label>
-                            <div>
+                            <div style="margin-left: 25px">
                                 <case-field [form]="caseForm" FieldName="NaloxoneAdministratorBystander" [ViewModel]="dataModel"></case-field>
                                 <case-field [form]="caseForm" FieldName="NaloxoneAdministratorProfessionalFirstResponder" [ViewModel]="dataModel"></case-field>
                                 <case-field [form]="caseForm" FieldName="NaloxoneAdministratorOther" [ViewModel]="dataModel"></case-field>
@@ -417,6 +418,9 @@
                             <case-field [form]="caseForm" FieldName="FamilyInterviews" [ViewModel]="dataModel"></case-field>
                         </div>
                         <div class="form-group">
+                            <case-field [form]="caseForm" FieldName="FamilyInterviewsDetails" [ViewModel]="dataModel"></case-field>
+                        </div>
+                        <div class="form-group">
                             <case-field [form]="caseForm" FieldName="MaritalStatus" [ViewModel]="dataModel"></case-field>
                         </div>
                         <div class="form-group">
@@ -470,10 +474,13 @@
                             <case-field [form]="caseForm" FieldName="Military" [ViewModel]="dataModel"></case-field>
                         </div>
                         <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="Institution" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="SexWork" [ViewModel]="dataModel"></case-field>
                         </div>
                         <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="InstitutionOther" [ViewModel]="dataModel"></case-field>
+                            <case-field [form]="caseForm" FieldName="Institution" [ViewModel]="dataModel"></case-field>
+                        </div>
+                        <div class="form-group" style="margin-left:25px;">
+                            <case-field style="padding-left: 0px;" [form]="caseForm" FieldName="InstitutionOther" [ViewModel]="dataModel"></case-field>
                         </div>
 
                         <!-- <div class="form-group">
@@ -502,50 +509,65 @@
                         <div class="form-group">
                             <case-field [form]="caseForm" FieldName="CaseGaps3" [ViewModel]="dataModel"></case-field>
                         </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations1" [ViewModel]="dataModel"></case-field>
+                        <label><u>Recommendation #1</u></label>
+                        <div style="margin-left:25px">
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations1" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations1Category" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations1Target" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations1Agency" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations1Party" [ViewModel]="dataModel"></case-field>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations1Category" [ViewModel]="dataModel"></case-field>
+                        <label><u>Recommendation #2</u></label>
+                        <div style="margin-left:25px">
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations2" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations2Category" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations2Target" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations2Agency" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations2Party" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <!-- <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations2PartyLocal" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations2PartyState" [ViewModel]="dataModel"></case-field>
+                            </div> -->
                         </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations1Target" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations1Agency" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations1Party" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations2" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations2Category" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations2Target" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations2Agency" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations2Party" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations3" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations3Category" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations3Target" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations3Agency" [ViewModel]="dataModel"></case-field>
-                        </div>
-                        <div class="form-group">
-                            <case-field [form]="caseForm" FieldName="CaseRecommendations3Party" [ViewModel]="dataModel"></case-field>
+                        <label><u>Recommendation #3</u></label>
+                        <div style="margin-left:25px">
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations3" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations3Category" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations3Target" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations3Agency" [ViewModel]="dataModel"></case-field>
+                            </div>
+                            <div class="form-group">
+                                <case-field [form]="caseForm" FieldName="CaseRecommendations3Party" [ViewModel]="dataModel"></case-field>
+                            </div>
                         </div>
                     </template>
                 </ngb-panel>
