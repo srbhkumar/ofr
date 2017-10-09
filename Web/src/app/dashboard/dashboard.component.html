@@ -6,72 +6,50 @@
             <div class="modal-content">
 
                 <div class="modal-header" style="background-color:#2199e8">
-                    <h5 class="modal-title" style="color:white">Details for Case : {{caseDetails.OCME}}</h5>
+                    <h5 class="modal-title" style="color:white">Details for Case : {{caseDetails.OCME + "\t" + caseDetails.OCMEData["NAME_FIRST"] + " " + caseDetails.OCMEData["NAME_MIDDLE"] + " " + caseDetails.OCMEData["NAME_LAST"]}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body" style="padding-left:20px">
                     <div class="panel-group">
                         <div class="panel panel-default">
-                                <h4>OCME Details</h4>
+                            <h4>OCME Details</h4>
+                            <div style="height: 450px; overflow-y:scroll">
+                                <table class="table table-striped">
+                                <tr *ngFor="let detail of caseDetails.OCMEData | keys">                               
+                                        <td>{{detail}}</td>
+                                        <td>{{format(detail)}}</td>
+                                </tr>
+                                </table> 
+                            </div>
+                            <h4>Actions</h4>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-sm-3">OCME</div>
-                                    <div class="col-sm-9">{{caseDetails.OCME}}</div>
-                                    <div class="col-sm-3">Resident County</div>
-                                    <div class="col-sm-9">{{caseDetails.Data['ResidentJurisdiction']}}</div>
-                                    <div class="col-sm-3">Date of Death</div>
-                                    <div class="col-sm-9">{{caseDetails.Data['DateofDeath']}}</div>
-                                    <div class="col-sm-3">Cause of Death</div>
-                                    <div class="col-sm-9">{{caseDetails.Data['CauseofDeath']}}</div>
-                                    <div class="col-sm-3">Jurisdiction of Death</div>
-                                    <div class="col-sm-9">{{caseDetails.Data['CountyofDeath']}}</div>
-                                </div>
-                                <br>
-                                <h4>Applicable Drugs</h4>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <br>
-                                        <br>
-                                        <div class="col-sm-6">
-                                            <ul class="list-group" style="list-style-position: inside;">
-                                                <li *ngFor="let item of caseDetails.DrugsInSystem">
-                                                    {{item}}
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    
+                                    <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
+                                        <a href="https://ulp.crisphealth.org/" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;">PDMP Data</a>
+                                        <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 50px;">Clinical Data</a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="fleft" title="Dismiss Case"><i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;" title="Unflag Case"></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id , 'Assigned', 'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;" title="Flag Case"> </a>
+                                        <a data-dismiss="modal" [routerLink]="['/case', caseDetails.id]"><i class="fa fa-pencil-square-o fleft" style="width:70px; margin-left: 65px;" aria-hidden="true" title="Edit Case Form"></i></a>
                                     </div>
-                                </div>
-                                <br>
-                                <h4>Actions</h4>
-                                <div class="panel-body">
-                                    <div class="row">
+                                    <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
+                                        <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 60px;">Clinical Data</a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"  title="Accept Case"></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Dismissed')" class="fleft" style="width:25%;padding-left: 70px;"  title="Dismiss Case"><i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"  title="Unflag Case"> </a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"  title="Flag Case"> </a>
                                         
-                                        <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
-                                            <a href="https://ulp.crisphealth.org/" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;">PDMP Data</a>
-                                            <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 50px;">Clinical Data</a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="icon-trash fleft" style="width: 25px;height: 33px;" title="Dismiss Case"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;" title="Unflag Case"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id , 'Assigned', 'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;" title="Flag Case"> </a>
-                                            <a data-dismiss="modal" [routerLink]="['/case', caseDetails.id]"><i class="fa fa-pencil-square-o fleft" style="width:70px; margin-left: 65px;" aria-hidden="true" title="Edit Case Form"></i></a>
-                                        </div>
-                                        <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
-                                            <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 60px;">Clinical Data</a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"  title="Accept Case"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Dismissed')" class="icon-trash fleft" style="width: 90px;"  title="Dismiss Case"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"  title="Unflag Case"> </a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"  title="Flag Case"> </a>
-                                            
-                                        </div>
-                                        <div *ngIf="caseDetails.Status =='Dismissed'" class="col-sm-9">
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"  title="Accept Case"></a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"  title="Unflag Case"> </a>
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"  title="Flag Case"> </a>
-                                        </div>
-                                        <div *ngIf="caseDetails.Status =='Submitted'" class="col-sm-9">
-                                            <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Submitted','Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"  title="Move to Open Cases"></a>
-                                        </div>
+                                    </div>
+                                    <div *ngIf="caseDetails.Status =='Dismissed'" class="col-sm-9">
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"  title="Accept Case"></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"  title="Unflag Case"> </a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"  title="Flag Case"> </a>
+                                    </div>
+                                    <div *ngIf="caseDetails.Status =='Submitted'" class="col-sm-9">
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Submitted','Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"  title="Move to Open Cases"></a>
                                     </div>
                                 </div>
                             </div>

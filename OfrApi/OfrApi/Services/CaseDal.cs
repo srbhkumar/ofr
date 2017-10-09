@@ -68,15 +68,14 @@ namespace OfrApi.Services
                 UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "SetCaseStatus"),
                 new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
                 id,
-                status.ToString()
+                status.ToString(),
+                UserDal.GetUserNameFromHeader(request)
             ).Result;
                
         }
 
         public void SubmitCase(string id, HttpRequestMessage request)
         {
-            var username = UserDal.GetUserNameFromHeader(request);
-           
       
             var feedOptions = new FeedOptions
             {
@@ -95,7 +94,7 @@ namespace OfrApi.Services
                 UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "SubmitCase"),
                 new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
                 id,
-                username
+                UserDal.GetUserNameFromHeader(request)
             ).Result;
              
         }
@@ -135,7 +134,8 @@ namespace OfrApi.Services
             this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "MergeCase"),
                 new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
                 id,
-                data.Result);
+                data.Result,
+                UserDal.GetUserNameFromHeader(request));
 
  
         }

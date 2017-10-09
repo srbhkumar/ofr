@@ -315,4 +315,37 @@ export class DashboardComponent implements OnInit {
             this.dashBoardSubmittedCasesResponse(d);
         });
     }
+    format(key: any): any{
+        var data = this.caseDetails.OCMEData[key];
+        if (key.indexOf('COD') == 0){
+            switch (data){
+                case '#NULL!':
+                    return "Test not performed";
+                case '':
+                    return "N/A";
+                case "0":
+                    return "No";
+                case "1":
+                    return "Yes";
+                case "2":
+                    return "Suspected";
+                default:
+                    return data;
+            }    
+        }
+        else{
+            switch (data){
+                case '#NULL!':
+                    return "N/A";
+                case '':
+                    return "N/A";
+                case "0":
+                    return "Not Present";
+                case "1":
+                    return "Present";
+                default:
+                    return data;
+            }
+        }
+    }
 }

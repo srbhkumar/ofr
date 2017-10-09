@@ -18,6 +18,6 @@ namespace OfrApi.Models
         public List<string> DrugsInSystem { get; set; }
         public Dictionary<string, string> Data { get; set; }
         public Dictionary<string, string> OCMEData { get; set; }
-
+        public List<Tuple<string, DateTime, Dictionary<string, string>>> RecordAudit { get; set; }
     }
 }
