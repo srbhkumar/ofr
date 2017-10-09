@@ -33,6 +33,7 @@ import {DataTableModule} from "angular2-datatable";
 import {FilterPipe} from './shared/directives/searchPipe';
 //import {MdDialog, MdDialogRef} from '@angular/material';
 import { DialogRef, ModalComponent, CloseGuard, ModalModule } from 'angular2-modal';
+import {MainPipe} from './shared/pipes/main-pipe.module'
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { DialogRef, ModalComponent, CloseGuard, ModalModule } from 'angular2-mod
     SelectModule,
     SimpleNotificationsModule.forRoot(),
     DataTableModule,
-    Ng2PaginationModule
+    Ng2PaginationModule,
+    MainPipe
   ],
   providers: [LoggedInGuard, MsalService, DataService,
     AppConfig,{ provide: APP_INITIALIZER, useFactory: init_app, deps: [AppConfig], multi: true }

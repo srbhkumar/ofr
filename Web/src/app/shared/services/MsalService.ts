@@ -50,13 +50,12 @@ export class MsalService {
     }
 
     updateToken():Promise<any>{
-
-       
+        var instance: MsalService = this;
         return  this.clientApplication.acquireTokenSilent(this.tenantConfig.b2cScopes, null, this.clientApplication.getUser()).then(function (accessToken) {
                 localStorage.setItem('AccessToken', accessToken);
                 
             }, function (error) {
-                this.clientApplication.acquireTokenPopup(this.tenantConfig.b2cScopes, null, this.clientApplication.getUser()).then(function (accessToken) {
+                instance.clientApplication.acquireTokenRedirect(instance.tenantConfig.b2cScopes, null, instance.clientApplication.getUser()).then(function (accessToken) {
                     localStorage.setItem('AccessToken', accessToken);
                 }, function (error) {
 
@@ -81,11 +80,11 @@ export class MsalService {
         return oid;
     }
 
-    getUserName(): string {
+    getUsername(): string {
         var idToken = localStorage.getItem("IdToken");
         var segments = idToken.split('.');
         var payload = atob(segments[1]);
-        var username = JSON.parse(payload).name;
+        var username = JSON.parse(payload).emails[0];
         return username;
     }
 

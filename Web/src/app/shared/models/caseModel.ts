@@ -50,6 +50,7 @@ export class Case
   Flagged:boolean;
   DrugsInSystem:string[];
   Data: any;
+  OCMEData: any;
 };
 
 
