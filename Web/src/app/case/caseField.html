@@ -30,6 +30,8 @@
 
         </div>
 
+
+
         <div *ngSwitchCase="'TextAreaBig'">
             <textarea maxlength="{{Field.Length}}" class="form-control" type="text" rows="15" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]"
                 id="case-field-{{Field.Name}}" (input)="setTextValue($event.target.value)"></textarea>
@@ -66,6 +68,14 @@
 
 
         </div>
+
+
+        <!-- <div *ngSwitchCase="'MultiSelect'">
+                <select class="form-control" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
+                    (input)="setValue($event.target.value)" multiple>
+                    <option *ngFor="let opt of Field.Options">{{opt}}</option>
+                </select>
+            </div> -->
         <!-- To be implemented<div *ngSwitchCase="'Dropdown'">
             <select class="form-control" formControlName="{{Field.Name}}" [value]="ViewModel.Data[Field.Name]" id="case-field-{{Field.Name}}"
                 (input)="setValue($event.target.value)">

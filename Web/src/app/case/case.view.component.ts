@@ -30,11 +30,24 @@ export class CaseComponent implements OnInit {
     userName: string;
     isValid: boolean;
     isNotifyEnabled: boolean;
-    msgHide : boolean = true;
+    msgRaceHide : boolean = true;
+    msgRecommendation1AgencyHide: boolean = true;
+    msgRecommendation1PartyHide: boolean = true;
+    msgAgencyHide: boolean = true;
+    msgPartyHide: boolean = true;
+    recommendation2Hide = { msgAgencyHide: true, msgPartyHide: true };
+    msgRecommendation3AgencyHide: boolean = true;
+    msgRecommendation3PartyHide: boolean = true;
+    recommendation3Hide = { msgAgencyHide: true, msgPartyHide: true };
     timeoutTag: any;
-    rec2ControlArray = ["CaseRecommendations2", "CaseRecommendations2Category", "CaseRecommendations2Target", "CaseRecommendations2Agency", "CaseRecommendations2Party"];
-    rec3ControlArray = ["CaseRecommendations3", "CaseRecommendations3Category", "CaseRecommendations3Target", "CaseRecommendations3Agency", "CaseRecommendations3Party"];
-    
+
+    rec2ControlArray = ["CaseRecommendations2", "CaseRecommendations2Category", "CaseRecommendations2Target"];
+    rec3ControlArray = ["CaseRecommendations3", "CaseRecommendations3Category", "CaseRecommendations3Target"];
+    CaseRecommendations2AgencyArray = ["CaseRecommendations2AgencyLaw enforcement", "CaseRecommendations2AgencyHospital", "CaseRecommendations2AgencyHealthcare Provider", "CaseRecommendations2AgencyPharmacy", "CaseRecommendations2AgencyJudicial System", "CaseRecommendations2AgencyLocal Health Department", "CaseRecommendations2AgencyEMS", "CaseRecommendations2AgencyDetention Center", "CaseRecommendations2AgencyEducation", "CaseRecommendations2AgencyBehavioral Health"];
+    CaseRecommendations2PartyArray = ["CaseRecommendations2PartyLocal", "CaseRecommendations2PartyState"];
+    CaseRecommendations3AgencyArray = ["CaseRecommendations3AgencyLaw enforcement", "CaseRecommendations3AgencyHospital", "CaseRecommendations3AgencyHealthcare Provider", "CaseRecommendations3AgencyPharmacy", "CaseRecommendations3AgencyJudicial System", "CaseRecommendations3AgencyLocal Health Department", "CaseRecommendations3AgencyEMS", "CaseRecommendations3AgencyDetention Center", "CaseRecommendations3AgencyEducation", "CaseRecommendations3AgencyBehavioral Health"];
+    CaseRecommendations3PartyArray = ["CaseRecommendations3PartyLocal", "CaseRecommendations3PartyState"];
+
 
     public options = {
         id: 2,
@@ -77,38 +90,125 @@ export class CaseComponent implements OnInit {
             resp => {
                 this.getTemplateInformation(resp);
             });
-              
+
+
+        this.ValidateRecommendation1();
+        this.ValidateRace();
+
+
+//Function calls for Validating Race. To make them multi select
+
+        this.caseForm.get('RaceWhite').valueChanges.subscribe(
+            () => { this.ValidateRace() });
+        this.caseForm.get('RaceBlack or African American').valueChanges.subscribe(
+            () => { this.ValidateRace() });
+        this.caseForm.get('RaceAsian').valueChanges.subscribe(
+            () => { this.ValidateRace() });
+        this.caseForm.get('RaceNative Hawaiian or other Pacific Islander').valueChanges.subscribe(
+            () => { this.ValidateRace() });
+        this.caseForm.get('RaceNative Hawaiian or other Pacific Islander').valueChanges.subscribe(
+            () => { this.ValidateRace() });
+        this.caseForm.get('RaceAmerican Indian or Alaska Native').valueChanges.subscribe(
+            () => { this.ValidateRace() });
+        this.caseForm.get('RaceUnspecified race').valueChanges.subscribe(
+            () => { this.ValidateRace() });
+
+
+
+
+        //Function calls for updating CaseRecommendation1 Agency and Party  controls. To make them multi select
+
+        this.caseForm.get('CaseRecommendations1AgencyLaw enforcement').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyHospital').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyHealthcare Provider').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyPharmacy').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyJudicial System').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyLocal Health Department').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyEMS').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyDetention Center').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyEducation').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1AgencyBehavioral Health').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1PartyLocal').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
+        this.caseForm.get('CaseRecommendations1PartyState').valueChanges.subscribe(
+            () => { this.ValidateRecommendation1() });
 
 
         //Function calls for updating CaseRecommendation2 group of controls. 
         this.caseForm.get('CaseRecommendations2').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
         this.caseForm.get('CaseRecommendations2Category').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
         this.caseForm.get('CaseRecommendations2Target').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
-        this.caseForm.get('CaseRecommendations2Agency').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
-        this.caseForm.get('CaseRecommendations2Party').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
-        // this.caseForm.get('CaseRecommendations2PartyLocal').valueChanges.subscribe(
-        //     () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
-        // this.caseForm.get('CaseRecommendations2PartyState').valueChanges.subscribe(
-        //     () => { this.updateValidatorRecommendation(this.rec2ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyLaw enforcement').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyHospital').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyHealthcare Provider').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyPharmacy').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyJudicial System').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyLocal Health Department').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyEMS').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyDetention Center').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyEducation').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2AgencyBehavioral Health').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2PartyLocal').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
+        this.caseForm.get('CaseRecommendations2PartyState').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec2ControlArray, this.CaseRecommendations2AgencyArray, this.CaseRecommendations2PartyArray, this.recommendation2Hide) });
 
 
 
         //Function calls for updating CaseRecommendation3 group of controls. 
         this.caseForm.get('CaseRecommendations3').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
         this.caseForm.get('CaseRecommendations3Category').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
         this.caseForm.get('CaseRecommendations3Target').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
-        this.caseForm.get('CaseRecommendations3Agency').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
-        this.caseForm.get('CaseRecommendations3Party').valueChanges.subscribe(
-            () => { this.updateValidatorRecommendation(this.rec3ControlArray) });
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyLaw enforcement').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyHospital').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyHealthcare Provider').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyPharmacy').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyJudicial System').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyLocal Health Department').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyEMS').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyDetention Center').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyEducation').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3AgencyBehavioral Health').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3PartyLocal').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
+        this.caseForm.get('CaseRecommendations3PartyState').valueChanges.subscribe(
+            () => { this.updateValidatorRecommendation(this.rec3ControlArray, this.CaseRecommendations3AgencyArray, this.CaseRecommendations3PartyArray, this.recommendation3Hide) });
 
 
     }
@@ -118,17 +218,109 @@ export class CaseComponent implements OnInit {
         clearInterval(this.interval);
     }
 
-    //SK _Update validator function for Recommendation 2 and Recommendation 3 set of controls
-    updateValidatorRecommendation(controlArray: string[]) {
+    ValidateRecommendation1() {
+        var CaseRecommendations1AgencyArray = ["CaseRecommendations1AgencyLaw enforcement", "CaseRecommendations1AgencyHospital", "CaseRecommendations1AgencyHealthcare Provider", "CaseRecommendations1AgencyPharmacy", "CaseRecommendations1AgencyJudicial System", "CaseRecommendations1AgencyLocal Health Department", "CaseRecommendations1AgencyEMS", "CaseRecommendations1AgencyDetention Center", "CaseRecommendations1AgencyEducation", "CaseRecommendations1AgencyBehavioral Health"];
+        var CaseRecommendations1PartyArray = ["CaseRecommendations1PartyLocal", "CaseRecommendations1PartyState"];
+
+        this.msgRecommendation1AgencyHide = true;
+        this.msgRecommendation1PartyHide = true;
+        var CaseRecommendations1Agencytouched = false;
+        var CaseRecommendations1Partytouched = false;
+
+        for (var j = 0; j <= CaseRecommendations1PartyArray.length - 1; j++) {
+            console.log(typeof (this.caseForm.controls[CaseRecommendations1PartyArray[j]].value));
+            if ((this.caseForm.controls[CaseRecommendations1PartyArray[j]].value == "True") || (this.caseForm.controls[CaseRecommendations1PartyArray[j]].value == true)) {
+                this.msgRecommendation1PartyHide = true;
+                CaseRecommendations1Partytouched = true;
+            }
+            else {
+                this.msgRecommendation1PartyHide = false;
+            }
+        }
+
+        for (var j = 0; j <= CaseRecommendations1AgencyArray.length - 1; j++) {
+            if ((this.caseForm.controls[CaseRecommendations1AgencyArray[j]].value == "True") || (this.caseForm.controls[CaseRecommendations1AgencyArray[j]].value == true)) {
+                this.msgRecommendation1AgencyHide = true;
+                CaseRecommendations1Agencytouched = true;
+            }
+            else {
+                this.msgRecommendation1PartyHide = false;
+            }
+        }
+
+
+        (CaseRecommendations1Partytouched ? this.msgRecommendation1PartyHide = true : this.msgRecommendation1PartyHide = false);
+        (CaseRecommendations1Agencytouched ? this.msgRecommendation1AgencyHide = true : this.msgRecommendation1AgencyHide = false);
+
+    }
+
+
+    ValidateRace() {
+        var raceArray = ["RaceWhite", "RaceBlack or African American" , "RaceAsian" ,"RaceNative Hawaiian or other Pacific Islander" ,"RaceAmerican Indian or Alaska Native", "RaceUnspecified race"];
+
+        this.msgRaceHide = true;
+        var raceTouched;
+
+        for (var j = 0; j <= raceArray.length - 1; j++) {
+            console.log(typeof (this.caseForm.controls[raceArray[j]].value));
+            if ((this.caseForm.controls[raceArray[j]].value == "True") || (this.caseForm.controls[raceArray[j]].value == true)) {
+                this.msgRaceHide = true;
+                raceTouched = true;
+            }
+            else {
+                this.msgRaceHide = false;
+            }
+        }
+
+        (raceTouched ? this.msgRaceHide = true : this.msgRaceHide = false);
+
+    }
+
+
+    updateValidatorRecommendation(controlArray: string[], agencyArray: string[], partyArray: string[], model: any) {
+
+
+        var AgencyEmpty = true;
+        var PartyEmpty = true;
 
         var isempty = true;
-       
+        model.msgPartyHide = true;
+        model.msgAgencyHide = true;
+        var Agencytouched = false;
+        var Partytouched = false;
+
+
         for (var j = 0; j <= controlArray.length - 1; j++) {
             if (this.caseForm.controls[controlArray[j]].value) {
                 isempty = false;
                 break;
             }
         }
+
+        for (var j = 0; j <= partyArray.length - 1; j++) {
+            if ((this.caseForm.controls[partyArray[j]].value == "True") || (this.caseForm.controls[partyArray[j]].value == true)) {
+                isempty = false;
+                PartyEmpty = false;
+                model.msgPartyHide = true;
+                Partytouched = true;
+            }
+        }
+
+        for (var j = 0; j <= agencyArray.length - 1; j++) {
+            if ((this.caseForm.controls[agencyArray[j]].value == "True") || (this.caseForm.controls[agencyArray[j]].value == true)) {
+                isempty = false;
+                AgencyEmpty = false;
+                model.msgAgencyHide = true;
+                Agencytouched = true;
+            }
+        }
+
+        if (isempty == false) {
+
+            (Partytouched ? model.msgPartyHide = true : model.msgPartyHide = false);
+            (Agencytouched ? model.msgAgencyHide = true : model.msgAgencyHide = false);
+        }
+
         for (var j = 0; j <= controlArray.length - 1; j++) {
             this.caseForm.controls[controlArray[j]].setValidators(isempty ? Validators.nullValidator : Validators.required);
             this.caseForm.controls[controlArray[j]].updateValueAndValidity({ emitEvent: false });
@@ -209,6 +401,17 @@ export class CaseComponent implements OnInit {
                     OnChange: this.onChange.bind(this)
 
                 };
+            }).then(() => {
+                var key;
+                for (key in this.caseForm.controls) {
+                    if (this.case.Data.hasOwnProperty(key)) {
+                        this.caseForm.controls[key].setValue(this.case.Data[key]);
+
+                    }
+                    // else{
+                    // this.caseForm.controls[key].setValue(null);
+                    // }
+                }
             });
 
 
@@ -230,7 +433,13 @@ export class CaseComponent implements OnInit {
             "Transgender": ["", Validators.nullValidator],
             "DateofBirth": ["", Validators.required],
             "AgeatDeath": ["", Validators.required],
-            "Race": ["", Validators.required],
+            //"Race": ["", Validators.required],
+            "RaceWhite": ["", Validators.nullValidator],
+            "RaceBlack or African American": ["", Validators.nullValidator],
+            "RaceAsian": ["", Validators.nullValidator],
+            "RaceNative Hawaiian or other Pacific Islander": ["", Validators.nullValidator],
+            "RaceAmerican Indian or Alaska Native": ["", Validators.nullValidator],
+            "RaceUnspecified race": ["", Validators.nullValidator],
             "Hispanic": ["", Validators.required],
             "EMSRecords": ["", Validators.nullValidator],
             "PriorEMS": ["", Validators.nullValidator],
@@ -316,20 +525,54 @@ export class CaseComponent implements OnInit {
             "CaseRecommendations1": ["", Validators.compose([Validators.required, Validators.maxLength(250)])],
             "CaseRecommendations1Category": ["", Validators.required],
             "CaseRecommendations1Target": ["", Validators.required],
-            "CaseRecommendations1Agency": ["", Validators.required],
-            "CaseRecommendations1Party": ["", Validators.required],
+            // "CaseRecommendations1Agency": ["", Validators.required],
+            "CaseRecommendations1AgencyLaw enforcement": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyHospital": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyHealthcare Provider": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyPharmacy": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyJudicial System": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyLocal Health Department": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyEMS": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyDetention Center": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyEducation": ["", Validators.nullValidator],
+            "CaseRecommendations1AgencyBehavioral Health": ["", Validators.nullValidator],
+            // "CaseRecommendations1Party": ["", Validators.required],
+            "CaseRecommendations1PartyLocal": ["", Validators.nullValidator],
+            "CaseRecommendations1PartyState": ["", Validators.nullValidator],
             "CaseRecommendations2": ["", Validators.nullValidator],
             "CaseRecommendations2Category": ["", Validators.nullValidator],
             "CaseRecommendations2Target": ["", Validators.nullValidator],
-            "CaseRecommendations2Agency": ["", Validators.nullValidator],
-            "CaseRecommendations2Party": ["", Validators.nullValidator],
-            // "CaseRecommendations2PartyLocal": ["", Validators.nullValidator],
-            // "CaseRecommendations2PartyState": ["", Validators.nullValidator],
+            // "CaseRecommendations2Agency": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyLaw enforcement": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyHospital": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyHealthcare Provider": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyPharmacy": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyJudicial System": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyLocal Health Department": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyEMS": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyDetention Center": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyEducation": ["", Validators.nullValidator],
+            "CaseRecommendations2AgencyBehavioral Health": ["", Validators.nullValidator],
+            // "CaseRecommendations2Party": ["", Validators.nullValidator],
+            "CaseRecommendations2PartyLocal": ["", Validators.nullValidator],
+            "CaseRecommendations2PartyState": ["", Validators.nullValidator],
             "CaseRecommendations3": ["", Validators.nullValidator],
             "CaseRecommendations3Category": ["", Validators.nullValidator],
             "CaseRecommendations3Target": ["", Validators.nullValidator],
-            "CaseRecommendations3Agency": ["", Validators.nullValidator],
-            "CaseRecommendations3Party": ["", Validators.nullValidator],
+            //"CaseRecommendations3Agency": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyLaw enforcement": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyHospital": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyHealthcare Provider": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyPharmacy": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyJudicial System": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyLocal Health Department": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyEMS": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyDetention Center": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyEducation": ["", Validators.nullValidator],
+            "CaseRecommendations3AgencyBehavioral Health": ["", Validators.nullValidator],
+            //"CaseRecommendations3Party": ["", Validators.nullValidator],
+            "CaseRecommendations3PartyLocal": ["", Validators.nullValidator],
+            "CaseRecommendations3PartyState": ["", Validators.nullValidator],
             "BHAReview": ["", Validators.nullValidator],
             "BHAFollowup": ["", Validators.maxLength(280)]
 
@@ -409,33 +652,34 @@ export class CaseComponent implements OnInit {
         //SK_ Had to set the value of all the controls to make the Status of individual control and the FormGroup 'Valid'. Dont know why the angular resets the value of each control to empty, making the control and from status 'Invalid'
         //Once above line's function is achieved, just check to see if the form is valid and save the result.
         var key;
-        for (key in this.case.Data) {
+        for (key in this.caseForm.controls) {
             if (this.case.Data.hasOwnProperty(key)) {
                 this.caseForm.controls[key].setValue(this.case.Data[key]);
             }
+            // else{
+            // this.caseForm.controls[key].setValue(null);
+            // }
         }
 
-        // var key;
-        // for (key in this.case.Data) {
-        //     if(this.template.Fields[key]){
-        //         if(this.template.Fields[key].Type == "Checkbox") {
-        //             this.caseForm.controls[key].setValue(this.case.Data[key]);
-        //         } 
-        //         else {
-        //             this.caseForm.controls[key].setValue(this.case.Data[key]);
-        //         }        
-        // }
-        // }
-
         //Actual form submission/
+        var alertUser = true;
+        if ((this.recommendation2Hide.msgAgencyHide) && (this.recommendation2Hide.msgPartyHide) && (this.recommendation3Hide.msgPartyHide) && (this.recommendation3Hide.msgPartyHide) && (this.msgRecommendation1PartyHide) && (this.msgRecommendation1PartyHide)) {
+            var alertUser = false;
+        }
         var i, field
         field = this.dataModel.Template.Fields;
-        if (this.caseForm.valid) {
+
+        if (this.caseForm.valid && !alertUser  && !this.msgRaceHide) {
             this.service.submitCase(this.caseId, null).then(
                 resp => console.log(resp.Result));
             this.router.navigate(['dashboard']);
         }
 
+
+        else if (alertUser) {
+            alert("Please fill all Recommendation options.")
+        }
+            
         else {
             var errorMsg = "";
             for (i = 0; i < field.length - 1; i++) {
@@ -460,5 +704,5 @@ export class CaseComponent implements OnInit {
             alert(errorMsg);
         }
     }
-
 }
+
