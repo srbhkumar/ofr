@@ -222,19 +222,16 @@ export class CaseComponent implements OnInit {
         var CaseRecommendations1AgencyArray = ["CaseRecommendations1AgencyLaw enforcement", "CaseRecommendations1AgencyHospital", "CaseRecommendations1AgencyHealthcare Provider", "CaseRecommendations1AgencyPharmacy", "CaseRecommendations1AgencyJudicial System", "CaseRecommendations1AgencyLocal Health Department", "CaseRecommendations1AgencyEMS", "CaseRecommendations1AgencyDetention Center", "CaseRecommendations1AgencyEducation", "CaseRecommendations1AgencyBehavioral Health"];
         var CaseRecommendations1PartyArray = ["CaseRecommendations1PartyLocal", "CaseRecommendations1PartyState"];
 
-        this.msgRecommendation1AgencyHide = true;
-        this.msgRecommendation1PartyHide = true;
+        this.msgRecommendation1AgencyHide = false;
+        this.msgRecommendation1PartyHide = false;
         var CaseRecommendations1Agencytouched = false;
         var CaseRecommendations1Partytouched = false;
 
         for (var j = 0; j <= CaseRecommendations1PartyArray.length - 1; j++) {
-            console.log(typeof (this.caseForm.controls[CaseRecommendations1PartyArray[j]].value));
             if ((this.caseForm.controls[CaseRecommendations1PartyArray[j]].value == "True") || (this.caseForm.controls[CaseRecommendations1PartyArray[j]].value == true)) {
                 this.msgRecommendation1PartyHide = true;
                 CaseRecommendations1Partytouched = true;
-            }
-            else {
-                this.msgRecommendation1PartyHide = false;
+                break;
             }
         }
 
@@ -242,9 +239,7 @@ export class CaseComponent implements OnInit {
             if ((this.caseForm.controls[CaseRecommendations1AgencyArray[j]].value == "True") || (this.caseForm.controls[CaseRecommendations1AgencyArray[j]].value == true)) {
                 this.msgRecommendation1AgencyHide = true;
                 CaseRecommendations1Agencytouched = true;
-            }
-            else {
-                this.msgRecommendation1PartyHide = false;
+                break;
             }
         }
 
@@ -258,21 +253,17 @@ export class CaseComponent implements OnInit {
     ValidateRace() {
         var raceArray = ["RaceWhite", "RaceBlack or African American" , "RaceAsian" ,"RaceNative Hawaiian or other Pacific Islander" ,"RaceAmerican Indian or Alaska Native", "RaceUnspecified race"];
 
-        this.msgRaceHide = true;
+        this.msgRaceHide = false;
         var raceTouched;
 
         for (var j = 0; j <= raceArray.length - 1; j++) {
-            console.log(typeof (this.caseForm.controls[raceArray[j]].value));
             if ((this.caseForm.controls[raceArray[j]].value == "True") || (this.caseForm.controls[raceArray[j]].value == true)) {
                 this.msgRaceHide = true;
                 raceTouched = true;
-            }
-            else {
-                this.msgRaceHide = false;
+                break;
             }
         }
-
-        (raceTouched ? this.msgRaceHide = true : this.msgRaceHide = false);
+         (raceTouched ? this.msgRaceHide = true : this.msgRaceHide = false);
 
     }
 
@@ -303,6 +294,7 @@ export class CaseComponent implements OnInit {
                 PartyEmpty = false;
                 model.msgPartyHide = true;
                 Partytouched = true;
+                break;
             }
         }
 
@@ -312,6 +304,7 @@ export class CaseComponent implements OnInit {
                 AgencyEmpty = false;
                 model.msgAgencyHide = true;
                 Agencytouched = true;
+                break;
             }
         }
 
@@ -663,13 +656,13 @@ export class CaseComponent implements OnInit {
 
         //Actual form submission/
         var alertUser = true;
-        if ((this.recommendation2Hide.msgAgencyHide) && (this.recommendation2Hide.msgPartyHide) && (this.recommendation3Hide.msgPartyHide) && (this.recommendation3Hide.msgPartyHide) && (this.msgRecommendation1PartyHide) && (this.msgRecommendation1PartyHide)) {
+        if ((this.recommendation2Hide.msgAgencyHide) && (this.recommendation2Hide.msgPartyHide) && (this.recommendation3Hide.msgPartyHide) && (this.recommendation3Hide.msgPartyHide) && (this.msgRecommendation1PartyHide) && (this.msgRecommendation1AgencyHide)) {
             var alertUser = false;
         }
         var i, field
         field = this.dataModel.Template.Fields;
 
-        if (this.caseForm.valid && !alertUser  && !this.msgRaceHide) {
+        if (this.caseForm.valid && !alertUser) {
             this.service.submitCase(this.caseId, null).then(
                 resp => console.log(resp.Result));
             this.router.navigate(['dashboard']);
@@ -677,7 +670,7 @@ export class CaseComponent implements OnInit {
 
 
         else if (alertUser) {
-            alert("Please fill all Recommendation options.")
+            alert("Please fill all Recommendation fields.")
         }
             
         else {
