@@ -91,7 +91,7 @@
         </div>
     </div>
 </div>
-<div id=caseReport *ngIf="show">
+<div id=caseReport *ngIf="show">    
     <case-report [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
 </div>
 <div class="clear"></div>
@@ -215,9 +215,9 @@
                         <!--<td>{{item.Status}}</td>-->
                         <td>
                             <a (click)="updateCaseStatus(item.id ,'Available', 'Assigned')" class="icon-accept  fleft   margin_l5" title="Accept Case"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Available', 'Dismissed')" class=" fleft   margin_l5" title="Dismiss Case"><i class="fa fa-times" style="width:30%;padding-left: 55px;" aria-hidden="true" title="Dismiss Case"></i></a>
-                            <a (click)="updateCaseStatus(item.id ,'Available', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged  fleft   margin_l5" title="Unflag Case" style="width:95px;"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged  fleft   margin_l5" title="Flag Case" style="width:95px;"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available', 'Dismissed')" title="Dismiss Case"><i class="fa fa-times" style="padding-left: 14%;" aria-hidden="true" title="Dismiss Case"></i></a>
+                            <a (click)="updateCaseStatus(item.id ,'Available','Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5" title="Unflag Case"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5" title="Flag Case"> </a>
                             <!--<a [routerLink]="['/case', item.id]"><span class="icon-edit fleft   margin_l5"></span></a>-->
                             <!--Not allowed for Available cases <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> -->
 
@@ -326,7 +326,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:pageSizeDismissed, currentPage:currentSubmittedCasePage, id : 'submitted', totalItems : currentSubmittedCaseCount} ">
+                    <tr *ngFor="let item of DismissedObserve | async | paginate : { itemsPerPage:pageSizeDismissed, currentPage:currentDismissedCasePage, id : 'submitted', totalItems : currentDismissedCaseCount} ">
                         <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
                         <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
                                 id={{item.id}}>{{item.OCME}}</a></td>

@@ -152,6 +152,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
    
 }
 
+.icon-mdh {
+  
+    background:url('~/assets/images/mdh_logo.png') no-repeat right top;
+    display: block;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+   
+}
+
 .logout {
 
   color: #D80004; 
@@ -181,7 +191,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
     display: block;
     padding: 2px;
 }
-.navbar-brand{background:url('~/assets/images/Logo.png') no-repeat left top; height:30px; width:130px; }
+.navbar-brand{height:30px; width:130px; background:url('~/assets/images/mdh_logo.png') no-repeat contain left top }
+/* .navbar-brand{height:30px; width:130px; } */
 .fleft{float: left;}
 .fright{float: right;}
 .margin_l5{margin-left:15px;}
