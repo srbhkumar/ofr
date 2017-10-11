@@ -663,8 +663,7 @@ export class CaseComponent implements OnInit {
         field = this.dataModel.Template.Fields;
 
         if (this.caseForm.valid && !alertUser) {
-            this.service.submitCase(this.caseId, null).then(
-                resp => console.log(resp.Result));
+            this.service.submitCase(this.caseId, null);
             this.router.navigate(['dashboard']);
         }
 
