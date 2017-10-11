@@ -35,14 +35,11 @@ export class CaseFieldComponent implements OnChanges, OnInit {
             if(this.ViewModel.Template.Fields[key].Type.toString() == "Checkbox"){
                 if(this.ViewModel.Data[key]) {
                     this.form.controls[key].valid == true;
-                    console.log(this.form.controls[key].value);
                 } 
             }
             else{
                 if(this.ViewModel.Data[key]) {
-                    console.log("it hit here");
                     this.form.controls[key].valid == true;
-                    console.log(this.form.controls[key]);
                 } 
                 // else {
                 //     this.form.controls[key].setValue(this.ViewModel.Data[key]);
