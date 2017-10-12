@@ -642,18 +642,6 @@ export class CaseComponent implements OnInit {
 
     submit(): void {
 
-        //SK_ Had to set the value of all the controls to make the Status of individual control and the FormGroup 'Valid'. Dont know why the angular resets the value of each control to empty, making the control and from status 'Invalid'
-        //Once above line's function is achieved, just check to see if the form is valid and save the result.
-        var key;
-        for (key in this.caseForm.controls) {
-            if (this.case.Data.hasOwnProperty(key)) {
-                this.caseForm.controls[key].setValue(this.case.Data[key]);
-            }
-            // else{
-            // this.caseForm.controls[key].setValue(null);
-            // }
-        }
-
         //Actual form submission/
         var alertUser = true;
         if ((this.recommendation2Hide.msgAgencyHide) && (this.recommendation2Hide.msgPartyHide) && (this.recommendation3Hide.msgPartyHide) && (this.recommendation3Hide.msgPartyHide) && (this.msgRecommendation1PartyHide) && (this.msgRecommendation1AgencyHide)) {
@@ -662,15 +650,19 @@ export class CaseComponent implements OnInit {
         var i, field
         field = this.dataModel.Template.Fields;
 
-        if (this.caseForm.valid && !alertUser) {
+        if (this.caseForm.valid && !alertUser && this.msgRaceHide) {
             this.service.submitCase(this.caseId, null);
             this.router.navigate(['dashboard']);
         }
 
+        else if (!this.msgRaceHide) {
+            alert("Race is a required field. Please select atleast one race.")
+        }
 
         else if (alertUser) {
             alert("Please fill all Recommendation fields.")
         }
+
             
         else {
             var errorMsg = "";
