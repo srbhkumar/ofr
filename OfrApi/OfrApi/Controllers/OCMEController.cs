@@ -174,6 +174,12 @@ namespace OfrApi.Controllers
             var header = new List<string>(entries[0].Split(','));
             entries.RemoveAt(0);
 
+            //Strip whitespace from all fields in header
+            for (int i = 0; i < header.Count; i++)
+            {
+                header[i] = string.Concat(header[i].Where(c => !char.IsWhiteSpace(c)));
+            }
+
             var template = TemplateDal.GetCurrentTemplate();
             foreach (string entry in entries)
             {
