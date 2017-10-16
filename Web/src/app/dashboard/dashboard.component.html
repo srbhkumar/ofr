@@ -15,7 +15,7 @@
                     <div class="panel-group">
                         <div class="panel panel-default">
                             <h4>OCME Details</h4>
-                            <div style="height: 450px; overflow-y:scroll">
+                            <div id="ocmeContents" style="height: 450px; overflow-y:scroll">
                                 <table class="table table-striped">
                                 <tr *ngFor="let detail of caseDetails.OCMEData | keys">                               
                                         <td>{{detail}}</td>
@@ -60,8 +60,6 @@
         </div>
     </div>
 </div>
-
-
 <simple-notifications id="2" [options]="options">This is good</simple-notifications>
 
 <!--<code for Pop up ends>-->
