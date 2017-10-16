@@ -144,8 +144,8 @@ export class DataService {
         return this.httppost<PingCase>(`/case/${id}/ping`, {});
     }
 
-    public DownloadCases(startDate: string, endDate: string, type: string): Promise<string>{
-        return this.httpget<string>(`/case/download/cases?startDate=${startDate}&endDate=${endDate}&type=${type}`);
+    public DownloadCases(startDateDeath: string, endDateDeath: string, startDateReview: string, endDateReview, type: string): Promise<string>{
+        return this.httpget<string>(`/case/download/cases?startDateDeath=${startDateDeath}&endDateDeath=${endDateDeath}&startDateReview=${startDateReview}&endDateReview=${endDateReview}&type=${type}`);
         
     }
  

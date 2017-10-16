@@ -25,7 +25,8 @@ import 'rxjs/add/observable/of';
 })
 
 export class DashboardComponent implements OnInit {
-    show: boolean;
+    showReport: boolean;
+    showCensus: boolean;
     public OpenObserve: Observable<Array<any>>;
     public AvailableObserve: Observable<Array<any>>;
     public SubmittedObserve: Observable<Array<any>>;
@@ -70,7 +71,8 @@ export class DashboardComponent implements OnInit {
     };
 
     constructor(private dataService: DataService, private config: AppConfig, private zone: NgZone, private notificationsService: NotificationsService) {
-        this.show = false;
+        this.showReport = false;
+        this.showCensus = false;
         this.status = "loading";
 
 
@@ -123,9 +125,14 @@ export class DashboardComponent implements OnInit {
         }
     }
 
-    onToggle(show: boolean): void {
+    onToggleReport(show: boolean): void {
+        this.showReport = !this.showReport;
+        this.showCensus = this.showCensus ? !this.showCensus: this.showCensus;
+    }
 
-        this.show = !this.show;
+    onToggleCensus(show: boolean): void {
+        this.showCensus = !this.showCensus;
+        this.showReport = this.showReport ? !this.showReport : this.showReport;
     }
 
     // dashBoardResponse(resp: Dashboard): void {

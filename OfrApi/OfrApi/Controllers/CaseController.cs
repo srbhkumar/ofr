@@ -40,26 +40,30 @@ namespace OfrApi.Controllers
         //Get api/case
         [HttpGet]
         [Route("download/cases")]
-        public HttpResponseMessage Download(string startDate, string endDate, string type)
+        public HttpResponseMessage Download(string startDateDeath, string endDateDeath, string startDateReview, string endDateReview, string type)
         {
             using (var operation = this.TelClient.StartOperation<RequestTelemetry>("DownloadCases"))
             {
                 operation.Telemetry.Url = Request.RequestUri;
-                DateTime start;
-                DateTime end;
-                if (!DateTime.TryParse(startDate, out start))
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid start date");
-                }
+                DateTime startDeath, endDeath, startReview, endReview;
+                DateTime.TryParse(startDateDeath, out startDeath);
+                DateTime.TryParse(endDateDeath, out endDeath);
+                DateTime.TryParse(startDateReview, out startReview);
+                DateTime.TryParse(endDateReview, out endReview);
+                if (!((startDeath == DateTime.MinValue && endDeath == DateTime.MinValue) || (startReview == DateTime.MinValue && endReview == DateTime.MinValue)))
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Must specify at least one range of dates");
 
-                if (!DateTime.TryParse(endDate, out end))
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid end date");
-                }
+
+                if (endDeath == DateTime.MinValue)
+                    endDeath = DateTime.MaxValue;
+
+                if (endReview == DateTime.MinValue)
+                    endReview = DateTime.MaxValue;
+               
                 try
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    var cases = _caseDal.DownloadCases(start, end, Request);
+                    var cases = _caseDal.DownloadCases(startDeath, endDeath, startReview, endReview, Request);
                     
                     var returnFile = new StringBuilder("Status,UpdatedOn,");
                     if (cases.Count == 0)

@@ -202,11 +202,13 @@ namespace OfrApi.Services
         }
 
 
-        public List<Case> DownloadCases(DateTime startDate, DateTime endDate, HttpRequestMessage request)
+        public List<Case> DownloadCases(DateTime startDateDeath, DateTime endDateDeath, DateTime startDateReview, DateTime endDateReview, HttpRequestMessage request)
         {
             List<string> jurisdictions = UserDal.GetGroupsFromHeader(request);
-            var end = endDate.ToString("yyyy-MM-dd");
-            var start = startDate.ToString("yyyy-MM-dd");
+            var endDeath = endDateDeath.ToString("yyyy-MM-dd");
+            var startDeath = startDateDeath.ToString("yyyy-MM-dd");
+            var endReview = endDateReview.ToString("yyyy-MM-dd");
+            var startReview = startDateReview.ToString("yyyy-MM-dd");
 
             var feedOptions = new FeedOptions
             {
@@ -215,12 +217,37 @@ namespace OfrApi.Services
                 EnableScanInQuery = true
             };
 
-            var cases = Client.CreateDocumentQuery<Case>(
-                UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
-                feedOptions)
-                .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) && c.Data["DateofDeath"].CompareTo(end) <= 0 && c.Data["DateofDeath"].CompareTo(start) >= 0))
-                .ToList<Case>();
+            List<Case> cases;
 
+            if (startDateDeath != DateTime.MinValue && endDateDeath != DateTime.MinValue && startDateReview != DateTime.MinValue && endDateReview != DateTime.MinValue)
+            { 
+                cases = Client.CreateDocumentQuery<Case>(
+                    UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                    feedOptions)
+                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) && 
+                                c.Data["DateofDeath"].CompareTo(endDeath) <= 0 && c.Data["DateofDeath"].CompareTo(startDeath) >= 0 &&
+                                c.Data["DateofInitialCaseReview"].CompareTo(endReview) <= 0 && c.Data["DateofInitialCaseReview"].CompareTo(startReview) >= 0)).ToList<Case>();
+            }
+            else if(startDateDeath != DateTime.MinValue && endDateDeath != DateTime.MinValue)
+            {
+                cases = Client.CreateDocumentQuery<Case>(
+                    UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                    feedOptions)
+                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) &&
+                                c.Data["DateofDeath"].CompareTo(endDeath) <= 0 && c.Data["DateofDeath"].CompareTo(startDeath) >= 0)).ToList<Case>();
+            }
+            else if(startDateReview != DateTime.MinValue && endDateReview != DateTime.MinValue)
+            {
+                cases = Client.CreateDocumentQuery<Case>(
+                    UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
+                    feedOptions)
+                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) &&
+                                c.Data["DateofInitialCaseReview"].CompareTo(endReview) <= 0 && c.Data["DateofInitialCaseReview"].CompareTo(startReview) >= 0)).ToList<Case>();
+            }
+            else
+            {
+                cases = new List<Case>();
+            }
             return cases;
         }
     }
