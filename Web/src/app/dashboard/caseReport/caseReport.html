@@ -1,23 +1,29 @@
 
 <div id="CaseReport" class="col-md-12 fright" style="border:1px solid black; padding :15px;margin-bottom:5px;"> 
 <form [formGroup]="caseReportForm" (ngSubmit)="onSave(caseReportForm.value)" class="ui form">
+    <h3>
+        {{title}}
+    </h3>
     <div class="row">
-        <label class="col-md-1"> Start Date <span class="text-danger"> * </span> </label>
-        <input class="col-md-2 form-control input-sm" type="date" formControlName="startDate"  name="startDate" required/>
+        <label class="col-md-2"> Date of Death Start</label>
+        <input class="col-md-2 form-control input-sm" type="date" formControlName="startDateDeath"  name="startDate"/>
         
    
-     <label class="col-md-1"> End Date <span class="text-danger"> * </span> </label>
-        <input class="col-md-2 form-control input-sm" type="date"  formControlName="endDate" value="{{endDate}}" name="endDate" required/>
+     <label class="col-md-2"> Date of Death End </label>
+        <input class="col-md-2 form-control input-sm" type="date"  formControlName="endDateDeath" value="{{endDateDeath}}" name="endDate"/>
      </div>
+     <br />
+     <div class="row">
+            <label class="col-md-2"> Date of Initial Case Review Start</label>
+            <input class="col-md-2 form-control input-sm" type="date" formControlName="startDateReview"  name="startDate" />
+            
+       
+         <label class="col-md-2"> Date of Initial Case Review End</label>
+            <input class="col-md-2 form-control input-sm" type="date"  formControlName="endDateReview" value="{{endDateReview}}" name="endDate" />
+         </div>
 <p class="clearfix"></p>
      <div class="row">
       
-    
-        <label  class="col-md-1"> Report Type   </label>
-        <select class="form-control input-sm col-md-2"  formControlName="type" id="type" item-width="col-2" required>
-                <option selected>OCME</option>
-                <option>FULL</option>
-        </select>
    
             <div class="col-md-2">
                   <button type="submit"  class="btn btn-sm btn-primary ui button fleft">Download</button>  

@@ -19,6 +19,6 @@ namespace OfrApi.Interfaces
         void UpdateStatusById(string id, CaseStatus status, HttpRequestMessage request);
         void UploadCase(Case caseObj);
         void SubmitCase(string id, HttpRequestMessage request);
-        List<Case> DownloadCases(DateTime dateTime1, DateTime dateTime2, HttpRequestMessage request);
+        List<Case> DownloadCases(DateTime? startDeathDate, DateTime? endDeathDate, DateTime? startReviewDate, DateTime? endReviewDate, HttpRequestMessage request);
     }
 }

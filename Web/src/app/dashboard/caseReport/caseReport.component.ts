@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SelectModule } from 'angular2-select';
 import { FormGroup, FormControl, Validators, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from "rxjs/Observable";
@@ -14,6 +14,8 @@ let jsPDF = require('jspdf');
 })
 
 export class CaseReportComponent {  
+  @Input() type;
+  @Input() title;
   caseReportForm: FormGroup;
   
   public items:any;
@@ -27,10 +29,11 @@ export class CaseReportComponent {
   constructor(private dataService: DataService, private formBuilder : FormBuilder){
       this.date=new Date();
               this.caseReportForm = this.formBuilder.group({
-                            "startDate" : ["",  Validators.required]   ,
-                            "endDate" : [new Date(),  Validators.required],
-                            "format":["csv",  Validators.required]   ,
-                            "type" : ["Report",  Validators.required],
+                            "startDateDeath" : ["",  Validators.nullValidator] ,
+                            "endDateDeath" : [new Date(),  Validators.required],
+                            "startDateReview" : ["", Validators.nullValidator],
+                            "endDateReview" : [new Date(),  Validators.required],
+                            "format":["csv",  Validators.required],
                             "jurisdiction" : ["County 1", Validators.nullValidator] 
                            
               });
@@ -114,15 +117,14 @@ export class CaseReportComponent {
   onSave(caseReportForm  :any) {
     console.log(caseReportForm);
   
-    console.log(caseReportForm.startDate)
-    this.downloadCSV(caseReportForm.startDate, caseReportForm.endDate, caseReportForm.type);
+    this.downloadCSV(caseReportForm.startDateDeath, caseReportForm.endDateDeath,caseReportForm.startDateReview, caseReportForm.endDateReview, this.type);
  
  
 }
 
-downloadCSV(startDate: string, endDate: string, type: string){
+downloadCSV(startDateDeath: string, endDateDeath: string, startDateReview: string, endDateReview: string, type: string){
      
-  this.dataService.DownloadCases(startDate, endDate, type).then(function(contents){
+  this.dataService.DownloadCases(startDateDeath, endDateDeath, startDateReview, endDateReview, type).then(function(contents){
     var blob = new Blob([contents]);
     var csvUrl = window.URL.createObjectURL(blob);
 

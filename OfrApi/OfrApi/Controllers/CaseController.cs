@@ -40,26 +40,44 @@ namespace OfrApi.Controllers
         //Get api/case
         [HttpGet]
         [Route("download/cases")]
-        public HttpResponseMessage Download(string startDate, string endDate, string type)
+        public HttpResponseMessage Download(string startDateDeath, string endDateDeath, string startDateReview, string endDateReview, string type)
         {
             using (var operation = this.TelClient.StartOperation<RequestTelemetry>("DownloadCases"))
             {
                 operation.Telemetry.Url = Request.RequestUri;
-                DateTime start;
-                DateTime end;
-                if (!DateTime.TryParse(startDate, out start))
+                DateTime? startDeath = null;
+                DateTime? endDeath = null;
+                DateTime? startReview = null;
+                DateTime? endReview = null;
+                DateTime temp;
+                if(DateTime.TryParse(startDateDeath, out temp))
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid start date");
+                    startDeath = temp;
                 }
 
-                if (!DateTime.TryParse(endDate, out end))
+                if(DateTime.TryParse(endDateDeath, out temp))
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid end date");
+                    endDeath = temp;
                 }
+
+                if(DateTime.TryParse(startDateReview, out temp))
+                {
+                    startReview = temp;
+                }
+
+                if(DateTime.TryParse(endDateReview, out temp))
+                {
+                    endReview = temp;
+                }
+
+                if (!((startDeath.HasValue && endDeath.HasValue) || (startReview.HasValue && endReview.HasValue)))
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Must specify at least one range of dates");
+
+               
                 try
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    var cases = _caseDal.DownloadCases(start, end, Request);
+                    var cases = _caseDal.DownloadCases(startDeath, endDeath, startReview, endReview, Request);
                     
                     var returnFile = new StringBuilder("Status,UpdatedOn,");
                     if (cases.Count == 0)
