@@ -45,20 +45,34 @@ namespace OfrApi.Controllers
             using (var operation = this.TelClient.StartOperation<RequestTelemetry>("DownloadCases"))
             {
                 operation.Telemetry.Url = Request.RequestUri;
-                DateTime startDeath, endDeath, startReview, endReview;
-                DateTime.TryParse(startDateDeath, out startDeath);
-                DateTime.TryParse(endDateDeath, out endDeath);
-                DateTime.TryParse(startDateReview, out startReview);
-                DateTime.TryParse(endDateReview, out endReview);
-                if (!((startDeath == DateTime.MinValue && endDeath == DateTime.MinValue) || (startReview == DateTime.MinValue && endReview == DateTime.MinValue)))
+                DateTime? startDeath = null;
+                DateTime? endDeath = null;
+                DateTime? startReview = null;
+                DateTime? endReview = null;
+                DateTime temp;
+                if(DateTime.TryParse(startDateDeath, out temp))
+                {
+                    startDeath = temp;
+                }
+
+                if(DateTime.TryParse(endDateDeath, out temp))
+                {
+                    endDeath = temp;
+                }
+
+                if(DateTime.TryParse(startDateReview, out temp))
+                {
+                    startReview = temp;
+                }
+
+                if(DateTime.TryParse(endDateReview, out temp))
+                {
+                    endReview = temp;
+                }
+
+                if (!((startDeath.HasValue && endDeath.HasValue) || (startReview.HasValue && endReview.HasValue)))
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Must specify at least one range of dates");
 
-
-                if (endDeath == DateTime.MinValue)
-                    endDeath = DateTime.MaxValue;
-
-                if (endReview == DateTime.MinValue)
-                    endReview = DateTime.MaxValue;
                
                 try
                 {
