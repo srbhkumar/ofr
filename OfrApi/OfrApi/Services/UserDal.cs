@@ -57,6 +57,8 @@ namespace OfrApi.Services
             foreach (Match group in groupMatches)
             {
                 groups += "," + group.Groups[1].Value;
+                //Adds extra groups to the list to account for some counties not being suffixed with ' County'
+                //in the uploaded ocme files
                 if (!group.Groups[1].Value.StartsWith("Baltimore"))
                 {
                     groups += "," + group.Groups[1].Value.Replace(" County", "");
