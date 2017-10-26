@@ -194,6 +194,7 @@ namespace OfrApi.Controllers
                 tempCase.Status = CaseStatus.Available.ToString();
                 tempCase.Template = template;
                 tempCase.UpdatedOn = DateTime.Now;
+                tempCase.RecordAudit = new List<Tuple<string, DateTime, Dictionary<string, string>>>();
                 CaseDal.UploadCase(tempCase);
 
             }
