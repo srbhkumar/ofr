@@ -1,6 +1,4 @@
 # OFR (Overdose Fatality Review)
-## Introduction
-
 ## Installation
 Due to the use of Azure Cosmos DB and Active Directory B2C OFR does require an active Azure subscription to be deployed. If the user does not have a pre-existing account one may be created at [Azure Account Creation Page](https://azure.microsoft.com/en-us/free/).
 ### Cosmos DB Setup
@@ -39,5 +37,7 @@ For more information see the [Microsoft Documentation on Cosmos DB](https://docs
 ### Active Directory B2C Setup
 1. Following the instruction on the [Active Directory B2C Documentation Pages](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-get-started) to create your B2C tenant.
 2. Navigate into the B2C Tenant and go to 'Applications'.
-3. From there create a new Application for the API.
-4. 
+3. From there create a new Application for the API and front-end
+4. Navigate to the front-ends application and add it's urls for dev and production to the reply url.
+5. Modify the properties in OFR/OfrApi/web.config with B2C in the name to contain the values related to your B2C tenant and applications.
+6. Do the same in OFR/web/assets/ to the files config.development.json and config.production.json 
