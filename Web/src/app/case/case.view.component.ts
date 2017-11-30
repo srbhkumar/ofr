@@ -491,6 +491,7 @@ export class CaseComponent implements OnInit {
             "HRMORPRecords": ["", Validators.nullValidator],
             "HRSterileSyringe": ["", Validators.nullValidator],
             //"HRPeerRecovery": ["", Validators.nullValidator],
+            "PreviousOverdose": ["", Validators.nullValidator],
             "SexualOrientation": ["", Validators.nullValidator],
             "Pregnancy": ["", Validators.nullValidator],
             "Occupation": ["", Validators.maxLength(50)],
