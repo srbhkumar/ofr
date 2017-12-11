@@ -1,0 +1,63 @@
+<style type="text/css">
+    .ng-valid[required],
+    .ng-valid.required {
+        border-left: 5px solid #42A948;
+    }
+    .ng-invalid:not(form) {
+        border-left: 5px solid #a94442;
+    }
+    .error-warning.ng-invalid:not(form) {
+        border-left: 5px solid #8a6d3b!important;
+    }
+    .error-required {
+        border-left: 5px solid #a94442!important;
+    }
+    .error-warning {
+        border-left: 5px solid #8a6d3b!important;
+    }
+    .error {
+        color: #a94442;
+        font-size: smaller;
+    }
+    .warning {
+        color: #8a6d3b;
+        font-size: smaller;
+    }
+</style>
+<div *ngIf="field" class='form-group row case-field'>
+    <label class="col-md-4 col-form-label">{{field.Description}}</label>
+    <div [ngSwitch]="field.Type" class="col-md-5 ">
+        <div *ngSwitchCase="'Text'">
+            <input id="case-field-{{field.Name}}" type="text" name="value" #control="ngModel" (ngModelChange)="update(control,$event)"
+                [ngModel]="value" [required]="field.Required || IsRequired" class="form-control">
+        </div>
+        <div *ngSwitchCase="'Date'">
+            <input id="case-field-{{field.Name}}" type="date" name="control" #control="ngModel" (ngModelChange)="update(control,$event)"
+                [ngModel]="value" [required]="field.Required" class="form-control">
+        </div>
+        <div *ngSwitchCase="'Checkbox'">
+            <input id="case-field-{{field.Name}}" type="checkbox" name="control" #control="ngModel" (ngModelChange)="update(control,$event)"
+                [ngModel]="value" [checked]="value=='True'" [required]="field.Required"><label>&nbsp; Check yes if indicated.</label>
+        </div>
+        <div *ngSwitchCase="'Radio'">
+            <span id="case-field-{{field.Name}}" *ngFor="let option of field.Options">
+                    <input type="radio" value="option">   <span style="padding: 0px 20px 0px 0px;"> {{option}} </span>
+            </span>
+        </div>
+        <div *ngSwitchCase="'Textarea'">
+            <input id="case-field-{{field.Name}}" type="text" name="value" #control="ngModel" (ngModelChange)="update(control,$event)"
+                [ngModel]="value" [required]="field.Required || IsRequired" class="form-control">
+        </div>
+        <div *ngSwitchCase="'TextAreaBig'">
+            <textarea  id="case-field-{{field.Name}}" type="text" rows="15"  name="value" #control="ngModel" (ngModelChange)="update(control,$event)"
+                [ngModel]="value" [required]="field.Required || IsRequired" class="form-control"></textarea>                
+        </div>
+        <div *ngSwitchCase="'Dropdown'">
+            <select id="case-field-{{field.Name}}" name="value" #control="ngModel" [ngModel]="value" (ngModelChange)="update(control,$event)"
+                [required]="field.Required || IsRequired" class="form-control">
+                    <option value="">--Select--</option>
+                    <option *ngFor="let option of field.Options" value="{{option}}">{{option}}</option>
+                        </select>
+        </div>
+    </div>
+</div>

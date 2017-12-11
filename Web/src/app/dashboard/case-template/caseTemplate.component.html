@@ -1,0 +1,29 @@
+<div class="row">
+  <div class=" col-xs-12 col-sm-12 col-lg-9 col-md-9" *ngIf="modalGroups && isModalDataLoaded && getActiveIds()">
+    <simple-notifications id="2" [options]="options">{{this.userList}}</simple-notifications>
+    <form class="ui form">
+      <ngb-accordion #acc="ngbAccordion" activeIds="{{getActiveIds()}}">
+        <ngb-panel *ngFor="let group of modalGroups" title="{{group.Name}}">
+          <template ngbPanelContent>
+            <div *ngFor="let field of group.Fields">
+              <div *ngIf="field.InnerGroup">
+                <Case-Template-Group [filed1]="field.InnerGroup" [Title]="field.Title" [ParentTitle]="field.Title" [modalData]="modalData"
+                  [IsGroupRequired]="field.Required" [AllRequired]="field.AllRequired" [Required]="field.Required"></Case-Template-Group>
+              </div>
+              <div *ngIf="!field.InnerGroup" class="form-group">
+                <Case-Template-Field [field]="field" [value]="getFieldValue(field.Name)"></Case-Template-Field>
+              </div>
+            </div>
+          </template>
+        </ngb-panel>
+      </ngb-accordion>
+      <br>
+      <div>
+        <ul class="error">
+          <li *ngFor="let error of isValidComparsionRule()">{{error}}</li>
+        </ul>
+        <button type="submit" [disabled]="isValid()" (click)="submit()" class="btn btn-md btn-primary fright">Submit </button>
+      </div>
+    </form>
+  </div>
+</div>

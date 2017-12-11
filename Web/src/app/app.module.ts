@@ -34,12 +34,15 @@ import {FilterPipe} from './shared/directives/searchPipe';
 //import {MdDialog, MdDialogRef} from '@angular/material';
 import { DialogRef, ModalComponent, CloseGuard, ModalModule } from 'angular2-modal';
 import {MainPipe} from './shared/pipes/main-pipe.module'
-
+import { CaseTemplateComponent } from './dashboard/case-template/caseTemplate.component';
+import { CaseTemplateFieldComponent } from './dashboard/case-template/caseTemplateField.component';
+import { CaseTemplateGroupComponent } from './dashboard/case-template/caseTemplateGroup.component';
 
 @NgModule({
   declarations: [
    AppComponent, ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseComponent,
-   CaseFieldComponent,CaseReportComponent,FilterPipe,CaseDetailsComponent],
+   CaseFieldComponent,CaseReportComponent,FilterPipe,CaseDetailsComponent,
+   CaseTemplateComponent, CaseTemplateFieldComponent, CaseTemplateGroupComponent],
   imports: [
     BrowserModule,
     FormsModule,
