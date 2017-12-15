@@ -23,9 +23,6 @@ import { AppConfig }       from './app.config';
  
 import{DefaultComponent} from './shared/layouts/default.component';
 import{LayoutComponent} from './shared/layouts/layout.component';
-import{CaseComponent} from './case/case.view.component';
-import{CaseDetailsComponent} from './case/case-details.component'
-import{CaseFieldComponent} from './case/casefield.component';
 import {CaseReportComponent} from './dashboard/caseReport/caseReport.component';
 import { SelectModule } from 'angular2-select'
 import{SimpleNotificationsModule} from 'angular2-notifications';
@@ -34,12 +31,14 @@ import {FilterPipe} from './shared/directives/searchPipe';
 //import {MdDialog, MdDialogRef} from '@angular/material';
 import { DialogRef, ModalComponent, CloseGuard, ModalModule } from 'angular2-modal';
 import {MainPipe} from './shared/pipes/main-pipe.module'
-
+import { CaseTemplateComponent } from './dashboard/case-template/caseTemplate.component';
+import { CaseTemplateFieldComponent } from './dashboard/case-template/caseTemplateField.component';
+import { CaseTemplateGroupComponent } from './dashboard/case-template/caseTemplateGroup.component';
 
 @NgModule({
   declarations: [
-   AppComponent, ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseComponent,
-   CaseFieldComponent,CaseReportComponent,FilterPipe,CaseDetailsComponent],
+   AppComponent, ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseReportComponent,FilterPipe,
+   CaseTemplateComponent, CaseTemplateFieldComponent, CaseTemplateGroupComponent],
   imports: [
     BrowserModule,
     FormsModule,

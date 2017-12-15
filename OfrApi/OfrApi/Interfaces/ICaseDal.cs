@@ -15,10 +15,10 @@ namespace OfrApi.Interfaces
         Case GetCaseById(string id, HttpRequestMessage request);
         Tuple<int,List<Case>> GetCasesByPage(int page, CaseStatus status, int size, bool flaggedOnly, HttpRequestMessage request);
         object PingCaseById(string id, HttpRequestMessage request);
-        void PostCaseById(string id, HttpRequestMessage request);
-        void UpdateStatusById(string id, CaseStatus status, HttpRequestMessage request);
+        void PostCaseById(string id, string username,  HttpRequestMessage request);
+        void UpdateStatusById(string id, CaseStatus status, string username,  HttpRequestMessage request);
         void UploadCase(Case caseObj);
-        void SubmitCase(string id, HttpRequestMessage request);
+        void SubmitCase(string id, string username, HttpRequestMessage request);
         List<Case> DownloadCases(DateTime? startDeathDate, DateTime? endDeathDate, DateTime? startReviewDate, DateTime? endReviewDate, HttpRequestMessage request);
     }
 }
