@@ -41,7 +41,7 @@ export class CaseTemplateComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getTemplate();
+        
         this.getCaseInformation();
     }
 
@@ -51,23 +51,30 @@ export class CaseTemplateComponent implements OnInit {
     }
 
     private response(resp: any): void {
+        debugger;
         this.modalData = resp.Data;
         this.isModalDataLoaded = true;
+        this.dataService.getTemplate(resp.Template).then(template => {
+            this.modalGroups = template['Groups'];
+            this.comparsionRule = template['Comparison'];
+        });
         CaseData.OnChange = this.onChange.bind(this);
     }
 
-    public getTemplate() {
-        return new Promise((resolve, reject) => {
-            this.http.get('assets/case.json').map(res => res.json()).catch((error: any): any => {
-                resolve(true);
-                return Observable.throw(error.json().error || 'Server error');
-            }).subscribe((data) => {
-                this.modalGroups = data['Groups'];
-                this.comparsionRule = data['Comparsion'];
-            });
+    // public getTemplate() {
+    //     debugger;
+    //     return new Promise((resolve, reject) => {
+    //         this.http.get('assets/case.json').map(res => res.json()).catch((error: any): any => {
+    //             resolve(true);
+    //             return Observable.throw(error.json().error || 'Server error');
+    //         }).subscribe((data) => {
+    //             this.modalGroups = data['Groups'];
+    //             this.comparsionRule = data['Comparsion'];
+    //         });
 
-        });
-    }
+    //     });
+
+    // }
 
     private getFieldValue(fieldName: string): any {
         if (this.modalData[fieldName]) {
@@ -81,6 +88,7 @@ export class CaseTemplateComponent implements OnInit {
         for (let index = 0; index < this.modalGroups.length; index++) {
             activeids += 'ngb-panel-' + index + ',';
         }
+        debugger;
         return activeids.replace(/,\s*$/, '');
     }
 

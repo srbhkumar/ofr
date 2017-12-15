@@ -36,9 +36,9 @@
     <legend *ngIf="(AllRequired || Required) && !IsChild">{{Title}} : <span *ngIf="isRequiredGroupValid(Title)" class="error">This is a required field.</span></legend>
     <legend *ngIf="AllRequired && IsChild">{{Title}} : <span *ngIf="isInnerGroupValid(ParentTitle, Title)" class="error">This is a required field.</span></legend>
     <legend *ngIf="!AllRequired && !Required">{{Title}} : </legend>
-    <div *ngFor="let item of filed1">
+    <div *ngFor="let item of field1">
         <div *ngIf="item.InnerGroup">
-            <Case-Template-Group [filed1]="item.InnerGroup" [Title]="item.Title" [modalData]="modalData" [AllRequired]="AllRequired"
+            <Case-Template-Group [field1]="item.InnerGroup" [Title]="item.Title" [modalData]="modalData" [AllRequired]="AllRequired"
                 [Required]="item.Required" [ParentTitle]="Title" [IsChild]="true"></Case-Template-Group>
         </div>
         <div *ngIf="!item.InnerGroup" class="form-group" style="margin-left: 25px">

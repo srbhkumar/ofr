@@ -11,6 +11,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Web.Configuration;
 using System.Web.Http;
@@ -186,10 +187,11 @@ namespace OfrApi.Controllers
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
+                   
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
                     CaseStatus newStatus;
                     Enum.TryParse(status, out newStatus);
-                    _caseDal.UpdateStatusById(id, newStatus, Request);
+                    _caseDal.UpdateStatusById(id, newStatus, getUserName(), Request);
                     return Request.CreateResponse(HttpStatusCode.OK, "Success");
                 }
                 catch (Exception ex)
@@ -209,7 +211,7 @@ namespace OfrApi.Controllers
                 try
                 {
                     operation.Telemetry.ResponseCode = HttpStatusCode.OK.ToString();
-                    _caseDal.SubmitCase(id, Request);
+                    _caseDal.SubmitCase(id, getUserName(), Request);
                     return Request.CreateResponse(HttpStatusCode.OK, "Success");
                 }
                 catch (Exception ex)
@@ -229,7 +231,7 @@ namespace OfrApi.Controllers
                 operation.Telemetry.Url = Request.RequestUri;
                 try
                 {
-                    _caseDal.PostCaseById(id, Request);
+                    _caseDal.PostCaseById(id, getUserName(), Request);
                     return Request.CreateResponse(HttpStatusCode.OK, "Success", Configuration.Formatters.JsonFormatter, "application/json");
                 }
                 catch (Exception ex)
@@ -298,5 +300,8 @@ namespace OfrApi.Controllers
             }
         }
 
+        
     }
+
+    
 }

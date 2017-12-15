@@ -8,7 +8,5 @@ import { CaseTemplateComponent } from '../../dashboard/case-template/caseTemplat
 export const SECURE_ROUTES: Routes = [    
     {  path: 'protected', component: ProtectedComponent,canActivate: [LoggedInGuard] },
     {  path: 'dashboard', component: DashboardComponent,canActivate: [LoggedInGuard] },
-    {  path: 'case/:id', component: CaseComponent,canActivate: [LoggedInGuard] },
-    {  path: 'casetemplate/:id', component: CaseTemplateComponent,canActivate: [LoggedInGuard] }          
-      
+    {  path: 'case/:id', component: CaseTemplateComponent,canActivate: [LoggedInGuard] }      
 ];

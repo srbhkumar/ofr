@@ -96,9 +96,9 @@ export class DataService {
     } 
     
 
-    public getTemplate(id:string):Promise<Template>
+    public getTemplate(id:string):Promise<any>
     {
-        return this.httpget<Template>(`/template/${id}`);
+        return this.httpget<any>(`/template/${id}`);
     } 
 
     public getCaseInformation(id:string):Promise<Case>

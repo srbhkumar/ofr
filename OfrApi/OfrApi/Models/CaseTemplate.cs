@@ -29,7 +29,9 @@ namespace OfrApi.Models
         public string Description { get; set; }
         public string Layout { get; set; }
         public long _ts { get; set; }
-        public List<CaseField> Fields { get; set; }
+        //public List<CaseField> Fields { get; set; }
+        public dynamic Groups { get; set; }
+        public dynamic Comparison { get; set; }
 
         public bool Validate(Case c)
         {

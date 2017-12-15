@@ -6,7 +6,7 @@ import { RequiredFieldGroup, CaseData } from '../../shared/models/caseValidation
   templateUrl: '../case-template/caseTemplateGroup.component.html'
 })
 export class CaseTemplateGroupComponent implements OnInit {
-    @Input() filed1: any;
+    @Input() field1: any;
     @Input() ParentTitle: string;
     @Input() Title: string;
     @Input() modalData: any;
@@ -20,9 +20,9 @@ export class CaseTemplateGroupComponent implements OnInit {
 
     ngOnInit() {
         if (this.AllRequired) {
-            this.recursive(this.filed1, '', this.AllRequired);
+            this.recursive(this.field1, '', this.AllRequired);
         } else if (this.Required) {
-            this.recursive(this.filed1, this.Title, false);
+            this.recursive(this.field1, this.Title, false);
         }
     }
 

@@ -49,7 +49,7 @@ namespace OfrApi.Services
             
         }
 
-        public void UpdateStatusById(string id, CaseStatus status, HttpRequestMessage request)
+        public void UpdateStatusById(string id, CaseStatus status, string username, HttpRequestMessage request)
         {
             var feedOptions = new FeedOptions
             {
@@ -69,12 +69,12 @@ namespace OfrApi.Services
                 new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
                 id,
                 status.ToString(),
-                UserDal.GetUserNameFromHeader(request)
+                username
             ).Result;
                
         }
 
-        public void SubmitCase(string id, HttpRequestMessage request)
+        public void SubmitCase(string id, string username,  HttpRequestMessage request)
         {
       
             var feedOptions = new FeedOptions
@@ -94,7 +94,7 @@ namespace OfrApi.Services
                 UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "SubmitCase"),
                 new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
                 id,
-                UserDal.GetUserNameFromHeader(request)
+                username
             ).Result;
              
         }
@@ -112,7 +112,7 @@ namespace OfrApi.Services
 
         }
 
-        public void PostCaseById(string id, HttpRequestMessage request)
+        public void PostCaseById(string id, string username, HttpRequestMessage request)
         {
             // Get request body
             dynamic data = request.Content.ReadAsAsync<object>();
@@ -131,11 +131,11 @@ namespace OfrApi.Services
             var keyValue = caseById.Jurisdiction;
 
 
-            this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "MergeCase"),
+            var result = this.Client.ExecuteStoredProcedureAsync<object>(UriFactory.CreateStoredProcedureUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"], "MergeCase"),
                 new RequestOptions { PartitionKey = new PartitionKey(keyValue) },
                 id,
                 data.Result,
-                UserDal.GetUserNameFromHeader(request));
+                username).Result;
 
  
         }
