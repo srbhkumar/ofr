@@ -4,7 +4,7 @@ import { CaseData } from '../../shared/models/caseValidation';
 import { Case } from '../../shared/models/caseModel';
 @Component({
     selector: 'Case-Template-Field',
-    templateUrl: '../case-template/caseTemplateField.html'
+    templateUrl: '../case-template/caseTemplateField.component.html'
 })
 
 export class CaseTemplateFieldComponent implements OnInit {

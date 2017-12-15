@@ -23,9 +23,6 @@ import { AppConfig }       from './app.config';
  
 import{DefaultComponent} from './shared/layouts/default.component';
 import{LayoutComponent} from './shared/layouts/layout.component';
-import{CaseComponent} from './case/case.view.component';
-import{CaseDetailsComponent} from './case/case-details.component'
-import{CaseFieldComponent} from './case/casefield.component';
 import {CaseReportComponent} from './dashboard/caseReport/caseReport.component';
 import { SelectModule } from 'angular2-select'
 import{SimpleNotificationsModule} from 'angular2-notifications';
@@ -40,8 +37,7 @@ import { CaseTemplateGroupComponent } from './dashboard/case-template/caseTempla
 
 @NgModule({
   declarations: [
-   AppComponent, ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseComponent,
-   CaseFieldComponent,CaseReportComponent,FilterPipe,CaseDetailsComponent,
+   AppComponent, ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseReportComponent,FilterPipe,
    CaseTemplateComponent, CaseTemplateFieldComponent, CaseTemplateGroupComponent],
   imports: [
     BrowserModule,

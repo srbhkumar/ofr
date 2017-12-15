@@ -51,7 +51,6 @@ export class CaseTemplateComponent implements OnInit {
     }
 
     private response(resp: any): void {
-        debugger;
         this.modalData = resp.Data;
         this.isModalDataLoaded = true;
         this.dataService.getTemplate(resp.Template).then(template => {
@@ -88,7 +87,6 @@ export class CaseTemplateComponent implements OnInit {
         for (let index = 0; index < this.modalGroups.length; index++) {
             activeids += 'ngb-panel-' + index + ',';
         }
-        debugger;
         return activeids.replace(/,\s*$/, '');
     }
 
