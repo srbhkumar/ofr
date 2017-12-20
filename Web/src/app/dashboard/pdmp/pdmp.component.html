@@ -1,0 +1,22 @@
+<table class="table table-hover">
+  <thead>
+    <th>Medication</th>
+    <th>Written</th>
+    <th>Filled</th>
+    <th>Days Supply</th>
+    <th>QTY Disp.</th>
+    <th>Method of Payment</th>
+    <th>Prescriber</th>
+    <th>Pharmacy Name</th>
+  </thead>
+  <tbody>
+    <td>{{pdmpData.label}}</td>
+    <td>{{pdmpData.written}}</td>
+    <td>{{pdmpData.filled}}</td>
+    <td>{{pdmpData.daysSupply}}</td>
+    <td>{{pdmpData.quantityDispensed}}</td>
+    <td>{{pdmpData.paymentMethod}}</td>
+    <td>{{pdmpData.prescribingProvider.name.last + ", " + data.prescribingProvider.name.first}}</td>
+    <td>{{pdmpData.pharmacyName}}</td>
+  </tbody>
+</table>
