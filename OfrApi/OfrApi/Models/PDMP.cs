@@ -27,12 +27,8 @@ namespace OfrApi.Models
 
     public class PDMPPrescriber
     {
-        public Name Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 
-    public class Name
-    {
-        public string First { get; set; }
-        public string Last { get; set; }
-    }
 }

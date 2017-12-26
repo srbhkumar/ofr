@@ -15,13 +15,17 @@
                     <div class="panel-group">
                         <div class="panel panel-default">
                             <h4>OCME Details</h4>
-                            <div id="ocmeContents" style="height: 450px; overflow-y:scroll">
+                            <div id="ocmeContents" style="height: 30vh; overflow-y:scroll">
                                 <table class="table table-striped">
                                 <tr *ngFor="let detail of caseDetails.OCMEData | keys">                               
                                         <td>{{detail}}</td>
                                         <td>{{format(detail)}}</td>
                                 </tr>
                                 </table> 
+                            </div>
+                            <br />
+                            <div style="height: 25vh; overflow-y: scroll">
+                                <app-pdmp [ocme]="caseDetails.OCME"></app-pdmp>
                             </div>
                             <h4>Actions</h4>
                             <div class="panel-body">

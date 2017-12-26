@@ -1,4 +1,4 @@
-<table class="table table-hover">
+<table class="table table-hover table-bordered">
   <thead>
     <th>Medication</th>
     <th>Written</th>
@@ -10,13 +10,15 @@
     <th>Pharmacy Name</th>
   </thead>
   <tbody>
-    <td>{{pdmpData.label}}</td>
-    <td>{{pdmpData.written}}</td>
-    <td>{{pdmpData.filled}}</td>
-    <td>{{pdmpData.daysSupply}}</td>
-    <td>{{pdmpData.quantityDispensed}}</td>
-    <td>{{pdmpData.paymentMethod}}</td>
-    <td>{{pdmpData.prescribingProvider.name.last + ", " + data.prescribingProvider.name.first}}</td>
-    <td>{{pdmpData.pharmacyName}}</td>
+    <tr *ngFor="let row of pdmpData.results" >
+      <td>{{row.label}}</td>
+      <td>{{row.dateWritten}}</td>
+      <td>{{row.dateFilled}}</td>
+      <td>{{row.daysSupply}}</td>
+      <td>{{row.quantityDispensed}}</td>
+      <td>{{row.paymentMethod}}</td>
+      <td>{{row.prescribingProvider.lastName + ", " + data.prescribingProvider.lastName}}</td>
+      <td>{{row.pharmacyName}}</td>
+    </tr>
   </tbody>
 </table>
