@@ -7,13 +7,14 @@
     "ng": "ng",
     "start": "ng serve --port 8080",
     "test": "ng test",
+    "builder": "ng build --base-href ./",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
     "e2e": "protractor"
   },
   "private": true,
   "dependencies": {
     "@angular/common": "^2.3.1",
-    "@angular/compiler": "^2.3.1",
+    "@angular/compiler": "^2.4.10",
     "@angular/core": "^2.3.1",
     "@angular/forms": "^2.3.1",
     "@angular/http": "^2.3.1",
@@ -40,7 +41,7 @@
     "zone.js": "^0.7.2"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "^2.3.1",
+    "@angular/compiler-cli": "^2.4.10",
     "@angular/core": "^2.3.1",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.21",
     "@types/jasmine": "2.5.38",

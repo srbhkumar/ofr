@@ -34,11 +34,12 @@ import {MainPipe} from './shared/pipes/main-pipe.module'
 import { CaseTemplateComponent } from './dashboard/case-template/caseTemplate.component';
 import { CaseTemplateFieldComponent } from './dashboard/case-template/caseTemplateField.component';
 import { CaseTemplateGroupComponent } from './dashboard/case-template/caseTemplateGroup.component';
+import { PdmpComponent } from './dashboard/pdmp/pdmp.component';
 
 @NgModule({
   declarations: [
    AppComponent, ProtectedComponent,DashboardComponent,LayoutComponent,DefaultComponent,CaseReportComponent,FilterPipe,
-   CaseTemplateComponent, CaseTemplateFieldComponent, CaseTemplateGroupComponent],
+   CaseTemplateComponent, CaseTemplateFieldComponent, CaseTemplateGroupComponent, PdmpComponent],
   imports: [
     BrowserModule,
     FormsModule,

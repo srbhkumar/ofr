@@ -1,0 +1,24 @@
+<table class="table table-hover table-bordered">
+  <thead>
+    <th>Medication</th>
+    <th>Written</th>
+    <th>Filled</th>
+    <th>Days Supply</th>
+    <th>QTY Disp.</th>
+    <th>Method of Payment</th>
+    <th>Prescriber</th>
+    <th>Pharmacy Name</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of pdmpData.results" >
+      <td>{{row.label}}</td>
+      <td>{{row.dateWritten}}</td>
+      <td>{{row.dateFilled}}</td>
+      <td>{{row.daysSupply}}</td>
+      <td>{{row.quantityDispensed}}</td>
+      <td>{{row.paymentMethod}}</td>
+      <td>{{row.prescribingProvider.lastName + ", " + data.prescribingProvider.lastName}}</td>
+      <td>{{row.pharmacyName}}</td>
+    </tr>
+  </tbody>
+</table>

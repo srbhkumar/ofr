@@ -147,6 +147,10 @@ export class DataService {
         return this.httpget<string>(`/case/download/cases?startDateDeath=${startDateDeath}&endDateDeath=${endDateDeath}&startDateReview=${startDateReview}&endDateReview=${endDateReview}&type=${type}`);
         
     }
+
+    public getPDMPData(ocmeNumber: string): Promise<any>{
+        return this.httpget<string>(`/pdmp/${ocmeNumber}`);
+    }
  
     private handleError(error: any) {
         alert('An error occurred\n' + error.json());
