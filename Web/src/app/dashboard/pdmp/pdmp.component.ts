@@ -12,9 +12,9 @@ export class PdmpComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataService.getPDMPData(this.ocme).then(val => {
-      this.pdmpData = val;
-    });
+    // this.dataService.getPDMPData(this.ocme).then(val => {
+    //   this.pdmpData = val;
+    // });
   }
 
 }
