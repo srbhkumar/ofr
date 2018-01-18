@@ -43,7 +43,7 @@ namespace OfrApi.Services
             var caseById = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
-                .Where(c => (c.id == id && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")))).AsEnumerable().FirstOrDefault();
+                .Where(c => (c.id == id && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains("Admin")))).AsEnumerable().FirstOrDefault();
             
             return caseById;
             
@@ -161,7 +161,7 @@ namespace OfrApi.Services
             var cases = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
-                .Where(c => (c.Status == status.ToString() && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) && (!flaggedOnly || c.Flagged)))
+                .Where(c => (c.Status == status.ToString() && (jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains("Admin")) && (!flaggedOnly || c.Flagged)))
                 .OrderBy(c => c.Data["DateofDeath"])
                 .Take(skipCount + takeCount)
                 .ToArray()
@@ -170,7 +170,7 @@ namespace OfrApi.Services
             var count = Client.CreateDocumentQuery<Case>(
                 UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                 feedOptions)
-                .Where(c => (c.Status == status.ToString() &&(jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) &&  (!flaggedOnly || c.Flagged)))
+                .Where(c => (c.Status == status.ToString() &&(jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains("Admin")) &&  (!flaggedOnly || c.Flagged)))
                 .ToList<Case>().Count;
 
             return new Tuple<int, List<Case>>(count, cases.ToList<Case>());
@@ -192,7 +192,7 @@ namespace OfrApi.Services
             var caseById = Client.CreateDocumentQuery<Case>(
             UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
             feedOptions)
-            .Where(c => c.OCME == newCase.OCME).AsEnumerable().FirstOrDefault();
+            .Where(c => c.OCME == newCase.OCME && c.Jurisdiction == newCase.Jurisdiction).AsEnumerable().FirstOrDefault();
 
             if (caseById == null)
             {
@@ -225,7 +225,7 @@ namespace OfrApi.Services
                 cases = Client.CreateDocumentQuery<Case>(
                     UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                     feedOptions)
-                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) && 
+                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains("Admin")) && 
                                 c.Data["DateofDeath"].CompareTo(endDeath) <= 0 && c.Data["DateofDeath"].CompareTo(startDeath) >= 0 &&
                                 c.Data["DateofInitialCaseReview"].CompareTo(endReview) <= 0 && c.Data["DateofInitialCaseReview"].CompareTo(startReview) >= 0)).ToList<Case>();
             }
@@ -236,7 +236,7 @@ namespace OfrApi.Services
                 cases = Client.CreateDocumentQuery<Case>(
                     UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                     feedOptions)
-                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) &&
+                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains("Admin")) &&
                                 c.Data["DateofDeath"].CompareTo(endDeath) <= 0 && c.Data["DateofDeath"].CompareTo(startDeath) >= 0)).ToList<Case>();
             }
             else if(startDateReview != null && endDateReview != null)
@@ -246,7 +246,7 @@ namespace OfrApi.Services
                 cases = Client.CreateDocumentQuery<Case>(
                     UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["caseCollection"]),
                     feedOptions)
-                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains(c.Data["ResidentCounty"]) || jurisdictions.Contains("Admin")) &&
+                    .Where(c => ((jurisdictions.Contains(c.Jurisdiction) || jurisdictions.Contains("Admin")) &&
                                 c.Data["DateofInitialCaseReview"].CompareTo(endReview) <= 0 && c.Data["DateofInitialCaseReview"].CompareTo(startReview) >= 0)).ToList<Case>();
             }
             else
