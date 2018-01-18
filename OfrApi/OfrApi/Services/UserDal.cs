@@ -52,7 +52,7 @@ namespace OfrApi.Services
                 return result.Result.AccessToken;
             }
             var jsonData = await response.Result.Content.ReadAsStringAsync();
-            var groupMatches = Regex.Matches(jsonData, "\"displayName\":\"([\\w ']*)\"");
+            var groupMatches = Regex.Matches(jsonData, "\"displayName\":\"([\\w\\. ']*)\"");
             var groups = "";
             foreach (Match group in groupMatches)
             {
