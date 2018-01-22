@@ -1378,7 +1378,7 @@
                                 },
                                 {
                                     "Name": "CaseRecommendations1AgencySocialServices",
-                                    "Description": "SocialSerivces",
+                                    "Description": "Social Services",
                                     "Type": "Checkbox",
                                     "Required": false,
                                     "Options": [
@@ -1594,7 +1594,7 @@
                                 },
                                 {
                                     "Name": "CaseRecommendations2AgencySocialServices",
-                                    "Description": "SocialSerivces",
+                                    "Description": "Social Services",
                                     "Type": "Checkbox",
                                     "Required": false,
                                     "Options": [
@@ -1809,7 +1809,7 @@
                                 },
                                 {
                                     "Name": "CaseRecommendations3AgencySocialServices",
-                                    "Description": "SocialSerivces",
+                                    "Description": "Social Services",
                                     "Type": "Checkbox",
                                     "Required": false,
                                     "Options": [
