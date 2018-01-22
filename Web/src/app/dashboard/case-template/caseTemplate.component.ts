@@ -19,6 +19,8 @@ export class CaseTemplateComponent implements OnInit {
     private modalGroups: any;
     private timeoutTag: any;
     private comparsionRule: any;
+    private ocmeNum: any;
+    private jurisdiction: any;
 
     private options = {
         id: 2,
@@ -51,6 +53,8 @@ export class CaseTemplateComponent implements OnInit {
     }
 
     private response(resp: any): void {
+        this.ocmeNum = resp.OCME;
+        this.jurisdiction = resp.Jurisdiction;
         this.modalData = resp.Data;
         this.isModalDataLoaded = true;
         this.dataService.getTemplate(resp.Template).then(template => {

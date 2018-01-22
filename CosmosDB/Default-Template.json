@@ -1229,14 +1229,14 @@
                             "Name": "CaseRecommendations1",
                             "Description": "Please provide any recommendations following the review of this case. (Max 250 characters)",
                             "Type": "Textarea",
-                            "Required": false,
+                            "Required": true,
                             "Length": "250"
                         },
                         {
                             "Name": "CaseRecommendations1Category",
                             "Description": "Category of Recommendation",
                             "Type": "Dropdown",
-                            "Required": false,
+                            "Required": true,
                             "Options": [
                                 "Care integration",
                                 "Harm Reduction",
@@ -1253,7 +1253,7 @@
                             "Name": "CaseRecommendations1Target",
                             "Description": "Target Group",
                             "Type": "Dropdown",
-                            "Required": false,
+                            "Required": true,
                             "Options": [
                                 "People who use drugs",
                                 "Healthcare providers",
