@@ -481,7 +481,7 @@
                 },
                 {
                     "Name": "ChronicSomatic",
-                    "Description": "Did the decedent have a history of chronic somatic health condition?",
+                    "Description": "Did the decedent have a history of any chronic somatic health conditions?",
                     "Type": "Checkbox",
                     "Required": false,
                     "Options": [
@@ -770,7 +770,7 @@
                 },
                 {
                     "Name": "BHBeacon",
-                    "Description": "Were Medical Assistance behavioral health claims records (BEACON, SMART) reviewed?",
+                    "Description": "Were Medical Assistance behavioral health claims records (BEACON) reviewed?",
                     "Type": "Dropdown",
                     "Required": false,
                     "Options": [
@@ -1003,12 +1003,12 @@
                     "Type": "Dropdown",
                     "Required": false,
                     "Options": [
-                        "Married /Civil Union/ Domestic Partnership",
-                        "Never Married",
+                        "Married/Civil Union/Domestic Partnership",
+                        "Single, Never Married",
                         "Widowed",
                         "Divorced",
                         "Married/Civil Union/Domestic Partnership, but separated",
-                        "Single, not otherwise specified",
+                        "Other",
                         "Unknown"
                     ]
                 },
@@ -1043,16 +1043,6 @@
                     ]
                 },
                 {
-                    "Name": "IPVRoleUnkown",
-                    "Description": "If intimate partner violence is indicated, was the decedent's role unkown'?",
-                    "Type": "Checkbox",
-                    "Required": false,
-                    "Options": [
-                        "True",
-                        "False"
-                    ]
-                },
-                {
                     "Name": "DecedentChildren",
                     "Description": "Were children of the decedent identified?",
                     "Type": "Dropdown",
@@ -1064,6 +1054,16 @@
                         "Yes, minor and adult children",
                         "No",
                         "Unknown"
+                    ]
+                },
+                {
+                    "Name": "FamilyHistoryOfUser",
+                    "Description": "Was a family history of substance use indicated?",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                        "True",
+                        "False"
                     ]
                 }
             ]
@@ -1081,6 +1081,7 @@
                         "Gay",
                         "Lesbian",
                         "Bisexual",
+                        "Other",
                         "Unknown"
                     ]
                 },
@@ -1125,6 +1126,7 @@
                     "Options": [
                         "Yes, at time of death",
                         "No, but history of homelessness was indicated",
+                        "Not indicated",
                         "Unknown"
                     ]
                 },
@@ -1135,7 +1137,7 @@
                     "Required": false,
                     "Options": [
                         "Yes",
-                        "No",
+                        "Not indicated",
                         "Unknown"
                     ]
                 },
@@ -1146,7 +1148,7 @@
                     "Required": false,
                     "Options": [
                         "Yes",
-                        "No",
+                        "Not indicated",
                         "Unknown"
                     ]
                 },
@@ -1174,6 +1176,16 @@
                     "Type": "Text",
                     "Required": false,
                     "Length": "50"
+                },
+                {
+                    "Name": "PreviousOverdose",
+                    "Description": "Did the decedent have a previous overdose?",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                        "True",
+                        "False"
+                    ]
                 }
             ]
         },
@@ -1182,7 +1194,7 @@
             "Fields": [
                 {
                     "Name": "CaseSummary",
-                    "Description": "Briefly summarize the case. (Max 3500 characters)",
+                    "Description": "Briefly summarize the case and/or provide additional information. (Max 3500 characters)",
                     "Type": "TextAreaBig",
                     "Required": true,
                     "Length": "3500"
@@ -1216,14 +1228,14 @@
                             "Name": "CaseRecommendations1",
                             "Description": "Please provide any recommendations following the review of this case. (Max 250 characters)",
                             "Type": "Textarea",
-                            "Required": false,
+                            "Required": true,
                             "Length": "250"
                         },
                         {
                             "Name": "CaseRecommendations1Category",
                             "Description": "Category of Recommendation",
                             "Type": "Dropdown",
-                            "Required": false,
+                            "Required": true,
                             "Options": [
                                 "Care integration",
                                 "Harm Reduction",
@@ -1240,12 +1252,14 @@
                             "Name": "CaseRecommendations1Target",
                             "Description": "Target Group",
                             "Type": "Dropdown",
-                            "Required": false,
+                            "Required": true,
                             "Options": [
                                 "People who use drugs",
-                                "Providers",
                                 "Healthcare providers",
-                                "General Public"
+                                "Policymakers/Legislators",
+                                "General Public",
+                                "Family Members",
+                                "Other"
                             ]
                         },
                         {
@@ -1353,8 +1367,28 @@
                                     ]
                                 },
                                 {
-                                    "Name": "CaseRecommendations1AgencyBehavioral Health",
-                                    "Description": "Behavioral Health",
+                                    "Name": "CaseRecommendations1AgencyBehavioralHealth",
+                                    "Description": "Private Behavioral Health",
+                                    "Type": "Checkbox",
+                                    "Required": false,
+                                    "Options": [
+                                        "True",
+                                        "False"
+                                    ]
+                                },
+                                {
+                                    "Name": "CaseRecommendations1AgencySocialServices",
+                                    "Description": "Social Services",
+                                    "Type": "Checkbox",
+                                    "Required": false,
+                                    "Options": [
+                                        "True",
+                                        "False"
+                                    ]
+                                },
+                                {
+                                    "Name": "CaseRecommendations1AgencyOtherLocal",
+                                    "Description": "Other Local Government Agency",
                                     "Type": "Checkbox",
                                     "Required": false,
                                     "Options": [
@@ -1437,9 +1471,11 @@
                             "Required": false,
                             "Options": [
                                 "People who use drugs",
-                                "Providers",
                                 "Healthcare providers",
-                                "General Public"
+                                "Policymakers/Legislators",
+                                "General Public",
+                                "Family Members",
+                                "Other"
                             ]
                         },
                         {
@@ -1548,7 +1584,27 @@
                                 },
                                 {
                                     "Name": "CaseRecommendations2AgencyBehavioral Health",
-                                    "Description": "Behavioral Health",
+                                    "Description": "Private Behavioral Health",
+                                    "Type": "Checkbox",
+                                    "Required": false,
+                                    "Options": [
+                                        "True",
+                                        "False"
+                                    ]
+                                },
+                                {
+                                    "Name": "CaseRecommendations2AgencySocialServices",
+                                    "Description": "Social Services",
+                                    "Type": "Checkbox",
+                                    "Required": false,
+                                    "Options": [
+                                        "True",
+                                        "False"
+                                    ]
+                                },
+                                {
+                                    "Name": "CaseRecommendations2AgencyOtherLocal",
+                                    "Description": "Other Local Government Agency",
                                     "Type": "Checkbox",
                                     "Required": false,
                                     "Options": [
@@ -1631,9 +1687,11 @@
                             "Required": false,
                             "Options": [
                                 "People who use drugs",
-                                "Providers",
                                 "Healthcare providers",
-                                "General Public"
+                                "Policymakers/Legislators",
+                                "General Public",
+                                "Family Members",
+                                "Other"
                             ]
                         },
                         {
@@ -1741,7 +1799,27 @@
                                 },
                                 {
                                     "Name": "CaseRecommendations3AgencyBehavioral Health",
-                                    "Description": "Behavioral Health",
+                                    "Description": "Private Behavioral Health",
+                                    "Type": "Checkbox",
+                                    "Required": false,
+                                    "Options": [
+                                        "True",
+                                        "False"
+                                    ]
+                                },
+                                {
+                                    "Name": "CaseRecommendations3AgencySocialServices",
+                                    "Description": "Social Services",
+                                    "Type": "Checkbox",
+                                    "Required": false,
+                                    "Options": [
+                                        "True",
+                                        "False"
+                                    ]
+                                },
+                                {
+                                    "Name": "CaseRecommendations3AgencyOtherLocal",
+                                    "Description": "Other Local Government Agency",
                                     "Type": "Checkbox",
                                     "Required": false,
                                     "Options": [
