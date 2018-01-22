@@ -100,6 +100,7 @@ export class CaseTemplateComponent implements OnInit {
     }
 
     private saveChanges(): void {
+        debugger;
         this.timeoutTag = null;
         const oldChanges = CaseData.changeset;
         CaseData.changeset = {};
