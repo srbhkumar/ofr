@@ -1066,7 +1066,6 @@
                         "False"
                     ]
                 }
-
             ]
         },
         {
@@ -1397,7 +1396,6 @@
                                         "False"
                                     ]
                                 },
-
                                 {
                                     "Name": "CaseRecommendations1AgencyBehavioral Other",
                                     "Description": "Other",
