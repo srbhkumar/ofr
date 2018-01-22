@@ -20,10 +20,10 @@ namespace OfrApi.Services
                 var endpoint = WebConfigurationManager.AppSettings["PDMPEndpoint"];
                 var sourceMRNPath = WebConfigurationManager.AppSettings["SourceMRNPath"];
                 var cdsNumber = WebConfigurationManager.AppSettings["CDSNumber"];
-
+                var source = WebConfigurationManager.AppSettings["Source"];
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, $"{sourceMRNPath}/OCME/{MRN}");
                 request.Headers.Add("UserName", username);
-                request.Headers.Add("OrgName", "OCME");
+                request.Headers.Add("OrgName", source);
                 request.Headers.Add("CdsNumber", cdsNumber);
                
                 using (var httpClient = new HttpClient() { BaseAddress = new Uri(endpoint) })
