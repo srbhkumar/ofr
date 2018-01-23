@@ -1,0 +1,11 @@
+{
+    "b2cTenant": "ofrb2c.onmicrosoft.com",
+    "b2cClientId": "23a0c5eb-f7c1-4f15-99d6-0e1c09774ed9",
+    "b2cPolicy": "B2C_1_sign-up-policy",
+    "b2cScopes": ["https://ofrb2c.onmicrosoft.com/api/case"],
+    "rootUrl": "https://ofr-api.crisphealth.org/api",
+    "pageSizeAssigned": "5",
+    "pageSizeAvailable": "20",
+    "pageSizeSubmitted": "5",
+    "pageSizeDismissed": "5"
+}
