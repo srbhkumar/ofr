@@ -18,9 +18,9 @@ export class PdmpComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.dataService.getPDMPData(changes.ocme.currentValue).then(val => {
-      this.pdmpData = val;
-    });
+    this.dataService.getPDMPData(changes.ocme.currentValue)
+      .then(val => {this.pdmpData = val;})
+      .catch(_ => {this.pdmpData = null;});
   }
 
 }
