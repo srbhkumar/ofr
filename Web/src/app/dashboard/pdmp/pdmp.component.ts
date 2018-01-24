@@ -8,7 +8,7 @@ import { DataService } from 'app/shared/services/dataService';
 })
 export class PdmpComponent implements OnInit, OnChanges {
   @Input() ocme: string;
-  private pdmpData: Array<any>;
+  private pdmpData: any;
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
@@ -17,7 +17,7 @@ export class PdmpComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: any) {
     this.dataService.getPDMPData(changes.ocme.currentValue)
       .then(val => {this.pdmpData = val;})
       .catch(_ => {this.pdmpData = null;});

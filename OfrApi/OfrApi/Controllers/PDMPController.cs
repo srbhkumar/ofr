@@ -23,6 +23,10 @@ namespace OfrApi.Controllers
             get { return _pdmpDal ?? (_pdmpDal = new PDMPDal()); }
             set { _pdmpDal = value; }
         }
+        PDMPController()
+        {
+            TelClient = new TelemetryClient();
+        }
 
         [Route("{mrn}")]
         public async Task<HttpResponseMessage> GetPDMPData(string mrn)
