@@ -1,4 +1,4 @@
-<table class="table table-hover table-bordered" *ngIf="pdmpData && pdmpData.Results && pdmpData.Results != []">
+<table class="table table-hover table-bordered" *ngIf="pdmpData && pdmpData.Results && pdmpData.Results.length > 0">
   <thead>
     <th>Medication</th>
     <th>Written</th>
@@ -22,6 +22,6 @@
     </tr>
   </tbody>
 </table>
-<div style="text-align: center" *ngIf="!pdmpData || !pdmpData.Results || pdmpData.Results == []">
+<div style="text-align: center" *ngIf="!pdmpData || !pdmpData.Results || pdmpData.Results.length == 0">
   <h3>No PDMP data found</h3>
 </div>
