@@ -1,4 +1,4 @@
-<table class="table table-hover table-bordered" *ngIf="pdmpData && pdmpData.results != []">
+<table class="table table-hover table-bordered" *ngIf="pdmpData && pdmpData.Results && pdmpData.Results != []">
   <thead>
     <th>Medication</th>
     <th>Written</th>
@@ -10,7 +10,7 @@
     <th>Pharmacy Name</th>
   </thead>
   <tbody>
-    <tr *ngFor="let row of pdmpData.results" >
+    <tr *ngFor="let row of pdmpData.Results" >
       <td>{{row.label}}</td>
       <td>{{row.dateWritten}}</td>
       <td>{{row.dateFilled}}</td>
@@ -22,6 +22,6 @@
     </tr>
   </tbody>
 </table>
-<div style="text-align: center" *ngIf="!pdmpData || pdmpData.results == []">
+<div style="text-align: center" *ngIf="!pdmpData || !pdmpData.Results || pdmpData.Results == []">
   <h3>No PDMP data found</h3>
 </div>
