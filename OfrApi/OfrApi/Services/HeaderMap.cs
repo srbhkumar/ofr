@@ -10,6 +10,12 @@ namespace OfrApi.Services
     {
         public static Case MapToCase(List<string> header, List<string> fields)
         {
+            //Prevents null width whitespace characters that are in some files exported from excel
+            for(int inc = 0; inc < header.Count(); inc ++)
+            {
+                header[inc] = string.Concat(header[inc].ToCharArray().Where(c => char.IsLetter(c) || char.IsNumber(c) ||  c == '_'));
+            }
+
             var caseId = header.IndexOf("CASENUM");
             var jurisdiction = header.IndexOf("INCIDENT_COUNTY");
             var residence = header.IndexOf("RES_COUNTY");
