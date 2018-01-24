@@ -24,7 +24,7 @@
                                 </table> 
                             </div>
                             <br />
-                            <div style="height: 25vh; overflow-y: scroll">
+                            <div *ngIf="caseDetails.Status =='Assigned'" style="height: 25vh; overflow-y: scroll">
                                 <app-pdmp [ocme]="caseDetails.OCME"></app-pdmp>
                             </div>
                             <h4>Actions</h4>
@@ -32,7 +32,6 @@
                                 <div class="row">
                                     
                                     <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
-                                        <a href="https://ulp.crisphealth.org/" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;">PDMP Data</a>
                                         <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 50px;">Clinical Data</a>
                                         <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="fleft" title="Dismiss Case"><i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i></a>
                                         <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;" title="Unflag Case"></a>
