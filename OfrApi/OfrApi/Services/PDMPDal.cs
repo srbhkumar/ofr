@@ -15,8 +15,6 @@ namespace OfrApi.Services
     {
         public async Task<PDMPData> GetPDMPData(string username, string MRN)
         {
-            try
-            {
                 var endpoint = WebConfigurationManager.AppSettings["PDMPEndpoint"];
                 var sourceMRNPath = WebConfigurationManager.AppSettings["SourceMRNPath"];
                 var cdsNumber = WebConfigurationManager.AppSettings["CDSNumber"];
@@ -44,12 +42,7 @@ namespace OfrApi.Services
                     var body = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<PDMPData>(body);
                 }
-
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+           
         }
     }
 }

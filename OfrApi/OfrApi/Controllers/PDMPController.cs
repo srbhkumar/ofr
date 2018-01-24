@@ -1,4 +1,6 @@
-﻿using OfrApi.Interfaces;
+﻿using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
+using OfrApi.Interfaces;
 using OfrApi.Models;
 using OfrApi.Services;
 using System;
@@ -23,9 +25,19 @@ namespace OfrApi.Controllers
         }
 
         [Route("{mrn}")]
-        public async Task<PDMPData> GetPDMPData(string mrn)
+        public async Task<HttpResponseMessage> GetPDMPData(string mrn)
         {
-            return await _pdmpDal.GetPDMPData(getUserName(), mrn);
+            using (var operation = this.TelClient.StartOperation<RequestTelemetry>("GetPDMPData"))
+            {
+                try
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, await PDMPDal.GetPDMPData(getUserName(), mrn));
+                }
+                catch (Exception ex)
+                {
+                    return HandleExceptions(ex, operation, Request);
+                }
+            }
         }
     }
 }

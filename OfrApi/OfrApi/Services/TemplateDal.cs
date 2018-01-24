@@ -21,7 +21,14 @@ namespace OfrApi.Controllers
 
         public CaseTemplate getTemplate(string id, HttpRequestMessage request)
         {
-            var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]))
+            var feedOptions = new FeedOptions
+            {
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+
+            var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]), feedOptions)
                 .Where(d => d.id == id);
 
             return c.AsEnumerable().FirstOrDefault() ;
@@ -30,7 +37,13 @@ namespace OfrApi.Controllers
 
         public string GetCurrentTemplate()
         {
-            var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]))
+            var feedOptions = new FeedOptions
+            {
+                EnableCrossPartitionQuery = true,
+                MaxItemCount = -1,
+                EnableScanInQuery = true
+            };
+            var c = Client.CreateDocumentQuery<CaseTemplate>(UriFactory.CreateDocumentCollectionUri(WebConfigurationManager.AppSettings["documentDatabase"], WebConfigurationManager.AppSettings["templateCollection"]), feedOptions)
                 .OrderBy(f => f._ts);
 
             return c.AsEnumerable().FirstOrDefault().id;
