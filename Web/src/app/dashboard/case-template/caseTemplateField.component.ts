@@ -16,23 +16,24 @@ export class CaseTemplateFieldComponent implements OnInit {
     }
 
     ngOnInit() {
+
         if (this.field.Type == 'Checkbox' && this.value) {
             this.value = (this.value.toString().toLowerCase() == 'true');
         }
         const isValid = !this.value && this.field.Required ? false : true;
-        this.setValiaionRule();
+        this.setValidationRule();
     }
 
-    private setValiaionRule(): void {
+    private setValidationRule(): void {
         CaseData.setCaseData({
             key: this.field.Name, IsRequired: this.field.Required,
-            value: this.value,  Type: this.field.Type
+            value: this.value, Type: this.field.Type
         });
     }
 
     private update(validationControl: any, value: any) {
         this.value = value;
-        this.setValiaionRule();
+        this.setValidationRule();
         CaseData.changeset[this.field.Name] = value;
         CaseData.OnChange();
     }

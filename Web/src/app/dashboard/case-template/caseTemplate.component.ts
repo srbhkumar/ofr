@@ -38,12 +38,12 @@ export class CaseTemplateComponent implements OnInit {
         position: ['right', 'bottom']
     };
 
-    constructor(private http: Http, private dataService: DataService, private saveNotificationService: NotificationsService, 
+    constructor(private http: Http, private dataService: DataService, private saveNotificationService: NotificationsService,
         private router: Router, private route: ActivatedRoute) {
     }
 
     ngOnInit() {
-        
+
         this.getCaseInformation();
     }
 
@@ -121,37 +121,37 @@ export class CaseTemplateComponent implements OnInit {
     }
 
     private saveNotify(): any {
-         this.saveNotificationService.success(
-             "Saved",
-             "Changes Successfully Saved",
-             {
-                 //SK_These options override the options set for ping notification
-                 id: 2,
-                 position: ["top", "right"],
-                 timeOut: 3 * 1000,
-                 maxStack: 3,
-                 showProgressBar: false,
-                 pauseOnHover: true,
-                 clickToClose: true,
-             }
-         );
+        this.saveNotificationService.success(
+            "Saved",
+            "Changes Successfully Saved",
+            {
+                //SK_These options override the options set for ping notification
+                id: 2,
+                position: ["top", "right"],
+                timeOut: 3 * 1000,
+                maxStack: 3,
+                showProgressBar: false,
+                pauseOnHover: true,
+                clickToClose: true,
+            }
+        );
     }
 
     private saveErrorNotify(): any {
-         this.saveNotificationService.error(
-             "Error!",
-             "Changes could not be saved.",
-             {
-                 //SK_These options override the options set for ping notification
-                 id: 2,
-                 position: ["top", "right"],
-                 timeOut: 3 * 1000,
-                 maxStack: 3,
-                 showProgressBar: true,
-                 pauseOnHover: true,
-                 clickToClose: true,
-             }
-         );
+        this.saveNotificationService.error(
+            "Error!",
+            "Changes could not be saved.",
+            {
+                //SK_These options override the options set for ping notification
+                id: 2,
+                position: ["top", "right"],
+                timeOut: 3 * 1000,
+                maxStack: 3,
+                showProgressBar: true,
+                pauseOnHover: true,
+                clickToClose: true,
+            }
+        );
     }
 
     private dateValidation(orignalValue: any, comparisonType: string, targetValue: any, type: string): boolean {
@@ -207,7 +207,7 @@ export class CaseTemplateComponent implements OnInit {
         return CaseData.isValid();
     }
 
-    private  submit(): void {
+    private submit(): void {
         this.dataService.submitCase(this.caseId, null);
         this.router.navigate(['dashboard']);
     }
