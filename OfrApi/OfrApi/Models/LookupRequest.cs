@@ -23,7 +23,7 @@ namespace OfrApi.Models
 
     public class Address
     {
-        [JsonProperty(PropertyName = "street")]
+        [JsonProperty(PropertyName = "stLine1")]
         public string Street { get; set; }
 
         [JsonProperty(PropertyName = "state")]

@@ -51,14 +51,14 @@ namespace OfrApi.Controllers
                     var address = new Address();
                     address.Street = searchCase.OCMEData.ContainsKey("RES_ADDR") ? searchCase.OCMEData["RES_ADDR"] : null;
                     address.City = searchCase.OCMEData.ContainsKey("RES_CITY") ? searchCase.OCMEData["RES_CITY"] : null;
-                    address.City = searchCase.OCMEData.ContainsKey("RES_ZIP") ? searchCase.OCMEData["RES_ZIP"] : null;
+                    address.ZipCode = searchCase.OCMEData.ContainsKey("RES_ZIP") ? searchCase.OCMEData["RES_ZIP"] : null;
                     address.State = searchCase.OCMEData.ContainsKey("RES_STATE") ? searchCase.OCMEData["RES_STATE"] : null;
                     lookupDetails.Address = new List<Address>() { address };
 
                     //Set the name
                     var name = new Name();
                     name.First = searchCase.OCMEData.ContainsKey("NAME_FIRST") ? searchCase.OCMEData["NAME_FIRST"] : null;
-                    name.Last = searchCase.OCMEData.ContainsKey("NAME_FIRST") ? searchCase.OCMEData["NAME_FIRST"] : null;
+                    name.Last = searchCase.OCMEData.ContainsKey("NAME_LAST") ? searchCase.OCMEData["NAME_LAST"] : null;
                     name.Middle = searchCase.OCMEData.ContainsKey("NAME_MIDDLE") ? searchCase.OCMEData["NAME_MIDDLE"] : null;
                     lookupDetails.Name = new List<Name>() { name };
 
@@ -74,7 +74,7 @@ namespace OfrApi.Controllers
 
                     var eid = await PDMPDal.GetEid(getUserName(), lookupDetails);
                     if(eid == null)
-                        return Request.CreateResponse(HttpStatusCode.OK, new PDMP());
+                        return Request.CreateResponse(HttpStatusCode.OK, "");
                     else
                         return Request.CreateResponse(HttpStatusCode.OK, await PDMPDal.GetPDMPData(getUserName() , eid));
                 }

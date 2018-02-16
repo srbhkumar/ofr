@@ -22,14 +22,14 @@ namespace OfrApi.Services
         public string LookupHost { get; set; }
 
         public PDMPDal(){
-            PdmpHost = WebConfigurationManager.AppSettings["PDMPEndpoint"];
-            ByEidEndpoint = WebConfigurationManager.AppSettings["ByEIDPath"];
+            PdmpHost = WebConfigurationManager.AppSettings["PDMPHost"];
+            ByEidEndpoint = WebConfigurationManager.AppSettings["ByEIDEndpoint"];
             CdsNumber = WebConfigurationManager.AppSettings["CDSNumber"];
             OrgName = WebConfigurationManager.AppSettings["OrgName"];
             LookupHost = WebConfigurationManager.AppSettings["LookupHost"];
             LookupEndpoint = WebConfigurationManager.AppSettings["LookupEndpoint"];
         }
-        public async Task<PDMPData> GetPDMPData(string username, string eid)
+        public async Task<List<PDMP>> GetPDMPData(string username, string eid)
         {
 
             using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, $"{ByEidEndpoint}?userName={username}&eid={eid}&organizationName={OrgName}"))
@@ -43,16 +43,11 @@ namespace OfrApi.Services
                     var response = await httpClient.SendAsync(request);
                     if (!response.IsSuccessStatusCode)
                     {
-                        return new PDMPData
-                        {
-                            Notice = response.ReasonPhrase,
-                            IsRegistered = true,
-                            Results = { }
-                        };
+                        return null;
                     }
 
                     var body = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<PDMPData>(body);
+                    return JsonConvert.DeserializeObject<List<PDMP>>(body);
                 }
             }
                 
@@ -79,7 +74,14 @@ namespace OfrApi.Services
 
                     //Gets the Eid of the result with the highest score
                     //A seed is passed into Aggregate to avoid it operating on an empty set.
-                    return JsonConvert.DeserializeObject<LookupResult>(body).Results.Aggregate(new EidResult(), (resultA, resultB) => int.Parse(resultA.Score) > int.Parse(resultB.Score) ? resultA : resultB).EnterpriseId;
+                    var eids = JsonConvert.DeserializeObject<LookupResult>(body).Results;
+                    
+                    if (eids.Count == 1)
+                        return eids[0].EnterpriseId;
+                    else if (eids.Count > 1)
+                        return eids.Aggregate((resultA, resultB) => int.Parse(resultA.Score) > int.Parse(resultB.Score) ? resultA : resultB).EnterpriseId;
+                    else
+                        return null;
                 }              
             }
         }

@@ -1,4 +1,4 @@
-<table class="table table-hover table-bordered" *ngIf="pdmpData && pdmpData.Results && pdmpData.Results.length > 0">
+<table class="table table-hover table-bordered" *ngIf="pdmpData && pdmpData && pdmpData.length > 0">
   <thead>
     <th>Medication</th>
     <th>Written</th>
@@ -10,18 +10,18 @@
     <th>Pharmacy Name</th>
   </thead>
   <tbody>
-    <tr *ngFor="let row of pdmpData.Results" >
-      <td>{{row.label}}</td>
-      <td>{{row.dateWritten}}</td>
-      <td>{{row.dateFilled}}</td>
-      <td>{{row.daysSupply}}</td>
-      <td>{{row.quantityDispensed}}</td>
-      <td>{{row.paymentMethod}}</td>
-      <td>{{row.prescribingProvider.lastName + ", " + data.prescribingProvider.lastName}}</td>
-      <td>{{row.pharmacyName}}</td>
+    <tr *ngFor="let row of pdmpData" >
+      <td>{{row.Label}}</td>
+      <td>{{row.DateWritten}}</td>
+      <td>{{row.DateFilled}}</td>
+      <td>{{row.DaysSupply}}</td>
+      <td>{{row.QuantityDispensed}}</td>
+      <td>{{row.PaymentMethod}}</td>
+      <td>{{row.PrescribingProvider.LastName + ", " + row.PrescribingProvider.FirstName}}</td>
+      <td>{{row.PharmacyName}}</td>
     </tr>
   </tbody>
 </table>
-<div style="text-align: center" *ngIf="!pdmpData || !pdmpData.Results || pdmpData.Results.length == 0">
+<div style="text-align: center" *ngIf="!pdmpData || pdmpData.length == 0">
   <h3>No PDMP data found</h3>
 </div>
