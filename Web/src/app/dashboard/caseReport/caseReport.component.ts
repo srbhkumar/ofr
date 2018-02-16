@@ -126,14 +126,19 @@ downloadCSV(startDateDeath: string, endDateDeath: string, startDateReview: strin
      
   this.dataService.DownloadCases(startDateDeath, endDateDeath, startDateReview, endDateReview, type).then(function(contents){
     var blob = new Blob([contents]);
-    var csvUrl = window.URL.createObjectURL(blob);
+    var filename = "ofr" + Date.now() + ".csv";
+    if(navigator.msSaveBlob){
+      navigator.msSaveBlob(blob, filename);
+    } else {
+      var csvUrl = window.URL.createObjectURL(blob);
 
-    var arc = document.createElement('a');
-    arc.id = "lnkDwnldLnk";
-    arc.setAttribute('download', "ofr" + Date.now() + ".csv");
-    arc.setAttribute('href', csvUrl);
-    arc.click();
-    document.body.appendChild(arc);
+      var arc = document.createElement('a');
+      arc.id = "lnkDwnldLnk";
+      arc.setAttribute('download', filename);
+      arc.setAttribute('href', csvUrl);
+      arc.click();
+      document.body.appendChild(arc);
+    }
   });
 
 }

@@ -7,12 +7,12 @@ import { DataService } from 'app/shared/services/dataService';
   styleUrls: ['./pdmp.component.css']
 })
 export class PdmpComponent implements OnInit, OnChanges {
-  @Input() ocme: string;
+  @Input() caseId: string;
   private pdmpData: any;
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataService.getPDMPData(this.ocme).then(val => {
+    this.dataService.getPDMPData(this.caseId).then(val => {
       this.pdmpData = val;
     });
   }

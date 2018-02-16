@@ -201,6 +201,8 @@
     <Compile Include="Controllers\PDMPController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Interfaces\IPDMPDal.cs" />
+    <Compile Include="Models\LookupRequest.cs" />
+    <Compile Include="Models\LookupResult.cs" />
     <Compile Include="Models\PDMP.cs" />
     <Compile Include="Services\BlobStorageDal.cs" />
     <Compile Include="Services\BlobStorageException.cs" />

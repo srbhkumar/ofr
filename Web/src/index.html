@@ -1,36 +1,66 @@
 ﻿<!doctype html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <title>OFR</title>
-  <base href="/">
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-  <script src="https://secure.aadcdn.microsoftonline-p.com/lib/0.1.1/js/msal.min.js"></script>
- <link rel="stylesheet" href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" />
- <script src="https://code.jquery.com/jquery-3.1.0.js" crossorigin="anonymous"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.css">
-  <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/fonts/fontawesome-webfont.woff">
-  <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2">
-  <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
- 
-  <script type="text/javascript">
-       //Workaround to allow scrollup to affect contents div due to angular stripping script tags in templates
-       $(function(){
-          $('#caseDetailsPopup').on('shown.bs.modal', function () {
-              $("#ocmeContents").scrollTop(0);
-          });
-      });
-  </script>
-      
+    <meta charset="utf-8">
+    <title>OFR</title>
+    <base href="/">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/0.1.1/js/msal.min.js"></script>
+    <link rel="stylesheet" href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.1.0.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/fonts/fontawesome-webfont.woff">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2">
+    <link rel="stylesheet" href="assets/font-awesome-4.7.0/font-awesome-4.7.0/fonts/fontawesome-webfont.ttf">
+    <style>
+        @media print {
+
+            .legal-text,
+            nav {
+                display: none !important;
+            }
+            #bodyContent {
+                height: 100% !important;
+                overflow-y: visible !important;
+            }
+            .container-fluid,
+            .row {
+                display: inline !important;
+                overflow: visible !important;
+            }
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript">
+        //Workaround to allow scrollup to affect contents div due to angular stripping script tags in templates
+        $(function () {
+            $('#caseDetailsPopup').on('shown.bs.modal', function () {
+                $("#ocmeContents").scrollTop(0);
+            });
+        });
+    </script>
+
 </head>
-<body>  
-   <div style="overflow-y: scroll; height: 85vh;"><app>Loading...</app></div>
-   <div class="small" style="font-size: .75em; padding: 2pt;background-color: #E3E3E3; height: 10vh; padding: 0 2% 0 2%">
-    <p>Health-General Article § 5–906, Annotated Code of Maryland, establishes that, with certain exceptions, the proceedings, records, and files of a LOFRT are confidential and not discoverable or admissible as evidence in any civil action. Much of the information provided to the LOFRT by the Maryland Department of Health, including investigative records of the Office of the Chief Medical Examiner, is confidential, privileged and protected from or limited in disclosure under state and federal laws and regulations.</p>
-   </div>
+
+<body>
+    <div class="bodyContent" id="bodyContent" style="overflow-y: scroll; height: 85vh;">
+        <app>Loading...</app>
+    </div>
+    <div class="small legal-text" style="font-size: .75em; padding: 2pt;background-color: #E3E3E3; height: 10vh; padding: 0 2% 0 2%">
+        <p>Health-General Article § 5–906, Annotated Code of Maryland, establishes that, with certain exceptions, the proceedings,
+            records, and files of a LOFRT are confidential and not discoverable or admissible as evidence in any civil action.
+            Much of the information provided to the LOFRT by the Maryland Department of Health, including investigative records
+            of the Office of the Chief Medical Examiner, is confidential, privileged and protected from or limited in disclosure
+            under state and federal laws and regulations.</p>
+    </div>
 </body>
+
 </html>
