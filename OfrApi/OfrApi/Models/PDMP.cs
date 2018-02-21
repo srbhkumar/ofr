@@ -16,9 +16,9 @@ namespace OfrApi.Models
         public string Label { get; set; }
         public DateTime DateWritten { get; set; }
         public DateTime DateFilled { get; set; }
-        public int DaysSupply { get; set; }
+        public string DaysSupply { get; set; }
         public PDMPPrescriber PrescribingProvider { get; set; }
-        public int QuantityDispensed { get; set; }
+        public string QuantityDispensed { get; set; }
         public string PharmacyName { get; set; }
         public string PaymentMethod { get; set; }
     }

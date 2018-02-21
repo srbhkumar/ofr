@@ -43,6 +43,7 @@ namespace OfrApi.Services
                     var response = await httpClient.SendAsync(request);
                     if (!response.IsSuccessStatusCode)
                     {
+                        
                         return null;
                     }
 

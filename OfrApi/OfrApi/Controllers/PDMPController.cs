@@ -44,7 +44,7 @@ namespace OfrApi.Controllers
                 {
                     var searchCase = CaseDal.GetCaseById(caseId, Request);
                     if (searchCase == null)
-                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Case does not exist");
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Case does not exist");
                     var lookupDetails = new LookupRequest();
 
                     //Set the address
@@ -80,7 +80,8 @@ namespace OfrApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return HandleExceptions(ex, operation, Request);
+                    //return HandleExceptions(ex, operation, Request);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, ex);
                 }
             }
         }
