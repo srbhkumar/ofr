@@ -196,6 +196,14 @@ namespace OfrApi.Controllers
                 tempCase.UpdatedOn = DateTime.Now;
                 tempCase.RecordAudit = new List<Tuple<string, DateTime, Dictionary<string, string>>>();
                 CaseDal.UploadCase(tempCase);
+                //Used to handle two jurisidictions getting to work on two seperate documents for the same case
+                if(tempCase.Jurisdiction != tempCase.Data["ResidentJurisdiction"])
+                {
+                    tempCase.Jurisdiction = tempCase.Data["ResidentJurisdiction"];
+                    tempCase.id = Guid.NewGuid().ToString();
+                    CaseDal.UploadCase(tempCase);
+                }
+                
 
             }
         }

@@ -52,7 +52,7 @@ namespace OfrApi.Services
                 return result.Result.AccessToken;
             }
             var jsonData = await response.Result.Content.ReadAsStringAsync();
-            var groupMatches = Regex.Matches(jsonData, "\"displayName\":\"([\\w ]*)\"");
+            var groupMatches = Regex.Matches(jsonData, "\"displayName\":\"([\\w\\. ']*)\"");
             var groups = "";
             foreach (Match group in groupMatches)
             {
@@ -77,11 +77,6 @@ namespace OfrApi.Services
         {
             var groupHeader = String.Join("",request.Headers.GetValues("GroupAccess"));
             return new List<string>(EncryptionService.Decrypt(groupHeader).Split(','));
-        }
-
-        public string GetUserNameFromHeader(HttpRequestMessage request)
-        {
-            return String.Join("", request.Headers.GetValues("Username"));
         }
     }
 }

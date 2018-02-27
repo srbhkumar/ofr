@@ -6,50 +6,71 @@
             <div class="modal-content">
 
                 <div class="modal-header" style="background-color:#2199e8">
-                    <h5 class="modal-title" style="color:white">Details for Case : {{caseDetails.OCME + "\t" + caseDetails.OCMEData["NAME_FIRST"] + " " + caseDetails.OCMEData["NAME_MIDDLE"] + " " + caseDetails.OCMEData["NAME_LAST"]}}</h5>
+                    <h5 class="modal-title" style="color:white">Details for Case : {{caseDetails.OCME + "\t" + caseDetails.OCMEData["NAME_FIRST"] + " " + caseDetails.OCMEData["NAME_MIDDLE"]
+                        + " " + caseDetails.OCMEData["NAME_LAST"]}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" style="padding-left:20px">
                     <div class="panel-group">
                         <div class="panel panel-default">
                             <h4>OCME Details</h4>
-                            <div id="ocmeContents" style="height: 450px; overflow-y:scroll">
+                            <div id="ocmeContents" style="height: 40vh; overflow-y:scroll">
                                 <table class="table table-striped">
-                                <tr *ngFor="let detail of caseDetails.OCMEData | keys">                               
+                                    <tr *ngFor="let detail of caseDetails.OCMEData | keys">
                                         <td>{{detail}}</td>
                                         <td>{{format(detail)}}</td>
-                                </tr>
-                                </table> 
+                                    </tr>
+                                </table>
+                            </div>
+                            <br />
+                            <div *ngIf="caseDetails.Status =='Assigned'" style="height: 25vh; overflow-y: scroll">
+                                <app-pdmp [caseId]="caseId"></app-pdmp>
                             </div>
                             <h4>Actions</h4>
                             <div class="panel-body">
                                 <div class="row">
-                                    
+
                                     <div *ngIf="caseDetails.Status =='Assigned'" class="col-sm-9">
-                                        <a href="https://ulp.crisphealth.org/" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;">PDMP Data</a>
                                         <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 50px;">Clinical Data</a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="fleft" title="Dismiss Case"><i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i></a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 70px;" title="Unflag Case"></a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id , 'Assigned', 'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 70px;" title="Flag Case"> </a>
-                                        <a data-dismiss="modal" [routerLink]="['/case', caseDetails.id]"><i class="fa fa-pencil-square-o fleft" style="width:70px; margin-left: 65px;" aria-hidden="true" title="Edit Case Form"></i></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Dismissed')" class="fleft" title="Dismiss Case">
+                                            <i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i>
+                                        </a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Assigned', 'Unflagged');openDialog(caseDetails.id);" *ngIf="caseDetails.Flagged"
+                                            class="icon-flagged fleft   margin_l5" style="width: 70px;" title="Unflag Case"></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id , 'Assigned', 'Flagged');openDialog(caseDetails.id);" *ngIf="!caseDetails.Flagged"
+                                            class="icon-unflagged fleft  margin_l5" style="width: 70px;" title="Flag Case"> </a>
+                                        <a data-dismiss="modal" [routerLink]="['/case', caseDetails.id]">
+                                            <i class="fa fa-pencil-square-o fleft" style="width:70px; margin-left: 65px;" aria-hidden="true"
+                                                title="Edit Case Form"></i>
+                                        </a>
                                     </div>
                                     <div *ngIf="caseDetails.Status =='Available'" class="col-sm-9">
                                         <a href="https://portal.crisphealth.org/MirthSignOn-idp/sso" target="_blank" class="btn btn-info" role="button" style="margin-bottom:10px;margin-left: 60px;">Clinical Data</a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"  title="Accept Case"></a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Dismissed')" class="fleft" style="width:25%;padding-left: 70px;"  title="Dismiss Case"><i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i></a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 85px;"  title="Unflag Case"> </a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 85px;"  title="Flag Case"> </a>
-                                        
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"
+                                            title="Accept Case"></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Dismissed')" class="fleft" style="width:25%;padding-left: 70px;"
+                                            title="Dismiss Case">
+                                            <i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i>
+                                        </a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"
+                                            style="width: 85px;" title="Unflag Case"> </a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Available','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5"
+                                            style="width: 85px;" title="Flag Case"> </a>
+
                                     </div>
                                     <div *ngIf="caseDetails.Status =='Dismissed'" class="col-sm-9">
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"  title="Accept Case"></a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5" style="width: 75px;"  title="Unflag Case"> </a>
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5" style="width: 75px;"  title="Flag Case"> </a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Assigned')" class="icon-accept fleft" style="width:25px;height: 33px;"
+                                            title="Accept Case"></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Unflagged')" *ngIf="caseDetails.Flagged" class="icon-flagged fleft   margin_l5"
+                                            style="width: 75px;" title="Unflag Case"> </a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Dismissed','Flagged')" *ngIf="!caseDetails.Flagged" class="icon-unflagged fleft  margin_l5"
+                                            style="width: 75px;" title="Flag Case"> </a>
                                     </div>
                                     <div *ngIf="caseDetails.Status =='Submitted'" class="col-sm-9">
-                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Submitted','Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"  title="Move to Open Cases"></a>
+                                        <a data-dismiss="modal" (click)="updateCaseStatus(caseDetails.id ,'Submitted','Assigned')" class="icon-accept" style="width:25px;height: 33px;padding:5px 0px 0px 0px"
+                                            title="Move to Open Cases"></a>
                                     </div>
                                 </div>
                             </div>
@@ -79,9 +100,13 @@
 <div class="row">
     <div class="col-md-6 col-sm-6 pull-left mainheading"></div>
     <div class="col-md-6 col-sm-6 ">
-        
-        <div class="pull-right btn-Case-Report"> <button type="button" (click)="onToggleReport(showReport)" class="btn btn-sm btn-primary">Case Report Download</button></div>
-        <div class="pull-right btn-Case-Report"> <button type="button" (click)="onToggleCensus(showCensus)" class="btn btn-sm btn-primary">Decedent Census Download</button></div>
+
+        <div class="pull-right btn-Case-Report">
+            <button type="button" (click)="onToggleReport(showReport)" class="btn btn-sm btn-primary">Case Report Download</button>
+        </div>
+        <div class="pull-right btn-Case-Report">
+            <button type="button" (click)="onToggleCensus(showCensus)" class="btn btn-sm btn-primary">Decedent Census Download</button>
+        </div>
         <div class="pull-right" style="margin-right: 2%;">
             <label class="btn btn-sm btn-primary">
                 <input type="file" style="display: none;" multiple="true" (change)="fileChange($event)" accept=".csv">
@@ -90,12 +115,12 @@
         </div>
     </div>
 </div>
-<div id=caseReport *ngIf="showReport">    
+<div id=caseReport *ngIf="showReport">
     <case-report type="FULL" title="Case Report Download" [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
 </div>
-<div id=decedentCensus type="OCME" *ngIf="showCensus">    
-        <case-report type="OCME" title="Decedent Census Report Download" [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
-    </div>
+<div id=decedentCensus type="OCME" *ngIf="showCensus">
+    <case-report type="OCME" title="Decedent Census Report Download" [ngClass]="{ 'ic-v': visible, 'ic-v-up': !visible }"> </case-report>
+</div>
 <div class="clear"></div>
 
 <div [ngSwitch]='status'>
@@ -103,24 +128,23 @@
         Loading....
     </div>
     <div *ngSwitchCase="'active'">
-    <div class="pull-right text-muted" style="font-size: 10pt">
-                            <label for="flagFilter">Show Only Flagged Cases</label>
-                            <input id="flagFilter" [(ngModel)]="flagFilter" type="checkbox" 
-                            (change)="paginationOpenCasesData(currentOpenCasePage); paginationAvailableCasesData(currentAvailableCasePage);
-                                    paginationSubmittedData(currentSubmittedCasePage); paginationDismissedData(currentDismissedCasePage);"/>
-    </div>
+        <div class="pull-right text-muted" style="font-size: 10pt">
+            <label for="flagFilter">Show Only Flagged Cases</label>
+            <input id="flagFilter" [(ngModel)]="flagFilter" type="checkbox" (change)="paginationOpenCasesData(currentOpenCasePage); paginationAvailableCasesData(currentAvailableCasePage);
+                                    paginationSubmittedData(currentSubmittedCasePage); paginationDismissedData(currentDismissedCasePage);"
+            />
+        </div>
         <div class="table-responsive">
-            <h5 class="heading"><span>Open Cases</span><span style="float:right; margin-top:-1px; padding-bottom:20px"><pagination-controls 
-                        (pageChange) = "page = paginationOpenCasesData($event);" 
-                        id="open"
-                        maxSize = "5"
-                        directionLinks = "true"
-                        autohide = "true"
-                        >
-            </pagination-controls></span>
-            
-        </h5>
-            
+            <h5 class="heading">
+                <span>Open Cases</span>
+                <span style="float:right; margin-top:-1px; padding-bottom:20px">
+                    <pagination-controls (pageChange)="page = paginationOpenCasesData($event);" id="open" maxSize="5" directionLinks="true"
+                        autohide="true">
+                    </pagination-controls>
+                </span>
+
+            </h5>
+
             <table class="table table-bordered table-striped table-sm mycasetable">
                 <thead>
                     <tr>
@@ -137,7 +161,7 @@
                             Cause of Death
                         </th>
                         <th class="width12">
-                                Jurisdiction of Death
+                            Incident Jurisdiction
                         </th>
                         <!--<th class="width12">
                                         <mfDefaultSorter by="Status">Status</mfDefaultSorter>
@@ -149,7 +173,10 @@
                 <tbody>
                     <tr *ngFor="let item of OpenObserve| async | paginate : { itemsPerPage:pageSizeOpen, currentPage: currentOpenCasePage, id : 'open', totalItems:currentOpenCaseCount }">
                         <!--<td><a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
-                        <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)" id={{item.id}}>{{item.OCME}}</a></td>
+                        <td>
+                            <a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
+                                id={{item.id}}>{{item.OCME}}</a>
+                        </td>
                         <!--<td><button md-button (click)="openDialog()">{{item.OCME}}</button></td>-->
                         <td>{{item.ResidentJurisdiction}}</td>
                         <td>{{item.DateofDeath}}</td>
@@ -158,27 +185,31 @@
                         <!--<td>{{item.Status}}</td>-->
                         <td>
 
-                            <a (click)="updateCaseStatus(item.id ,'Assigned', 'Dismissed')" title="Dismiss Case"><i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i></a>
-                            <a (click)="updateCaseStatus(item.id ,'Assigned','Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5" title="Unflag Case"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Assigned','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5" title="Flag Case"> </a>
-                            <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o fright" style="width:25%;" aria-hidden="true" title="Edit Case Form"></i></a>
+                            <a (click)="updateCaseStatus(item.id ,'Assigned', 'Dismissed')" title="Dismiss Case">
+                                <i class="fa fa-times" style="width:25%;" aria-hidden="true" title="Dismiss Case"></i>
+                            </a>
+                            <a (click)="updateCaseStatus(item.id ,'Assigned','Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5"
+                                title="Unflag Case"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Assigned','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5"
+                                title="Flag Case"> </a>
+                            <a [routerLink]="['/case', item.id]">
+                                <i class="fa fa-pencil-square-o fright" style="width:25%;" aria-hidden="true" title="Edit Case Form"></i>
+                            </a>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <h5 class="heading"><span>Available to Review </span><span style="float:right; margin-top:-1px; padding-bottom:20px">
-                        <pagination-controls 
-                        (pageChange) = "page = paginationAvailableCasesData($event);" 
-                        id="available"
-                        maxSize = "8"
-                        directionLinks = "true"
-                        autohide = "true">
-                        </pagination-controls>
-                        </span>
+        <h5 class="heading">
+            <span>Available to Review </span>
+            <span style="float:right; margin-top:-1px; padding-bottom:20px">
+                <pagination-controls (pageChange)="page = paginationAvailableCasesData($event);" id="available" maxSize="8" directionLinks="true"
+                    autohide="true">
+                </pagination-controls>
+            </span>
         </h5>
-        
+
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-sm mycasetable">
                 <thead>
@@ -196,7 +227,7 @@
                             Cause of Death
                         </th>
                         <th class="width12">
-                                Jurisdiction of Death
+                            Incident Jurisdiction
                         </th>
                         <!--<th class="width12">
                                         <mfDefaultSorter by="Status">Status</mfDefaultSorter>
@@ -208,18 +239,25 @@
                 <tbody>
                     <tr *ngFor="let item of AvailableObserve |async |  paginate : { itemsPerPage:pageSizeAvailable, currentPage:currentAvailableCasePage, id : 'available', totalItems:currentAvailableCaseCount } ">
                         <!--<td> <a [routerLink]="['/case', item.id]">{{item.OCME}}</a></td>-->
-                        <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
-                                id={{item.id}}>{{item.OCME}}</a></td>
+                        <td>
+                            <a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
+                                id={{item.id}}>{{item.OCME}}</a>
+                        </td>
                         <td>{{item.ResidentJurisdiction}}</td>
                         <td>{{item.DateofDeath}}</td>
                         <td>{{item.CauseofDeath}}</td>
                         <td>{{item.CountyofDeath}}</td>
                         <!--<td>{{item.Status}}</td>-->
                         <td>
-                            <a (click)="updateCaseStatus(item.id ,'Available', 'Assigned')" class="icon-accept  fleft   margin_l5" title="Accept Case"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Available', 'Dismissed')" title="Dismiss Case"><i class="fa fa-times" style="padding-left: 14%;" aria-hidden="true" title="Dismiss Case"></i></a>
-                            <a (click)="updateCaseStatus(item.id ,'Available','Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5" title="Unflag Case"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5" title="Flag Case"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available', 'Assigned')" class="icon-accept  fleft   margin_l5" title="Accept Case">
+                            </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available', 'Dismissed')" title="Dismiss Case">
+                                <i class="fa fa-times" style="padding-left: 14%;" aria-hidden="true" title="Dismiss Case"></i>
+                            </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available','Unflagged')" *ngIf="item.Flagged" class="icon-flagged   fleft   margin_l5"
+                                title="Unflag Case"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Available','Flagged')" *ngIf="!item.Flagged" class="icon-unflagged    fleft   margin_l5"
+                                title="Flag Case"> </a>
                             <!--<a [routerLink]="['/case', item.id]"><span class="icon-edit fleft   margin_l5"></span></a>-->
                             <!--Not allowed for Available cases <a [routerLink]="['/case', item.id]"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> -->
 
@@ -231,75 +269,75 @@
 
         </div>
 
-        <h5 class="heading"><span>Submitted Cases</span>
-            <span style="float:right; padding-bottom:20px"><pagination-controls 
-                        (pageChange) = "page = paginationSubmittedData($event);" 
-                        id="submitted"
-                        maxSize = "5"
-                        directionLinks = "true"
-                        autohide = "true">
-                        </pagination-controls>
-                    </span>
+        <h5 class="heading">
+            <span>Submitted Cases</span>
+            <span style="float:right; padding-bottom:20px">
+                <pagination-controls (pageChange)="page = paginationSubmittedData($event);" id="submitted" maxSize="5" directionLinks="true"
+                    autohide="true">
+                </pagination-controls>
+            </span>
         </h5>
 
         <div class="table-responsive">
-                <table class="table table-bordered table-striped mycasetable">
-                    <thead>
-                        <tr>
-                            <th class="width12">
-                                OCME #
-                            </th>
-                            <th class="width12">
-                                Resident County
-                            </th>
-                            <th class="width12">
-                                Date Of Death
-                            </th>
-                            <th class="width12">
-                                Cause of Death
-                            </th>
-                            <th class="width12">
-                                    Jurisdiction of Death
-                            </th>
-                            <!--<th class="width12">
+            <table class="table table-bordered table-striped mycasetable">
+                <thead>
+                    <tr>
+                        <th class="width12">
+                            OCME #
+                        </th>
+                        <th class="width12">
+                            Resident County
+                        </th>
+                        <th class="width12">
+                            Date Of Death
+                        </th>
+                        <th class="width12">
+                            Cause of Death
+                        </th>
+                        <th class="width12">
+                            Incident Jurisdiction
+                        </th>
+                        <!--<th class="width12">
                                             <mfDefaultSorter by="Status">Status</mfDefaultSorter>
                                         </th>-->
-                            <th class="width12"> Case Action </th>
-    
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:5, currentPage:currentSubmittedCasePage, id : 'submitted', totalItems : currentSubmittedCaseCount} ">
-                            <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
-                            <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
-                                    id={{item.id}}>{{item.OCME}}</a></td>
-                            <td>{{item.ResidentJurisdiction}}</td>
-                            <td>{{item.DateofDeath}}</td>
-                            <td>{{item.CauseofDeath}}</td>
-                            <td>{{item.CountyofDeath}}</td>
-                            <!--<td>{{item.Status}} </td>-->
-                            <td>
-                                <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
-                                <a (click)="updateCaseStatus(item.id , 'Submitted', 'Assigned')" class="icon-accept fleft   margin_l25" title="Move to Open Cases"> </a>
-                                <a (click)="updateCaseStatus(item.id ,'Submitted', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5" title="Unflag Case"> </a>
-                                <a (click)="updateCaseStatus(item.id ,'Submitted', 'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5" title="Flag Case"> </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                        <th class="width12"> Case Action </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of SubmittedObserve | async | paginate : { itemsPerPage:5, currentPage:currentSubmittedCasePage, id : 'submitted', totalItems : currentSubmittedCaseCount} ">
+                        <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
+                        <td>
+                            <a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
+                                id={{item.id}}>{{item.OCME}}</a>
+                        </td>
+                        <td>{{item.ResidentJurisdiction}}</td>
+                        <td>{{item.DateofDeath}}</td>
+                        <td>{{item.CauseofDeath}}</td>
+                        <td>{{item.CountyofDeath}}</td>
+                        <!--<td>{{item.Status}} </td>-->
+                        <td>
+                            <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
+                            <a (click)="updateCaseStatus(item.id , 'Submitted', 'Assigned')" class="icon-accept fleft   margin_l25" title="Move to Open Cases">
+                            </a>
+                            <a (click)="updateCaseStatus(item.id ,'Submitted', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"
+                                title="Unflag Case"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Submitted', 'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"
+                                title="Flag Case"> </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
 
         <h5 class="heading">
             <span>Dismissed Cases</span>
             <span style="float:right; padding-bottom:20px">
-                      <pagination-controls (pageChange)="page = paginationDismissedData($event);"
-                                           id="dismissed"
-                                           maxsize="5"
-                                           directionLinks="true"
-                                           autohide="true">
-                      </pagination-controls>
-                    </span>
+                <pagination-controls (pageChange)="page = paginationDismissedData($event);" id="dismissed" maxsize="5" directionLinks="true"
+                    autohide="true">
+                </pagination-controls>
+            </span>
         </h5>
         <div class="table-responsive">
             <table class="table table-bordered table-striped mycasetable">
@@ -318,7 +356,7 @@
                             Cause of Death
                         </th>
                         <th class="width12">
-                                Jurisdiction of Death
+                            Incident Jurisdiction
                         </th>
                         <!--<th class="width12">
               <mfDefaultSorter by="Status">Status</mfDefaultSorter>
@@ -330,8 +368,10 @@
                 <tbody>
                     <tr *ngFor="let item of DismissedObserve | async | paginate : { itemsPerPage:pageSizeDismissed, currentPage:currentDismissedCasePage, id : 'submitted', totalItems : currentDismissedCaseCount} ">
                         <!-- <td> <a class="label-ocme" [routerLink]="['/case', item.id]">{{item.OCME}}</a></td> -->
-                        <td><a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
-                                id={{item.id}}>{{item.OCME}}</a></td>
+                        <td>
+                            <a class="label-ocme" data-toggle='modal' data-target='#caseDetailsPopup' (click)="openDialog($event)"
+                                id={{item.id}}>{{item.OCME}}</a>
+                        </td>
                         <td>{{item.ResidentJurisdiction}}</td>
                         <td>{{item.DateofDeath}}</td>
                         <td>{{item.CauseofDeath}}</td>
@@ -339,9 +379,12 @@
                         <!--<td>{{item.Status}} </td>-->
                         <td>
                             <!-- SK_Removing the option to accept a submitted cases. Confirm with Laura. -->
-                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Assigned')" class="icon-accept fleft   margin_l25" title="Accept Case"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5" title="Unflag Case"> </a>
-                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5" title="Flag Case"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Assigned')" class="icon-accept fleft   margin_l25" title="Accept Case">
+                            </a>
+                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Unflagged')" *ngIf="item.Flagged" class="icon-flagged fleft   margin_l5"
+                                title="Unflag Case"> </a>
+                            <a (click)="updateCaseStatus(item.id ,'Dismissed', 'Flagged')" *ngIf="!item.Flagged" class="icon-unflagged fleft   margin_l5"
+                                title="Flag Case"> </a>
                         </td>
                     </tr>
                 </tbody>

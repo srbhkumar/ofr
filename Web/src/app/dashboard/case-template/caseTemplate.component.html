@@ -1,0 +1,50 @@
+<div class="row">
+  <div class=" col-xs-12 col-sm-12 col-lg-9 col-md-9" *ngIf="modalGroups && isModalDataLoaded ">
+    <simple-notifications id="2" [options]="options">{{this.userList}}</simple-notifications>
+    
+    <div class="container">
+      <br />
+      <h3>Case Report Form</h3> 
+      <h4>
+        OCME: {{ocmeNum}} Jurisdiction: {{jurisdiction}}
+      </h4>
+      <br />
+    <form class="ui form">
+
+      <div>
+        <div *ngFor="let group of modalGroups; let i = index" class="card">
+          <div class="card-header">
+              <a data-toggle="collapse" data-toggle="collapse" [attr.href]="'#card' + i ">{{group.Name}}</a>
+          </div>
+          <div [attr.id]="'card' + i" class="collapse show">
+            <div  class="card-block">
+              
+                <div *ngFor="let field of group.Fields">
+                  <div *ngIf="field.InnerGroup">
+                    <Case-Template-Group [field1]="field.InnerGroup" [Title]="field.Title" [ParentTitle]="field.Title" [modalData]="modalData"
+                      [IsGroupRequired]="field.Required" [AllRequired]="field.AllRequired" [Required]="field.Required"></Case-Template-Group>
+                  </div>
+                  <div *ngIf="!field.InnerGroup" class="form-group">
+                    <Case-Template-Field [field]="field" [value]="getFieldValue(field.Name)"></Case-Template-Field>
+                  </div>
+                </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+   
+      <br>
+      <div>
+        <ul class="error">
+          <li *ngFor="let error of isValidComparsionRule()">{{error}}</li>
+        </ul>
+        <button type="submit" [disabled]="isValid()" (click)="submit()" class="btn btn-md btn-primary fright">Submit </button>
+      </div>
+    </form>
+  </div>
+  </div>
+</div>

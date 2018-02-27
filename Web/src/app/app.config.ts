@@ -42,13 +42,12 @@ export class AppConfig {
                 let request:any = null;
 
                 switch (envResponse.env) {
-                    case 'production': {
-                        request = this.http.get('assets/config.' + envResponse.env + '.json');
-                    } break;
-
-                    case 'development': {
-                        request = this.http.get('assets/config.' + envResponse.env + '.json');
-                    } break;
+                    case 'production':
+                    case 'development':
+                    case 'crisp-test':
+                    case 'crisp-prod':
+                        request = this.http.get('assets/config.' + envResponse.env + '.json');            
+                        break;
 
                     case 'default': {
                         console.error('Environment file is not set or invalid');

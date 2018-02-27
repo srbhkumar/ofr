@@ -8,6 +8,5 @@ namespace OfrApi.Interfaces
     {
         Task<string> GetGroupsById(string userId);
         List<string> GetGroupsFromHeader(HttpRequestMessage request);
-        string GetUserNameFromHeader(HttpRequestMessage request);
     }
 }

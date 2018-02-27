@@ -23,6 +23,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -197,7 +198,12 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CaseController.cs" />
     <Compile Include="Controllers\OCMEController.cs" />
+    <Compile Include="Controllers\PDMPController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Interfaces\IPDMPDal.cs" />
+    <Compile Include="Models\LookupRequest.cs" />
+    <Compile Include="Models\LookupResult.cs" />
+    <Compile Include="Models\PDMP.cs" />
     <Compile Include="Services\BlobStorageDal.cs" />
     <Compile Include="Services\BlobStorageException.cs" />
     <Compile Include="Services\FileStorageDal.cs" />
@@ -206,6 +212,7 @@
     <Compile Include="Services\FileStorageException.cs" />
     <Compile Include="Services\HeaderMap.cs" />
     <Compile Include="Interfaces\ITemplateDal.cs" />
+    <Compile Include="Services\PDMPDal.cs" />
     <Compile Include="Services\TemplateDal.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">

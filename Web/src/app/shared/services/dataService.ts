@@ -52,7 +52,6 @@ export class DataService {
     private appendToken()
     {
         this.msal.updateToken();
-        this.headers.set("Username", this.msal.getUsername());
         this.headers.set('Authorization', 'Bearer ' + this.msal.getAccessToken());
         this.headers.set("GroupAccess", localStorage.getItem("GroupAccess"));   
     }
@@ -96,9 +95,9 @@ export class DataService {
     } 
     
 
-    public getTemplate(id:string):Promise<Template>
+    public getTemplate(id:string):Promise<any>
     {
-        return this.httpget<Template>(`/template/${id}`);
+        return this.httpget<any>(`/template/${id}`);
     } 
 
     public getCaseInformation(id:string):Promise<Case>
@@ -108,7 +107,6 @@ export class DataService {
 
     public saveCase(id:string, data:any):Promise<OFRResponse>
     {
-     
         return this.httppost<OFRResponse>(`/case/${id}`, data);
     } 
     
@@ -147,6 +145,10 @@ export class DataService {
     public DownloadCases(startDateDeath: string, endDateDeath: string, startDateReview: string, endDateReview, type: string): Promise<string>{
         return this.httpget<string>(`/case/download/cases?startDateDeath=${startDateDeath}&endDateDeath=${endDateDeath}&startDateReview=${startDateReview}&endDateReview=${endDateReview}&type=${type}`);
         
+    }
+
+    public getPDMPData(ocmeNumber: string): Promise<any>{
+        return this.httpget<string>(`/pdmp/${ocmeNumber}`);
     }
  
     private handleError(error: any) {

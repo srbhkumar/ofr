@@ -1,0 +1,1724 @@
+{
+    "id": "2691e182-04d3-4499-9a89-14bb531bc795",
+    "Name": "Original Template",
+    "Description": "Actually the real template I guess",
+    "Layout": "turns out angular2 doesn't like html in its data",
+    "Groups": [
+      {
+        "Name": "Case Information",
+        "Fields": [
+          {
+            "Name": "DateofInitialCaseReview",
+            "Description": "Date of Initial Case Review",
+            "Type": "Date",
+            "Required": true,
+            "Options": null
+          },
+          {
+            "Name": "DateofDeath",
+            "Description": "Date of Death",
+            "Type": "Date",
+            "Required": true,
+            "Options": null
+          },
+          {
+            "Name": "YearofDeath",
+            "Description": "Year of Death",
+            "Type": "Text",
+            "Required": false,
+            "Length": "50"
+          },
+          {
+            "Name": "CountyofDeath",
+            "Description": "Incident Jurisdiction",
+            "Type": "Dropdown",
+            "Required": true,
+            "Options": [
+              "Allegany County",
+              "Anne Arundel County",
+              "Baltimore County",
+              "Baltimore City",
+              "Calvert County",
+              "Caroline County",
+              "Carroll County",
+              "Cecil County",
+              "Charles County",
+              "Dorchester County",
+              "Frederick County",
+              "Garrett County",
+              "Harford County",
+              "Howard County",
+              "Kent County",
+              "Montgomery County",
+              "Prince George's County",
+              "Queen Anne's County",
+              "Saint Mary's County",
+              "Somerset County",
+              "Talbot County",
+              "Washington County",
+              "Wicomico County",
+              "Worcester County"
+            ]
+          },
+          {
+            "Name": "ResidentJurisdiction",
+            "Description": "Resident Jurisdiction",
+            "Type": "Dropdown",
+            "Required": true,
+            "Options": [
+              "Allegany County",
+              "Anne Arundel County",
+              "Baltimore County",
+              "Baltimore City",
+              "Calvert County",
+              "Caroline County",
+              "Carroll County",
+              "Cecil County",
+              "Charles County",
+              "Dorchester County",
+              "Frederick County",
+              "Garrett County",
+              "Harford County",
+              "Howard County",
+              "Kent County",
+              "Montgomery County",
+              "Prince George's County",
+              "Queen Anne's County",
+              "Saint Mary's County",
+              "Somerset County",
+              "Talbot County",
+              "Washington County",
+              "Wicomico County",
+              "Worcester County",
+              "Out-Of-State"
+            ]
+          },
+          {
+            "Name": "CauseofDeath",
+            "Description": "Cause of Death",
+            "Type": "Text",
+            "Required": false,
+            "Length": "50"
+          },         
+          {
+            "Name": "MannerofDeath",
+            "Description": "Manner of Death",
+            "Type": "Dropdown",
+            "Required": true,
+            "Options": [
+              "Undetermined",
+              "Accident",
+              "Suicide",
+              "Natural",
+              "Homicide"
+            ]
+          }         
+        ]
+      },
+      {
+        "Name": "Decedent Demographic Information",       
+        "Fields": [
+          {
+            "Name": "Sex",
+            "Description": "Sex",
+            "Type": "Dropdown",
+            "Required": true,
+            "Options": [
+              "Male",
+              "Female",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "Transgender",
+            "Description": "Is the decedent transgender?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "DateofBirth",
+            "Description": "Date of Birth",
+            "Type": "Date",
+            "Required": true,
+            "Options": null
+          },
+          {
+            "Name": "AgeatDeath",
+            "Description": "Age at Death",
+            "Type": "Text",
+            "Required": false,
+            "Length": "50"
+          },
+          {
+            "Title": "Race",
+            "Required": true,
+            "InnerGroup": [
+              {
+                "Name": "RaceWhite",
+                "Description": "White",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "Name": "RaceBlack or African American",
+                "Description": "Black or African American",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              },             
+              {
+                "Name": "RaceAsian",
+                "Description": "Asian",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "Name": "RaceNative Hawaiian or other Pacific Islander",
+                "Description": "Native Hawaiian or other Pacific Islander",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "Name": "RaceAmerican Indian or Alaska Native",
+                "Description": "American Indian or Alaska Native",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "Name": "RaceUnspecified race",
+                "Description": "Unspecified race",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Hispanic",
+            "Description": "Hispanic Ethnicity",
+            "Type": "Dropdown",
+            "Required": true,
+            "Options": [
+              "Not Hispanic or Latino",
+              "Hispanic or Latino",
+              "Unknown"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Scene of Incident",      
+        "Fields": [
+          {
+            "Name": "LocationOfDeathType",
+            "Description": "Type of Incident Location",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "House, apartment, rooming house, including driveway, porch, yard, garage",
+              "Street/road, sidewalk, alley",
+              "Highway, freeway",
+              "Motor vehicle, regardless of where motor vehicle is located (excluding school bus (15), and public transportation (21)); includes motor home",
+              "Bar, nightclub",
+              "Service station",
+              "Bank, credit union, ATM location",
+              "Liquor store",
+              "Other commercial establishment (e.g., grocery store, restaurants, retail outlet, Laundromat), including parking lot",
+              "Industrial or construction areas (e.g., factory, warehouse)",
+              "Office building",
+              "Parking lot/public parking garage (e.g., parking lot at mall, parking lot shared by four or more households)",
+              "Abandoned house, building, or warehouse",
+              "Sports or athletic area (e.g., stadium, baseball field, gymnasium, recreation center)",
+              "School bus",
+              "Child care center, daycare, preschool",
+              "Elementary school, middle school (i.e., K-8) including school dormitory, residential school",
+              "High school, including school dormitory, residential school",
+              "College/University, including dormitory, fraternity/sorority",
+              "Unspecified school",
+              "Public transportation or station (e.g., bus, train, plane, airport, depot, taxi)",
+              "Synagogue, church, temple",
+              "Hospital or medical facility",
+              "Supervised residential facility (e.g., shelter, halfway house, group home)",
+              "Farm",
+              "Jail, prison, detention facility",
+              "Park, playground, public use area",
+              "Natural area (e.g., field, river, beaches, woods) Hotel/motel",
+              "Railroad tracks (other than on public transportation (21) or within station)",
+              "Bridge",
+              "Other",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "LocationofDeathOther",
+            "Description": "(If other) Please define. (Max 100 characters)",
+            "Type": "Text",
+            "Required": false,
+            "Length": "100"
+          },
+          {
+            "Name": "NaloxoneAdministered",
+            "Description": "Was naloxone administered at scene?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Title": "Who administered naloxone at the scene?",
+            "InnerGroup": [
+              {
+                "Name": "NaloxoneAdministratorBystander",
+                "Description": "Bystander",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "Name": "NaloxoneAdministratorProfessionalFirstResponder",
+                "Description": "Professional First Responder (EMS, Law Enforcement)",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "Name": "NaloxoneAdministratorOther",
+                "Description": "Other",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              },
+              {
+                "Name": "NaloxoneAdministratorOtherUnknown",
+                "Description": "Unknown",
+                "Type": "Checkbox",
+                "Required": false,
+                "Options": [
+                  "True",
+                  "False"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "Delay911",
+            "Description": "Was a delay in calling 911 indicated at the scene?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "IVuseIndicatedScene",
+            "Description": "Was intravenous drug use indicated at the scene?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "PrescriptionPillsonScene",
+            "Description": "Were prescription drugs found at the scene?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes, prescribed to decedent",
+              "Yes, but not prescribed to decedent",
+              "Yes, but prescription recipient unknown",
+              "Not indicated",
+              "Unknown"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records EMS",       
+        "Fields": [
+          {
+            "Name": "EMSRecords",
+            "Description": "Were EMS records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No Records Found by Agency",
+              "No participation by Agency"
+            ]
+          },
+          {
+            "Name": "PriorEMS",
+            "Description": "Did decedent had contact with EMS in the 12 months prior to death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "EMS_DayofDeath",
+            "Description": "If Yes, was the only interaction on the day of death?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records Health Provider/Hospital",      
+        "Fields": [
+          {
+            "Name": "HospitalRecords",
+            "Description": "Were local hospital records (non-CRISP) reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by Agency",
+              "No participation by Agency"
+            ]
+          },
+          {
+            "Name": "CRISPRecords",
+            "Description": "Were CRISP clinical records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found in database",
+              "No query conducted"
+            ]
+          },
+          {
+            "Name": "PDMPRecords",
+            "Description": "Were PDMP records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found in database",
+              "No query conducted"
+            ]
+          },
+          {
+            "Name": "PharmacyRecords",
+            "Description": "Were other pharmacy records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "EDEncounter",
+            "Description": "Did the decedent have contact with a hospital Emergency Department in the 12 months prior to death?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "Yes, day of death only",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "PainManagement",
+            "Description": "Was the decedent enrolled in a pain management program or clinic at the time of death?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "ChronicSomatic",
+            "Description": "Did the decedent have a history of chronic somatic health condition?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "BrainInjury",
+            "Description": "Did the decedent have a history of acquired brain injury?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records Law Enforcement",
+        "Fields": [
+          {
+            "Name": "LawRecords",
+            "Description": "Were law enforcement records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "LawContact",
+            "Description": "Did the decedent have contact with law enforcement in the 12 months prior to death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "LawSuspect",
+            "Description": "Was a suspect charged in the decedent's death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "LawLEAD",
+            "Description": "Was the decedent a participant in a law enforcement assisted diversion (LEAD) program?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records Judicial System",
+        "Fields": [
+          {
+            "Name": "AttorneyRecords",
+            "Description": "Were State's Attorney's Office records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "DrugCourtRecords",
+            "Description": "Were drug court records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency",
+              "Not applicable (jurisdiction does not have drug court)"
+            ]
+          },
+          {
+            "Name": "AttorneyContact",
+            "Description": "Did the decedent have contact with the State's Attorney’s Office in the 12 months prior to death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "DrugCourtContact",
+            "Description": "Did the decedent have a history of drug court involvement?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "DUIHistory",
+            "Description": "Did the decedent have a history of DUI/DWI?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "LawProsecuted",
+            "Description": "Was a suspect prosecuted in the decedent's death?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "No",
+              "Yes",
+              "Pending/In Progress",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "LawCharge",
+            "Description": "(If 'yes',) What is the charge? (Max 50 characters)",
+            "Type": "Text",
+            "Required": false,
+            "Length": "50"
+          }
+        ]
+      },
+      {
+        "Name": "Records Detention Center",
+        "Fields": [
+          {
+            "Name": "DetentionCenterRecords",
+            "Description": "Were detention center records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "DetentionCenterContact",
+            "Description": "Did the decedent have contact with the detention center in the 12 months prior to death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "DetentionCenterDrugTreatment",
+            "Description": "Was the decedent enrolled in drug treatment while incarcerated?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "DetentionCenterMHTreatment",
+            "Description": "Was the decedent enrolled in mental health treatment while incarcerated?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records Education",
+        "Fields": [
+          {
+            "Name": "EducationK12",
+            "Description": "Were K-12 records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "EducationHigherEd",
+            "Description": "Were higher education and/or community college records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "EducationContact",
+            "Description": "Did the decedent have contact with an educational institution in the 12 months prior to death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "EducationDegree",
+            "Description": "Highest educational status attained?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "8th grade or less",
+              "9th to 12th grade",
+              "no diploma",
+              "High school graduate or GED completed",
+              "Some college credit, but no degree",
+              "Associate’s degree (e.g., AA, AS)",
+              "Bachelor’s degree (e.g., BA, AB, BS)",
+              "Master’s degree (e.g., MA, MS, Mend, Med, MSW, MBA)",
+              "Doctorate (e.g., PhD, EdD) or Professional degree (e.g., MD, DDS, DVM, LLB, JD)",
+              "Unknown"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records Behavioral Health",
+        "Fields": [
+          {
+            "Name": "BHHdRecords",
+            "Description": "Were Local Health Department treatment records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "BHPrivateRecords",
+            "Description": "Were private drug treatment records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "BHMentalHealth",
+            "Description": "Were private mental health treatment records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },                 
+          {
+            "Name": "BHBeacon",
+            "Description": "Were Medical Assistance behavioral health claims records (BEACON, SMART) reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found in database",
+              "No query conducted"
+            ]
+          },
+          {
+            "Name": "BHHDContact",
+            "Description": "Did the decedent have contact with the Health Department in the 12 months prior to death?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "BHPrivateContact",
+            "Description": "Did the decedent have contact with private behavioral health in the 12 months prior to death?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "BHTreatmentatDeath",
+            "Description": "Was the decedent enrolled in any substance use treamtent  at the time of death?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },  
+          {
+            "Name": "BHMAT",
+            "Description": "Was the decedent enrolled in MAT at the time of death?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknowm"
+            ]
+          },
+          {
+            "Name": "BHTreatment",
+            "Description": "Did the decedent have a co-occuring mental health condition?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "BHSuicide",
+            "Description": "Did the decedent have a history of suicide attempts and/or suicidal ideation?",
+            "Type": "Checkbox",
+            "Required": false
+          }        
+        ]
+      },
+      {
+        "Name": "Records Community Supervision",
+        "Fields": [
+          {
+            "Name": "CommunityRecords",
+            "Description": "Were community supervision records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "CommunityContact",
+            "Description": "Did the decedent have contact with community supervision in the 12 months prior to death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "CommunityEnrollment",
+            "Description": "Was the decedent under community supervision at the time of death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records Social Services",
+        "Fields": [
+          {
+            "Name": "SSrecords",
+            "Description": "Were Department of Social Services records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "SSContact",
+            "Description": "Did the decedent have contact with the Department of Social Services in the 12 months prior to death?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "SSCrisisRecords",
+            "Description": "Were crisis intervention records reviewed?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No records found by agency",
+              "No participation by agency"
+            ]
+          },
+          {
+            "Name": "SSEnrollment",
+            "Description": "Did the decedent have a history of enrollment in public benefits (food stamps, medical assistance, etc)?",
+            "Type": "Checkbox",
+            "Options": [
+              "True",
+              "False"
+            ]
+          }         
+        ]
+      },
+      {
+        "Name": "Records Family",
+        "Fields": [
+          {
+            "Name": "FamilyInterviews",
+            "Description": "Were family member interviews conducted?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No"
+            ]
+          },
+          {
+            "Name": "FamilyInterviewsDetails",
+            "Description": "If yes, briefly describe interviews conducted. (Max 250 characetres)",
+            "Type": "Textarea",
+            "Required": false
+          },
+          {
+            "Name": "MaritalStatus",
+            "Description": "Marital Status",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Married /Civil Union/ Domestic Partnership",
+              "Never Married",
+              "Widowed",
+              "Divorced",
+              "Married/Civil Union/Domestic Partnership, but separated",
+              "Single, not otherwise specified",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "IntimatePartnerViolence",
+            "Description": "Did the decedent have a history of intimate partner violence?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "IPVRole",
+            "Description": "If intimate partner violence is indicated, what was the role of the decedent?",
+            "Type": "Radio",
+            "Required": false,
+            "Options": [
+              "Perpetrator",
+              "Victim",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "DecedentChildren",
+            "Description": "Were children of the decedent identified?",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes, no ages indicated",
+              "Yes, minor children",
+              "Yes, adult children",
+              "Yes, minor and adult children",
+              "No",
+              "Unknown"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records Harm Reduction",
+        "Fields": [
+          {
+            "Name": "HRMORPRecords",
+            "Description": "Did the decedent complete an overdose prevention and naloxone training?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "HRSterileSyringe",
+            "Description": "Did decdent access sterile syringes?",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Records Decedent Information",
+        "Fields": [
+          {
+            "Name": "SexualOrientation",
+            "Description": "Sexual Orientation",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Heterosexual",
+              "Gay",
+              "Lesbian",
+              "Bisexual",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "Pregnancy",
+            "Description": "Pregnancy status",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Not pregnant within last year",
+              "Pregnant at time of death ",
+              "Not pregnant but pregnant within 42 days before death",
+              "Not pregnant but pregnant 43 days to 1 year before death ",
+              "Unknown if pregnant within past year",
+              "Not applicable"
+            ]
+          },         
+          {
+            "Name": "EmploymentStatus",
+            "Description": "Employment status at the time of death",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Employed",
+              "Not employed",
+              "Recently unemployed (within the past 30 days)",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "Occupation",
+            "Description": "Occupation at time of death. (Max 50 characters)",
+            "Type": "Text",
+            "Required": false,
+            "Length": "50"
+          },
+          {
+            "Name": "Homeless",
+            "Description": "Homeless/History of Homelessness",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes, at time of death",
+              "No, but history of homelessness was indicated",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "Military",
+            "Description": "Current or former military personnel",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "SexWork",
+            "Description": "History of sex work",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "Yes",
+              "No",
+              "Unknown"
+            ]
+          },
+          {
+            "Name": "Institution",
+            "Description": "Recent release from an institution",
+            "Type": "Dropdown",
+            "Required": false,
+            "Options": [
+              "No evidence of recent release",
+              "Jail, prison, or a detention facility",
+              "Hospital",
+              "Psychiatric hospital",
+              "Other psychiatric institution",
+              "Long term residential health facility (e.g., nursing home)",
+              "Supervised residential facility related to alcohol or substance abuse treatment (e.g., residential treatment facility, sober house or group home)",
+              "Supervised residential facilities not related to alcohol or substance abuse treatment (e.g., halfway houses or work-release homes)",
+              "Other",
+              "Unknown type of institution"
+            ]
+          },
+          {
+            "Name": "InstitutionOther",
+            "Description": "(If Other) Please define. (Max 50 characters)",
+            "Type": "Text",
+            "Required": false,
+            "Length": "50"
+          }
+        ]
+      },
+      {
+        "Name": "Case Analysis",
+        "Fields": [
+          {
+            "Name": "CaseSummary",
+            "Description": "Briefly summarize the case. (Max 3500 characters)",
+            "Type": "TextAreaBig",
+            "Required": true,
+            "Length": "3500"
+          },
+          {
+            "Name": "CaseGaps1",
+            "Description": "Please identify any gaps and barriers encountered in review. Populate at least one field. (Max 250 characters)",
+            "Type": "Textarea",
+            "Required": true,
+            "Length": "250"
+          },
+          {
+            "Name": "CaseGaps2",
+            "Description": "Additional Gap. (Max 250 characters)",
+            "Type": "Textarea",
+            "Required": false,
+            "Length": "250"
+          },
+          {
+            "Name": "CaseGaps3",
+            "Description": "Additional Gap. (Max 250 characters)",
+            "Type": "Textarea",
+            "Required": false,
+            "Length": "250"
+          },
+          {
+            "Title": "Recommendation #1",
+            "AllRequired": true,            
+            "InnerGroup": [
+              {
+                "Name": "CaseRecommendations1",
+                "Description": "Please provide any recommendations following the review of this case. (Max 250 characters)",
+                "Type": "Textarea",
+                "Required": false,
+                "Length": "250"
+              },
+              {
+                "Name": "CaseRecommendations1Category",
+                "Description": "Category of Recommendation",
+                "Type": "Dropdown",
+                "Required": false,
+                "Options": [
+                  "Care integration",
+                  "Harm Reduction",
+                  "Law Enforcement and Forensic Intervention",
+                  "Courts and Corrections System Intervention",
+                  "Intervention with Underserved or Special Populations",
+                  "Service Enhancement",
+                  "Information Sharing",
+                  "Standardization",
+                  "Other"
+                ]
+              },
+              {
+                "Name": "CaseRecommendations1Target",
+                "Description": "Target Group",
+                "Type": "Dropdown",
+                "Required": false,
+                "Options": [
+                  "People who use drugs",
+                  "Providers",
+                  "Healthcare providers",
+                  "General Public"
+                ]
+              },
+              {
+                "Title": "Agency",
+                "AllRequired": true,
+                "InnerGroup": [
+                  {
+                    "Name": "CaseRecommendations1AgencyLaw enforcement",
+                    "Description": "Law enforcement",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyHospital",
+                    "Description": "Hospital",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyHealthcare Provider",
+                    "Description": "Healthcare Provider",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyPharmacy",
+                    "Description": "Pharmacy",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyJudicial System",
+                    "Description": "Judicial System",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyLocal Health Department",
+                    "Description": "Local Health Department",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyEMS",
+                    "Description": "EMS",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyDetention Center",
+                    "Description": "Detention Center",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyEducation",
+                    "Description": "Education",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations1AgencyBehavioral Health",
+                    "Description": "Behavioral Health",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  }
+                ]
+              },
+              {
+                "Title": "Responsible Party",
+                "AllRequired": true,
+                "InnerGroup": [
+                  {
+                    "Name": "CaseRecommendations1PartyLocal",
+                    "Description": "Local",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                        "True",
+                        "False"
+                    ]
+                },
+                {
+                    "Name": "CaseRecommendations1PartyState",
+                    "Description": "State",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                        "True",
+                        "False"
+                    ]
+                }
+                ]
+              }
+            ]
+          },
+          {
+            "Title": "Recommendation #2",
+            "AllRequired": true,	
+            "InnerGroup": [
+              {
+                "Name": "CaseRecommendations2",
+                "Description": "Please provide any recommendations following the review of this case. (Max 250 characters)",
+                "Type": "Textarea",
+                "Required": false,
+                "Length": "250"
+              },
+              {
+                "Name": "CaseRecommendations2Category",
+                "Description": "Category of Recommendation",
+                "Type": "Dropdown",
+                "Required": false,
+                "Options": [
+                  "Care integration",
+                  "Harm Reduction",
+                  "Law Enforcement and Forensic Intervention",
+                  "Courts and Corrections System Intervention",
+                  "Intervention with Underserved or Special Populations",
+                  "Service Enhancement",
+                  "Information Sharing",
+                  "Standardization",
+                  "Other"
+                ]
+              },
+              {
+                "Name": "CaseRecommendations2Target",
+                "Description": "Target Group",
+                "Type": "Dropdown",
+                "Required": false,
+                "Options": [
+                  "People who use drugs",
+                  "Providers",
+                  "Healthcare providers",
+                  "General Public"
+                ]
+              },
+              {
+                "Title": "Agency #2",
+                "AllRequired": true,	
+                "InnerGroup": [
+                  {
+                    "Name": "CaseRecommendations2AgencyLaw enforcement",
+                    "Description": "Law enforcement",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyHospital",
+                    "Description": "Hospital",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyHealthcare Provider",
+                    "Description": "Healthcare Provider",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyPharmacy",
+                    "Description": "Pharmacy",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyJudicial System",
+                    "Description": "Judicial System",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyLocal Health Department",
+                    "Description": "Local Health Department",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyEMS",
+                    "Description": "EMS",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyDetention Center",
+                    "Description": "Detention Center",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyEducation",
+                    "Description": "Education",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations2AgencyBehavioral Health",
+                    "Description": "Behavioral Health",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  }
+                ]
+              },
+              {
+                "Title": "Responsible Party #2",
+                "AllRequired": true,	
+                "InnerGroup": [
+                  {
+                    "Name": "CaseRecommendations2PartyLocal",
+                    "Description": "Local",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                        "True",
+                        "False"
+                    ]
+                },
+                {
+                    "Name": "CaseRecommendations2PartyState",
+                    "Description": "State",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                        "True",
+                        "False"
+                    ]
+                }
+                ]
+              }
+            ]
+          },
+          {
+            "Title": "Recommendation #3",
+            "AllRequired": true,
+            "InnerGroup": [
+              {
+                "Name": "CaseRecommendations3",
+                "Description": "Please provide any recommendations following the review of this case. (Max 250 characters)",
+                "Type": "Textarea",
+                "Required": false,
+                "Length": "250"
+              },
+              {
+                "Name": "CaseRecommendations3Category",
+                "Description": "Category of Recommendation",
+                "Type": "Dropdown",
+                "Required": false,
+                "Options": [
+                  "Care integration",
+                  "Harm Reduction",
+                  "Law Enforcement and Forensic Intervention",
+                  "Courts and Corrections System Intervention",
+                  "Intervention with Underserved or Special Populations",
+                  "Service Enhancement",
+                  "Information Sharing",
+                  "Standardization",
+                  "Other"
+                ]
+              },
+              {
+                "Name": "CaseRecommendations3Target",
+                "Description": "Target Group",
+                "Type": "Dropdown",
+                "Required": false,
+                "Options": [
+                  "People who use drugs",
+                  "Providers",
+                  "Healthcare providers",
+                  "General Public"
+                ]
+              },
+              {
+                "Title": "Agency #3",
+                "InnerGroup": [
+                  {
+                    "Name": "CaseRecommendations3AgencyLaw enforcement",
+                    "Description": "Law enforcement",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyHospital",
+                    "Description": "Hospital",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyHealthcare Provider",
+                    "Description": "Healthcare Provider",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyPharmacy",
+                    "Description": "Pharmacy",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyJudicial System",
+                    "Description": "Judicial System",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyLocal Health Department",
+                    "Description": "Local Health Department",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyEMS",
+                    "Description": "EMS",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyDetention Center",
+                    "Description": "Detention Center",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyEducation",
+                    "Description": "Education",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  },
+                  {
+                    "Name": "CaseRecommendations3AgencyBehavioral Health",
+                    "Description": "Behavioral Health",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                      "True",
+                      "False"
+                    ]
+                  }
+                ]
+              },
+              {
+                "Title": "Responsible Party #3",
+                "InnerGroup": [
+                  {
+                    "Name": "CaseRecommendations3PartyLocal",
+                    "Description": "Local",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                        "True",
+                        "False"
+                    ]
+                },
+                {
+                    "Name": "CaseRecommendations3PartyState",
+                    "Description": "State",
+                    "Type": "Checkbox",
+                    "Required": false,
+                    "Options": [
+                        "True",
+                        "False"
+                    ]
+                }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Decedent Demographic Information",
+        "Fields": [
+          {
+            "Name": "BHAReview",
+            "Description": "Reviewed by BHA",
+            "Type": "Checkbox",
+            "Required": false,
+            "Options": [
+              "True",
+              "False"
+            ]
+          },
+          {
+            "Name": "BHAFollowup",
+            "Description": "Follow-up Identified. (Max 280 characters)",
+            "Type": "Textarea",
+            "Required": false,
+            "Length": "280"
+          }
+        ]
+      }
+    ],
+    "Comparsion":[
+      {
+        "Orignal":"DateofDeath",
+        "Target":"DateofBirth",
+        "Operator":"GTE",
+        "Type": "Date",
+        "Error": "'DateofDeath' should be greater than or equal to Date Of Birth."
+      }
+    ],  
+    "_rid": "gp5VAOhWswABAAAAAAAAAA==",
+    "_self": "dbs/gp5VAA==/colls/gp5VAOhWswA=/docs/gp5VAOhWswABAAAAAAAAAA==/",
+    "_etag": "\"010056a9-0000-0000-0000-59dd19310000\"",
+    "_attachments": "attachments/",
+    "_ts": 1507662129
+  }

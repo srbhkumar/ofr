@@ -1,0 +1,48 @@
+<style type="text/css">
+    fieldset {
+        border: 1px solid #ddd !important;
+        margin: 0;
+        min-width: 0;
+        padding: 10px;
+        position: relative;
+        border-radius: 4px;
+        background-color: #fff;
+        padding-left: 10px!important;
+        margin-bottom: 10px!important;
+    }
+
+    legend {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 0px;
+        width: 35%;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 5px 5px 5px 10px;
+        background-color: #ffffff;
+    }
+
+    a {
+        color: #ffffff important;
+    }
+
+    .error {
+        color: #a94442;
+        font-size: smaller;
+    }
+</style>
+
+<fieldset>
+    <legend *ngIf="(AllRequired || Required) && !IsChild">{{Title}} : <span *ngIf="isRequiredGroupValid(Title)" class="error">This is a required field.</span></legend>
+    <legend *ngIf="AllRequired && IsChild">{{Title}} : <span *ngIf="isInnerGroupValid(ParentTitle, Title)" class="error">This is a required field.</span></legend>
+    <legend *ngIf="!AllRequired && !Required">{{Title}} : </legend>
+    <div *ngFor="let item of field1">
+        <div *ngIf="item.InnerGroup">
+            <Case-Template-Group [field1]="item.InnerGroup" [Title]="item.Title" [modalData]="modalData" [AllRequired]="AllRequired"
+                [Required]="item.Required" [ParentTitle]="Title" [IsChild]="true"></Case-Template-Group>
+        </div>
+        <div *ngIf="!item.InnerGroup" class="form-group" style="margin-left: 25px">
+            <Case-Template-Field [field]="item" [value]="getFieldValue(item.Name)" [IsRequired]="isRequiredGroupValid(Title)"></Case-Template-Field>
+        </div>
+    </div>
+</fieldset>
