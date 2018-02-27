@@ -122,7 +122,7 @@ namespace OfrApi.Controllers
                                                 .ForEach(f => c.OCMEData.Add(f, string.Empty));
 
                             returnFile.Append(c.Status + "," + c.UpdatedOn.ToString() + ",");
-                            returnFile.Append(string.Join(",", c.Data.Select(d => d.Value.Replace(",", ""))) + ",");
+                            returnFile.Append(string.Join(",", c.Data.Select(d => d.Value.Replace(",", "").Replace("\n", " ").Replace("\r", " "))) + ",");
                             returnFile.Append(string.Join(",", c.OCMEData.Select(d => d.Value.Replace(",", ""))));
                             returnFile.Append(Environment.NewLine);
                         }
