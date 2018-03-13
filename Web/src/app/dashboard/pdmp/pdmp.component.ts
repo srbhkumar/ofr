@@ -12,7 +12,6 @@ export class PdmpComponent implements OnInit, OnChanges {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    debugger;
     this.dataService.getPDMPData(this.caseId).then(val => {
       this.pdmpData = val;
     });
