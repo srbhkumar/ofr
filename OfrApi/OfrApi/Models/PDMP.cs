@@ -21,6 +21,16 @@ namespace OfrApi.Models
         public string QuantityDispensed { get; set; }
         public string PharmacyName { get; set; }
         public string PaymentMethod { get; set; }
+        public PDMPAddress PharmacyAddress { get; set; }
+    }
+
+    public class PDMPAddress
+    {
+        public string Street1 { get; set; }
+        public string Street2 { get; set; }
+        public string Locality { get; set; }
+        public string Region { get; set; }
+        public string Postal { get; set; }
     }
 
     
@@ -28,6 +38,7 @@ namespace OfrApi.Models
     public class PDMPPrescriber
     {
         public PrescriberName Name { get; set; }
+        public PDMPAddress Address { get; set; }
     }
 
     public class PrescriberName
