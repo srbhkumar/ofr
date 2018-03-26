@@ -7,10 +7,14 @@
     <th>QTY Disp.</th>
     <th>Method of Payment</th>
     <th>Prescriber</th>
+    <th>Prescriber Street</th>
+    <th>Prescriber City</th>
     <th>Pharmacy Name</th>
+    <th>Pharmacy Street</th>
+    <th>Pharmacy City</th>
   </thead>
   <tbody>
-    <tr *ngFor="let row of pdmpData" >
+    <tr *ngFor="let row of pdmpData">
       <td>{{row.Label}}</td>
       <td>{{row.DateWritten}}</td>
       <td>{{row.DateFilled}}</td>
@@ -18,7 +22,11 @@
       <td>{{row.QuantityDispensed}}</td>
       <td>{{row.PaymentMethod}}</td>
       <td>{{row.PrescribingProvider.Name.Last + ", " + row.PrescribingProvider.Name.First}}</td>
+      <td>{{row.PrescribingProvider.Address.Street1}}</td>
+      <td>{{row.PrescribingProvider.Address.Locality}}</td>
       <td>{{row.PharmacyName}}</td>
+      <td>{{row.PharmacyAddress.Street1}}</td>
+      <td>{{row.PharmacyAddress.Locality}}</td>
     </tr>
   </tbody>
 </table>
