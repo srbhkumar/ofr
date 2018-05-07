@@ -57,9 +57,12 @@ echo Deploying.
 :: 1. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 	echo Copying code to temp directory.
-	call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\Web" -t "%DEPLOYMENT_TEMP%  -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%"
-	echo Running webpack on angular code.
+	call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\Web" -t "%DEPLOYMENT_TEMP%  -x
+
   cd "%DEPLOYMENT_TEMP%"
+  echo Running npm install
+  call npm install
+	echo Running webpack on angular code.
 	call npm run-script builder
 	echo Moving bundled files to site root 
   call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%\dist" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
