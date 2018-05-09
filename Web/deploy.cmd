@@ -58,7 +58,8 @@ echo Deploying.
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 	echo Copying code to temp directory.
 	call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\Web" -t "%DEPLOYMENT_TEMP%"  -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i "deploy.cmd"
-
+  set currentPath=%cd%
+  
   cd "%DEPLOYMENT_TEMP%"
   echo Running npm install
   npm install --silent
@@ -67,7 +68,8 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 	npm run-script builder --silent
   IF !ERRORLEVEL! NEQ 0 goto error
 	echo Moving bundled files to site root 
-  call kudusync -v 50 -f "%DEPLOYMENT_TEMP%\dist" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+  cd "%currentPath%"
+  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%\dist" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
