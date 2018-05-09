@@ -67,7 +67,7 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 	npm run-script builder --silent
   IF !ERRORLEVEL! NEQ 0 goto error
 	echo Moving bundled files to site root 
-  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%\dist" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+  call kudusync -v 50 -f "%DEPLOYMENT_TEMP%\dist" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
