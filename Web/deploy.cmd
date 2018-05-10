@@ -70,6 +70,9 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   echo "%KUDU_SYNC_CMD% -v 50 -f %DEPLOYMENT_TEMP%\dist -t %DEPLOYMENT_TARGET% -n %NEXT_MANIFEST_PATH% -p %PREVIOUS_MANIFEST_PATH% -i .git;.hg;.deployment;deploy.cmd"
   call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%\dist" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
+  mv "%DEPLOYMENT_TARGET%\assets\web.config" "%DEPLOYMENT_TARGET%\web.confg"
+  IF !ERRORLEVEL! NEQ 0 goto error
+  cp "%DEPLOYMENT_TARGET%\assets\config.%DEPLOYMENT_ENVIRONMENT_NAME%.json" "%DEPLOYMENT_TARGET%\assets\config.current.json"
 )
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

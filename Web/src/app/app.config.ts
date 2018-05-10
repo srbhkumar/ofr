@@ -42,6 +42,7 @@ export class AppConfig {
                 let request:any = null;
 
                 switch (envResponse.env) {
+                    case 'current':
                     case 'production':
                     case 'development':
                     case 'crisp-test':
