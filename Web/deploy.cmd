@@ -61,10 +61,10 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   
   cd "%DEPLOYMENT_TEMP%"
   echo Running npm install
-  npm install --silent
+  call npm install --silent
   IF !ERRORLEVEL! NEQ 0 goto error
 	echo Running webpack on angular code.
-	npm run-script builder --silent
+	call npm run-script builder --silent
   IF !ERRORLEVEL! NEQ 0 goto error
 	echo Moving bundled files to site root 
   echo "%KUDU_SYNC_CMD% -v 50 -f %DEPLOYMENT_TEMP%\dist -t %DEPLOYMENT_TARGET% -n %NEXT_MANIFEST_PATH% -p %PREVIOUS_MANIFEST_PATH% -i .git;.hg;.deployment;deploy.cmd"
@@ -90,7 +90,7 @@ call :exitSetErrorLevel
 call :exitFromFunction 2>nul
 
 :exitSetErrorLevel
-exit 
+exit /b 1
 
 :exitFromFunction
 ()
